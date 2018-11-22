@@ -308,91 +308,91 @@
     </div> <!-- container -->
 
 
-<!--   <script>
-      function onEditSuccess(msg) {
-        $('#go, #go-view').prop("disabled",false).removeClass('btn-warning');
-        $('#perfoutput').removeClass("text-danger").addClass("text-success").text("Saved!").show();
+  <script>
+      // function onEditSuccess(msg) {
+      //   $('#go, #go-view').prop("disabled",false).removeClass('btn-warning');
+      //   $('#perfoutput').removeClass("text-danger").addClass("text-success").text("Saved!").show();
         
-        setTimeout(function(){
-          $('#perfoutput').hide()
-        }, 3000);
+      //   setTimeout(function(){
+      //     $('#perfoutput').hide()
+      //   }, 3000);
         
-        window.removeEventListener("beforeunload", unload);
-      }
+      //   window.removeEventListener("beforeunload", unload);
+      // }
       
-      function onEditSuccessView(msg) {
-        $('#go, #go-view').removeClass('btn-warning');
-        window.removeEventListener("beforeunload", unload);
+      // function onEditSuccessView(msg) {
+      //   $('#go, #go-view').removeClass('btn-warning');
+      //   window.removeEventListener("beforeunload", unload);
       
-        document.getElementById('view-link').click();
-      }
+      //   document.getElementById('view-link').click();
+      // }
       
-      function onEditFailure(error) {
-        console.log(error.message);
-        $('#perfoutput').removeClass("text-success").addClass("text-danger").text("Save Failed").show();
+      // function onEditFailure(error) {
+      //   console.log(error.message);
+      //   $('#perfoutput').removeClass("text-success").addClass("text-danger").text("Save Failed").show();
         
-        onFailure(error, $('#go, #go-view'));
+      //   onFailure(error, $('#go, #go-view'));
         
-        setTimeout(function(){
-          $('#perfoutput').hide()
-        }, 3000);
-      }
+      //   setTimeout(function(){
+      //     $('#perfoutput').hide()
+      //   }, 3000);
+      // }
       
       $( document ).ready(function() {
           console.log( "ready!" );
           
-          // Study Information
-          $('#client').val(<?= d.client ?>);
-          $('#protocol').val(<?= d.protocol ?>);
-          $('#device').val(<?= d.device ?>);
-          $('#server').val(<?= d.server ?>);
-          $('#langCnt').val(<?= d.langCnt ?>);
-          $('#astCnt').val(<?= d.astCnt ?>);
+          // // Study Information
+          // $('#client').val(<?= d.client ?>);
+          // $('#protocol').val(<?= d.protocol ?>);
+          // $('#device').val(<?= d.device ?>);
+          // $('#server').val(<?= d.server ?>);
+          // $('#langCnt').val(<?= d.langCnt ?>);
+          // $('#astCnt').val(<?= d.astCnt ?>);
 
-          // Request Basics
-          $('#reqCode').val(<?= d.reqCode ?>);
-          $('#batch').val(<?= d.batch ?>);
-          $('#langsV001').val(<?= d.langsV001 ?>);
-          $('#langsCR').val(<?= d.langsCR ?>);
-          $('#cpyast').val(<?= d.cpyast ?>);
-          $('#nonast').val(<?= d.nonast ?>);
+          // // Request Basics
+          // $('#reqCode').val(<?= d.reqCode ?>);
+          // $('#batch').val(<?= d.batch ?>);
+          // $('#langsV001').val(<?= d.langsV001 ?>);
+          // $('#langsCR').val(<?= d.langsCR ?>);
+          // $('#cpyast').val(<?= d.cpyast ?>);
+          // $('#nonast').val(<?= d.nonast ?>);
 
-          // Optional Details
-          $('#tbbuild').val(<?= d.TBbldused ?>);
-          $('#hhbuild').val(<?= d.HHbldused ?>);
-          $('#msgbx').val(<?= d.msgbx ?>);
-          $('#manscr').val(<?= d.manscr ?>);
-          $('addlnotes').val(<?= d.addlnotes ?>);
+          // // Optional Details
+          // $('#tbbuild').val(<?= d.TBbldused ?>);
+          // $('#hhbuild').val(<?= d.HHbldused ?>);
+          // $('#msgbx').val(<?= d.msgbx ?>);
+          // $('#manscr').val(<?= d.manscr ?>);
+          // $('addlnotes').val(<?= d.addlnotes ?>);
 
-          // Timeline
-          $('#prefDue').val(<?= d.startDueDateForm ?>);
-          $('#prefDue').val(<?= d.prefDueDateForm ?>);
-          $('#hardDue').val(<?= d.hardDueDateForm ?>);
-          $('#hardtime').val(<?= d.hardtime ?>);
+          // // Timeline
+          // $('#prefDue').val(<?= d.startDueDateForm ?>);
+          // $('#prefDue').val(<?= d.prefDueDateForm ?>);
+          // $('#hardDue').val(<?= d.hardDueDateForm ?>);
+          // $('#hardtime').val(<?= d.hardtime ?>);
 
 
-          // Additional Information
-          $('#actwkbks').val(<?= d.actwkbks ?>);
-          $('#temp').val(<?= d.temp ?>);
-          $('#naming').val(<?= d.naming ?>);
+          // // Additional Information
+          // $('#actwkbks').val(<?= d.actwkbks ?>);
+          // $('#temp').val(<?= d.temp ?>);
+          // $('#naming').val(<?= d.naming ?>);
 
-          // Request Updates
-          $('#tcfdbk').val(<?= d.tcfdbk ?>);
-          $('#waitfor').val(<?= d.waitfor ?>);
-          $('#jira').val(<?= d.jira ?>);
+          // // Request Updates
+          // $('#tcfdbk').val(<?= d.tcfdbk ?>);
+          // $('#waitfor').val(<?= d.waitfor ?>);
+          // $('#jira').val(<?= d.jira ?>);
 
           
-          $('#go').click(function() {
-            $('#go, #go-view').prop("disabled",true);
-            var val = $('form').serializeArray();
-            google.script.run.withSuccessHandler(onEditSuccess).withFailureHandler(onEditFailure).processForm(val, null, null, "EditSave");
-          });
+          // $('#go').click(function() {
+          //   $('#go, #go-view').prop("disabled",true);
+          //   var val = $('form').serializeArray();
+          //   google.script.run.withSuccessHandler(onEditSuccess).withFailureHandler(onEditFailure).processForm(val, null, null, "EditSave");
+          // });
           
-          $('#go-view').click(function() {
-            $('#go, #go-view').prop("disabled",true);
-            var val = $('form').serializeArray();
-            google.script.run.withSuccessHandler(onEditSuccessView).withFailureHandler(onEditFailure).processForm(val, null, null, "EditSaveView");
-          });
+          // $('#go-view').click(function() {
+          //   $('#go, #go-view').prop("disabled",true);
+          //   var val = $('form').serializeArray();
+          //   google.script.run.withSuccessHandler(onEditSuccessView).withFailureHandler(onEditFailure).processForm(val, null, null, "EditSaveView");
+          // });
           
           // $('#go-send').click(function() {
           //   $(this).prop("disabled",true);
@@ -400,13 +400,13 @@
           //   google.script.run.withSuccessHandler(onPerfSuccessView).withFailureHandler(onPerfFailure).processForm(val, true, null, "PerformSaveSend");
           // });
                     
-          $('input, textarea, select').change(function() {
-            $('#go').addClass("btn-warning");
-            console.log('changed!');
+          // $('input, textarea, select').change(function() {
+          //   $('#go').addClass("btn-warning");
+          //   console.log('changed!');
             
-            window.addEventListener("beforeunload", unload);
-          });
+          //   window.addEventListener("beforeunload", unload);
+          // });
       });
       
-    </script> -->
+    </script>
 </div>
