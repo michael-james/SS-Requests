@@ -76,7 +76,7 @@ function getRequestData(data, i, newReq, keepSt, filt) {
   d.client = d.getByName("Client") || "";
   d.protocol = d.getByName("Protocol Number") || "";
   d.batch = d.getByName("Batch #") || "";
-  d.reqCode = d.getByName("Req Code") || "OTH";
+  d.reqCode = d.getByName("Req Code") || "";
   d.email = d.getByName("Email Address") || "";
   d.requestor = d.getByName("Requestor") || "";
   d.office = d.getByName("Your Office") || "";
