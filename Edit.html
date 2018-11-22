@@ -176,16 +176,17 @@
         </small>
         </div>
         <div class="form-group col-sm">
-          <label for="prefDue">Preferred Deadline</label>
+          <label for="prefDue">Preferred</label>
           <input name="Preferred Deadline" type="date" class="form-control" id="prefDue">
         </div>
         <div class="form-group col-sm">
-          <label for="hardDue">Scheduled Deadline</label>
+          <label for="hardDue">Hard Deadline</label>
           <input name="Hard Deadline" type="date" class="form-control" id="hardDue" required>
         </div>
         <div class="form-group col-sm">
-          <label for="hardtime">Scheduled Deadline Time of Day</label>
+          <label for="hardtime">Hard Deadline Time of Day</label>
           <select name="Hard Deadline Time" id="hardtime" class="form-control" required>
+            <option selected disabled>(select a time)</option>
             <option value="Open of Business">Open OB (9 am)</option>
             <option value="Open of Business">Midday (1 pm)</option>
             <option value="Close of Business">Close OB (5 pm)</option>
@@ -243,7 +244,7 @@
         </small>
       </div>
 
-      <div class="form-group">
+      <div class="form-group" style="margin-bottom: 0">
           <label for="naming">Naming Conventions</label>
       </div>
       <div class="row">
@@ -267,7 +268,7 @@
             </small>
           </div>
           <div class="col-sm">
-            <textarea class="form-control" style="font-size: 80%;" name="Naming Conventions" id="naming" rows="10" placeholder="Deciphera DCC-2618-03-002_EQ-5D-5L_eCOA Handheld_English (Singapore)_v0.02.xlsx"></textarea>
+            <textarea class="form-control" style="font-size: 80%;" name="Naming Conventions" id="naming" rows="10" placeholder="eg. Deciphera DCC-2618-03-002_EQ-5D-5L_eCOA Handheld_English (Singapore)_v0.02.xlsx"></textarea>
           </div>
         </div>
       </div>
