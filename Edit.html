@@ -1,6 +1,7 @@
 <? var d = getRequest(data.row); ?>
 
 <div class="container" style="padding-top:20px">
+
     <h1><span class="badge badge-primary">Edit</span> <span class="badge <?= typClass(d.reqCode) ?>"><?= d.reqCode ?></span> <?= d.client + ' ' + d.protocol + (d.batch && (' Batch ' + d.batch)) ?></h1>
     
     <div class="py-3">
@@ -27,6 +28,7 @@
             <option selected disabled>(select a device)</option>
             <option value="TB-syn">Tablet syndication</option>
             <option value="HH-syn">Handheld syndication</option>
+            <option value="TB-syn, HH-syn">Tablet &amp; Handheld syndication</option>
             <option value="SP 10">SitePad 10"</option>
             <option value="SP 12">SitePad 12"</option>
             <option value="LP E5">LogPad E5</option>
@@ -188,7 +190,7 @@
           <select name="Hard Deadline Time" id="hardtime" class="form-control" required>
             <option selected disabled>(select a time)</option>
             <option value="Open of Business">Open OB (9 am)</option>
-            <option value="Open of Business">Midday (1 pm)</option>
+            <option value="Early afternoon">Early afternoon (1 pm)</option>
             <option value="Close of Business">Close OB (5 pm)</option>
             <small class="form-text text-muted">
               The time of day you need the files based on the time zone of your office.
@@ -271,6 +273,142 @@
             <textarea class="form-control" style="font-size: 80%;" name="Naming Conventions" id="naming" rows="10" placeholder="eg. Deciphera DCC-2618-03-002_EQ-5D-5L_eCOA Handheld_English (Singapore)_v0.02.xlsx"></textarea>
           </div>
         </div>
-      </div>
 
-    </form>
+        <h3 class="mt-3">Request Updates</h3>
+
+        <div class="form-row">
+          <div class="form-group col-sm-6">
+            <label for="tcfdbk">Feedback</label>
+            <textarea class="form-control" name="TC Feedback" id="tcfdbk" rows="7"></textarea>
+          </div>
+
+          <div class="col-sm-6">
+            <div class="form-row" id="ONHWF" style="display: none;">
+              <div class="form-group col">
+                <label for="waitfor"><span class="badge badge-warning">On-hold</span> What are we waiting for?</label>
+                <textarea class="form-control" name="On-Hold: Waiting For" id="waitfor" rows="3"></textarea>
+              </div>
+            </div>
+            <div class="form-row" id="JIRA">
+              <div class="form-group col">
+                <label for="jira">Associated JIRA Defects</label>
+                <textarea class="form-control" name="Associated JIRA Defects" id="jira" rows="2"></textarea>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </form>
+
+    <div>
+      <button id="go" class="btn btn-primary">Save</button>
+      <button id="go-view" class="btn btn-outline-secondary">Save &amp; View</button>
+      <!-- <button id="go-send" class="btn btn-outline-success">Save &amp; Send</button> -->
+      <span id="perfoutput" class="pl-3 text-success"></span>
+    </div>
+    
+  </div> <!-- container -->
+
+
+  <script>
+      function onEditSuccess(msg) {
+        $('#go, #go-view').prop("disabled",false).removeClass('btn-warning');
+        $('#perfoutput').removeClass("text-danger").addClass("text-success").text("Saved!").show();
+        
+        setTimeout(function(){
+          $('#perfoutput').hide()
+        }, 3000);
+        
+        window.removeEventListener("beforeunload", unload);
+      }
+      
+      function onEditSuccessView(msg) {
+        $('#go, #go-view').removeClass('btn-warning');
+        window.removeEventListener("beforeunload", unload);
+      
+        document.getElementById('view-link').click();
+      }
+      
+      function onEditFailure(error) {
+        console.log(error.message);
+        $('#perfoutput').removeClass("text-success").addClass("text-danger").text("Save Failed").show();
+        
+        onFailure(error, $('#go, #go-view'));
+        
+        setTimeout(function(){
+          $('#perfoutput').hide()
+        }, 3000);
+      }
+      
+      $( document ).ready(function() {
+          console.log( "ready!" );
+          
+          // Study Information
+          $('#client').val(<?= d.client ?>);
+          $('#protocol').val(<?= d.client ?>);
+          $('#device').val(<?= d.device ?>);
+          $('#server').val(<?= d.server ?>);
+          $('#langCnt').val(<?= d.langCnt ?>);
+          $('#astCnt').val(<?= d.astCnt ?>);
+
+          // Request Basics
+          $('#reqCode').val(<?= d.reqCode ?>);
+          $('#batch').val(<?= d.batch ?>);
+          $('#langsV001').val(<?= d.langsV001 ?>);
+          $('#langsCR').val(<?= d.langsCR ?>);
+          $('#cpyast').val(<?= d.cpyast ?>);
+          $('#nonast').val(<?= d.nonast ?>);
+
+          // Optional Details
+          $('#tbbuild').val(<?= d.TBbldused ?>);
+          $('#hhbuild').val(<?= d.HHbldused ?>);
+          $('#msgbx').val(<?= d.msgbx ?>);
+          $('#manscr').val(<?= d.manscr ?>);
+          $('addlnotes').val(<?= d.addlnotes ?>);
+
+          // Timeline
+          $('#prefDue').val(<?= d.startDueDateForm ?>);
+          $('#prefDue').val(<?= d.prefDueDateForm ?>);
+          $('#hardDue').val(<?= d.hardDueDateForm ?>);
+          $('#hardtime').val(<?= d.hardtime ?>);
+
+
+          // Additional Information
+          $('#actwkbks').val(<?= d.actwkbks ?>);
+          $('#temp').val(<?= d.temp ?>);
+          $('#naming').val(<?= d.naming ?>);
+
+          // Request Updates
+          $('#tcfdbk').val(<?= d.tcfdbk ?>);
+          $('#waitfor').val(<?= d.waitfor ?>);
+          $('#jira').val(<?= d.jira ?>);
+
+          
+          $('#go').click(function() {
+            $('#go, #go-view').prop("disabled",true);
+            var val = $('form').serializeArray();
+            google.script.run.withSuccessHandler(onEditSuccess).withFailureHandler(onEditFailure).processForm(val, null, null, "EditSave");
+          });
+          
+          $('#go-view').click(function() {
+            $('#go, #go-view').prop("disabled",true);
+            var val = $('form').serializeArray();
+            google.script.run.withSuccessHandler(onEditSuccessView).withFailureHandler(onEditFailure).processForm(val, null, null, "EditSaveView");
+          });
+          
+          // $('#go-send').click(function() {
+          //   $(this).prop("disabled",true);
+          //   var val = $('form').serializeArray();
+          //   google.script.run.withSuccessHandler(onPerfSuccessView).withFailureHandler(onPerfFailure).processForm(val, true, null, "PerformSaveSend");
+          // });
+                    
+          $('input, textarea, select').change(function() {
+            $('#go').addClass("btn-warning");
+            console.log('changed!');
+            
+            window.addEventListener("beforeunload", unload);
+          });
+      });
+      
+    </script>
+</div>
