@@ -1,0 +1,171 @@
+<? var d = getRequest(data.row); ?>
+
+<div class="container" style="padding-top:20px">
+    <h1><span class="badge badge-primary">Perform</span> <span class="badge <?= typClass(d.reqCode) ?>"><?= d.reqCode ?></span> <?= d.client + ' ' + d.protocol + (d.batch && (' Batch ' + d.batch)) ?></h1>
+    
+    <div class="py-3">
+      <a id="view-link" class="btn btn-outline-secondary" href="<?=url?>?page=View<?= (data.asst || data.lead || data.admin) && "Admin" ?>&row=<?= d.row ?>">View</a>
+    </div>
+ 
+    <form>
+      <input type="hidden" id="row" name="row">
+      
+      <h3>Study Information</h3>
+
+      <div class="row">
+        <div class="form-group col-sm">
+          <label for="client">Client</label>
+          <input name="Client" type="text" class="form-control" id="client">
+        </div>
+        <div class="form-group col-sm">
+          <label for="protocol">Protocol</label>
+          <input name="Protocol Number" type="text" class="form-control" id="protocol" required>
+        </div>
+        <div class="form-group col">
+          <label for="server">Type</label>
+          <select name="Which server is this study on?" id="server" class="form-control" required>
+            <option value="K - fileserv">K - fileserv</option>
+            <option value="G - genserv">G - genserv</option>
+          </select>
+        </div>
+      </div>
+      
+      
+      <h3>Request Basics</h3>
+    
+      <div class="row">
+        <div class="form-group col">
+          <label for="reqCode">Type</label>
+          <select name="Req Code" id="reqCode" class="form-control" required>
+            <option value="enV1">enV1</option>
+            <option value="enCR">enCR</option>
+            <option value="FLv1">FLv1</option>
+            <option value="FLCR">FLCR</option>
+            <option value="FLCR">v1CR</option>
+            <option value="OTH" selected>OTH</option>
+          </select>
+        </div>
+        <div class="form-group col-sm">
+          <label for="batch">Batch</label>
+          <input name="Batch #" type="text" class="form-control" id="batch">
+        </div>
+        <div class="form-group col-sm">
+          <label for="langCnt"># Languages</label>
+          <input name="# of languages/countries for this request" type="number" class="form-control" id="langCnt" required>
+        </div>
+        <div class="form-group col-sm">
+          <label for="astCnt"># Assessments</label>
+          <input name="# of assessments for this request" type="number" class="form-control" id="astCnt" required>
+        </div>
+        
+      </div>
+    
+      <div class="row">
+        <div class="form-group col">
+          <label for="langsV001">Languages (v0.01)</label>
+          <textarea class="form-control" name="Languages for v0.01" id="langsV001" rows="3"></textarea>
+        </div>
+        <div class="form-group col">
+          <label for="langsCR">Languages (corrections)</label>
+          <textarea class="form-control" name="Languages for corrections" id="langsCR" rows="3"></textarea>
+        </div>
+      </div>
+      <div class="row">
+        <div class="form-group col">
+          <label for="cpyast">Copyrighted Assessments</label>
+          <textarea class="form-control" name="Copyrighted assessments for this request" id="cpyast" rows="3"></textarea>
+        </div>
+        <div class="form-group col">
+          <label for="nonast">Non-Copyrighted Assessments</label>
+          <textarea class="form-control" name="Non-copyrighted assessments for this request" id="nonast" rows="3"></textarea>
+        </div>
+      </div>
+
+      <h4>Optional Details</h4>
+
+      <div class="row">
+        <div class="form-group col-sm">
+          <label for="tbbuild">TB-syn Build</label>
+          <input name="TB-syn Build #" type="text" class="form-control" id="tbbuild" placeholder="latest">
+        </div>
+        <div class="form-group col-sm">
+          <label for="hhbuild">HH-syn Build</label>
+          <input name="HH-syn Build #" type="text" class="form-control" id="hhbuild" placeholder="latest">
+        </div>
+        <div class="form-group">
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" name="Messageboxes screen capture required?" type="checkbox" id="msgbx" value="Yes">
+            <label class="form-check-label" for="msgbx">Messagebox?</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" name="Manual screenshots required?" type="checkbox" id="manscr" value="Yes">
+            <label class="form-check-label" for="manscr">Manual scrolling?</label>
+          </div>
+        </div>
+
+      </div>
+      <div class="row">
+        <div class="form-group col">
+          <label for="addlnotes">Additional Notes</label>
+          <textarea class="form-control" name="Additional Notes" id="addlnotes" rows="3"></textarea>
+        </div>
+      </div>
+    
+
+      <h3>Timeline</h3>
+
+      <div class="row">
+        <div class="form-group col-sm-auto">
+          <label for="start">Files Expected</label>
+          <input name="Expected Date Files Will Be Available" type="date" class="form-control" id="start">
+        </div>
+        <div class="form-group col-sm-auto">
+          <label for="prefDue">Preferred</label>
+          <input name="Preferred Deadline" type="date" class="form-control" id="prefDue">
+        </div>
+        <div class="form-group col-sm-auto">
+          <label for="hardDue">Due Date</label>
+          <input name="Hard Deadline" type="date" class="form-control" id="hardDue" required>
+        </div>
+        <div class="form-group col-sm">
+          <label for="hardtime">Due Time</label>
+          <select name="Hard Deadline Time" id="hardtime" class="form-control" required>
+            <option value="Open of Business">Open OB</option>
+            <option value="Close of Business" selected>Close OB</option>
+          </select>
+        </div>
+      </div>
+
+
+      <h3>Additional Information</h3>
+
+      <div class="form-group">
+        <label for="actwkbks"># Excel files</label>
+        <input name="Act. Wkbk. Cnt." type="number" class="form-control" id="actwkbks">
+        <small id="passwordHelpBlock" class="form-text text-muted">
+          If the files for this request are already available, please enter the number of Excel workbooks that will be created for this request (v0.01) or corrected for this request (CR).
+        </small>
+      </div>
+
+
+      <div class="row">
+        <h4>enV1 Details</h4>
+      </div>
+
+      <div class="form-group">
+        <div class="form-check form-check-inline">
+          <input class="form-check-input" type="radio" name="Excel Macro template" id="tempYes" value="Create new template">
+          <label class="form-check-label" for="tempYes">Create new template</label>
+        </div>
+        <div class="form-check form-check-inline">
+          <input class="form-check-input" type="radio" name="Excel Macro template" id="tempNo" value="Use existing template">
+          <label class="form-check-label" for="tempNo">Use existing template</label>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="naming">Naming Conventions</label>
+        <textarea class="form-control" name="Naming Conventions" id="naming" rows="3"></textarea>
+      </div>
+      
+    </form>

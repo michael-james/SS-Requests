@@ -1,0 +1,179 @@
+    <!-- Modal -->
+    <div class="modal fade" id="readyModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-lg modal-dialog-centered" role="document"> <!-- modal-lg -->
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">New message</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">            
+            <form>
+                <input type="hidden" id="row" name="row">
+                <input type="hidden" id="status" name="Status" value="Received">
+                <div class="form-row">
+                  <div class="form-group col">
+                    <label for="reqCode">Type</label>
+                    <select name="Req Code" id="reqCode" class="form-control" required>
+                      <option value="enV1">enV1</option>
+                      <option value="enCR">enCR</option>
+                      <option value="FLv1">FLv1</option>
+                      <option value="FLCR">FLCR</option>
+                      <option value="FLCR">v1CR</option>
+                      <option value="OTH" selected>OTH</option>
+                    </select>
+                  </div>
+                  <div class="form-group col-sm">
+                    <label for="batch">Batch</label>
+                    <input name="Batch #" type="text" class="form-control" id="batch">
+                  </div>
+                  <div class="form-group col-sm">
+                    <label for="langCnt"># Languages</label>
+                    <input name="# of languages/countries for this request" type="number" class="form-control" id="langCnt" required>
+                  </div>
+                  <div class="form-group col-sm">
+                    <label for="astCnt"># Assessments</label>
+                    <input name="# of assessments for this request" type="number" class="form-control" id="astCnt" required>
+                  </div>
+                  <div class="form-group col-sm">
+                    <label for="actwkbks"># Excel files</label>
+                    <input name="Act. Wkbk. Cnt." type="number" class="form-control" id="actwkbks">
+                  </div>
+                </div>
+                
+                <div class="form-row">
+                  <div class="form-group col">
+                    <label for="langsV001">Languages (v0.01)</label>
+                    <textarea class="form-control" name="Languages for v0.01" id="langsV001" rows="3"></textarea>
+                  </div>
+                  <div class="form-group col">
+                    <label for="langsCR">Languages (corrections)</label>
+                    <textarea class="form-control" name="Languages for corrections" id="langsCR" rows="3"></textarea>
+                  </div>
+                </div>
+                <div class="form-row">
+                  <div class="form-group col">
+                    <label for="cpyast">Copyrighted Assessments</label>
+                    <textarea class="form-control" name="Copyrighted assessments for this request" id="cpyast" rows="3"></textarea>
+                  </div>
+                  <div class="form-group col">
+                    <label for="nonast">Non-Copyrighted Assessments</label>
+                    <textarea class="form-control" name="Non-copyrighted assessments for this request" id="nonast" rows="3"></textarea>
+                  </div>
+                </div>
+                <div class="form-row">
+                  <div class="form-group col">
+                    <label for="addlnotes">Additional Notes</label>
+                    <textarea class="form-control" name="Additional Notes" id="addlnotes" rows="3"></textarea>
+                  </div>
+                </div>
+                
+                <div class="form-row">
+                  <div class="form-group col-sm-auto">
+                    <label for="prefDue">Preferred</label>
+                    <input name="Preferred Deadline" type="date" class="form-control" id="prefDue">
+                  </div>
+                  <div class="form-group col-sm-auto">
+                    <label for="hardDue">Due Date</label>
+                    <input name="Hard Deadline" type="date" class="form-control" id="hardDue" required>
+                  </div>
+                  <div class="form-group col-sm">
+                    <label for="hardtime">Due Time</label>
+                    <select name="Hard Deadline Time" id="hardtime" class="form-control" required>
+                      <option value="Open of Business">Open OB</option>
+                      <option value="Close of Business" selected>Close OB</option>
+                    </select>
+                  </div>
+                  <div class="form-group col-sm">
+                    <label for="tbbuild">TB-syn Build</label>
+                    <input name="TB-syn Build #" type="text" class="form-control" id="tbbuild">
+                   </div>
+                   <div class="form-group col-sm">
+                     <label for="hhbuild">HH-syn Build</label>
+                     <input name="HH-syn Build #" type="text" class="form-control" id="hhbuild">
+                   </div>
+                 </div>
+                
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button id="ready-modal-btn-save" type="button" class="btn btn-primary">Save</button>
+            <button id="ready-modal-btn-update" type="button" class="btn btn-success">Mark as Ready</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <script>
+      function onReadyFailure(e) {
+        onFailure(e);
+        $('#ready-modal-btn-update').prop("disabled",false);
+        $('#ready-modal-btn-save').prop("disabled",false);
+      }
+    
+      $( document ).ready(function() {
+          
+          $('#ready-modal-btn-update').click(function() {
+            console.log("update from modal!");
+            
+            var $form = $('#readyModal form')
+            if ($form.get(0).reportValidity()) {
+               $(this).prop("disabled",true);
+               $('#ready-modal-btn-save').prop("disabled",true);
+               var val = $form.serializeArray();
+               google.script.run.withSuccessHandler(onReadySuccess).withFailureHandler(onReadyFailure).withUserObject($(this)).processForm(val, null, true, "readyModalUpdate");
+            }
+          });
+          
+          $('#ready-modal-btn-save').click(function() {
+            console.log("update from modal!");
+            
+            
+            $('input#status').attr('name', '');
+
+//            var val = $('#readyModal form').serializeArray();
+            
+            var $form = $('#readyModal form')
+            if ($form.get(0).reportValidity()) {
+               $(this).prop("disabled",true);
+               $('#ready-modal-btn-update').prop("disabled",true);
+               var val = $form.serializeArray();
+               google.script.run.withSuccessHandler(onReadySuccess).withFailureHandler(onReadyFailure).withUserObject($(this)).processForm(val, null, true, "readyModalSave");
+            }
+            
+            $('input#status').attr('name', 'Status');
+          });
+          
+          $('#readyModal').on('show.bs.modal', function (event) {
+            //console.log('showing modal...');
+            var $button = $(event.relatedTarget) // Button that triggered the modal
+            var d = JSON.parse($button.data('key'));
+            console.log(d);
+            console.log(d.hardDue);
+            console.log(Date.parse(d.hardDueDate));
+            console.log(d.prefDue);
+            console.log(Date.parse(d.prefDueDate));
+
+            var modal = $(this)
+            modal.find('.modal-title').html("<span class='badge badge-success'>Files Ready</span> <span class='badge " + d.typClass + "'>" + d.reqCode + "</span> " + d.client + " " + d.protocol);
+            modal.find('.modal-body select#reqCode').val(d.reqCode)
+            modal.find('.modal-body input#batch').val(d.batch)
+            modal.find('.modal-body input#langCnt').val(d.langCnt)
+            modal.find('.modal-body input#astCnt').val(d.astCnt)
+            modal.find('.modal-body input#actwkbks').val(d.actwkbks)
+            modal.find('.modal-body textarea#langsV001').val(d.langsV001)
+            modal.find('.modal-body textarea#langsCR').val(d.langsCR)
+            modal.find('.modal-body textarea#cpyast').val(d.cpyast)
+            modal.find('.modal-body textarea#nonast').val(d.nonast)
+            modal.find('.modal-body textarea#addlnotes').val(d.addlnotes)
+            modal.find('.modal-body input#hardDue').val(d.hardDueDateForm)
+            modal.find('.modal-body input#prefDue').val(d.prefDueDateForm)
+            modal.find('.modal-body select#hardtime').val(d.hardtime)
+            modal.find('.modal-body input#tbbuild').val(d.TBbld || "latest")
+            modal.find('.modal-body input#hhbuild').val(d.HHbld || "latest")
+            modal.find('.modal-body input#row').val(d.row)
+          })
+      });
+    </script>

@@ -1,0 +1,364 @@
+<? var d = getRequest(data.row); ?>
+
+<div class="container" style="padding-top:20px">
+    <h1><span class="badge badge-primary">Perform</span> <span class="badge <?= typClass(d.reqCode) ?>"><?= d.reqCode ?></span> <?= d.client + ' ' + d.protocol + (d.batch && (' Batch ' + d.batch)) ?></h1>
+    
+    <div class="py-3">
+      <a id="view-link" class="btn btn-outline-secondary" href="<?=url?>?page=ViewAdmin&row=<?= d.row ?>">View</a>
+    </div>
+    
+    <?!= include('viewDetails', d) ?>
+    <? d.admin = true ?>
+    <?!= include('relReq', d) ?>
+    
+    <br><br>
+    
+    <h2>Performance Notes</h2>
+    <form id="perf-notes">
+      <input type="hidden" id="row" name="row" value="<?= d.row ?>">
+      <div class="row">
+        <div class="form-group col-sm-3">
+          <label for="timelog">Time Log</label>
+          <textarea name="Time Log" class="form-control" id="timelog" rows="4"></textarea>
+        </div>
+        <div class="form-group col">
+          <label for="intnotes">Internal Notes</label>
+          <textarea class="form-control" name="Internal Notes" id="intnotes" rows="4"></textarea>
+        </div>
+      </div>
+      <hr/>
+      <div class="row">
+          <div class="col-sm-3">
+            <div class="form-group">
+              <label for="tbbuild">TB-syn Build Used</label>
+              <input name="TB-syn Build # Used" type="text" class="form-control" id="tbbuild">
+             </div>
+             <div class="form-group">
+               <label for="hhbuild">HH-syn Build Used</label>
+               <input name="HH-syn Build # Used" type="text" class="form-control" id="hhbuild">
+             </div>
+        </div>
+        <div class="form-group col">
+          <div>
+            <label for="workcompl">Work Completed</label>
+            <div id="workcompl-shortcuts" class="btn-group btn-group-sm mb-3 float-right" role="group" aria-label="Basic example">
+              <!--<button type="button" id="workcompl-createTemp" class="btn btn-outline-secondary" data-type="CreateTemp">Created Temp</button>-->
+              <button type="button" id="workcompl-updateTemp" class="btn btn-outline-secondary" data-type="UpdateTemp">Updated Temp</button>
+              <button type="button" id="workcompl-JIRA" class="btn btn-outline-secondary" data-type="JIRA">JIRA</button>
+              <button type="button" id="workcompl-default" class="btn btn-secondary" data-type="<?= d.reqCode ?>">Default</button>
+            </div>
+          </div>
+          <textarea name="Work Completed" class="form-control" id="workcompl" rows="4"></textarea>
+        </div>
+      </div>
+      <div class="row">
+        <div class="form-group col-sm">
+          <label for="deliv">Deliverables</label>
+          <input name="Deliverables" type="text" class="form-control" id="deliv">
+        </div>
+        <div class="form-group col-sm">
+          <label for="fileloc">File Location</label>
+          <input name="File Location" type="text" class="form-control" id="fileloc">
+        </div>
+      </div>
+      <div class="row">
+        <div class="form-group col-sm">
+          <label for="incmplwkbks"># Incomplete Wkbks</label>
+          <input name="# Incomplete Wkbks" type="number" class="form-control" id="incmplwkbks">
+        </div>
+        <div class="form-group col-sm">
+          <label for="astJSONcorr"># JSONs Corrected</label>
+          <input name="# Ast. Req JSON Chg" type="number" class="form-control" id="astJSONcorr">
+        </div>
+        <div class="form-group col-sm">
+          <label for="incmplwkbks">Billable Hrs. (orig)</label>
+          <input name="Bill Hrs OG" type="number" class="form-control" id="billhrsorig">
+        </div>
+        <div class="form-group col-sm">
+          <label for="astJSONcorr">Billable Hrs. (rev)</label>
+          <input name="Bill Hrs RV" type="number" class="form-control" id="billhrsrev">
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="majIssues">Major Unresolved ERT Issues</label>
+        <textarea name="Major Unresolved ERT Issues" class="form-control" id="majIssues" rows="3"></textarea>
+      </div>
+      <div class="form-group">
+        <label for="minIssues">Minor Unresolved ERT Issues</label>
+        <textarea name="Minor Unresolved ERT Issues" class="form-control" id="minIssues" rows="3"></textarea>
+      </div>
+      <div class="form-group">
+        <label for="gennotes">General Notes</label>
+        <textarea name="General Notes" class="form-control" id="gennotes" rows="5"></textarea>
+      </div>
+      <div class="form-group">
+        <label for="vendiss">Vendor Issues</label>
+        <textarea name="Vendor Issues" class="form-control" id="vendiss" rows="4"></textarea>
+      </div>
+      <div class="row">
+        <div class="form-group col-sm-6" id="ONHWF">
+          <label for="waitfor"><span class="badge badge-warning">On-hold</span> Waiting For</label>
+          <textarea class="form-control" name="On-Hold: Waiting For" id="waitfor" rows="2"></textarea>
+        </div>
+        <div class="form-group col-sm-6" id="JIRA">
+          <label for="jira">Associated JIRA Defects</label>
+          <textarea class="form-control" name="Associated JIRA Defects" id="jira" rows="2"></textarea>
+        </div>
+      </div>
+    </form>
+
+    <div class="d-flex justify-content-between">
+      <div>
+        <button id="go" class="btn btn-primary">Save</button>
+        <button id="go-view" class="btn btn-outline-secondary">Save &amp; View</button>
+        <button id="go-send" class="btn btn-outline-success">Save &amp; Send</button>
+        <span id="perfoutput" class="pl-3 text-success"></span>
+      </div>
+      
+      <div class="pt-1">
+        <strong>Folder:</strong> <span class='text-info'><u><?= moment().format(dffiles) + " -- " + d.id ?> -- <span id="not-ready-text">NOT </span>ready</u></span>
+      </div>
+      
+      <div>
+        <div class="dropdown">
+          <a class="btn <?= stCls(d.status).btn ?> dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <?= d.status ?>
+          </a>
+        
+          <div id="status-dropdown" class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuLink">
+            <? for (var s in statuses) { ?>
+              <a class="dropdown-item" style="cursor: pointer"><?= statuses[s] ?></a>
+          <? } ?>
+          </div>
+        </div>
+      </div>
+      
+    </div>
+    
+    
+    
+    
+    
+    <!--<div class="lds-css ng-scope" style="width: 50px;height: 50px;"><div style="width:100%;height:100%" class="lds-ripple"><div></div><div></div></div></div>-->
+    <!--<div class="lds-css ng-scope"><div style="width:100%;height:100%" class="lds-dual-ring"><div></div></div><style type="text/css">@keyframes lds-dual-ring {
+    .lds-css {
+      display: inline-block;
+    }
+    
+  0% {
+    -webkit-transform: rotate(0);
+    transform: rotate(0);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+@-webkit-keyframes lds-dual-ring {
+  0% {
+    -webkit-transform: rotate(0);
+    transform: rotate(0);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+.lds-dual-ring {
+  position: relative;
+}
+.lds-dual-ring div {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  top: 9px;
+  left: 9px;
+  border-radius: 50%;
+  border: 3px solid #000;
+  border-color: #6c757d transparent #6c757d transparent;
+  -webkit-animation: lds-dual-ring 1s linear infinite;
+  animation: lds-dual-ring 1s linear infinite;
+}
+.lds-dual-ring {
+  width: 38px !important;
+  height: 38px !important;
+  -webkit-transform: translate(-19px, -19px) scale(1) translate(19px, 19px);
+  transform: translate(-19px, -19px) scale(1) translate(19px, 19px);
+}
+</style></div>-->
+    
+    <!--<script src="https://wzrd.in/standalone/formdata-polyfill"></script>
+    <script src="https://wzrd.in/standalone/promise-polyfill@latest"></script>
+    <script src="https://wzrd.in/standalone/whatwg-fetch@latest"></script>-->
+    
+    <script>
+      function onPerfSuccess(msg) {
+        $('#go').prop("disabled",false).removeClass('btn-warning');
+        $('#perfoutput').removeClass("text-danger").addClass("text-success").text("Saved!").show();
+        
+        setTimeout(function(){
+          $('#perfoutput').hide()
+        }, 3000);
+        
+        window.removeEventListener("beforeunload", unload);
+      }
+      
+      function onPerfSuccessView(msg) {
+        $('#go').removeClass('btn-warning');
+        window.removeEventListener("beforeunload", unload);
+      
+        document.getElementById('view-link').click();
+      }
+      
+      function onPerfFailure(error) {
+        console.log(error.message);
+        $('#perfoutput').removeClass("text-success").addClass("text-danger").text("Save Failed").show();
+        
+        onFailure(error, $('#go'));
+        
+        setTimeout(function(){
+          $('#perfoutput').hide()
+        }, 3000);
+      }
+      
+      $( document ).ready(function() {
+          console.log( "ready!" );
+          google.script.run.withSuccessHandler(onWorkComplDefaultsSuccess).withFailureHandler(onFailure).getWorkComplDefaults();
+          //console.log($('form').serialize());
+          //const scriptURL = '<?= url ?>'
+          //const form = document.forms['submit-to-google-sheet']
+          /*form.addEventListener('submit', e => {
+            console.log("submitting form...");
+            console.log(scriptURL);
+            e.preventDefault()
+            fetch(scriptURL, { method: 'POST', body: new FormData(form)})
+              .then(response => console.log('Success!', response))
+              .catch(error => console.error('Error!', error.message))
+          })*/
+          
+//          var folderName = <?= moment().format(dffiles) + " -- " + d.id ?>;
+          
+          $('#tbbuild').val(<?= d.getByName("TB-syn Build # Used") ?>);
+          $('#hhbuild').val(<?= d.getByName("HH-syn Build # Used") ?>);
+          $('#workcompl').val(<?= d.workcompl ?>);
+          $('#deliv').val(<?= d.deliv ?>);
+          $('#fileloc').val(<?= d.fileloc ?>); // || folderName
+          $('#incmplwkbks').val(<?= d.incmplwkbks ?>);
+          $('#astJSONcorr').val(<?= d.astJSONcorr ?>);
+          $('#billhrsorig').val(<?= d.getByName("Bill Hrs OG") ?>);
+          $('#billhrsrev').val(<?= d.getByName("Bill Hrs RV") ?>);
+          $('#majIssues').val(<?= d.getByName("Major Unresolved ERT Issues") ?>);
+          $('#minIssues').val(<?= d.getByName("Minor Unresolved ERT Issues") ?>);
+          $('#gennotes').val(<?= d.getByName("General Notes") ?>);
+          $('#vendiss').val(<?= d.getByName("Vendor Issues") ?>);
+          $('#intnotes').val(<?= d.getByName("Internal Notes") ?>);
+          $('#timelog').val(<?= d.getByName("Time Log") ?>);
+          $('#waitfor').val(<?= d.waitfor ?>)
+          $('#jira').val(<?= d.jira ?>)
+          
+          $('#go').click(function() {
+            $(this).prop("disabled",true);
+            var val = $('form').serializeArray();
+            google.script.run.withSuccessHandler(onPerfSuccess).withFailureHandler(onPerfFailure).processForm(val, null, null, "PerformSave");
+          });
+          
+          $('#go-view').click(function() {
+            $(this).prop("disabled",true);
+            var val = $('form').serializeArray();
+            google.script.run.withSuccessHandler(onPerfSuccessView).withFailureHandler(onPerfFailure).processForm(val, null, null, "PerformSaveView");
+          });
+          
+          $('#go-send').click(function() {
+            $(this).prop("disabled",true);
+            var val = $('form').serializeArray();
+            google.script.run.withSuccessHandler(onPerfSuccessView).withFailureHandler(onPerfFailure).processForm(val, true, null, "PerformSaveSend");
+          });
+                    
+          $('input, textarea').change(function() {
+            $('#go').addClass("btn-warning");
+            console.log('changed!');
+            
+            window.addEventListener("beforeunload", unload);
+          });
+          
+          $('#workcompl-shortcuts button').click(function() {
+            var type = $(this).data('type')
+            $('#workcompl').val(function(i, val) {
+            var workcompl = workComplDefaults[type]['workcompl'];
+              if (workcompl) {
+                return (val && (val + "\n")) + workcompl;
+              } else {
+                return val
+              }
+            });
+            $('#deliv').val(function(i, val) {
+              var deliv = workComplDefaults[type]['deliv'];
+              if (deliv) {
+                return (val && (val + ", ")) + deliv;
+              } else {
+                return val
+              }
+            });
+          });
+          
+          $('#status-dropdown a').click(function() {
+            var st = this.text;
+            var $button = $("#status-dropdown").prev("a");
+            $button.addClass('disabled');
+            
+//          if (st == "On-hold") {
+//            $('#ONHWF').show();
+//          } else {
+//            $('#ONHWF').hide();
+//          }
+//          
+//          if (st == "Completed") {
+//            $('#JIRA').hide();
+//          } else {
+//            $('#JIRA').show();
+//          }
+            
+            console.log("Please update status to " + st + "...");
+            
+            google.script.run.withSuccessHandler(onStatusSuccess).withFailureHandler(onStatusFailure).withUserObject($button).chgStatus(<?= d.row ?>, st);
+          });
+      });
+      
+      var workComplDefaults;
+      function onWorkComplDefaultsSuccess(defaults) {
+        //console.log(defaults);
+        workComplDefaults = defaults;
+      }
+      
+      function setFolderReadiness() {
+        var folderName = <?= moment().format(dffiles) + " -- " + d.id ?>;
+//        var notText = "NOT ";
+        console.log("checking folder readiness...");
+        var st = $('#status-dropdown').prev('a').text().trim();
+        if (st == "Pending Confirmation" || st == "Completed" ) {
+          $('#not-ready-text').text("");
+//          $('#deliv').val(<?= d.deliv ?>);
+//          folderName + " -- " + notText + "ready"
+        } else {
+          $('#not-ready-text').text(notText);
+        }   
+      }
+      
+      setFolderReadiness();
+      
+      function onStatusSuccess(msg) {
+          console.log("Status changed to " + msg.st + "!")
+            
+          $("#status-dropdown").prev("a").text(msg.st).removeClass("disabled btn-success btn-danger btn-warning btn-outline-danger btn-outline-warning btn-outline-success btn-outline-dark btn-inprogress btn-assigned btn-completed").addClass(msg.cls.btn)
+          $("#status-text").text(msg.st).text(msg.st).removeClass("btn-success btn-danger btn-warning btn-outline-danger btn-outline-warning btn-outline-success btn-outline-dark btn-inprogress btn-assigned btn-completed").addClass(msg.cls.btn)
+          
+          setFolderReadiness();
+          updateEvent(msg.row);
+        }
+        
+        function onStatusFailure(error, button) {
+          button.removeClass('disabled');
+          onFailure(error);
+        }
+    </script>
+</div>

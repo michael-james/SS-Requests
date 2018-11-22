@@ -1,0 +1,132 @@
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-lg modal-dialog-centered" role="document"> <!-- modal-lg -->
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">New message</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div id="modal-info" class="mb-4 wrap"></div>
+            
+            <form>
+                <input type="hidden" id="row" name="row">
+                <div class="form-row">
+                  <div class="form-group col-sm">
+                    <label for="inputStatus">Status</label>
+                    <select name="Status" id="inputStatus" class="form-control">
+                      <option value="Received">Received</option>
+                      <option value="Waiting for Start">Waiting for Start</option>
+                      <option value="Needs Information">Needs Information</option>
+                      <option value="Reviewed">Reviewed</option>
+                      <option value="Assigned">Assigned</option>
+                      <option value="In-progress">In-progress</option>
+                      <option value="On-hold">On-hold</option>
+                      <option value="Unresolved Issues">Unresolved Issues</option>
+                      <option value="Pending Confirmation">Pending Confirmation</option>
+                      <option value="Completed">Completed</option>
+                    </select>
+                  </div>
+                  <div class="form-group col-sm">
+                    <label for="inputWkbks">Act. # Workbooks</label>
+                    <input name="Act. Wkbk. Cnt." type="number" class="form-control" id="inputWkbks">
+                  </div>
+                </div>
+                <div class="form-row">
+                  <div class="form-group col-sm">
+                    <label for="inputDate">Estimated Return</label>
+                    <input name="Exp First Rtrn Date" type="date" class="form-control" id="inputDate">
+                  </div>
+                  <div class="form-group col-sm">
+                    <label for="inputAsg">Assignee</label>
+                    <select name="Asgd To" id="inputAsg" class="form-control">
+                      <option value="">&nbsp;</option>
+                      <option value="Affoua">Affoua</option>
+                      <option value="Alex">Alex</option>
+                      <option value="Carla">Carla</option>
+                      <option value="Michael">Michael</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="form-row">
+                  <div class="form-group col">
+                    <label for="inputNotes">General Notes</label>
+                    <textarea class="form-control" name="General Notes" id="inputNotes" rows="3"></textarea>
+                  </div>
+                </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button id="modal-btn-update" type="button" class="btn btn-primary">Update</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      $( document ).ready(function() {
+          
+          $('#modal-btn-update').click(function() {
+            console.log("update from modal!");
+            $(this).prop("disabled",true);
+
+            var val = $('#exampleModal form').serializeArray();
+            console.log("updating from review...");
+            
+            google.script.run.withSuccessHandler(onReviewSuccess).withFailureHandler(onFailure).withUserObject($(this)).processForm(val, null, null, "reviewModal");
+          });
+          
+          $('#exampleModal').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget) // Button that triggered the modal
+            var name = button.data('name') // Extract info from data-* attributes
+            var type = button.data('type')
+            var status = button.data('status')
+            var asgd = button.data('asgd')
+            var expDate = button.data('expdate')
+            console.log(expDate);
+            var row = button.data('row')
+            var actwkbks = button.data('actwkbks')
+            var info = button.data('info')
+            var gennotes = button.data('notes')
+            var protocol = button.data('protocol')
+            
+            // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+            // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+            var modal = $(this)
+            modal.find('.modal-title').html('<span class="badge badge-warning">Review</span> ' + type + " " + name)
+            modal.find('.modal-body select#inputStatus').val(status)
+            modal.find('.modal-body select#inputAsg').val(asgd)
+            modal.find('.modal-body input#inputDate').val(expDate)
+            modal.find('.modal-body input#inputWkbks').val(actwkbks)
+            modal.find('.modal-body textarea#inputNotes').val(gennotes)
+            modal.find('.modal-body input#row').val(row)
+            modal.find('.modal-body #modal-info').html(info)
+            
+            google.script.run.withSuccessHandler(onGetRelReqAsstCountsSuccess).withUserObject($(this)).withFailureHandler(onFailure).relReqAsstCounts(protocol);
+          })
+      });
+      
+      function onGetRelReqAsstCountsSuccess(counts, button) {
+        //console.log(counts);
+        
+        var table = "<table><tr><th scope='col' colspan='2'>Related Requests</th></tr>";
+        
+        if (counts.length) {
+          for (var c in counts) {
+            table += "<tr><th scope='row' class='pr-3'>" + counts[c][0] + "</th><td>" + counts[c][2] + "</td></tr>";
+          }
+        } else {
+          table += "<tr><td colspan='2'>No related requests.</td></tr>";
+        }        
+            
+        table += "</table>"
+        
+        //console.log(table)
+        //console.log(button.find('#modal-table'))
+            
+        button.find('#modal-table').html(table)
+      }
+    </script>

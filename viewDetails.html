@@ -1,0 +1,55 @@
+<section id="view-details">
+    <h2>Request #<?= d.id ?></h2>
+    <!--A new <strong><?= data.reqType ?></strong> screenshots request was submitted by <strong><?= data.requestor ?> (<?= data.office ?>)</strong> at <strong><?= data.dateTimeRec ?></strong>.<br>-->
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="row"><div class="col-sm-4">Requestor</div><div class="col-sm-8"><strong><?= data.requestor ?> (<?= data.office ?>)</strong></div></div>
+            <div class="row"><div class="col-sm-4">Client</div><div class="col-sm-8"><strong><?= data.client ?></strong></div></div>
+            <div class="row"><div class="col-sm-4">Protocol</div><div class="col-sm-8"><strong><?= data.protocol ?></strong></div></div>
+            <div class="row"><div class="col-sm-4">Batch</div><div class="col-sm-8"><strong><?= data.batch ?></strong></div></div>
+            <div class="row"><div class="col-sm-4">Vendor</div><div class="col-sm-8"><strong><?= data.vend ?></strong></div></div>
+        </div>
+        <div class="col-sm-6">
+            <div class="row"><div class="col-sm-4">Languages v0.01</div><div class="col-sm-8"><strong><?= data.langsV001 ?></strong></div></div>
+            <div class="row"><div class="col-sm-4">Languages CRs</div><div class="col-sm-8"><strong><?= data.langsCR ?></strong></div></div>
+            <div class="row"><div class="col-sm-4">Cpy. Assessments</div><div class="col-sm-8"><strong><?= data.cpyast ?></strong></div></div>
+            <div class="row"><div class="col-sm-4">Non Cpy. Assessments</div><div class="col-sm-8"><strong><?= data.nonast ?></strong></div></div>
+        </div>
+	</div>
+	<br>
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="row"><div class="col-sm-4">Request Type</div><div class="col-sm-8"><strong><?= data.reqType ?> <span class="badge <?= typClass(data.reqCode) ?>"><?= data.reqCode ?></span></strong></div></div>
+            <div class="row"><div class="col-sm-4"># Languages</div><div class="col-sm-8"><strong><?= data.langCnt ?></strong></div></div>
+            <div class="row"><div class="col-sm-4"># Assessments</div><div class="col-sm-8"><strong><?= data.astCnt ?></strong></div></div>
+            <div class="row"><div class="col-sm-4">Est. # Workbooks</div><div class="col-sm-8"><strong><?= data.estwkbks ?></strong></div></div>
+        </div>
+        <div class="col-sm-6">
+            <div class="row"><div class="col-sm-4">Date Requested</div><div class="col-sm-8"><strong><?= data.timestamp.format(df + ', ' + tf) ?></strong></div></div>
+            <div class="row"><div class="col-sm-4">Files Expected</div><div class="col-sm-8"><span class='badge <?= urgency(d.daysStart, "badge", "success") ?>'><?= d.startDate && d.startDate.format(df) ?></span> <strong><?= (data.daysStart == 0 || data.daysStart) && ("(" + data.daysStart + ")")?></strong></div></div>
+            <div class="row"><div class="col-sm-4">Pref. Deadline</div><div class="col-sm-8"><span class='badge <?= urgency(d.daysPref, "badge", "warning") ?>'><?= d.prefDueDate && d.prefDueDate.format(df) ?></span> <strong><?= (data.daysPref == 0 || data.daysPref) && ("(" + data.daysPref + ")")?></strong></div></div>
+            <div class="row"><div class="col-sm-4">Hard Deadline</div><div class="col-sm-8"><span class='badge <?= urgency(d.daysDue, "badge", "danger") ?>'><?= d.hardDueDate && d.hardDueDate.format("ddd, MMM D, h:mm a") ?></span> <strong><?= (data.daysDue == 0 || data.daysDue) && ("(" + data.daysDue + ")")?></strong></div></div>
+        </div>
+	</div>
+    <br>
+    <div>
+        <div class="row"><div class="col-sm-2">Device, Build</div><div class="col-sm-10"><strong><?= data.dvcbld ?></strong></div></div>
+        <div class="row"><div class="col-sm-2">Template</div><div class="col-sm-10"><strong><?= data.temp ?></strong></div></div>
+        <div class="row"><div class="col-sm-2">Server</div><div class="col-sm-10"><strong><?= data.server ?></strong></div></div>
+		<div class="row"><div class="col-sm-2">Messagebox?</div><div class="col-sm-10"><strong><?= data.msgbx ?></strong></div></div>
+        <div class="row"><div class="col-sm-2">Manual Scroll?</div><div class="col-sm-10"><strong><?= data.manscr ?></strong></div></div>
+        <div class="row"><div class="col-sm-2">Naming Conventions</div><div class="col-sm-10" style="white-space: pre-wrap"><strong><?= data.naming ?></strong></div></div>
+        <div class="row"><div class="col-sm-2">Additional Notes</div><div class="col-sm-10" style="white-space: pre-wrap"><strong><?= data.addlnotes ?></strong></div></div>
+	</div>
+    <br><br>
+    
+    <h2>Status</h2>
+    <div>
+        <div class="row"><div class="col-sm-2">Status</div><div class="col-sm-10"><strong><span id="status-text" class="badge bdg-bdr <?= stCls(d.status).btn ?>"><?= d.status ?></span></strong></div></div>
+        <div class="row"><div class="col-sm-2">Assignee</div><div class="col-sm-10"><strong><?= d.asst ?></strong></div></div>
+        <div class="row"><div class="col-sm-2">Exp. Return Date</div><div class="col-sm-10"><span class='badge <?= urgency(d.daysExp, "badge", "dark") ?>'><?= d.expRetDate && d.expRetDate.format(df) ?></span> <strong><?= (data.daysExp == 0 || data.daysExp) && ("(" + data.daysExp + ")")?></strong></div></div>
+        <div class="row"><div class="col-sm-2">Pred. # Workbooks</div><div class="col-sm-10"><strong><?= data.predwkbks ?></strong></div></div>
+        <div class="row"><div class="col-sm-2">Act. # Workbooks</div><div class="col-sm-10"><strong><?= data.actwkbks ?></strong></div></div>
+	</div>
+    <br><br>
+</section>

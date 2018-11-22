@@ -1,0 +1,147 @@
+    <!-- Modal -->
+    <div class="modal fade" id="feedbackModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered" role="document"> <!-- modal-lg -->
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">New message</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div id="modal-info" class="mb-4 wrap"></div>
+            
+            <div class="dropdown mb-3">
+              <a class="btn <?= stCls(d.status).btn ?> dropdown-toggle" href="#" role="button" id="status-dropdown-text" data-stcode="<?= getStatusCode(d.status) ?>" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <?= d.status ?>
+              </a>
+            
+              <div id="status-dropdown" class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuLink">
+                <a class="dropdown-item" style="cursor: pointer">In-progress</a>
+                <a class="dropdown-item" style="cursor: pointer">On-hold</a>
+                <a class="dropdown-item" style="cursor: pointer">Completed</a>
+              </div>
+            </div>
+            
+            <form>
+                <input type="hidden" id="row" name="row">
+                <div class="form-row">
+                  <div class="form-group col">
+                    <label for="tcfdbk">Feedback</label>
+                    <textarea class="form-control" name="TC Feedback" id="tcfdbk" rows="4"></textarea>
+                  </div>
+                </div>
+                <div class="form-row" id="ONHWF" style="display: none;">
+                  <div class="form-group col">
+                    <label for="inputWaitingFor"><span class="badge badge-warning">On-hold</span> What are we waiting for?</label>
+                    <textarea class="form-control" name="On-Hold: Waiting For" id="inputWaitingFor" rows="3"></textarea>
+                  </div>
+                </div>
+                <div class="form-row" id="JIRA">
+                  <div class="form-group col">
+                    <label for="inputJIRA">Associated JIRA Defects</label>
+                    <textarea class="form-control" name="Associated JIRA Defects" id="inputJIRA" rows="2"></textarea>
+                  </div>
+                </div>
+            </form>
+            
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button id="modal-btn-update" type="button" class="btn btn-primary">Update</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      function onFeedbackSuccess(msg) {
+        console.log("dash success");
+        updateEvent(msg);
+        document.getElementById('this-link').click();
+      }
+    
+      $( document ).ready(function() {
+          $('#status-dropdown a').click(function() {
+            var st = this.text;
+            var $button = $("#status-dropdown").prev("a");
+            $button.addClass('disabled');
+            
+          if (st == "On-hold") {
+            $('#ONHWF').show();
+          } else {
+            $('#ONHWF').hide();
+          }
+          
+          if (st == "Completed") {
+            $('#JIRA').hide();
+          } else {
+            $('#JIRA').show();
+          }
+            
+            console.log("Please update status to " + st + "...");
+            
+            google.script.run.withSuccessHandler(onStatusSuccess).withFailureHandler(onStatusFailure).withUserObject($button).chgStatus(<?= d.row ?>, st);
+          });
+      
+          $('#modal-btn-update').click(function() {
+            console.log("update from modal!");
+            $(this).prop("disabled",true);
+
+            var val = $('#feedbackModal form').serializeArray();
+            console.log("updating from review...");
+            
+            google.script.run.withSuccessHandler(onFeedbackSuccess).withFailureHandler(onFailure).withUserObject($(this)).processForm(val, null, null, "feedbackModal");
+          });
+          
+          $('#feedbackModal').on('show.bs.modal', function (event) {
+            console.log("feedback modal shown");
+            var info = <?= "<strong>ID:</strong> " + data.id + "\n" +
+                     "<strong>Batch:</strong> " + (data.batch || "") + "\n" +
+                     "<strong>Assessments:</strong> " + (data.cpyast || "") + " " + (data.nonast || "") + "\n" + 
+                     "<strong>Languages v0.01:</strong> " + (data.langsV001 || "") + "\n" +
+                     "<strong>Languages CR:</strong> " + (data.langsCR || "") ?>;
+
+            var modal = $(this)
+            modal.find('.modal-title').html('<span class="badge badge-info">Feedback</span> <span class="badge <?= typClass(data.reqCode) ?>"><?= data.reqCode ?></span>' + ' ' + <?= data.client ?>+ ' ' + <?= data.protocol ?>)
+            modal.find('.modal-body textarea#tcfdbk').val(<?= data.getByName("TC Feedback") ?>)
+            modal.find('.modal-body textarea#inputWaitingFor').val(<?= data.getByName("On-Hold: Waiting For") ?>)
+            modal.find('.modal-body textarea#inputJIRA').val(<?= data.getByName("Associated JIRA Defects") ?>)
+            modal.find('.modal-body input#row').val(<?= data.row ?>)
+            modal.find('.modal-body #modal-info').html(info)
+            
+            console.log($('#status-dropdown-text').data('stcode'));
+            
+            var stCode = $('#status-dropdown-text').data('stcode');
+            if (stCode == "ONH") {
+              console.log('status is on-hold');
+              $('#ONHWF').show();
+            }
+            if (stCode == "CPL") {
+              $('#JIRA').hide();
+            }
+          });
+          
+          <? if (data.modal) { ?>
+            $('#feedbackModal').modal('show');
+          <? } ?>
+    
+          $('#feedback').click(function() {
+            $('#feedbackModal').modal('show');
+          });
+      });
+      
+      function onStatusSuccess(msg) {
+          console.log("Status changed to " + msg.st + "!")
+            
+          $("#status-dropdown").prev("a").text(msg.st).removeClass("disabled btn-success btn-danger btn-warning btn-outline-danger btn-outline-warning btn-outline-success btn-outline-dark btn-inprogress btn-assigned btn-completed").addClass(msg.cls.btn)
+          $("#status-text").text(msg.st).text(msg.st).removeClass("btn-success btn-danger btn-warning btn-outline-danger btn-outline-warning btn-outline-success btn-outline-dark btn-inprogress btn-assigned btn-completed").addClass(msg.cls.btn)
+          
+          updateEvent(msg.row);
+        }
+        
+        function onStatusFailure(error, button) {
+          button.removeClass('disabled');
+          onFailure(error);
+        }
+    </script>

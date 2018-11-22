@@ -1,0 +1,21 @@
+<h2>Performance Notes</h2>
+    <div>
+        <div class="row"><div class="col-md-3"><strong>Work Completed</strong></div><div class="col-md-9" style="white-space: pre-wrap"><?= d.workcompl ?></div></div>
+        <div class="row"><div class="col-md-3"><strong>Deliverables</strong></div><div class="col-md-9"><?= d.deliv ?></div></div>
+        <div class="row"><div class="col-md-3"><strong>File Location</strong></div><div class="col-md-9"><?= d.fileloc ?></div></div>
+		<div class="row"><div class="col-md-3"><strong># Incomplete Workbooks</strong></div><div class="col-md-9"><?= d.incmplwkbks ?></div></div>
+        <div class="row"><div class="col-md-3"><strong># JSONs Changed</strong></div><div class="col-md-9"><?= d.astJSONcorr ?></div></div>
+        <div class="row"><div class="col-md-3"><strong>Billable Hrs. (orig)</strong></div><div class="col-md-9"><?= d.getByName("Bill Hrs OG") ?></div></div>
+        <div class="row"><div class="col-md-3"><strong>Billable Hrs. (rev)</strong></div><div class="col-md-9"><?= d.getByName("Bill Hrs RV") ?></div></div>
+	</div>
+    <br>
+    <div>
+        <div class="row"><div class="col-md-3"><strong>Major Unresolved ERT Issues</strong></div><div class="col-md-9" style="white-space: pre-wrap"><?= d.majIssues ?></div></div>
+        <div class="row"><div class="col-md-3"><strong>Minor Unresolved ERT Issues</strong></div><div class="col-md-9" style="white-space: pre-wrap"><?= d.minIssues ?></div></div>
+        <div class="row"><div class="col-md-3"><strong>General Notes</strong></div><div class="col-md-9" style="white-space: pre-wrap"><?= d.gennotes ?></div></div>
+        <div class="row"><div class="col-md-3"><strong>Vendor Issues</strong></div><div class="col-md-9" style="white-space: pre-wrap"><?= d.vendiss ?></div></div>
+        <div class="row"><div class="col-md-3"><strong>Requestor Feedback</strong></div><div class="col-md-9" style="white-space: pre-wrap"><?= d.tcfdbk ?></div></div>
+        <div class="row"><div class="col-md-3"><strong>On-hold: Waiting For</strong></div><div class="col-md-9" style="white-space: pre-wrap"><?= d.waitfor ?></div></div>
+        <div class="row"><div class="col-md-3"><strong>Associated JIRA Defects</strong></div><div class="col-md-9" style="white-space: pre-wrap"><?= d.jira ?></div></div>
+    </div>
+    <br/><br/>

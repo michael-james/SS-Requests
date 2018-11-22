@@ -1,0 +1,39 @@
+<?  var d = getRequest(data.row); ?>
+
+<div class="container" style="padding-top:20px">
+    <h1><span class="badge <?= typClass(d.reqCode) ?>"><?= d.reqCode ?></span> <?= d.client + ' ' + d.protocol + (d.batch && (' Batch ' + d.batch)) + ' - ' + d.reqCode ?></h1>
+    
+    <!--<div class="py-3">
+      <a class="btn btn-secondary" href="<?=url?>?page=View&row=<?= d.row ?>">Edit</a>
+    </div>-->
+    <div class="btn-group py-3" role="group">
+      <? d.typClass = typClass(d.reqCode) ?>
+      <button class="btn btn-success" <?= (d.statusCode !== "WFS") && "disabled" ?> id="ready" data-row="<?= d.row ?>" data-toggle="modal" data-target="#readyModal">Files Ready</button>
+      <script>
+      $("button[data-row='<?= d.row ?>']").data('key', <?= JSON.stringify(d) ?>);
+      </script>
+      <button class="btn btn-info" id="feedback">Feedback</button>
+    </div>
+    
+    <?!= include('viewDetails', d) ?>
+    <?!= include('viewPerfNotes', d) ?>
+    <? d.admin = false ?>
+    <?!= include('relReq', d) ?>
+</div>
+
+<a href="<?=url?>?page=View&row=<?= d.row ?>" id="this-link" hidden></a>
+
+<? if (data.status) {d.modal = true} ?>
+<?!= include('feedbackModal', d) ?>
+<?!= include('readyModal') ?>
+
+<script>
+  function onReadySuccess(msg) {
+    console.log("dash success (row " + msg + ")");
+    document.getElementById('this-link').click();
+  }
+
+  $(function () {
+    $('[data-toggle="tooltip"]').tooltip()
+  })
+</script>

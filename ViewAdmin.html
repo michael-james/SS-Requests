@@ -1,0 +1,202 @@
+<?  var d = getRequest(data.row); ?>
+
+<div class="container" style="padding-top:20px">
+    <h1><span class="badge <?= typClass(d.reqCode) ?>"><?= d.reqCode ?></span> <?= d.client + ' ' + d.protocol + (d.batch && (' Batch ' + d.batch)) ?></h1>
+    
+        <? var info = "<strong>Files Exp:</strong> <span style='font-size: 90%' class='badge " + urgency(d.daysStart, 'badge', 'success') + "'>" + (d.startDate && d.startDate.format(sdf)) + "</span>\n" +
+                     "<strong>Preferred:</strong> <span style='font-size: 90%' class='badge " + urgency(d.daysPref, 'badge', 'warning') + "'>" + (d.prefDueDate && d.prefDueDate.format(sdf)) + "</span>\n" +
+                     "<strong>Due:</strong> <span style='font-size: 90%' class='badge " + urgency(d.daysDue, 'badge', 'danger') + "'>" + (d.hardDueDate && d.hardDueDate.format(sdtf).slice(0, -1)) + "</span>\n" +
+                     "\n" + 
+                     "<strong>ID:</strong> <span class='text-info'>" + d.id + "</span>\n" +
+                     "<strong>Batch:</strong> " + (d.batch || "") + "\n" +
+                     "<strong>Assessments:</strong> " + (d.cpyast || "") + " " + (d.nonast || "") + "\n" + 
+                     "<strong>Languages v0.01:</strong> " + (d.langsV001 || "") + "\n" +
+                     "<strong>Languages CR:</strong> " + (d.langsCR || "") ?>   
+                     
+    <div class="d-flex justify-content-between py-3">
+      <div>
+        <div class="btn-group" role="group">
+          <!--<a class="btn btn-secondary" href="<?=url?>?page=ViewAdmin&row=<?= d.row ?>">Edit</a>-->
+          <? d.typClass = typClass(d.reqCode) ?>
+          <button class="btn btn-success" <?= (d.statusCode !== "WFS") && "disabled" ?> id="ready" data-row="<?= d.row ?>" data-toggle="modal" data-target="#readyModal">Files Ready</button>
+          <script>
+          $("button[data-row='<?= d.row ?>']").data('key', <?= JSON.stringify(d) ?>);
+          </script>
+          <a class="btn btn-warning" data-toggle="modal" data-target="#exampleModal" data-name="<?= d.client + " " + d.protocol ?>" data-type="<span class='badge <?= typClass(d.reqCode) ?>'><?= d.reqCode ?></span>" data-status="<?= d.status ?>" data-asgd="<?= d.asst ?>" data-expdate="<?= d.expRetDate && d.expRetDate.format("YYYY-MM-DD") ?>" data-row="<?= d.row ?>" data-actwkbks="<?= d.actwkbks ?>" data-info="<?= info ?>" data-notes="<?= d.getByName("General Notes") ?>">Review</a>
+          <a class="btn btn-primary" href="<?=url?>?page=Perform&row=<?= d.row ?>">Perform</a>
+        </div>
+        <button id="sendSummary" class="btn btn-dark ml-2">Send Update</button>
+        <span class="text-success" id="viewoutput" style="padding-left: 15px;"></span>
+      </div>
+      
+      <div>
+        <div class="dropdown">
+          <a class="btn <?= stCls(d.status).btn ?> dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <?= d.status ?>
+          </a>
+        
+          <div id="status-dropdown" class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuLink">
+            <? for (var s in statuses) { ?>
+              <a class="dropdown-item" style="cursor: pointer"><?= statuses[s] ?></a>
+          <? } ?>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <?!= include('viewDetails', d) ?>
+    <?!= include('viewPerfNotes', d) ?>
+    
+    <h2>Internal</h2>
+    <div>
+      <div class="row"><div class="col-sm-3"><strong>Pred. Bill Hrs.</strong></div><div class="col-sm-9"><?= d.predhrs ?></div></div>
+      <div class="row"><div class="col-sm-3"><strong>Time Log</strong></div><div class="col-sm-9" style="white-space: pre-wrap"><?= d.timelog ?></div></div>
+      <div class="row"><div class="col-sm-3"><strong>Internal Notes</strong></div><div class="col-sm-9" style="white-space: pre-wrap"><?= d.intnotes ?></div></div>
+    </div>
+    <h4 class="mt-3">Dates</h4>
+    <div class="row"><div class="col-sm-auto">
+      <table class="table table-sm table-hover">
+                  <tbody>
+                      <tr class="table-secondary">
+                          <th scope="col">Status</th>
+                          <th scope="col" class="text-right">Timestamp</th>
+                      </tr>
+                      <tr>
+                          <td>Received</td>
+                          <td class="text-right"><?= d.timestamp && d.timestamp.format(dtf) ?></td>
+                      </tr>
+                      <tr class="table-waiting">
+                          <td>Waiting for Start</td>
+                          <td class="text-right"><?= d.dWFS && d.dWFS.format(dtf) ?></td>
+                      </tr>
+                      <tr>
+                          <td>Files Available</td>
+                          <td class="text-right"><?= d.dFiles && d.dFiles.format(dtf) ?></td>
+                      </tr>
+                      <tr class="table-needsinfo">
+                          <td>Needs Information</td>
+                          <td class="text-right"><?= d.dNIF && d.dNIF.format(dtf) ?></td>
+                      </tr>
+                      <tr class="table-reviewed">
+                          <td>Reviewed</td>
+                          <td class="text-right"><?= d.dREV && d.dREV.format(dtf) ?></td>
+                      </tr>
+                      <tr class="table-assigned">
+                          <td>Assigned</td>
+                          <td class="text-right"><?= d.dASG && d.dASG.format(dtf) ?></td>
+                      </tr>
+                      <tr class="table-inprogress">
+                          <td>In-progress</td>
+                          <td class="text-right"><?= d.dINP && d.dINP.format(dtf) ?></td>
+                      </tr>
+                      <tr>
+                          <td>First Returned</td>
+                          <td class="text-right"><?= d.dRet && d.dRet.format(dtf) ?></td>
+                      </tr>
+                      <tr class="table-danger">
+                          <td>Unresolved Issues</td>
+                          <td class="text-right"><?= d.dUNR && d.dUNR.format(dtf) ?></td>
+                      </tr>
+                      <tr class="table-success">
+                          <td>Pending Confirmation</td>
+                          <td class="text-right"><?= d.dPND && d.dPND.format(dtf) ?></td>
+                      </tr>
+                      <tr class="table-warning">
+                          <td>On-hold</td>
+                          <td class="text-right"><?= d.dONH && d.dONH.format(dtf) ?></td>
+                      </tr>
+                      <tr>
+                          <td>On-hold Ended</td>
+                          <td class="text-right"><?= d.dONHend && d.dONHend.format(dtf) ?></td>
+                      </tr>
+                      <tr class="table-completed">
+                          <td>Completed</td>
+                          <td class="text-right"><?= d.dCPL && d.dCPL.format(dtf) ?></td>
+                      </tr>
+                      <tr>
+                          <td>Cancelled</td>
+                          <td class="text-right"><?= d.dCAN && d.dCAN.format(dtf) ?></td>
+                      </tr>
+                  </tbody>
+              </table>
+            </div>
+          </div>
+    <br><br>
+    
+    <? d.admin = true ?>
+    <?!= include('relReq', d) ?>
+</div>
+
+<?!= include('reviewModal', d) ?>
+<?!= include('readyModal') ?>
+
+<a href="<?=url?>?page=ViewAdmin&row=<?= d.row ?>" id="this-link" hidden></a>
+    
+<script>
+  function onReviewSuccess(msg) {
+    console.log("dash success");
+    // $('#modal-btn-update').prop("disabled",false);
+    // console.log(msg);
+    //var div = document.getElementById('output');
+    //div.innerHTML = "SUCCESS: " + msg;
+    
+    updateEvent(msg);
+    document.getElementById('this-link').click();
+  }
+  
+  function onReadySuccess(msg) {
+    console.log("dash success (row " + msg + ")");
+    document.getElementById('this-link').click();
+  }
+
+  function onViewSendSuccess(msg) {
+    console.log(msg);
+    $('#sendSummary').prop("disabled",false);
+        var div = document.getElementById('viewoutput');
+        div.innerHTML = "Update sent to " + msg + "!";
+         setTimeout(function(){
+           div.innerHTML = "";
+         }, 5000);
+        // div.innerHTML = "SUCCESS: " + msg;
+      }
+      
+  function onStatusSuccess(msg) {
+    console.log("Status changed to " + msg.st + "!")
+    
+    $("#status-text").text(msg.st).text(msg.st).removeClass("btn-success btn-danger btn-warning btn-outline-danger btn-outline-warning btn-outline-success btn-outline-dark btn-inprogress btn-assigned btn-completed").addClass(msg.cls.btn)
+    $("#status-dropdown").prev("a").text(msg.st).removeClass("disabled btn-success btn-danger btn-warning btn-outline-danger btn-outline-warning btn-outline-success btn-outline-dark btn-inprogress btn-assigned btn-completed").addClass(msg.cls.btn)
+    if (msg.code !== "WFS") {
+      $('#ready').prop("disabled",true);
+    } else {
+      $('#ready').prop("disabled",false);
+    }
+    
+    updateEvent(msg.row);
+  }
+  
+  function onStatusFailure(error, button) {
+    button.removeClass('disabled');
+    onFailure(error);
+  }
+
+  $( document ).ready(function() {
+    console.log( "ready!" );
+    
+    $('#sendSummary').click(function() {
+      console.log("sending summary...");
+      $(this).prop("disabled",true);
+      //google.script.run.doSomething();
+      google.script.run.withSuccessHandler(onViewSendSuccess).withFailureHandler(onFailure).withUserObject($(this)).sendSummaryRow(<?= d.row ?>);
+    });
+    
+    $('#status-dropdown a').click(function() {
+      var st = this.text;
+      var $button = $("#status-dropdown").prev("a");
+      $button.addClass('disabled');
+      
+      console.log("Please update status to " + st + "...");
+      
+      google.script.run.withSuccessHandler(onStatusSuccess).withFailureHandler(onStatusFailure).withUserObject($button).chgStatus(<?= d.row ?>, st);
+    });
+  });
+</script>

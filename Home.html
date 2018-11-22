@@ -1,0 +1,5 @@
+<? if(!(parseInt(data.role) === 0) && !data.view && data.asst || data.role == 1) { ?>
+     <?!= include('Dashboard', data); ?>
+  <? } else { ?>
+     <?!= include('Queue', data); ?>
+<?}?>

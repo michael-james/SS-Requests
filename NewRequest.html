@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <base target="_top">
+  </head>
+  <body>
+    	A new <strong><?= d.reqType ?></strong> screenshots request was submitted by <strong><?= d.requestor ?> (<?= d.office ?>)</strong> at <strong><?= d.dateTimeRec ?></strong>.
+        
+    <p><a href="<?=url?>?page=ViewAdmin&row=<?= d.row ?>">View</a></p>  
+    
+	<div>
+		<div>Client: <strong><?= d.client ?></strong></div>
+		<div>Protocol: <strong><?= d.protocol ?></strong></div>
+		<div>Device, Build: <strong><?= d.dvcbld ?></strong></div>
+		<div>Batch: <strong><?= d.batch ?></strong></div>
+	</div>
+	<div><br></div>
+	<div># Languages: <strong><?= d.langCnt ?></strong></div>
+	<div># Assessments: <strong><?= d.astCnt ?></strong></div>
+	<div>Est. Workbooks: <strong><?= d.estwkbks ?></strong></div>
+	<div><br></div>
+	<div>Languages: <strong><?= d.langs ?></strong></div>
+	<div>Copyrighted Assessments: <strong><?= d.cpyast ?></strong></div>
+	<div>Non-Copyrighted Assessments: <strong><?= d.nonast ?></strong></div>
+	<div><br></div>
+	<div>Hard Deadline: <strong><?= d.hardDue ?> (<?= d.daysDue ?>)</strong></div>
+	<div>Pref. Deadline: <strong><?= d.prefDue ?> (<?= d.daysPref ?>)</strong></div>
+	<div>Earliest Start: <strong><?= d.start ?> (<?= d.daysStart ?>)</strong></div>
+	<div><br></div>
+	<div>Additional Notes: <strong><?= d.addlnotes ?></strong></div>
+	<div><br></div>
+    <div>
+		<table border='1' style='border-collapse: collapse; border: none;'>
+			<tbody>
+				<tr>
+					<td style='overflow: hidden; padding: 2px 3px; background-color: rgb(217, 217, 217); font-weight: bold; border: 1px solid rgb(204, 204, 204);'>Status</td>
+					<td style='overflow: hidden; padding: 2px 3px; background-color: rgb(217, 217, 217); font-weight: bold; border: 1px solid rgb(204, 204, 204);'>Requests</td>
+				</tr>
+                <tr>
+					<td style='overflow: hidden; padding: 2px 3px; border: 1px solid rgb(204, 204, 204);'>Received</td>
+					<td style='overflow: hidden; padding: 2px 3px; border: 1px solid rgb(204, 204, 204);'><?= s.received || "" ?></td>
+				</tr>
+				<tr>
+					<td style='overflow: hidden; padding: 2px 3px; color: rgb(191, 144, 0); border: 1px solid rgb(204, 204, 204);'>Waiting for Start</td>
+					<td style='overflow: hidden; padding: 2px 3px; color: rgb(191, 144, 0); border: 1px solid rgb(204, 204, 204);'><?= s.waitingforstart || "" ?></td>
+				</tr>
+				<tr>
+					<td style='overflow: hidden; padding: 2px 3px; color: rgb(204, 0, 0); border: 1px solid rgb(204, 204, 204);'>Needs Information</td>
+					<td style='overflow: hidden; padding: 2px 3px; color: rgb(204, 0, 0); border: 1px solid rgb(204, 204, 204);'><?= s.needsinformation || "" ?></td>
+				</tr>
+                <tr>
+					<td style='overflow: hidden; padding: 2px 3px; color: rgb(106, 168, 79); border: 1px solid rgb(204, 204, 204);'>Reviewed</td>
+					<td style='overflow: hidden; padding: 2px 3px; color: rgb(106, 168, 79); border: 1px solid rgb(204, 204, 204);'><?= s.reviewed || "" ?></td>
+				</tr>
+				<tr>
+					<td style='overflow: hidden; padding: 2px 3px; color: rgb(246, 178, 107); border: 1px solid rgb(204, 204, 204);'>Assigned</td>
+					<td style='overflow: hidden; padding: 2px 3px; color: rgb(246, 178, 107); border: 1px solid rgb(204, 204, 204);'><?= s.assigned || "" ?></td>
+				</tr>
+				<tr>
+					<td style='overflow: hidden; padding: 2px 3px; background-color: rgb(252, 229, 205); border: 1px solid rgb(204, 204, 204);'>In-progress</td>
+					<td style='overflow: hidden; padding: 2px 3px; background-color: rgb(252, 229, 205); border: 1px solid rgb(204, 204, 204);'><?= s.inprogress || "" ?></td>
+				</tr>
+				<tr>
+					<td style='overflow: hidden; padding: 2px 3px; background-color: rgb(244, 204, 204); border: 1px solid rgb(204, 204, 204);'>Unresolved Issues</td>
+					<td style='overflow: hidden; padding: 2px 3px; background-color: rgb(244, 204, 204); border: 1px solid rgb(204, 204, 204);'><?= s.unresolvedissues || "" ?></td>
+				</tr>
+				<tr>
+					<td style='overflow: hidden; padding: 2px 3px; background-color: rgb(217, 234, 211); border: 1px solid rgb(204, 204, 204);'>Pending Confirmation</td>
+					<td style='overflow: hidden; padding: 2px 3px; background-color: rgb(217, 234, 211); border: 1px solid rgb(204, 204, 204);'><?= s.pendingconfirmation || "" ?></td>
+				</tr>
+				<!--<tr>
+					<td style='overflow: hidden; padding: 2px 3px; background-color: rgb(147, 196, 125); border: 1px solid rgb(204, 204, 204);'>Completed</td>
+					<td style='overflow: hidden; padding: 2px 3px; background-color: rgb(147, 196, 125); border: 1px solid rgb(204, 204, 204);'><?= s.completed || "" ?></td>
+				</tr>-->
+				<tr>
+					<td style='overflow: hidden; padding: 2px 3px; background-color: rgb(255, 242, 204); border: 1px solid rgb(204, 204, 204);'>On-hold</td>
+					<td style='overflow: hidden; padding: 2px 3px; background-color: rgb(255, 242, 204); border: 1px solid rgb(204, 204, 204);'><?= s.onhold || "" ?></td>
+				</tr>
+                <tr>
+					<td style='overflow: hidden; padding: 2px 3px; background-color: rgb(217, 217, 217); font-weight: bold; border: 1px solid rgb(204, 204, 204);'>Grand Total</td>
+					<td style='overflow: hidden; padding: 2px 3px; background-color: rgb(217, 217, 217); font-weight: bold; border: 1px solid rgb(204, 204, 204);'><?= s.grandtotal ?></td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+  </body>
+</html>
+
+

@@ -1,0 +1,38 @@
+    <h2>Related Requests</h2>
+    <table class="table table-sm table-striped table-hover table-responsive">
+      <thead>
+        <tr>
+          <th scope="col">Status</th>
+          <th scope="col">Date CPL</th>
+          <th scope="col">Asgd To</th>
+          <th scope="col">Type</th>
+          <th scope="col">Batch</th>
+          <th scope="col">Wkbks</th>
+          <th scope="col">TB Bd</th>
+          <th scope="col">HH Bd</th>
+          <th scope="col" style="width: 50%">Notes</th>
+        </tr>
+      </thead>
+      <tbody>
+<? var prev = getPrevReq(d.protocol, d.row);
+    if (prev.length == 0) { ?>
+      <tr>
+        <td align="center" colspan="9" class="py-4"><span class="text-muted">This study has no related requests.</span></td>
+      </tr>
+   <? } else {
+     for (var req in prev) {
+       var r = prev[req]; ?>
+        <tr>
+          <th scope="row"><a href="<?=url?>?page=<?= d.admin ? "ViewAdmin" : "View" ?>&row=<?= r.row ?>"><?= getStatusCode(r.status) ?></a></th>
+          <th scope="row"><?= r.datecpl && moment(r.datecpl).format(sdf) ?></th>
+          <td><?= r.asgdto ?></td>
+          <td><?= r.reqcode ?></td>
+          <td><?= r.batch ?></td>
+          <td><?= r.actwkbkcnt ?></td>
+          <td><?= r.tbsynbuildused ?></td>
+          <td><?= r.hhsynbuildused ?></td>
+          <td style="white-space: pre-wrap"><?= r.internalnotes ?></td>
+        </tr>
+<? } } ?>
+      </tbody>
+    </table>

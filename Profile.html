@@ -1,0 +1,38 @@
+<div class="container" style="padding-top:20px">
+  
+  <h1>My Profile</h1>
+  
+  <div class="row">
+    <div class="col-sm-auto">
+      <table class="table table-striped table-hover col-sm-auto">
+        <tbody>
+          <? Logger.log(data.u) ?>
+          <tr>
+            <th scope="row">Name</th>
+            <td><?= data.u.fname ?> <?= data.u.lname ?></td>
+          </tr>
+          <tr>
+            <th scope="row">Email</th>
+            <td><?= data.u.email ?></td>
+          </tr>
+          <tr>
+            <th scope="row">Office</th>
+            <td><?= data.u.office ?></td>
+          </tr>
+          <tr>
+            <th scope="row">Permission(s)</th>
+    
+            <? var p = "";
+            if (data.u.asst) { p += "Assistant"; }
+            if (data.u.lead) { p += (p ? ", " : "") + "Team Lead"; }
+            if (data.u.admin) { p += (p ? ", " : "") + "Admin"; }
+            if (!p && data.u.fname) { p = "Coordinator"; } ?>
+            
+            <td><?= p ?></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+</div>

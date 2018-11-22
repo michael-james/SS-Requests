@@ -1,0 +1,66 @@
+<?var fname = user().fname ?>
+<div class="container" style="padding-top:20px">
+        
+          <h1>My Activity</h1>
+          <h2>Logged Time</h2>
+
+          <div class="row"><div class="col-sm-auto">
+          <div class="table-responsive">
+            <table class="table table-hover">
+              <tr>
+                <th scope="col" class="text-muted bl">#</th>
+                <th scope="col">Req</th>
+                <th scope="col">Status</th>
+                <th scope="col" class=tb-bl>Requestor</th>
+                <th scope="col">Client</th>
+                <th scope="col">Protocol</th>
+                <th scope="col">Bill Hrs</th>
+                <th scope="col">Time Log</th>
+                <th scope="col" class="tb-bl tb-br"></th>
+              </tr>
+       <? var reqs = showMyLoggedTime();
+//          Logger.log(reqs);
+          for (var r = 1; r < reqs.length; r++) { 
+          var d = getRequestData(reqs, r, false, true, true);
+//          Logger.log("got d ....");
+//          Logger.log(d);
+          
+          var info = "<div class='row'><div class='col'>" +
+                     "<strong>Files Exp:</strong> <span style='font-size: 90%' class='badge " + urgency(d.daysStart, 'badge', 'success') + "'>" + (d.startDate && d.startDate.format(sdf)) + "</span>\n" +
+                     "<strong>Preferred:</strong> <span style='font-size: 90%' class='badge " + urgency(d.daysPref, 'badge', 'warning') + "'>" + (d.prefDueDate && d.prefDueDate.format(sdf)) + "</span>\n" +
+                     "<strong>Due:</strong> <span style='font-size: 90%' class='badge " + urgency(d.daysDue, 'badge', 'danger') + "'>" + (d.hardDueDate && d.hardDueDate.format(sdtf).slice(0, -1)) + "</span>\n" +
+                     "</div><div class='col' id='modal-table'><table><tr><th scope='col' colspan='2'>Related Requests</th></tr><tr><td colspan='2' class='text-muted'><em>Loading...</em></td></tr></table>" +
+                     "</div></div>\n" + 
+                     "<strong>ID:</strong> <span class='text-info'>" + d.id + "</span>\n" +
+                     "<strong>Batch:</strong> " + (d.batch || "") + "\n" +
+                     "<strong>Assessments:</strong> " + (d.cpyast || "") + " " + (d.nonast || "") + "\n" + 
+                     "<strong>Languages v0.01:</strong> " + (d.langsV001 || "") + "\n" +
+                     "<strong>Languages CR:</strong> " + (d.langsCR || "") ?>
+
+              <tr>
+                <td class="text-muted bl"><?= r ?></td>
+                <td><a data-toggle="tooltip" data-html="true" data-placement="right" title="<?= d.id ?>"><?= d.row ?></a></td>
+                <td><?= d.statusCode ?></td>
+                <td class=tb-bl><?= d.requestorNames && (d.requestorNames[0] + " " + d.requestorNames[1][0] + ".") ?></td>
+                <td><?= d.client ?></td>
+                <td><?= d.protocol ?></td>
+                <td><?= d.getByName("Bill Hrs") ?></td>
+                <td style="white-space: pre-wrap"><?= d.getByName("Time Log") ?></td>
+                <td class="tb-bl tb-br">
+                  <div class="btn-group btn-group-sm" role="group">
+                    <a class="btn btn-outline-secondary" href="<?=url?>?page=ViewAdmin&row=<?= d.row ?>">View</a>
+                    <!--<a class="btn btn-primary" href="<?=url?>?page=Perform&row=<?= d.row ?>">Perform</a>-->
+                  </div>
+                </td>
+              </tr>
+          <? } ?>
+            </table>
+          </div>
+          </div></div>
+    </div>
+    
+    <script>      
+      $(function () {
+        $('[data-toggle="tooltip"]').tooltip()
+      })
+    </script>

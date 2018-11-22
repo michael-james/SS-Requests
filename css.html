@@ -1,0 +1,278 @@
+<style type="text/css">
+  #status-dropdown a:not([href]):not([tabindex]) {
+    color: 
+  }
+
+  .table-inprogress {
+    background-color: rgb(252, 229, 205);
+  }
+  
+  .table-hover .table-inprogress:hover {
+    background-color: rgb(249, 209, 166);
+  }
+  
+  .table-reviewed {
+    color: rgb(106, 168, 79);
+  }
+  
+  .table-waiting {
+    color: rgb(191, 144, 0);
+  }
+  
+  .table-needsinfo {
+    color: rgb(204, 0, 0);
+  }
+  
+  .table-assigned {
+    color: rgb(246, 178, 107);
+  }
+  
+  .table-completed {
+    color: #fff;
+    background-color: #6aa84f;
+  }
+  
+  .table-hover .table-completed:hover {
+    background-color: #417729;
+  }
+  
+  .btn-inprogress {
+    color: #212529;
+    background-color: rgb(252, 229, 205);
+    border-color: #212529;
+  }
+  
+  .btn-inprogress:hover {
+    color: #212529;
+    background-color: rgb(249, 209, 166);
+    border-color: #fff;
+  }
+  
+  .btn-assigned {
+    color: rgb(246, 178, 107);
+    background-color: transparent;
+    border-color: rgb(246, 178, 107);
+    background-image: none;
+  }
+  
+  .btn-assigned:hover {
+    color: #212529;
+    background-color: rgb(246, 178, 107);
+    border-color: rgb(246, 178, 107);
+  }
+  
+  .btn-completed {
+    color: #fff;
+    background-color: #6aa84f;
+    border-color: #6aa84f;
+    background-image: none;
+  }
+  
+  .btn-completed:hover {
+    color: #fff;
+    background-color: #417729;
+    border-color: #417729;
+    background-image: none;
+  }
+  
+  .btn.status {
+    width: 50px;
+    height: 31px;
+  }
+  
+
+  .badge-outline-danger {
+    color: #dc3545;
+    border-color: #dc3545;
+    border-style: solid;
+    border-width: 2px;
+    margin-left: -2px;
+  }
+  
+  .badge-outline-warning {
+    color: #ffc107;
+    border-color: #ffc107;
+    border-style: solid;
+    border-width: 2px;
+    margin-left: -2px;
+  }
+  
+  .badge-outline-success {
+    color: #28a745;
+    border-color: #28a745;
+    border-style: solid;
+    border-width: 2px;
+    margin-left: -2px;
+  }
+  
+  .badge-outline-primary {
+    color: #007bff;
+    border-color: #007bff;
+    border-style: solid;
+    border-width: 2px;
+    margin-left: -2px;
+  }
+  
+  .badge-outline-info {
+    color: #17a2b8;
+    border-color: #17a2b8;
+    border-style: solid;
+    border-width: 2px;
+    margin-left: -2px;
+  }
+  
+  .badge-outline-dark {
+    color: #343a40;
+    border-color: #343a40;
+    border-style: solid;
+    border-width: 2px;
+    margin-left: -2px;
+  }
+  
+  .badge-outline-secondary {
+    color: #6c757d;
+    border-color: #6c757d;
+    border-style: solid;
+    border-width: 2px;
+    margin-left: -2px;
+  }
+  
+  .bdg-bdr {
+    border-style: solid;
+    border-width: 2px;
+  }
+    
+  .wrap {
+    white-space: pre-wrap;
+  }
+  
+  .fill-y { 
+    min-height: 100%;
+    height: 100%;
+  }
+  
+  .swatch-purple {
+    background-color: #6f42c1;
+    color: #fff;
+  }
+  
+  .swatch-pink {
+    background-color: #e83e8c;
+    color: #fff;
+  }
+  
+  .swatch-cyan {
+    background-color: #17a2b8;
+    color: #fff;
+  }
+  
+  .swatch-teal {
+    background-color: #20c997;
+    color: #fff;
+  }
+  
+  .swatch-orange {
+    background-color: #fd7e14;
+    color: #212529;
+  }
+  
+  .badge {
+    font-size: 100%;
+  }
+  
+  #view-details .badge {
+    margin-top: 2px;
+    margin-bottom: 2px;
+  }
+  
+
+@keyframes lds-ripple {
+  0% {
+    top: 96px;
+    left: 96px;
+    width: 0;
+    height: 0;
+    opacity: 1;
+  }
+  100% {
+    top: 18px;
+    left: 18px;
+    width: 156px;
+    height: 156px;
+    opacity: 0;
+  }
+}
+@-webkit-keyframes lds-ripple {
+  0% {
+    top: 96px;
+    left: 96px;
+    width: 0;
+    height: 0;
+    opacity: 1;
+  }
+  100% {
+    top: 18px;
+    left: 18px;
+    width: 156px;
+    height: 156px;
+    opacity: 0;
+  }
+}
+.lds-ripple {
+  position: relative;
+}
+.lds-ripple div {
+  box-sizing: content-box;
+  position: absolute;
+  border-width: 4px;
+  border-style: solid;
+  opacity: 1;
+  border-radius: 50%;
+  -webkit-animation: lds-ripple 1s cubic-bezier(0, 0.2, 0.8, 1) infinite;
+  animation: lds-ripple 1s cubic-bezier(0, 0.2, 0.8, 1) infinite;
+}
+.lds-ripple div:nth-child(1) {
+  border-color: #3be8b0;
+}
+.lds-ripple div:nth-child(2) {
+  border-color: #1aafd0;
+  -webkit-animation-delay: -0.5s;
+  animation-delay: -0.5s;
+}
+.lds-ripple {
+  width: 60px !important;
+  height: 60px !important;
+  -webkit-transform: translate(0, 0) scale(1) translate(-75%, -75%);
+  transform: translate(0, 0) scale(1) translate(-75%, -75%);
+}
+
+  .tooltip-inner {
+      white-space:pre-wrap;
+      /*max-width: none;*/
+  }
+  
+  .alert+.alert {
+    margin-top: 0.5em;
+  }
+  
+  .bold {
+    font-weight: bold;
+  }
+  
+  .tb-bl {
+    /*border-left: 2px solid #d6d8db;*/
+  }
+  
+  .tb-br {
+    /*border-right: 2px solid #d6d8db;*/
+  }
+  
+  .tb-b {
+    /*border-right: 2px solid #d6d8db;*/
+  }
+  
+  .du {
+    text-decoration: underline double;
+  }
+
+</style>

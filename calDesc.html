@@ -1,0 +1,33 @@
+<i><?= d.requestor ?> submitted a request for screenshots on <?= d.timestamp.format(ldf) + " at " + d.timestamp.format(tf) ?>.</i>
+
+STATUS: <strong><?= d.status.toUpperCase() ?></strong>
+<? if (d.asst) { ?>
+Assigned to: <strong><?= d.asst ?></strong>
+<? } ?>
+
+Client: <strong><?= d.client ?></strong>
+Protocol: <strong><?= d.protocol ?></strong>
+Device, Build: <strong><?= d.dvcbld ?></strong>
+Batch: <strong><?= d.batch ?></strong>
+Request Type: <strong><?= d.reqType ?></strong>
+
+Languages:
+<strong><?= d.langs ?></strong>
+
+Copyrighted Assessments:
+<strong><?= d.cpyast ?></strong>
+
+Non-Copyrighted Assessments:
+<strong><?= d.nonast ?></strong>
+
+Hard Deadline: <strong><?= d.hardDue ?></strong>
+Pref. Deadline: <strong><?= d.prefDue ?></strong>
+Earliest Start: <strong><?= d.start ?></strong>
+
+# Languages: <strong><?= d.langCnt ?></strong>
+# Assessments: <strong><?= d.astCnt ?></strong>
+Est. Workbooks: <strong><?= d.estwkbks ?></strong>
+Act. Workbooks: <strong><?= d.actwkbks ?></strong>
+
+Additional Notes:
+<strong><?= d.addlnotes ?></strong>
