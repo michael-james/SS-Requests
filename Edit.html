@@ -10,7 +10,7 @@
     <form>
       <input type="hidden" id="row" name="row">
       
-      <h3>Study Information</h3>
+      <h3 class="mt-3">Study Information</h3>
 
       <div class="row">
         <div class="form-group col-sm">
@@ -42,25 +42,26 @@
       </div>
       
       
-      <h3>Request Basics</h3>
+      <h3 class="mt-3">Request Basics</h3>
     
       <div class="row">
         <div class="form-group col">
           <label for="reqCode">Type</label>
           <select name="Req Code" id="reqCode" class="form-control" required>
+            <option selected disabled>enUS v1.00</option>
             <option value="enV1">enUS v1.00</option>
             <option value="enCR">enUS corrections</option>
             <option value="FLv1">foreign language v0.01</option>
             <option value="FLCR">foreign language corrections</option>
             <option value="FLCR">foreign language v0.01 and corrections</option>
-            <option value="OTH" selected>other</option>
+            <option value="OTH">other</option>
           </select>
         </div>
         <div class="form-group col-sm">
           <label for="batch">Batch</label>
           <input name="Batch #" type="text" class="form-control" id="batch">
           <small class="form-text text-muted">
-            If more than one, please separate with comma, such as: 1, 2
+            If more than one, separate by comma. <i>eg. 1, 2</i>
           </small>
         </div>
         <div class="form-group col-sm">
@@ -78,7 +79,7 @@
             <option value="enCR">Mapi</option>
             <option value="FLv1">RWS</option>
             <option value="FLCR">TPT</option>
-            <option value="FLCR">Other</option>
+            <option value="FLCR">other</option>
           </select>
         </div>
         
@@ -88,15 +89,14 @@
         <div class="form-group col">
           <label for="langsV001">Languages (v0.01)</label>
           <textarea class="form-control" name="Languages for v0.01" id="langsV001" rows="3"></textarea>
-        </div>
-        <div class="form-group col">
-          <label for="langsCR">Languages (corrections)</label>
-          <textarea class="form-control" name="Languages for corrections" id="langsCR" rows="3"></textarea>
+          <small class="form-text text-muted">
+            Please enter languages as their codes (preferred), such as nlBE, or language/country, such as Dutch (Belgium), separated by commas.
+          </small>
         </div>
       </div>
       <div class="row">
         <small class="form-text text-muted">
-          Please enter languages as their codes, such as nlBE, or language/country, such as Dutch (Belgium), separated by commas.
+          Please enter languages as their codes (preferred), such as nlBE, or language/country, such as Dutch (Belgium), separated by commas.
         </small>
       </div>
       <div class="row">
@@ -104,19 +104,19 @@
           <label for="cpyast">Copyrighted Assessments</label>
           <textarea class="form-control" name="Copyrighted assessments for this request" id="cpyast" rows="3"></textarea>
           <small class="form-text text-muted">
-            Please list the names of the copyrighted assessments, separated by commas.
+            Please use abbreviations when appropriate and separate by commas.
           </small>
         </div>
         <div class="form-group col">
           <label for="nonast">Non-Copyrighted Assessments</label>
           <textarea class="form-control" name="Non-copyrighted assessments for this request" id="nonast" rows="3"></textarea>
           <small class="form-text text-muted">
-            Please list the names of the non-copyrighted assessments, separated by commas.
+            Please use abbreviations when appropriate and separate by commas.
           </small>
         </div>
       </div>
 
-      <h4>Optional Details</h4>
+      <h4 class="mt-3">Optional Details</h4>
 
       <div class="row">
         <div class="form-group col-sm">
@@ -133,22 +133,25 @@
             We will use the latest build if none is specified.
           </small>
         </div>
-        <div class="form-group">
-          <div class="form-check form-check-inline">
+        <div class="row">
+          <div class="form-check col-sm-auto">
             <input class="form-check-input" name="Messageboxes screen capture required?" type="checkbox" id="msgbx" value="Yes">
             <label class="form-check-label" for="msgbx">Messagebox?</label>
-            <small class="form-text text-muted">
-              Please specify in "Additional Notes" which dialog screens are needed for this request or refer to a specific section of the template.
-            </small>
           </div>
-          <div class="form-check form-check-inline">
+          <small class="form-text text-muted col-sm">
+            Please specify in "Additional Notes" which dialog screens are needed for this request or refer to a specific section of the template.
+          </small>
+        </div>
+        <div class="row">
+          <div class="form-check col-sm-auto">
             <input class="form-check-input" name="Manual screenshots required?" type="checkbox" id="manscr" value="Yes">
             <label class="form-check-label" for="manscr">Manual scrolling?</label>
-            <small class="form-text text-muted">
-              Any screens that are not automatically captured, such as messages, reminders, etc. or assessments that require manual screenshots due to scrolling. Please specify in "Additional Notes" which assessments/screens may need to be captured manually.
-            </small>
           </div>
+          <small class="form-text text-muted col-sm">
+            Any screens that are not automatically captured, such as messages, reminders, etc. or assessments that require manual screenshots due to scrolling. Please specify in "Additional Notes" which assessments/screens may need to be captured manually.
+          </small>
         </div>
+      </div>
 
       </div>
       <div class="row">
@@ -159,7 +162,7 @@
       </div>
     
 
-      <h3>Timeline</h3>
+      <h3 class="mt-3">Timeline</h3>
 
       <div class="row">
         <div class="form-group col-sm">
@@ -191,33 +194,36 @@
       </div>
 
 
-      <h3>Additional Information</h3>
-
-      <div class="form-group">
-        <label for="actwkbks"># Excel files</label>
-        <input name="Act. Wkbk. Cnt." type="number" class="form-control" id="actwkbks">
-        <small class="form-text text-muted">
-          If the files for this request are already available, please enter the total number of Excel workbooks that will be created for this request (v0.01) or corrected for this request (CR).
-        </small>
-      </div>
-
-      <div class="form-group">
-        <label>File Preparation</label>
-        <small class="form-text text-muted">
-          All files needed for this request should be placed in the "<u>...\To Assistant\[expected start date]</u>" folder of the protocol's server folder. This includes JSONs and Excel workbooks from vendors.<br>
-          <i>eg. "<u>K:\Alexion\ALXN1210-PNH-303\Translations\To Assistant\2018.10.18</u>".</i><br><br>
-
-          The only exception to this is files that are generally relevant to the protocol's screenshot generation, such as the most recent macro template or naming convention text files, which should just be placed in "<u>...\To Assistant</u>".<br><br>
-
-          When the request is completed, files will be placed in a new folder named with the date the request was performed.<br>
-          <i>eg. "<u>...\From Assistant\2018.10.18 -- 87-FLCR-3</u>".</i>
-        </small>
-      </div>
-
+      <h3 class="mt-3">Additional Information</h3>
 
       <div class="row">
-        <h4>enV1 Details</h4>
+        <div class="form-group col-sm-3">
+          <label for="actwkbks"># Excel files</label>
+          <input name="Act. Wkbk. Cnt." type="number" class="form-control" id="actwkbks">
+          <small class="form-text text-muted">
+            If the files for this request are already available, please enter the total number of Excel workbooks that will be created for this request (v0.01) or corrected for this request (CR).
+          </small>
+        </div>
+
+        <div class="form-group col">
+          <label>File Preparation</label>
+          <small class="form-text text-muted">
+            <strong> To Assistant</strong><br>
+            Please place all files needed for this request (eg. JSONs and Excel workbooks) in the protocol's "<u>...\Translations\z - To Assistant\</u>"" folder on the server inside a folder named with the day the files became available for screenshot generation.<br>
+            eg. "<u>K:\Alexion\ALXN1210-PNH-303\Translations\z - To Assistant\2018.10.18</u>".<br><br>
+
+            <strong>Templates &amp; Naming Conventions</strong>
+            The only exception to this is files that are generally relevant to the protocol's screenshot generation, such as the most recent macro template or naming convention text files, which do not go inside of a date folder but instead just live in the "<u>...\z - To Assistant</u>" folder. Whenever we update the template, the latest version will go here.<br><br>
+
+            <strong>From Assistant</strong>
+            When the request is completed, files will be placed in a new folder named with the date the request was performed and a Request ID which is the [Request #]-[Request Type]-[Batch].<br>
+            eg. "<u>...\z - From Assistant\2018.10.18 -- 87-FLCR-3</u>".
+          </small>
+        </div>
       </div>
+
+
+      <h4 class="mt-3">enV1 Details</h4>
 
       <div class="form-group">
         <div class="form-check form-check-inline">
@@ -229,22 +235,31 @@
           <label class="form-check-label" for="tempNo">Use existing template</label>
         </div>
         <small class="form-text text-muted">
-          If you have an existing template, include the most recent version at the root of the "To Assistant" folder of your study.
+          If you have an existing template, include the most recent version at the root of the "<u>...\z - To Assistant</u>" folder of your study.
         </small>
       </div>
 
       <div class="form-group">
         <label for="naming">Naming Conventions</label>
-        <textarea class="form-control" name="Naming Conventions" id="naming" rows="3"></textarea>
         <small class="form-text text-muted">
-          Workbooks for <strong>copyrighted assessments</strong> will have 1) no AFFIDAVIT and 2) their filename will <strong>not</strong> include the client or protocol. Additionally, 3) we will add the assessment to the macro's list of copyrighted assessments.<br>
+          Workbooks for <strong>copyrighted assessments</strong> will have:
+          <ul>
+            <li>no AFFIDAVIT</li>
+            <li>filenames with <strong>without</strong> client name or protocol number</li>
+          </ul>
+          Additionally, we will add the assessment to the macro's list of copyrighted assessments.<br>
           <i>eg. EQ-5D-5L_eCOA Handheld_English (Singapore)_v0.02.xlsx</i><br><br>
 
-          Workbooks for <strong>non-copyrighted assessments</strong>strong> will have 1) an AFFIDAVIT screen and 2) filenames with the client and protocol.<br>
+          Workbooks for <strong>non-copyrighted assessments</strong>will have:
+            <ul>
+              <li>an AFFIDAVIT screen</li>
+              <li>filenames with the client name and protocol number</li>
+            </ul>
           <i>eg. Deciphera DCC-2618-03-002_eCOA Handheld_Training Module_English (Singapore)_v0.02.xlsx</i><br><br>
 
-          If your study includes involves any exceptions or to ensure the naming conventions for your template creation are correct, please specify any deviations from this standard or copy and paste the naming conventions for your assessments.
+          If your study requires deviations to these standards, please copy and paste the naming conventions here.
         </small>
+        <textarea class="form-control" name="Naming Conventions" id="naming" rows="3"></textarea>
       </div>
       
     </form>
