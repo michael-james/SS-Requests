@@ -210,78 +210,78 @@ function getRequestData(data, i, newReq, keepSt, filt) {
 
   rec(null, arguments.callee.name + " - prev info", d.row, null, t0);
 
-  if (newReq) {
-    sh.getRange(row, d.getColNumByName("row")).setValue(d.row);
+  // if (newReq) {
+  //   sh.getRange(row, d.getColNumByName("row")).setValue(d.row);
     
-    d.requestor = d.email.substr(0, d.email.indexOf("@")).replace(".", " ");
-    d.requestor = d.requestor && toTitleCase(d.requestor);
-    //d.daysDue = d.getByName("Hard Deadline") && daysTo(d.getByName("Hard Deadline")).toFixed(0);
-    //d.daysPref = d.getByName("Preferred Deadline") && daysTo(d.getByName("Preferred Deadline")).toFixed(0);
-    //d.daysStart = d.getByName("Expected Date Files Will Be Available") && daysTo(d.getByName("Expected Date Files Will Be Available")).toFixed(0);
+  //   d.requestor = d.email.substr(0, d.email.indexOf("@")).replace(".", " ");
+  //   d.requestor = d.requestor && toTitleCase(d.requestor);
+  //   //d.daysDue = d.getByName("Hard Deadline") && daysTo(d.getByName("Hard Deadline")).toFixed(0);
+  //   //d.daysPref = d.getByName("Preferred Deadline") && daysTo(d.getByName("Preferred Deadline")).toFixed(0);
+  //   //d.daysStart = d.getByName("Expected Date Files Will Be Available") && daysTo(d.getByName("Expected Date Files Will Be Available")).toFixed(0);
     
-    switch (d.reqType) {
-    case "enUS v1.00":
-        d.reqCode = "enV1";
-        break;
-    case "enUS corrections":
-        d.reqCode = "enCR";
-        break;
-    case "foreign language v0.01":
-        d.reqCode = "FLv1";
-        break;
-    case "foreign language corrections":
-        d.reqCode = "FLCR";
-        break;
-    case "foreign language v0.01 and corrections":
-        d.reqCode = "v1CR";
-        break;
-    default: 
-        d.reqCode = "OTH";
-    }
+  //   switch (d.reqType) {
+  //   case "enUS v1.00":
+  //       d.reqCode = "enV1";
+  //       break;
+  //   case "enUS corrections":
+  //       d.reqCode = "enCR";
+  //       break;
+  //   case "foreign language v0.01":
+  //       d.reqCode = "FLv1";
+  //       break;
+  //   case "foreign language corrections":
+  //       d.reqCode = "FLCR";
+  //       break;
+  //   case "foreign language v0.01 and corrections":
+  //       d.reqCode = "v1CR";
+  //       break;
+  //   default: 
+  //       d.reqCode = "OTH";
+  //   }
     
-    sh.getRange(row, d.getColNumByName("Req Code")).setValue(d.reqCode);
+  //   sh.getRange(row, d.getColNumByName("Req Code")).setValue(d.reqCode);
     
-    if (!keepSt) {
-      var today = new Date();
-      var diff = d.startDate && d.startDate.diff(moment(), 'days', true);
-      if (Math.ceil(diff) >= 1) {
-        d.status = "Waiting for Start";
-        var c = sh.getRange(row, d.getColNumByName("Date WFS"));
-        if (!c.getValue()) {c.setValue(today);}
-      } else {
-        d.status = "Received";
-        var c = sh.getRange(row, d.getColNumByName("Date Files"));
-        if (!c.getValue()) {c.setValue(today);}
-      }
-      console.log("moment (float - ceil): Starts %s in %s days (%s) so status is %s.", d.startDate.format(sdtf), Math.ceil(diff), diff, d.status);
-      sh.getRange(row, d.getColNumByName("Status")).setValue(d.status);
+  //   if (!keepSt) {
+  //     var today = new Date();
+  //     var diff = d.startDate && d.startDate.diff(moment(), 'days', true);
+  //     if (Math.ceil(diff) >= 1) {
+  //       d.status = "Waiting for Start";
+  //       var c = sh.getRange(row, d.getColNumByName("Date WFS"));
+  //       if (!c.getValue()) {c.setValue(today);}
+  //     } else {
+  //       d.status = "Received";
+  //       var c = sh.getRange(row, d.getColNumByName("Date Files"));
+  //       if (!c.getValue()) {c.setValue(today);}
+  //     }
+  //     console.log("moment (float - ceil): Starts %s in %s days (%s) so status is %s.", d.startDate.format(sdtf), Math.ceil(diff), diff, d.status);
+  //     sh.getRange(row, d.getColNumByName("Status")).setValue(d.status);
       
-      d.id = setReqID(d); 
-    }
+  //     d.id = setReqID(d); 
+  //   }
     
-    if (!isNaN(d.astCnt) && !isNaN(d.langCnt)) {
-      if (d.langCnt == 0) {
-        d.langCnt = 1;
-      }
-      d.estwkbks = (d.astCnt * d.langCnt).toFixed(0);
-    }
+  //   if (!isNaN(d.astCnt) && !isNaN(d.langCnt)) {
+  //     if (d.langCnt == 0) {
+  //       d.langCnt = 1;
+  //     }
+  //     d.estwkbks = (d.astCnt * d.langCnt).toFixed(0);
+  //   }
     
-    if (d.office == "Geneva") {
-    if (d.hardtime == "Open of Business") {
-        d.hardDueDate.hour(3);
-    } else {
-        d.hardDueDate.hour(11);
-    }
-  } else {
-    if (d.hardtime == "Open of Business") {
-        d.hardDueDate.hour(9);
-    } else {
-        d.hardDueDate.hour(17);
-    }
-  }
+  //   if (d.office == "Geneva") {
+  //     if (d.hardtime == "Open of Business") {
+  //         d.hardDueDate.hour(3);
+  //     } else {
+  //         d.hardDueDate.hour(11);
+  //     }
+  //   } else {
+  //     if (d.hardtime == "Open of Business") {
+  //         d.hardDueDate.hour(9);
+  //     } else {
+  //         d.hardDueDate.hour(17);
+  //     }
+  //   }
   
-  sh.getRange(row, d.getColNumByName("Hard Deadline")).setValue(d.hardDueDate.toDate());
-  }
+  //   sh.getRange(row, d.getColNumByName("Hard Deadline")).setValue(d.hardDueDate.toDate());
+  // }
   
   if (d.requestor) {
     d.requestorNames = d.requestor.split(" ");
