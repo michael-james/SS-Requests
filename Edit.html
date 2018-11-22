@@ -6,7 +6,7 @@
     <h1><span class="badge badge-primary">Edit</span> <span class="badge <?= typClass(d.reqCode) ?>"><?= d.reqCode ?></span> <?= d.client + ' ' + d.protocol + (d.batch && (' Batch ' + d.batch)) ?></h1>
     
     <div class="py-3">
-      <a id="view-link" class="btn btn-outline-secondary" href="<?=url?>?page=View<?= (data.asst || data.lead || data.admin) && "Admin" ?>&row=<?= d.row ?>">View</a>
+      <a id="view-link" class="btn btn-outline-secondary" href="<?=url?>?page=View<?= (data.asst || data.lead || data.admin) ? 'Admin' : '' ?>&row=<?= d.row ?>">View</a>
     </div>
  
     <form id="edit">
