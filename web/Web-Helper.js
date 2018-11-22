@@ -46,10 +46,14 @@ function doGet(e) {
   // return HtmlService.createTemplateFromFile(e.parameter['page']).evaluate();
   var data = {page: page, row: row, status: statuses[s], view: view, role: role, email: u.email, u: u, admin: u.admin, asst: u.asst, lead: u.lead};
   html.data = data;
+  // var favicon = "http://michael-james.github.io/ERT/ert-logo.png";
+  // var favicon = "http://michael-james.github.io/ERT/favicon.ico";
   var evalHTML = html.evaluate()
     .setTitle("SS Requests: " + page + (Boolean(row) ? (" " + row) : ""))
     .addMetaTag('viewport', 'width=device-width, initial-scale=1, shrink-to-fit=no');
+    // .setFaviconUrl(favicon);
   // console.timeEnd(timeLabel);
+  // console.log(evalHTML.getFaviconUrl());
 
   // var parameters = {
   //   message: 'perf',

@@ -45,6 +45,7 @@ function getRequestData(data, i, newReq, keepSt, filt) {
   var ss = SpreadsheetApp.openById(ssID);
   var sh = ss.getSheetByName("Queue");
   var newReq = newReq || false;
+  console.log("newReq is %s", newReq);
   var keepSt = keepSt || false;
   var rowOffset = filt ? 0 : headerRows;
   var row = filt ? data[i - rowOffset][getColNumByName(sh, "row") - 1] : i;
@@ -175,10 +176,10 @@ function getRequestData(data, i, newReq, keepSt, filt) {
   
   // Logger.log(d.status + ' - ' + d.client + ' ' + d.protocol)
   // metrics
-  d.daysDue = workdaysWhole(moment(), d.hardDueDate); // d.getByName("Days to DUE");
-  d.daysPref = workdays(moment(), d.prefDueDate); // d.getByName("Days to Pref");
-  d.daysStart = workdays(moment(), d.startDate);
-  d.daysExp = workdays(moment(), d.expRetDate); // d.getByName("Days to Start");
+  // d.daysDue = workdaysWhole(moment(), d.hardDueDate); // d.getByName("Days to DUE");
+  // d.daysPref = workdays(moment(), d.prefDueDate); // d.getByName("Days to Pref");
+  // d.daysStart = workdays(moment(), d.startDate);
+  // d.daysExp = workdays(moment(), d.expRetDate); // d.getByName("Days to Start");
   
   // details
   d.temp = d.getByName("Excel Macro template");
@@ -205,8 +206,9 @@ function getRequestData(data, i, newReq, keepSt, filt) {
   
   d.filesDate = d.dFiles ? d.dFiles : (d.startDate && d.startDate);
   // console.log("request %s: files ready/exp on %s", d.row, d.filesDate);
-  d.daysFiles = workdays(moment(), d.filesDate);
+  // d.daysFiles = workdays(moment(), d.filesDate);
 
+  rec(null, arguments.callee.name + " - prev info", d.row, null, t0);
 
   if (newReq) {
     sh.getRange(row, d.getColNumByName("row")).setValue(d.row);
