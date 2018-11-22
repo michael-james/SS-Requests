@@ -113,6 +113,7 @@
         <button id="go-view" class="btn btn-outline-secondary">Save &amp; View</button>
         <button id="go-send" class="btn btn-outline-success">Save &amp; Send</button>
         <span id="perfoutput" class="pl-3 text-success"></span>
+        <!-- <div id="perfoutput" class="pl-3 text-success" style="min-width: 75px; display: inline-block;"></div> -->
       </div>
       
       <div class="pt-1">
@@ -193,18 +194,18 @@
     
     <script>
       function onPerfSuccess(msg) {
-        $('#go').prop("disabled",false).removeClass('btn-warning');
+        $('#go, #go-view, #go-send').prop("disabled",false).removeClass('btn-warning');
         $('#perfoutput').removeClass("text-danger").addClass("text-success").text("Saved!").show();
         
         setTimeout(function(){
-          $('#perfoutput').hide()
+          $('#perfoutput').hide();
         }, 3000);
         
         window.removeEventListener("beforeunload", unload);
       }
       
       function onPerfSuccessView(msg) {
-        $('#go').removeClass('btn-warning');
+        $('#go, #go-view, #go-send').removeClass('btn-warning');
         window.removeEventListener("beforeunload", unload);
       
         document.getElementById('view-link').click();
@@ -214,7 +215,7 @@
         console.log(error.message);
         $('#perfoutput').removeClass("text-success").addClass("text-danger").text("Save Failed").show();
         
-        onFailure(error, $('#go'));
+        onFailure(error, $('#go, #go-view, #go-send'));
         
         setTimeout(function(){
           $('#perfoutput').hide()
@@ -257,19 +258,19 @@
           $('#jira').val(<?= d.jira ?>)
           
           $('#go').click(function() {
-            $(this).prop("disabled",true);
+            $('#go, #go-view, #go-send').prop("disabled",true);
             var val = $('form').serializeArray();
             google.script.run.withSuccessHandler(onPerfSuccess).withFailureHandler(onPerfFailure).processForm(val, null, null, "PerformSave");
           });
           
           $('#go-view').click(function() {
-            $(this).prop("disabled",true);
+            $('#go, #go-view, #go-send').prop("disabled",true);
             var val = $('form').serializeArray();
             google.script.run.withSuccessHandler(onPerfSuccessView).withFailureHandler(onPerfFailure).processForm(val, null, null, "PerformSaveView");
           });
           
           $('#go-send').click(function() {
-            $(this).prop("disabled",true);
+            $('#go, #go-view, #go-send').prop("disabled",true);
             var val = $('form').serializeArray();
             google.script.run.withSuccessHandler(onPerfSuccessView).withFailureHandler(onPerfFailure).processForm(val, true, null, "PerformSaveSend");
           });

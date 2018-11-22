@@ -1,29 +1,45 @@
 <? var d = getRequest(data.row); ?>
 
+<!-- messagebox?/manscr? do not update database properly - try putting them in groups but with hidden 'no' -->
+
 <div class="container" style="padding-top:20px">
-    <h1><span class="badge badge-primary">Perform</span> <span class="badge <?= typClass(d.reqCode) ?>"><?= d.reqCode ?></span> <?= d.client + ' ' + d.protocol + (d.batch && (' Batch ' + d.batch)) ?></h1>
+    <h1><span class="badge badge-primary">Edit</span> <span class="badge <?= typClass(d.reqCode) ?>"><?= d.reqCode ?></span> <?= d.client + ' ' + d.protocol + (d.batch && (' Batch ' + d.batch)) ?></h1>
     
     <div class="py-3">
       <a id="view-link" class="btn btn-outline-secondary" href="<?=url?>?page=View<?= (data.asst || data.lead || data.admin) && "Admin" ?>&row=<?= d.row ?>">View</a>
     </div>
  
-    <form>
-      <input type="hidden" id="row" name="row">
+    <form id="edit">
+      <input type="hidden" id="row" name="row" value="<?= d.row ?>">
       
-      <h3>Study Information</h3>
+      <h3 class="mt-3">Study Information</h3>
 
       <div class="row">
-        <div class="form-group col-sm">
+        <div class="form-group col-md-6 col-lg">
           <label for="client">Client</label>
-          <input name="Client" type="text" class="form-control" id="client">
+          <input name="Client" type="text" class="form-control" id="client" required>
         </div>
-        <div class="form-group col-sm">
+        <div class="form-group col-md-6 col-lg">
           <label for="protocol">Protocol</label>
           <input name="Protocol Number" type="text" class="form-control" id="protocol" required>
         </div>
-        <div class="form-group col">
-          <label for="server">Type</label>
+        <div class="form-group col-md-6 col-lg">
+          <label for="device">Device</label>
+          <select name=Device id="device" class="form-control" required>
+            <option selected disabled>(select a device)</option>
+            <option value="TB-syn">Tablet syndication</option>
+            <option value="HH-syn">Handheld syndication</option>
+            <option value="TB-syn, HH-syn">Tablet &amp; Handheld syndication</option>
+            <option value="SP 10">SitePad 10"</option>
+            <option value="SP 12">SitePad 12"</option>
+            <option value="LP E5">LogPad E5</option>
+            <option value="LP N5">LogPad N5</option>
+          </select>
+        </div>
+        <div class="form-group col-md-6 col-lg">
+          <label for="server">Server</label>
           <select name="Which server is this study on?" id="server" class="form-control" required>
+            <option selected disabled>(select a server)</option>
             <option value="K - fileserv">K - fileserv</option>
             <option value="G - genserv">G - genserv</option>
           </select>
@@ -31,128 +47,191 @@
       </div>
       
       
-      <h3>Request Basics</h3>
+      <h3 class="mt-3">Request Basics</h3>
     
       <div class="row">
-        <div class="form-group col">
+        <div class="form-group col-md-6 col-lg">
           <label for="reqCode">Type</label>
           <select name="Req Code" id="reqCode" class="form-control" required>
-            <option value="enV1">enV1</option>
-            <option value="enCR">enCR</option>
-            <option value="FLv1">FLv1</option>
-            <option value="FLCR">FLCR</option>
-            <option value="FLCR">v1CR</option>
-            <option value="OTH" selected>OTH</option>
+            <option selected disabled>(select a type)</option>
+            <option value="enV1">enUS v1.00</option>
+            <option value="enCR">enUS corrections</option>
+            <option value="FLv1">foreign language v0.01</option>
+            <option value="FLCR">foreign language corrections</option>
+            <option value="FLCR">foreign language v0.01 and corrections</option>
+            <option value="OTH">other</option>
           </select>
         </div>
-        <div class="form-group col-sm">
+        <div class="form-group col-md-6 col-lg">
           <label for="batch">Batch</label>
           <input name="Batch #" type="text" class="form-control" id="batch">
+          <small class="form-text text-muted">
+            If more than one, separate by comma. eg. 1, 2
+          </small>
         </div>
-        <div class="form-group col-sm">
+        <div class="form-group col-md-6 col-lg">
           <label for="langCnt"># Languages</label>
           <input name="# of languages/countries for this request" type="number" class="form-control" id="langCnt" required>
         </div>
-        <div class="form-group col-sm">
+        <div class="form-group col-md-6 col-lg">
           <label for="astCnt"># Assessments</label>
           <input name="# of assessments for this request" type="number" class="form-control" id="astCnt" required>
+        </div>
+        <div class="form-group col-md">
+          <label for="vend">Vendor</label>
+          <select name="Translations Vendor(s)" id="vend" class="form-control" required>
+            <option selected disabled>(select a vendor)</option>
+            <option value="ICON">ICON</option>
+            <option value="Mapi">Mapi</option>
+            <option value="RWS">RWS</option>
+            <option value="TPT">TPT</option>
+            <option value="other">other</option>
+          </select>
         </div>
         
       </div>
     
       <div class="row">
-        <div class="form-group col">
+        <div class="form-group col-sm">
           <label for="langsV001">Languages (v0.01)</label>
           <textarea class="form-control" name="Languages for v0.01" id="langsV001" rows="3"></textarea>
+          <small class="form-text text-muted">
+            Please enter languages as their codes (preferred), such as nlBE, or language/country, such as Dutch (Belgium), separated by commas.
+          </small>
         </div>
-        <div class="form-group col">
-          <label for="langsCR">Languages (corrections)</label>
+        <div class="form-group col-sm">
+          <label for="langsCR">Languages (CR)</label>
           <textarea class="form-control" name="Languages for corrections" id="langsCR" rows="3"></textarea>
+          <small class="form-text text-muted">
+            Please enter languages as their codes (preferred), such as nlBE, or language/country, such as Dutch (Belgium), separated by commas.
+          </small>
         </div>
       </div>
+
       <div class="row">
-        <div class="form-group col">
+        <div class="form-group col-sm">
           <label for="cpyast">Copyrighted Assessments</label>
           <textarea class="form-control" name="Copyrighted assessments for this request" id="cpyast" rows="3"></textarea>
+          <small class="form-text text-muted">
+            Please use abbreviations when appropriate and separate by commas.
+          </small>
         </div>
-        <div class="form-group col">
+        <div class="form-group col-sm">
           <label for="nonast">Non-Copyrighted Assessments</label>
           <textarea class="form-control" name="Non-copyrighted assessments for this request" id="nonast" rows="3"></textarea>
+          <small class="form-text text-muted">
+            Please use abbreviations when appropriate and separate by commas.
+          </small>
         </div>
       </div>
 
-      <h4>Optional Details</h4>
+      <h4 class="mt-3">Optional Details</h4>
 
       <div class="row">
-        <div class="form-group col-sm">
+        <div class="form-group col-sm-3">
           <label for="tbbuild">TB-syn Build</label>
           <input name="TB-syn Build #" type="text" class="form-control" id="tbbuild" placeholder="latest">
+          <small class="form-text text-muted">
+            We will use the latest build if none is specified.
+          </small>
         </div>
-        <div class="form-group col-sm">
+        <div class="form-group col-sm-3">
           <label for="hhbuild">HH-syn Build</label>
           <input name="HH-syn Build #" type="text" class="form-control" id="hhbuild" placeholder="latest">
+          <small class="form-text text-muted">
+            We will use the latest build if none is specified.
+          </small>
         </div>
-        <div class="form-group">
-          <div class="form-check form-check-inline">
+        <div class="form-group col-sm">
+          <div class="form-check form-control-inline">
             <input class="form-check-input" name="Messageboxes screen capture required?" type="checkbox" id="msgbx" value="Yes">
-            <label class="form-check-label" for="msgbx">Messagebox?</label>
+            <label class="form-check-label" for="msgbx">Messagebox screen capture required?</label>
           </div>
-          <div class="form-check form-check-inline">
+          <div class="form-check form-control-inline">
             <input class="form-check-input" name="Manual screenshots required?" type="checkbox" id="manscr" value="Yes">
-            <label class="form-check-label" for="manscr">Manual scrolling?</label>
+            <label class="form-check-label" for="manscr">Manual screen capture required?</label>
           </div>
+          <small style="padding-left: 20px;" class="form-text text-muted col-sm">
+            Please describe in detail any dialogs, manual screens (eg. reminders), or manual scrolling under "Additional Details". Any tips you can provide are valuable!
+          </small>
         </div>
-
       </div>
+
       <div class="row">
-        <div class="form-group col">
+        <div class="form-group col-sm">
           <label for="addlnotes">Additional Notes</label>
           <textarea class="form-control" name="Additional Notes" id="addlnotes" rows="3"></textarea>
+          <small class="form-text text-muted">
+            Please note any deviations from the request basics, such as assessments that are missing for certain languages or special circumstances, such as assessments that require STUDY.json resources. This is also the place to elaborate on other items.
+          </small>
         </div>
       </div>
     
 
-      <h3>Timeline</h3>
+      <h3 class="mt-3">Timeline</h3>
 
       <div class="row">
-        <div class="form-group col-sm-auto">
+        <div class="form-group col-md-6 col-lg">
           <label for="start">Files Expected</label>
-          <input name="Expected Date Files Will Be Available" type="date" class="form-control" id="start">
+          <input name="Expected Date Files Will Be Available" type="date" class="form-control" id="start" required>
+          <small class="form-text text-muted">
+            If the files are available now, enter today's date. 
+        </small>
         </div>
-        <div class="form-group col-sm-auto">
+        <div class="form-group col-md-6 col-lg">
           <label for="prefDue">Preferred</label>
           <input name="Preferred Deadline" type="date" class="form-control" id="prefDue">
         </div>
-        <div class="form-group col-sm-auto">
-          <label for="hardDue">Due Date</label>
+        <div class="form-group col-md-6 col-lg">
+          <label for="hardDue">Hard Deadline</label>
           <input name="Hard Deadline" type="date" class="form-control" id="hardDue" required>
         </div>
-        <div class="form-group col-sm">
-          <label for="hardtime">Due Time</label>
+        <div class="form-group col-md-6 col-lg">
+          <label for="hardtime">Hard Deadline Time of Day</label>
           <select name="Hard Deadline Time" id="hardtime" class="form-control" required>
-            <option value="Open of Business">Open OB</option>
-            <option value="Close of Business" selected>Close OB</option>
+            <option value="Open of Business">Open OB (9 am)</option>
+            <option value="Open of Business">Early afternoon (1 pm)</option>
+            <option value="Close of Business" selected>Close OB (5 pm)</option>
+            <small class="form-text text-muted">
+              The time of day you need the files based on the time zone of your office.
+            </small>
           </select>
         </div>
       </div>
 
 
-      <h3>Additional Information</h3>
-
-      <div class="form-group">
-        <label for="actwkbks"># Excel files</label>
-        <input name="Act. Wkbk. Cnt." type="number" class="form-control" id="actwkbks">
-        <small id="passwordHelpBlock" class="form-text text-muted">
-          If the files for this request are already available, please enter the number of Excel workbooks that will be created for this request (v0.01) or corrected for this request (CR).
-        </small>
-      </div>
-
+      <h3 class="mt-3">Additional Information</h3>
 
       <div class="row">
-        <h4>enV1 Details</h4>
+        <div class="form-group col-sm-3 col-lg-2">
+          <label for="actwkbks"># Excel workbooks</label>
+          <input name="Act. Wkbk. Cnt." type="number" class="form-control" id="actwkbks">
+          <small class="form-text text-muted">
+            If the files for this request are already available, please enter the total number of workbooks this request involves, whether that's creating v0.01 workbooks or reviewing corrections. A workbook is one Excel file.
+          </small>
+        </div>
+
+        <div class="form-group col-sm">
+          <label>File Preparation</label>
+          <small class="form-text text-muted">
+            <strong> To Assistant</strong><br>
+            Please place all files needed for this request (eg. JSONs and Excel workbooks) in the protocol's "<u>...\Translations\z - To Assistant\</u>"" folder on the server inside a folder named with the day the files became available for screenshot generation.<br>
+            eg. "<u>K:\Alexion\ALXN1210-PNH-303\Translations\z - To Assistant\2018.10.18</u>".<br><br>
+
+            <strong>Templates &amp; Naming Conventions</strong><br>
+            The only exception to this is files that are generally relevant to the protocol's screenshot generation, such as the most recent macro template or naming convention text files, which do not go inside of a date folder but instead just live in the "<u>...\z - To Assistant</u>" folder. Whenever we update the template, the latest version will go here.<br><br>
+
+            <strong>From Assistant</strong>
+            When the request is completed, files will be placed in a new folder named with the date the request was performed and a Request ID which is the [Request #]-[Request Type]-[Batch]. eg. "<u>...\z - From Assistant\2018.10.18 -- 87-FLCR-3</u>".
+          </small>
+        </div>
       </div>
 
+
+      <h4 class="mt-3">enUS v0.01 Details</h4>
+
       <div class="form-group">
+        <label for="naming">Excel Template</label><br>
         <div class="form-check form-check-inline">
           <input class="form-check-input" type="radio" name="Excel Macro template" id="tempYes" value="Create new template">
           <label class="form-check-label" for="tempYes">Create new template</label>
@@ -161,11 +240,205 @@
           <input class="form-check-input" type="radio" name="Excel Macro template" id="tempNo" value="Use existing template">
           <label class="form-check-label" for="tempNo">Use existing template</label>
         </div>
+        <small class="form-text text-muted">
+          If you have an existing template, include the most recent version at the root of the "<u>...\z - To Assistant</u>" folder of your study.<br>
+          If you want us to make the template, please add to "Additional Notes" any non-standard specifications, such as dialog boxes or combining multiple assessments in one sheet.
+        </small>
       </div>
 
-      <div class="form-group">
-        <label for="naming">Naming Conventions</label>
-        <textarea class="form-control" name="Naming Conventions" id="naming" rows="3"></textarea>
+      <div class="form-group" style="margin-bottom: 0">
+          <label for="naming">Naming Conventions</label>
       </div>
+      <div class="row">
+        <div class="col-lg-6 col-xl-auto">
+            <small class="form-text text-muted" style="margin-top: 0">
+              Copyrighted workbooks are added to the Excel macro. Workbooks for <strong>copyrighted assessments</strong> will have:
+              <ul style="margin-bottom: 0">
+                <li>no AFFIDAVIT screen</li>
+                <li>filenames <strong>without</strong> client name or protocol number</li>
+              </ul>
+              <i>eg. EQ-5D-5L_eCOA Handheld_English (Singapore)_v0.02.xlsx</i><br><br>
+
+              Workbooks for <strong>non-copyrighted assessments</strong>will have:
+              <ul style="margin-bottom: 0">
+                <li>an AFFIDAVIT screen</li>
+                <li>filenames <strong>with</strong> the client name and protocol number</li>
+              </ul>
+              <i>eg. Deciphera DCC-2618-03-002_eCOA Handheld_Training Module_English (Singapore)_v0.02.xlsx</i><br><br>
+
+              If your study requires deviation from these standards, please enter sample filenames for each assessment.
+            </small>
+          </div>
+          <div class="col-sm form-group">
+            <textarea class="form-control" style="font-size: 80%;" name="Naming Conventions" id="naming" rows="10" placeholder="eg. Deciphera DCC-2618-03-002_EQ-5D-5L_eCOA Handheld_English (Singapore)_v0.02.xlsx"></textarea>
+          </div>
+        </div>
+
+        <h3 class="mt-3">Request Updates</h3>
+
+        <div class="row">
+          <div class="form-group col-sm-6">
+            <label for="tcfdbk">Feedback</label>
+            <textarea class="form-control" name="TC Feedback" id="tcfdbk" rows="7"></textarea>
+          </div>
+
+          <div class="col-sm-6">
+            <div class="row" id="ONHWF">
+              <div class="form-group col">
+                <label for="waitfor"><span class="badge badge-warning">On-hold</span> What are we waiting for?</label>
+                <textarea class="form-control" name="On-Hold: Waiting For" id="waitfor" rows="3"></textarea>
+              </div>
+            </div>
+            <div class="row" id="JIRA">
+              <div class="form-group col">
+                <label for="jira">Associated JIRA Defects</label>
+                <textarea class="form-control" name="Associated JIRA Defects" id="jira" rows="2"></textarea>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+
+      <div>
+        <button id="go" class="btn btn-primary">Save</button>
+        <button id="go-view" class="btn btn-outline-secondary">Save &amp; View</button>
+        <!-- <button id="go-send" class="btn btn-outline-success">Save &amp; Send</button> -->
+        <span id="perfoutput" class="pl-3 text-success"></span>
+      </div>
+
+    </div> <!-- container -->
+
+
+  <script>
+      function onEditSuccess(msg) {
+        $('#go, #go-view').prop("disabled",false).removeClass('btn-warning');
+        $('#perfoutput').removeClass("text-danger").addClass("text-success").text("Saved!").show();
+        
+        setTimeout(function(){
+          $('#perfoutput').hide()
+        }, 3000);
+        
+        window.removeEventListener("beforeunload", unload);
+      }
       
-    </form>
+      function onEditSuccessView(msg) {
+        $('#go, #go-view').removeClass('btn-warning');
+        window.removeEventListener("beforeunload", unload);
+      
+        document.getElementById('view-link').click();
+      }
+      
+      function onEditFailure(error) {
+        console.log(error.message);
+        $('#perfoutput').removeClass("text-success").addClass("text-danger").text("Save Failed").show();
+        
+        onFailure(error, $('#go, #go-view'));
+        
+        setTimeout(function(){
+          $('#perfoutput').hide()
+        }, 3000);
+      }
+      
+      $( document ).ready(function() {
+          console.log( "ready!" );
+          
+          // Study Information
+          $('#client').val(<?= d.client ?>);
+          $('#protocol').val(<?= d.protocol ?>);
+          if (<?= d.device ?>) {
+            $('#device').val(<?= d.device ?>);
+          }
+          if (<?= d.server ?>) {
+            $('#server').val(<?= d.server ?>);
+          }
+
+          console.log("device: " + <?= d.device ?>);
+
+          // Request Basics
+          console.log("reqCode: " + <?= d.reqCode ?>);
+          if (<?= d.reqCode ?>) {
+            $('#reqCode').val(<?= d.reqCode ?>);
+          }
+          $('#batch').val(<?= d.batch ?>);
+          $('#langCnt').val(<?= d.langCnt ?>);
+          $('#astCnt').val(<?= d.astCnt ?>);
+          if (<?= d.vend ?>) {
+            $('#vend').val(<?= d.vend ?>);
+          }
+          $('#langsV001').val(<?= d.langsV001 ?>);
+          $('#langsCR').val(<?= d.langsCR ?>);
+          $('#cpyast').val(<?= d.cpyast ?>);
+          $('#nonast').val(<?= d.nonast ?>);
+
+          // Optional Details
+          $('#tbbuild').val(<?= d.TBbld ?>);
+          $('#hhbuild').val(<?= d.HHbld ?>);
+
+          if (<?= d.msgbx ?> == "Yes") {
+            $('#msgbx').prop('checked', true);
+          }
+
+          if (<?= d.manscr ?> == "Yes") {
+            $('#manscr').prop('checked', true);
+          }
+
+          $('#addlnotes').val(<?= d.addlnotes ?>);
+
+          // Timeline
+          $('#start').val(<?= d.startDateForm ?>);
+          $('#prefDue').val(<?= d.prefDueDateForm ?>);
+          $('#hardDue').val(<?= d.hardDueDateForm ?>);
+          if (<?= d.hardtime ?>) {
+            $('#hardtime').val(<?= d.hardtime ?>);
+          }
+
+          // Additional Information
+          $('#actwkbks').val(<?= d.actwkbks ?>);
+          if (<?= d.temp ?> == "Create new template") {
+            $('#tempYes').prop('checked', true);
+          } else if (<?= d.temp ?> == "Use existing template") {
+            $('#tempNo').prop('checked', true);
+          }
+          $('#naming').val(<?= d.naming ?>);
+
+          // Request Updates
+          $('#tcfdbk').val(<?= d.tcfdbk ?>);
+          $('#waitfor').val(<?= d.waitfor ?>);
+          $('#jira').val(<?= d.jira ?>);
+
+
+          
+          $('#go').click(function() {
+            var $form = $('form#edit');
+            if ($form.get(0).reportValidity()) {
+              $('#go, #go-view').prop("disabled", true);
+              var val = $form.serializeArray();
+              google.script.run.withSuccessHandler(onEditSuccess).withFailureHandler(onEditFailure).processForm(val, null, null, "EditSave");
+            }
+          });
+          
+          $('#go-view').click(function() {
+            var $form = $('form#edit');
+            if ($form.get(0).reportValidity()) {
+              $('#go, #go-view').prop("disabled",true);
+              var val = $form.serializeArray();
+              google.script.run.withSuccessHandler(onEditSuccessView).withFailureHandler(onEditFailure).processForm(val, null, null, "EditSaveView");
+            }
+          });
+          
+          // $('#go-send').click(function() {
+          //   $(this).prop("disabled",true);
+          //   var val = $('form').serializeArray();
+          //   google.script.run.withSuccessHandler(onPerfSuccessView).withFailureHandler(onPerfFailure).processForm(val, true, null, "PerformSaveSend");
+          // });
+                    
+          $('input, textarea, select').change(function() {
+            $('#go').addClass("btn-warning");
+            console.log('changed!');
+            
+            window.addEventListener("beforeunload", unload);
+          });
+      });
+      
+    </script>
+</div>

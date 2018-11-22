@@ -76,7 +76,7 @@ function getRequestData(data, i, newReq, keepSt, filt) {
   d.client = d.getByName("Client") || "";
   d.protocol = d.getByName("Protocol Number") || "";
   d.batch = d.getByName("Batch #") || "";
-  d.reqCode = d.getByName("Req Code") || "OTH";
+  d.reqCode = d.getByName("Req Code") || "";
   d.email = d.getByName("Email Address") || "";
   d.requestor = d.getByName("Requestor") || "";
   d.office = d.getByName("Your Office") || "";
@@ -97,13 +97,13 @@ function getRequestData(data, i, newReq, keepSt, filt) {
   
   // device & build
   var dvcbld = "";
-  var device = d.getByName("Device");
+  d.device = d.getByName("Device");
   d.TBbld = d.getByName("TB-syn Build #");
   d.HHbld = d.getByName("HH-syn Build #");
   d.TBbldused = d.getByName("TB-syn Build # Used");
   d.HHbldused = d.getByName("HH-syn Build # Used");
-  if (device) {
-    if (device.indexOf("TB-syn")>-1) {
+  if (d.device) {
+    if (d.device.indexOf("TB-syn")>-1) {
       dvcbld += "TB-syn";
       if (d.TBbld) {
         dvcbld += " build " + d.TBbld;
@@ -112,10 +112,10 @@ function getRequestData(data, i, newReq, keepSt, filt) {
         dvcbld += " (used " + d.TBbldused + ")";
       }
     }
-    if (device.indexOf(",")>-1) {
+    if (d.device.indexOf(",")>-1) {
       dvcbld += ",\n"
     }
-    if (device.indexOf("HH-syn")>-1) {
+    if (d.device.indexOf("HH-syn")>-1) {
       dvcbld += "HH-syn";
       if (d.HHbld) {
         dvcbld += " build " + d.HHbld;
@@ -139,7 +139,7 @@ function getRequestData(data, i, newReq, keepSt, filt) {
   d.startDate = d.getByName("Expected Date Files Will Be Available") && moment(d.getByName("Expected Date Files Will Be Available"));
   d.start = d.startDate && d.startDate.format(df) || "";
   d.expRetDate = d.getByName("Exp First Rtrn Date") && moment(d.getByName("Exp First Rtrn Date"));
-  d.startDateForm = d.startDateDue && d.startDateDue.format(dfform);
+  d.startDateForm = d.startDate && d.startDate.format(dfform);
   d.prefDueDateForm = d.prefDueDate && d.prefDueDate.format(dfform);
   d.hardDueDateForm = d.hardDueDate && d.hardDueDate.format(dfform);
   d.expRetDateForm = d.expRetDate && d.expRetDate.format(dfform);
