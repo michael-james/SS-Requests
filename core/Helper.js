@@ -97,13 +97,13 @@ function getRequestData(data, i, newReq, keepSt, filt) {
   
   // device & build
   var dvcbld = "";
-  d.device = d.getByName("Device");
+  var device = d.getByName("Device");
   d.TBbld = d.getByName("TB-syn Build #");
   d.HHbld = d.getByName("HH-syn Build #");
   d.TBbldused = d.getByName("TB-syn Build # Used");
   d.HHbldused = d.getByName("HH-syn Build # Used");
   if (device) {
-    if (d.device.indexOf("TB-syn")>-1) {
+    if (device.indexOf("TB-syn")>-1) {
       dvcbld += "TB-syn";
       if (d.TBbld) {
         dvcbld += " build " + d.TBbld;
@@ -112,10 +112,10 @@ function getRequestData(data, i, newReq, keepSt, filt) {
         dvcbld += " (used " + d.TBbldused + ")";
       }
     }
-    if (d.device.indexOf(",")>-1) {
+    if (device.indexOf(",")>-1) {
       dvcbld += ",\n"
     }
-    if (d.device.indexOf("HH-syn")>-1) {
+    if (device.indexOf("HH-syn")>-1) {
       dvcbld += "HH-syn";
       if (d.HHbld) {
         dvcbld += " build " + d.HHbld;
@@ -261,7 +261,19 @@ function getRequestData(data, i, newReq, keepSt, filt) {
       d.estwkbks = (d.astCnt * d.langCnt).toFixed(0);
     }
     
-    d.hardDueDate = getHardDueTime(d.office, d.hardDueDate, d.hardtime);
+    if (d.office == "Geneva") {
+    if (d.hardtime == "Open of Business") {
+        d.hardDueDate.hour(3);
+    } else {
+        d.hardDueDate.hour(11);
+    }
+  } else {
+    if (d.hardtime == "Open of Business") {
+        d.hardDueDate.hour(9);
+    } else {
+        d.hardDueDate.hour(17);
+    }
+  }
   
   sh.getRange(row, d.getColNumByName("Hard Deadline")).setValue(d.hardDueDate.toDate());
   }
@@ -421,34 +433,6 @@ function testWorkdays() {
   var t2 = moment("11/29/2018 17:00:00");
   Logger.log(workdays(moment(), t1));
   Logger.log(workdays(moment(), t2));
-}
-
-function getHardDueTime(office, harddate, hardtime) {
-  if (office == "Geneva") {
-    switch (hardtime) {
-    case "Open of Business":
-      harddate.hour(3);
-      break;
-    case "Early afternoon":
-      harddate.hour(7);
-      break;
-    default:
-      harddate.hour(11);
-    }
-  } else {
-    switch (hardtime) {
-    case "Open of Business":
-      harddate.hour(9);
-      break;
-    case "Early afternoon":
-      harddate.hour(13);
-      break;
-    default:
-      harddate.hour(17);
-    }
-  }
-
-  return harddate
 }
 
 function showAlert(msg) {
