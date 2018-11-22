@@ -24,6 +24,7 @@
         <div class="form-group col">
           <label for="vend">Device</label>
           <select name="Translations Vendor(s)" id="vend" class="form-control" required>
+            <option selected disabled>(select a device)</option>
             <option value="TB-syn">Tablet syndication</option>
             <option value="HH-syn">Handheld syndication</option>
             <option value="SP 10">SitePad 10"</option>
@@ -35,6 +36,7 @@
         <div class="form-group col">
           <label for="server">Server</label>
           <select name="Which server is this study on?" id="server" class="form-control" required>
+            <option selected disabled>(select a server)</option>
             <option value="K - fileserv">K - fileserv</option>
             <option value="G - genserv">G - genserv</option>
           </select>
@@ -48,7 +50,7 @@
         <div class="form-group col">
           <label for="reqCode">Type</label>
           <select name="Req Code" id="reqCode" class="form-control" required>
-            <option selected disabled>enUS v1.00</option>
+            <option selected disabled>(select a type)</option>
             <option value="enV1">enUS v1.00</option>
             <option value="enCR">enUS corrections</option>
             <option value="FLv1">foreign language v0.01</option>
@@ -75,6 +77,7 @@
         <div class="form-group col">
           <label for="vend">Vendor</label>
           <select name="Translations Vendor(s)" id="vend" class="form-control" required>
+            <option selected disabled>(select a vendor)</option>
             <option value="enV1">ICON</option>
             <option value="enCR">Mapi</option>
             <option value="FLv1">RWS</option>
@@ -139,14 +142,14 @@
         <div class="form-group col-sm">
           <div class="form-check form-control-inline">
             <input class="form-check-input" name="Messageboxes screen capture required?" type="checkbox" id="msgbx" value="Yes">
-            <label class="form-check-label" for="msgbx">Messagebox?</label>
+            <label class="form-check-label" for="msgbx">Messagebox screen capture required?</label>
           </div>
           <div class="form-check form-control-inline">
             <input class="form-check-input" name="Manual screenshots required?" type="checkbox" id="manscr" value="Yes">
-            <label class="form-check-label" for="manscr">Manual scrolling?</label>
+            <label class="form-check-label" for="manscr">Manual screen capture required?</label>
           </div>
           <small style="padding-left: 20px;" class="form-text text-muted col-sm">
-            Please describe in detail any dialogs, manual screens (eg. reminders), or manual scrolling under "Additional Details". Any tips you can provide are valuable.
+            Please describe in detail any dialogs, manual screens (eg. reminders), or manual scrolling under "Additional Details". Any tips you can provide are valuable!
           </small>
         </div>
       </div>
@@ -155,7 +158,7 @@
         <div class="form-group col">
           <label for="addlnotes">Additional Notes</label>
           <textarea class="form-control" name="Additional Notes" id="addlnotes" rows="3"></textarea>
-          <small style="padding-left: 20px;" class="form-text text-muted col-sm">
+          <small class="form-text text-muted col-sm">
             Please note any deviations from the request basics, such as assessments that are missing for certain languages or special circumstances, such as assessments that require STUDY.json resources. This is also the place to elaborate on other items.
           </small>
         </div>
@@ -185,7 +188,7 @@
           <select name="Hard Deadline Time" id="hardtime" class="form-control" required>
             <option value="Open of Business">Open OB (9 am)</option>
             <option value="Open of Business">Midday (1 pm)</option>
-            <option value="Close of Business" selected>Close OB (5 pm)</option>
+            <option value="Close of Business">Close OB (5 pm)</option>
             <small class="form-text text-muted">
               The time of day you need the files based on the time zone of your office.
             </small>
@@ -209,7 +212,8 @@
           <label>File Preparation</label>
           <small class="form-text text-muted">
             <strong> To Assistant</strong><br>
-            Please place all files needed for this request (eg. JSONs and Excel workbooks) in the protocol's "<u>...\Translations\z - To Assistant\</u>"" folder on the server inside a folder named with the day the files became available for screenshot generation. eg. "<u>K:\Alexion\ALXN1210-PNH-303\Translations\z - To Assistant\2018.10.18</u>".<br><br>
+            Please place all files needed for this request (eg. JSONs and Excel workbooks) in the protocol's "<u>...\Translations\z - To Assistant\</u>"" folder on the server inside a folder named with the day the files became available for screenshot generation.<br>
+            eg. "<u>K:\Alexion\ALXN1210-PNH-303\Translations\z - To Assistant\2018.10.18</u>".<br><br>
 
             <strong>Templates &amp; Naming Conventions</strong><br>
             The only exception to this is files that are generally relevant to the protocol's screenshot generation, such as the most recent macro template or naming convention text files, which do not go inside of a date folder but instead just live in the "<u>...\z - To Assistant</u>" folder. Whenever we update the template, the latest version will go here.<br><br>
@@ -240,14 +244,16 @@
       </div>
 
       <div class="row">
-        <label for="naming">Naming Conventions</label>
+        <div class="form-group">
+          <label for="naming">Naming Conventions</label>
+        </div>
       </div>
       <div class="row">
-        <div class="col-sm-8">
+        <div class="col-sm-auto">
             <small class="form-text text-muted">
               Copyrighted workbooks are added to the Excel macro. Workbooks for <strong>copyrighted assessments</strong> will have:
               <ul style="margin-bottom: 0">
-                <li>no AFFIDAVIT</li>
+                <li>no AFFIDAVIT screen</li>
                 <li>filenames <strong>without</strong> client name or protocol number</li>
               </ul>
               <i>eg. EQ-5D-5L_eCOA Handheld_English (Singapore)_v0.02.xlsx</i><br><br>
@@ -255,15 +261,15 @@
               Workbooks for <strong>non-copyrighted assessments</strong>will have:
               <ul style="margin-bottom: 0">
                 <li>an AFFIDAVIT screen</li>
-                <li>filenames with the client name and protocol number</li>
+                <li>filenames <strong>with</strong> the client name and protocol number</li>
               </ul>
               <i>eg. Deciphera DCC-2618-03-002_eCOA Handheld_Training Module_English (Singapore)_v0.02.xlsx</i><br><br>
 
-              If your study requires deviations to these standards, please copy and paste the naming conventions here.
+              If your study requires deviations to these standards, please enter sample filenames for each assessment.
             </small>
           </div>
           <div class="col-sm">
-            <textarea class="form-control" name="Naming Conventions" id="naming" rows="8"></textarea>
+            <textarea class="form-control" name="Naming Conventions" id="naming" rows="8" placeholder="Deciphera DCC-2618-03-002_EQ-5D-5L_eCOA Handheld_English (Singapore)_v0.02.xlsx"></textarea>
           </div>
         </div>
       </div>
