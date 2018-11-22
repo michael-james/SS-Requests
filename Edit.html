@@ -13,15 +13,15 @@
       <h3 class="mt-3">Study Information</h3>
 
       <div class="row">
-        <div class="form-group col-sm">
+        <div class="form-group col-sm col-md-6">
           <label for="client">Client</label>
           <input name="Client" type="text" class="form-control" id="client" required>
         </div>
-        <div class="form-group col-sm">
+        <div class="form-group col-sm col-md-6">
           <label for="protocol">Protocol</label>
           <input name="Protocol Number" type="text" class="form-control" id="protocol" required>
         </div>
-        <div class="form-group col">
+        <div class="form-group col-sm col-md-6">
           <label for="vend">Device</label>
           <select name="Translations Vendor(s)" id="vend" class="form-control" required>
             <option selected disabled>(select a device)</option>
@@ -33,7 +33,7 @@
             <option value="LP N5">LogPad N5</option>
           </select>
         </div>
-        <div class="form-group col">
+        <div class="form-group col-sm col-md-6">
           <label for="server">Server</label>
           <select name="Which server is this study on?" id="server" class="form-control" required>
             <option selected disabled>(select a server)</option>
@@ -47,7 +47,7 @@
       <h3 class="mt-3">Request Basics</h3>
     
       <div class="row">
-        <div class="form-group col">
+        <div class="form-group col-sm col-md-6">
           <label for="reqCode">Type</label>
           <select name="Req Code" id="reqCode" class="form-control" required>
             <option selected disabled>(select a type)</option>
@@ -59,22 +59,22 @@
             <option value="OTH">other</option>
           </select>
         </div>
-        <div class="form-group col-sm">
+        <div class="form-group col-sm col-md-6">
           <label for="batch">Batch</label>
           <input name="Batch #" type="text" class="form-control" id="batch">
           <small class="form-text text-muted">
             If more than one, separate by comma. eg. 1, 2
           </small>
         </div>
-        <div class="form-group col-sm">
+        <div class="form-group col-sm col-md-6">
           <label for="langCnt"># Languages</label>
           <input name="# of languages/countries for this request" type="number" class="form-control" id="langCnt" required>
         </div>
-        <div class="form-group col-sm">
+        <div class="form-group col-sm col-md-6">
           <label for="astCnt"># Assessments</label>
           <input name="# of assessments for this request" type="number" class="form-control" id="astCnt" required>
         </div>
-        <div class="form-group col">
+        <div class="form-group col-md">
           <label for="vend">Vendor</label>
           <select name="Translations Vendor(s)" id="vend" class="form-control" required>
             <option selected disabled>(select a vendor)</option>
@@ -89,14 +89,14 @@
       </div>
     
       <div class="row">
-        <div class="form-group col">
+        <div class="form-group col-sm">
           <label for="langsV001">Languages (v0.01)</label>
           <textarea class="form-control" name="Languages for v0.01" id="langsV001" rows="3"></textarea>
           <small class="form-text text-muted">
             Please enter languages as their codes (preferred), such as nlBE, or language/country, such as Dutch (Belgium), separated by commas.
           </small>
         </div>
-        <div class="form-group col">
+        <div class="form-group col-sm">
           <label for="langsCR">Languages (CR)</label>
           <textarea class="form-control" name="Languages for corrections" id="langsCR" rows="3"></textarea>
           <small class="form-text text-muted">
@@ -106,14 +106,14 @@
       </div>
 
       <div class="row">
-        <div class="form-group col">
+        <div class="form-group col-sm">
           <label for="cpyast">Copyrighted Assessments</label>
           <textarea class="form-control" name="Copyrighted assessments for this request" id="cpyast" rows="3"></textarea>
           <small class="form-text text-muted">
             Please use abbreviations when appropriate and separate by commas.
           </small>
         </div>
-        <div class="form-group col">
+        <div class="form-group col-sm">
           <label for="nonast">Non-Copyrighted Assessments</label>
           <textarea class="form-control" name="Non-copyrighted assessments for this request" id="nonast" rows="3"></textarea>
           <small class="form-text text-muted">
@@ -155,7 +155,7 @@
       </div>
 
       <div class="row">
-        <div class="form-group col">
+        <div class="form-group col-sm">
           <label for="addlnotes">Additional Notes</label>
           <textarea class="form-control" name="Additional Notes" id="addlnotes" rows="3"></textarea>
           <small class="form-text text-muted">
@@ -201,7 +201,7 @@
       <h3 class="mt-3">Additional Information</h3>
 
       <div class="row">
-        <div class="form-group col-sm-2">
+        <div class="form-group col-sm-3 col-lg-2">
           <label for="actwkbks"># Excel workbooks</label>
           <input name="Act. Wkbk. Cnt." type="number" class="form-control" id="actwkbks">
           <small class="form-text text-muted">
@@ -209,7 +209,7 @@
           </small>
         </div>
 
-        <div class="form-group col">
+        <div class="form-group col-sm">
           <label>File Preparation</label>
           <small class="form-text text-muted">
             <strong> To Assistant</strong><br>
@@ -248,7 +248,7 @@
           <label for="naming">Naming Conventions</label>
       </div>
       <div class="row">
-        <div class="col-sm-auto">
+        <div class="col-lg-6 col-xl-auto">
             <small class="form-text text-muted" style="margin-top: 0">
               Copyrighted workbooks are added to the Excel macro. Workbooks for <strong>copyrighted assessments</strong> will have:
               <ul style="margin-bottom: 0">
@@ -267,46 +267,44 @@
               If your study requires deviation from these standards, please enter sample filenames for each assessment.
             </small>
           </div>
-          <div class="col-sm">
+          <div class="col-sm form-group">
             <textarea class="form-control" style="font-size: 80%;" name="Naming Conventions" id="naming" rows="10" placeholder="eg. Deciphera DCC-2618-03-002_EQ-5D-5L_eCOA Handheld_English (Singapore)_v0.02.xlsx"></textarea>
           </div>
         </div>
-      </div>
 
-      <h3 class="mt-3">Request Updates</h3>
+        <h3 class="mt-3">Request Updates</h3>
 
-      <div class="form-row">
-        <div class="form-group col-sm-6">
-          <label for="tcfdbk">Feedback</label>
-          <textarea class="form-control" name="TC Feedback" id="tcfdbk" rows="7"></textarea>
-        </div>
+        <div class="form-row">
+          <div class="form-group col-sm-6">
+            <label for="tcfdbk">Feedback</label>
+            <textarea class="form-control" name="TC Feedback" id="tcfdbk" rows="7"></textarea>
+          </div>
 
-        <div class="col-sm-6">
-          <div class="form-row" id="ONHWF" style="display: none;">
-            <div class="form-group col">
-              <label for="waitfor"><span class="badge badge-warning">On-hold</span> What are we waiting for?</label>
-              <textarea class="form-control" name="On-Hold: Waiting For" id="waitfor" rows="3"></textarea>
+          <div class="col-sm-6">
+            <div class="form-row" id="ONHWF">
+              <div class="form-group col">
+                <label for="waitfor"><span class="badge badge-warning">On-hold</span> What are we waiting for?</label>
+                <textarea class="form-control" name="On-Hold: Waiting For" id="waitfor" rows="3"></textarea>
+              </div>
+            </div>
+            <div class="form-row" id="JIRA">
+              <div class="form-group col">
+                <label for="jira">Associated JIRA Defects</label>
+                <textarea class="form-control" name="Associated JIRA Defects" id="jira" rows="2"></textarea>
+              </div>
             </div>
           </div>
-          <div class="form-row" id="JIRA">
-            <div class="form-group col">
-              <label for="jira">Associated JIRA Defects</label>
-              <textarea class="form-control" name="Associated JIRA Defects" id="jira" rows="2"></textarea>
-            </div>
+
+          <div>
+            <button id="go" class="btn btn-primary">Save</button>
+            <button id="go-view" class="btn btn-outline-secondary">Save &amp; View</button>
+            <!-- <button id="go-send" class="btn btn-outline-success">Save &amp; Send</button> -->
+            <span id="perfoutput" class="pl-3 text-success"></span>
           </div>
-        </div>
-      </div>
 
-    </form>
+        </form>
 
-  <div>
-    <button id="go" class="btn btn-primary">Save</button>
-    <button id="go-view" class="btn btn-outline-secondary">Save &amp; View</button>
-    <!-- <button id="go-send" class="btn btn-outline-success">Save &amp; Send</button> -->
-    <span id="perfoutput" class="pl-3 text-success"></span>
-  </div>
-  
-</div> <!-- container -->
+      </div> <!-- container -->
 
 
 <!--   <script>
