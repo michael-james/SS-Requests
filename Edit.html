@@ -22,8 +22,8 @@
           <input name="Protocol Number" type="text" class="form-control" id="protocol" required>
         </div>
         <div class="form-group col-md-6 col-lg">
-          <label for="vend">Device</label>
-          <select name="Translations Vendor(s)" id="vend" class="form-control" required>
+          <label for="device">Device</label>
+          <select name=Device id="device" class="form-control" required>
             <option selected disabled>(select a device)</option>
             <option value="TB-syn">Tablet syndication</option>
             <option value="HH-syn">Handheld syndication</option>
@@ -78,11 +78,11 @@
           <label for="vend">Vendor</label>
           <select name="Translations Vendor(s)" id="vend" class="form-control" required>
             <option selected disabled>(select a vendor)</option>
-            <option value="enV1">ICON</option>
-            <option value="enCR">Mapi</option>
-            <option value="FLv1">RWS</option>
-            <option value="FLCR">TPT</option>
-            <option value="FLCR">other</option>
+            <option value="ICON">ICON</option>
+            <option value="Mapi">Mapi</option>
+            <option value="RWS">RWS</option>
+            <option value="TPT">TPT</option>
+            <option value="other">other</option>
           </select>
         </div>
         
@@ -341,45 +341,54 @@
       $( document ).ready(function() {
           console.log( "ready!" );
           
-          // // Study Information
-          // $('#client').val(<?= d.client ?>);
-          // $('#protocol').val(<?= d.protocol ?>);
-          // $('#device').val(<?= d.device ?>);
-          // $('#server').val(<?= d.server ?>);
-          // $('#langCnt').val(<?= d.langCnt ?>);
-          // $('#astCnt').val(<?= d.astCnt ?>);
+          // Study Information
+          $('#client').val(<?= d.client ?>);
+          $('#protocol').val(<?= d.protocol ?>);
+          $('#device').val(<?= d.device ?>);
+          $('#server').val(<?= d.server ?>);
 
-          // // Request Basics
-          // $('#reqCode').val(<?= d.reqCode ?>);
-          // $('#batch').val(<?= d.batch ?>);
-          // $('#langsV001').val(<?= d.langsV001 ?>);
-          // $('#langsCR').val(<?= d.langsCR ?>);
-          // $('#cpyast').val(<?= d.cpyast ?>);
-          // $('#nonast').val(<?= d.nonast ?>);
+          // Request Basics
+          $('#reqCode').val(<?= d.reqCode ?>);
+          $('#batch').val(<?= d.batch ?>);
+          $('#langCnt').val(<?= d.langCnt ?>);
+          $('#astCnt').val(<?= d.astCnt ?>);
+          $('#langsV001').val(<?= d.langsV001 ?>);
+          $('#langsCR').val(<?= d.langsCR ?>);
+          $('#cpyast').val(<?= d.cpyast ?>);
+          $('#nonast').val(<?= d.nonast ?>);
 
-          // // Optional Details
-          // $('#tbbuild').val(<?= d.TBbldused ?>);
-          // $('#hhbuild').val(<?= d.HHbldused ?>);
-          // $('#msgbx').val(<?= d.msgbx ?>);
-          // $('#manscr').val(<?= d.manscr ?>);
-          // $('addlnotes').val(<?= d.addlnotes ?>);
+          // Optional Details
+          $('#tbbuild').val(<?= d.TBbld ?>);
+          $('#hhbuild').val(<?= d.HHbld ?>);
 
-          // // Timeline
-          // $('#prefDue').val(<?= d.startDueDateForm ?>);
-          // $('#prefDue').val(<?= d.prefDueDateForm ?>);
-          // $('#hardDue').val(<?= d.hardDueDateForm ?>);
-          // $('#hardtime').val(<?= d.hardtime ?>);
+          if (d.msgbx == "Yes") {
+            $('#msgbx').prop('checked', true);
+          }
+
+          if (d.msgbx == "Yes") {
+            $('#manscr').prop('checked', true);
+          }
+
+          $('#addlnotes').val(<?= d.addlnotes ?>);
+
+          // Timeline
+          $('#start').val(<?= d.startDueDateForm ?>);
+          $('#prefDue').val(<?= d.prefDueDateForm ?>);
+          $('#hardDue').val(<?= d.hardDueDateForm ?>);
+          $('#hardtime').val(<?= d.hardtime ?>);
 
 
-          // // Additional Information
-          // $('#actwkbks').val(<?= d.actwkbks ?>);
-          // $('#temp').val(<?= d.temp ?>);
-          // $('#naming').val(<?= d.naming ?>);
+          // Additional Information
+          $('#actwkbks').val(<?= d.actwkbks ?>);
+          if (d.temp == "Create new template") {
+            $('#tempYes').prop('checked', true);
+          }
+          $('#naming').val(<?= d.naming ?>);
 
-          // // Request Updates
-          // $('#tcfdbk').val(<?= d.tcfdbk ?>);
-          // $('#waitfor').val(<?= d.waitfor ?>);
-          // $('#jira').val(<?= d.jira ?>);
+          // Request Updates
+          $('#tcfdbk').val(<?= d.tcfdbk ?>);
+          $('#waitfor').val(<?= d.waitfor ?>);
+          $('#jira').val(<?= d.jira ?>);
 
           
           // $('#go').click(function() {
