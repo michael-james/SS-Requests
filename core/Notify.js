@@ -4,7 +4,6 @@ function newRequest(e) {
   var sh = ss.getSheetByName("Queue")
   var id = sh.getRange(row, getColNumByName(sh, "ID")).getValue();
   var d = getRequest(row, !id);
-  rec('',arguments.callee.name,row);
   sendNewRequest(d);
   updateEvent(d);
   //Utilities.sleep(1200);
@@ -33,7 +32,7 @@ function sendNewRequest(d) {
   
   d.ss.toast(d.client + ' ' + d.protocol + (d.batch && (' Batch ' + d.batch)) + ' - ' + d.reqCode + " - Due: " + d.hardDue, 'New Request Notification Sent');
   
-  rec(null, arguments.callee.name, d.row, null, t0);
+  var dur = new Date().getTime() - t0.getTime(); console.log({ message: Utilities.formatString('perf: %s %s %sms', arguments.callee.name, (typeof page !== 'undefined') && page, dur), func: "doGet", row: (typeof row !== 'undefined') && row, page: (typeof page !== 'undefined') && page, source: (typeof source !== 'undefined') && source, dur: dur, user: user().email});
   
 //  Logger.log(t.getCode());
 //  Logger.log(t.evaluate().getContent());

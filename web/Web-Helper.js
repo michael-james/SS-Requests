@@ -55,7 +55,7 @@ function doGet(e) {
   // console.timeEnd(timeLabel);
   // console.log(evalHTML.getFaviconUrl());
 
-  var dur = new Date().getTime() - t0.getTime(); console.log({ message: Utilities.formatString('perf: %s %s %sms', arguments.callee.name, page && page, dur), func: "doGet", row: row && row, page: page && page, source: source && source, dur: dur});
+  var dur = new Date().getTime() - t0.getTime(); console.log({ message: Utilities.formatString('perf: %s %s %sms', arguments.callee.name, (typeof page !== 'undefined') && page, dur), func: "doGet", row: (typeof row !== 'undefined') && row, page: (typeof page !== 'undefined') && page, source: (typeof source !== 'undefined') && source, dur: dur, user: user().email});
   // rec(page, null, row, null, t0);
 
   return evalHTML;
@@ -166,7 +166,7 @@ function chgStatus(row, newStatus) {
           break;
       }
       
-      rec(null, arguments.callee.name, row, null, t0);
+      var dur = new Date().getTime() - t0.getTime(); console.log({ message: Utilities.formatString('perf: %s %s %sms', arguments.callee.name, (typeof page !== 'undefined') && page, dur), func: "doGet", row: (typeof row !== 'undefined') && row, page: (typeof page !== 'undefined') && page, source: (typeof source !== 'undefined') && source, dur: dur, user: user().email});
       return { st: newStatus, cls: stCls(newStatus), row: row, code: getStatusCode(newStatus) }
     } catch (e) {
       throwAlert(e, "Request status not changed.");

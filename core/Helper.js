@@ -290,6 +290,7 @@ function getRequestData(data, i, newReq, keepSt, filt) {
   d.statusCode = getStatusCode(d.status);
   
   // rec(null, arguments.callee.name, d.row, null, t0);
+  var dur = new Date().getTime() - t0.getTime(); console.log({ message: Utilities.formatString('perf: %s %s %sms', arguments.callee.name, (typeof page !== 'undefined') && page, dur), func: "doGet", row: (typeof row !== 'undefined') && row, page: (typeof page !== 'undefined') && page, source: (typeof source !== 'undefined') && source, dur: dur, user: user().email});
   return d;
 }
 
