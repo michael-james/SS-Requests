@@ -55,9 +55,9 @@ function getRequestData(data, i, newReq, keepSt, filt) {
     row:   row,
     getByName: function(colName) {
       var col = data[0].indexOf(colName); //1 for column names
-      Logger.log("%s is col %s and its value in row %s (array row %s) is...", colName, col, row, i);
+      // Logger.log("%s is col %s and its value in row %s (array row %s) is...", colName, col, row, i);
       if (col != -1) {
-        Logger.log(data);
+        // Logger.log(data);
         return data[i - rowOffset][col];
       }
       //Logger.log(" is %s", i, data[i - rowOffset][col]);
@@ -146,6 +146,7 @@ function getRequestData(data, i, newReq, keepSt, filt) {
   d.expRetDateForm = d.expRetDate && d.expRetDate.format(dfform);
   
   //Logger.log('\nHard Due: ' + d.hardDue + '\nPref Due: ' + d.prefDue + '\n Start: ' + d.start);
+  rec(null, arguments.callee.name + " - basics", d.row, null, t0);
   
   // Work Summary
   d.status = d.getByName("Status") || "";
@@ -205,7 +206,8 @@ function getRequestData(data, i, newReq, keepSt, filt) {
   d.filesDate = d.dFiles ? d.dFiles : (d.startDate && d.startDate);
   // console.log("request %s: files ready/exp on %s", d.row, d.filesDate);
   d.daysFiles = workdays(moment(), d.filesDate);
-  
+
+
   if (newReq) {
     sh.getRange(row, d.getColNumByName("row")).setValue(d.row);
     
