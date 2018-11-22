@@ -12,6 +12,7 @@ function newRequest(e) {
 }
 
 function sendNewRequest(d) {
+  var t0 = new Date();
   var s = getRequestsSummary();
     
   var t = HtmlService.createTemplateFromFile('NewRequest');
@@ -32,7 +33,7 @@ function sendNewRequest(d) {
   
   d.ss.toast(d.client + ' ' + d.protocol + (d.batch && (' Batch ' + d.batch)) + ' - ' + d.reqCode + " - Due: " + d.hardDue, 'New Request Notification Sent');
   
-  rec('',arguments.callee.name,d.row);
+  rec(null, arguments.callee.name, d.row, null, t0);
   
 //  Logger.log(t.getCode());
 //  Logger.log(t.evaluate().getContent());
