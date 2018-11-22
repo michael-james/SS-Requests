@@ -17,14 +17,16 @@
             <table class="table table-sm table-hover">
               <thead>
                 <tr>
-                  <th scope="col" colspan="4">Current</th>
+                  <th scope="col" colspan="<?= if (data.view == 'all') ? 3 :4 ?>">Current</th>
                   <th scope="col" colspan="5">Dates</th>
                   <th scope="col" colspan="4">About</th>
                   <th scope="col" colspan="4">Workload</th>
                   <th scope="col">Actions</th>
                 </tr>
                 <tr>
+                <? if (data.view !== 'all') { ?>
                   <th scope="col" class="text-muted">#</th>
+                <? } ?>
                   <th scope="col">Req</th>
                   <th scope="col">Status</th>
                   <th scope="col">Assignee</th>
@@ -58,7 +60,9 @@
           
           ?>  
                 <tr class="req-row <?= stCls(d.status).tbl ?> mix category-<?= (d.email == data.email) && 'myreqs' ?>" data-email="<?= d.email ?>" data-order="<?= r ?>">
+                <? if (data.view !== 'all') { ?>
                   <td class="text-muted"><?= r ?></td>
+                <? } ?>
                   <td><a data-toggle="tooltip" data-placement="right" title="<?= d.id ?>"><?= d.row ?></a></td>
                   
               <? Logger.log(d.email);
