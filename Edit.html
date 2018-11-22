@@ -101,11 +101,7 @@
           </small>
         </div>
       </div>
-      <div class="row">
-        <small class="form-text text-muted">
-          Please enter languages as their codes (preferred), such as nlBE, or language/country, such as Dutch (Belgium), separated by commas.
-        </small>
-      </div>
+
       <div class="row">
         <div class="form-group col">
           <label for="cpyast">Copyrighted Assessments</label>
@@ -126,37 +122,42 @@
       <h4 class="mt-3">Optional Details</h4>
 
       <div class="row">
-        <div class="form-group col-sm">
+        <div class="form-group col-sm-3">
           <label for="tbbuild">TB-syn Build</label>
           <input name="TB-syn Build #" type="text" class="form-control" id="tbbuild" placeholder="latest">
           <small class="form-text text-muted">
             We will use the latest build if none is specified.
           </small>
         </div>
-        <div class="form-group col-sm">
+        <div class="form-group col-sm-3">
           <label for="hhbuild">HH-syn Build</label>
           <input name="HH-syn Build #" type="text" class="form-control" id="hhbuild" placeholder="latest">
           <small class="form-text text-muted">
             We will use the latest build if none is specified.
           </small>
         </div>
+        <div class="form-group col-sm">
+          <div class="form-check form-control-inline">
+            <input class="form-check-input" name="Messageboxes screen capture required?" type="checkbox" id="msgbx" value="Yes">
+            <label class="form-check-label" for="msgbx">Messagebox?</label>
+          </div>
+          <div class="form-check form-control-inline">
+            <input class="form-check-input" name="Manual screenshots required?" type="checkbox" id="manscr" value="Yes">
+            <label class="form-check-label" for="manscr">Manual scrolling?</label>
+          </div>
+          <small class="form-text text-muted col-sm">
+            Please describe in detail any dialogs, manual screens (eg. reminders), or manual scrolling under "Additional Details". Any tips you can provide are valuable.
+          </small>
+        </div>
       </div>
       <div class="row">
-        <div class="form-check col-sm-auto">
-          <input class="form-check-input" name="Messageboxes screen capture required?" type="checkbox" id="msgbx" value="Yes">
-          <label class="form-check-label" for="msgbx">Messagebox?</label>
-        </div>
-        <small class="form-text text-muted col-sm">
-          Please specify in "Additional Notes" which dialog screens are needed for this request or refer to a specific section of the template.
-        </small>
+        
+        
       </div>
       <div class="row">
-        <div class="form-check col-sm-auto">
-          <input class="form-check-input" name="Manual screenshots required?" type="checkbox" id="manscr" value="Yes">
-          <label class="form-check-label" for="manscr">Manual scrolling?</label>
-        </div>
+        
         <small class="form-text text-muted col-sm">
-          Any screens that are not automatically captured, such as messages, reminders, etc. or assessments that require manual screenshots due to scrolling. Please specify in "Additional Notes" which assessments/screens may need to be captured manually.
+          
         </small>
       </div>
 
@@ -231,6 +232,7 @@
       <h4 class="mt-3">enV1 Details</h4>
 
       <div class="form-group">
+        <label for="naming">Excel Template</label>
         <div class="form-check form-check-inline">
           <input class="form-check-input" type="radio" name="Excel Macro template" id="tempYes" value="Create new template">
           <label class="form-check-label" for="tempYes">Create new template</label>
@@ -240,7 +242,7 @@
           <label class="form-check-label" for="tempNo">Use existing template</label>
         </div>
         <small class="form-text text-muted">
-          If you have an existing template, include the most recent version at the root of the "<u>...\z - To Assistant</u>" folder of your study.
+          If you have an existing template, include the most recent version at the root of the "<u>...\z - To Assistant</u>" folder of your study. If you want us to make the template, please add to "Additional Notes" any non-standard specifications, such as dialog boxes or combining multiple assessments in one sheet.
         </small>
       </div>
 
