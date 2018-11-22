@@ -55,17 +55,8 @@ function doGet(e) {
   // console.timeEnd(timeLabel);
   // console.log(evalHTML.getFaviconUrl());
 
-  // var parameters = {
-  //   message: 'perf',
-  //   func: "doGet",
-  //   row: row,
-  //   content: page,
-  //   t0: t0,
-  //   t1: t1,
-  //   dur: dur
-  // };
-  // console.log(parameters);
-  rec(page, null, row, null, t0);
+  var dur = new Date().getTime() - t0.getTime(); console.log({ message: Utilities.formatString('perf: %s %s %sms', arguments.callee.name, page && page, dur), func: "doGet", row: row && row, page: page && page, source: source && source, dur: dur});
+  // rec(page, null, row, null, t0);
 
   return evalHTML;
 }

@@ -45,7 +45,7 @@ function getRequestData(data, i, newReq, keepSt, filt) {
   var ss = SpreadsheetApp.openById(ssID);
   var sh = ss.getSheetByName("Queue");
   var newReq = newReq || false;
-  console.log("newReq is %s", newReq);
+  // console.log("newReq is %s", newReq);
   var keepSt = keepSt || false;
   var rowOffset = filt ? 0 : headerRows;
   var row = filt ? data[i - rowOffset][getColNumByName(sh, "row") - 1] : i;
@@ -147,7 +147,7 @@ function getRequestData(data, i, newReq, keepSt, filt) {
   d.expRetDateForm = d.expRetDate && d.expRetDate.format(dfform);
   
   //Logger.log('\nHard Due: ' + d.hardDue + '\nPref Due: ' + d.prefDue + '\n Start: ' + d.start);
-  rec(null, arguments.callee.name + " - basics", d.row, null, t0);
+  // rec(null, arguments.callee.name + " - basics", d.row, null, t0);
   
   // Work Summary
   d.status = d.getByName("Status") || "";
@@ -208,7 +208,7 @@ function getRequestData(data, i, newReq, keepSt, filt) {
   // console.log("request %s: files ready/exp on %s", d.row, d.filesDate);
   // d.daysFiles = workdays(moment(), d.filesDate);
 
-  rec(null, arguments.callee.name + " - prev info", d.row, null, t0);
+  // rec(null, arguments.callee.name + " - prev info", d.row, null, t0);
 
   // if (newReq) {
   //   sh.getRange(row, d.getColNumByName("row")).setValue(d.row);
@@ -289,7 +289,7 @@ function getRequestData(data, i, newReq, keepSt, filt) {
   
   d.statusCode = getStatusCode(d.status);
   
-  rec(null, arguments.callee.name, d.row, null, t0);
+  // rec(null, arguments.callee.name, d.row, null, t0);
   return d;
 }
 
