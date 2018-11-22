@@ -198,10 +198,10 @@
 
       <div class="row">
         <div class="form-group col-sm-2">
-          <label for="actwkbks"># Excel files</label>
+          <label for="actwkbks"># Excel workbooks</label>
           <input name="Act. Wkbk. Cnt." type="number" class="form-control" id="actwkbks">
           <small class="form-text text-muted">
-            If the files for this request are already available, please enter the total number of Excel workbooks that will be created for this request (v0.01) or corrected for this request (CR).
+            If the files for this request are already available, please enter the total number of Excel workbooks that will be created for this request (v0.01) or corrected for this request (CR). A workbook is one Excel file.
           </small>
         </div>
 
@@ -221,10 +221,10 @@
       </div>
 
 
-      <h4 class="mt-3">enV1 Details</h4>
+      <h4 class="mt-3">enUS v0.01 Details</h4>
 
       <div class="form-group">
-        <label for="naming">Excel Template</label>
+        <label for="naming">Excel Template</label><br>
         <div class="form-check form-check-inline">
           <input class="form-check-input" type="radio" name="Excel Macro template" id="tempYes" value="Create new template">
           <label class="form-check-label" for="tempYes">Create new template</label>
@@ -234,33 +234,37 @@
           <label class="form-check-label" for="tempNo">Use existing template</label>
         </div>
         <small class="form-text text-muted">
-          If you have an existing template, include the most recent version at the root of the "<u>...\z - To Assistant</u>" folder of your study. If you want us to make the template, please add to "Additional Notes" any non-standard specifications, such as dialog boxes or combining multiple assessments in one sheet.
+          If you have an existing template, include the most recent version at the root of the "<u>...\z - To Assistant</u>" folder of your study.<br>
+          If you want us to make the template, please add to "Additional Notes" any non-standard specifications, such as dialog boxes or combining multiple assessments in one sheet.
         </small>
       </div>
 
       <div class="row">
+        <label for="naming">Naming Conventions</label>
+      </div>
+      <div class="row">
         <div class="col-sm-8">
-          <label for="naming">Naming Conventions</label>
-          <small class="form-text text-muted">
-            Copyrighted workbooks are added to the Excel macro. Workbooks for <strong>copyrighted assessments</strong> will have:
-            <ul style="margin-bottom: 0">
-              <li>no AFFIDAVIT</li>
-              <li>filenames <strong>without</strong> client name or protocol number</li>
-            </ul>
-            <i>eg. EQ-5D-5L_eCOA Handheld_English (Singapore)_v0.02.xlsx</i><br><br>
+            <small class="form-text text-muted">
+              Copyrighted workbooks are added to the Excel macro. Workbooks for <strong>copyrighted assessments</strong> will have:
+              <ul style="margin-bottom: 0">
+                <li>no AFFIDAVIT</li>
+                <li>filenames <strong>without</strong> client name or protocol number</li>
+              </ul>
+              <i>eg. EQ-5D-5L_eCOA Handheld_English (Singapore)_v0.02.xlsx</i><br><br>
 
-            Workbooks for <strong>non-copyrighted assessments</strong>will have:
-            <ul style="margin-bottom: 0">
-              <li>an AFFIDAVIT screen</li>
-              <li>filenames with the client name and protocol number</li>
-            </ul>
-            <i>eg. Deciphera DCC-2618-03-002_eCOA Handheld_Training Module_English (Singapore)_v0.02.xlsx</i><br><br>
+              Workbooks for <strong>non-copyrighted assessments</strong>will have:
+              <ul style="margin-bottom: 0">
+                <li>an AFFIDAVIT screen</li>
+                <li>filenames with the client name and protocol number</li>
+              </ul>
+              <i>eg. Deciphera DCC-2618-03-002_eCOA Handheld_Training Module_English (Singapore)_v0.02.xlsx</i><br><br>
 
-            If your study requires deviations to these standards, please copy and paste the naming conventions here.
-          </small>
-        </div>
-        <div class="col-sm">
-          <textarea class="form-control" name="Naming Conventions" id="naming" rows="3"></textarea>
+              If your study requires deviations to these standards, please copy and paste the naming conventions here.
+            </small>
+          </div>
+          <div class="col-sm">
+            <textarea class="form-control" name="Naming Conventions" id="naming" rows="8"></textarea>
+          </div>
         </div>
       </div>
 
