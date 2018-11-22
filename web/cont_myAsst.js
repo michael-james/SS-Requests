@@ -1,4 +1,5 @@
 function showMyLoggedTime() {
+  var t0 = new Date();
   var sh = SpreadsheetApp.openById(ssID).getSheetByName("Queue");
   var data = getSortedReqs('dsc', null, false);
   var headers = data.shift();
@@ -11,5 +12,6 @@ function showMyLoggedTime() {
     return row[asgInd] == fname;
   });
   data.unshift(headers);
+  rec(null, arguments.callee.name, null, null, t0);
   return data
 }

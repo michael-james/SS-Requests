@@ -41,6 +41,7 @@ function testGetRequest() {
 }
 
 function getRequestData(data, i, newReq, keepSt, filt) {
+  var t0 = new Date();
   var ss = SpreadsheetApp.openById(ssID);
   var sh = ss.getSheetByName("Queue");
   var newReq = newReq || false;
@@ -284,6 +285,7 @@ function getRequestData(data, i, newReq, keepSt, filt) {
   
   d.statusCode = getStatusCode(d.status);
   
+  rec(null, arguments.callee.name, d.row, null, t0);
   return d;
 }
 

@@ -1,4 +1,5 @@
 function getPrevReq(id, currRow) {
+  var t0 = new Date();
   // Logger.log("getting prev requests...");
   var sh = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("Queue");
   var stIdx = getColNumByName(sh, "Status") - 1;
@@ -77,7 +78,7 @@ function getPrevReq(id, currRow) {
       info.push(req);
     }
   }
-  
+  rec(null,arguments.callee.name, obj.row, null, t0);
   return info;
 }
 
@@ -92,6 +93,7 @@ function testGetPrevReq() {
 
 function processForm(arr, send, update, source) {
 try {
+  var t0 = new Date();
   var send = send || false;
 
   //Logger.log("processing form...");
@@ -134,7 +136,7 @@ try {
     updateEventRow(obj.row);
   }
   
-  rec('',arguments.callee.name, obj.row, source);
+  rec(null,arguments.callee.name, obj.row, source, t0);
   return obj.row
 } catch (e) {
     throwAlert(e, "Request not updated.");
@@ -167,7 +169,10 @@ function doSomething() {
 //}
 
 function relReqAsstCounts(protocol) {
-  return formatCounts(countReqs(['Asgd To', 'Req Code'], ['Status', ['Cancelled']], ["Protocol Number", [protocol]]));
+  var t0 = new Date();
+  var cnts = formatCounts(countReqs(['Asgd To', 'Req Code'], ['Status', ['Cancelled']], ["Protocol Number", [protocol]]));
+  rec(null, arguments.callee.name, null, null, t0);
+  return cnts
 }
 
 function getWorkComplDefaults() {

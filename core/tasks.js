@@ -21,6 +21,7 @@ function listTaskLists() {
  */
 function addTask(d) {
   //Logger.log('adding task...');
+  var t0 = new Date();
   var ss = SpreadsheetApp.openById(ssID);
   var sh = ss.getSheetByName("Queue");
   
@@ -32,7 +33,7 @@ function addTask(d) {
   task = Tasks.Tasks.insert(task, taskListID);
  // Logger.log('Task with ID "%s" was created.', task.id);
   sh.getRange(d.row, getColNumByName(sh, "Task ID")).setValue(task.id);
-  rec('',arguments.callee.name,d.row);
+  rec(null, arguments.callee.name, d.row, null, t0);
 }
 
 function testAddTask() {

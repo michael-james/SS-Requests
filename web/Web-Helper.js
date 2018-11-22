@@ -20,7 +20,6 @@ function doGet(e) {
   
   // console.time(timeLabel); 
 
-  
   var html = HtmlService.createTemplateFromFile('Default');
   var s = null;
   var view = null;
@@ -52,8 +51,6 @@ function doGet(e) {
     .addMetaTag('viewport', 'width=device-width, initial-scale=1, shrink-to-fit=no');
   // console.timeEnd(timeLabel);
 
-  var t1 = new Date();
-  var dur = t1.getTime() - t0.getTime();
   // var parameters = {
   //   message: 'perf',
   //   func: "doGet",
@@ -64,7 +61,7 @@ function doGet(e) {
   //   dur: dur
   // };
   // console.log(parameters);
-  rec(page, null, row, null, dur);
+  rec(page, null, row, null, t0);
 
   return evalHTML;
 }
@@ -96,6 +93,7 @@ var url = getScriptUrl();
 
 function chgStatus(row, newStatus) {
   try {
+    var t0 = new Date();
     var ss = SpreadsheetApp.openById(ssID);
     var sh = ss.getSheetByName("Queue");
     var statusData = sh.getRange(row, getColNumByName(sh, "Status"));
@@ -173,7 +171,7 @@ function chgStatus(row, newStatus) {
           break;
       }
       
-      rec('',arguments.callee.name, row);
+      rec(null, arguments.callee.name, row, null, t0);
       return { st: newStatus, cls: stCls(newStatus), row: row, code: getStatusCode(newStatus) }
     } catch (e) {
       throwAlert(e, "Request status not changed.");

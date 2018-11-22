@@ -1,4 +1,5 @@
 function getSortedReqs(direction, sortBy, stExclude) {
+  var t0 = new Date();
   //Logger.log("started getSortedReqs...");
   var sortBy = sortBy || ['Hard Deadline','Preferred Deadline', 'Expected Date Files Will Be Available', 'Timestamp'];
   // Logger.log(typeof stExclude);
@@ -56,6 +57,7 @@ function getSortedReqs(direction, sortBy, stExclude) {
   }
   
   reqs.unshift(headers);
+  rec(null, arguments.callee.name, null, null, t0);
   return reqs
 }
 

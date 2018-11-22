@@ -5,6 +5,7 @@ var endDateOff = 0;
 
 function createEvent(d) {
   try {
+    var t0 = new Date();
     if (d.startDate && d.hardDueDate) {
       var ss = SpreadsheetApp.openById(ssID);
       var sh = ss.getSheetByName("Queue");
@@ -23,7 +24,7 @@ function createEvent(d) {
     //  Logger.log(getColNumByName(sh, "Calendar Event ID"));
       sh.getRange(d.row, getColNumByName(sh, "Calendar Event ID")).setValue(event.getId());
       ss.toast(d.client + ' ' + d.protocol + (d.batch && (' Batch ' + d.batch)) + ' - ' + d.reqCode, 'Event Created');
-      rec('',arguments.callee.name,d.row);
+      rec(null, arguments.callee.name, d.row, null, t0);
     }
   } catch(e) {
     throw e
@@ -32,6 +33,7 @@ function createEvent(d) {
 
 function updateEvent(d) {
   try {
+    var t0 = new Date();
     if (d.startDate && d.hardDueDate) {
       //Logger.log("updating event..." + d.client + " " + d.protocol);
       var cal = CalendarApp.getCalendarById(calendarID);
@@ -53,7 +55,7 @@ function updateEvent(d) {
         //Logger.log("updated event " + event.getTitle());
         d.ss.toast(d.client + ' ' + d.protocol + (d.batch && (' Batch ' + d.batch)) + ' - ' + d.reqCode, 'Event Updated');
       }
-      rec('',arguments.callee.name,d.row);
+      rec(null, arguments.callee.name, d.row, null, t0);
     }
   } catch(e) {
     throw e

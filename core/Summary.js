@@ -13,7 +13,7 @@ function sendSummaryAlert(d) {
 
 function sendSummary(d) {
   try {
-    rec('',arguments.callee.name,d.row);
+    var t0 = new Date();
     //Logger.log(d.row);
     var t = HtmlService.createTemplateFromFile('ReqUpdateInline');
     t.d = d;
@@ -58,6 +58,7 @@ function sendSummary(d) {
     var c = d.sh.getRange(d.row, getColNumByName(d.sh, "Date Ret"));
     if (!c.getValue() && (d.status == 'Unresolved Issues' || d.status == 'Pending Confirmation' || d.status == 'On-hold' || d.status == 'Completed')) {c.setValue(today);} 
     
+    rec(null, arguments.callee.name, d.row, null, t0);
     return d.requestor + " (" + d.email + ")";
   } catch (e) {
     throw Utilities.formatString("Update not sent to %s (%s: %s)", d.email, e.name, e.message);
