@@ -1,5 +1,7 @@
 <? var d = getRequest(data.row); ?>
 
+<!-- "Type" and "Hard Deadline Time of Day" are not right by default (Type should be blank and hard deadline should be COB) -->
+
 <div class="container" style="padding-top:20px">
     <h1><span class="badge badge-primary">Edit</span> <span class="badge <?= typClass(d.reqCode) ?>"><?= d.reqCode ?></span> <?= d.client + ' ' + d.protocol + (d.batch && (' Batch ' + d.batch)) ?></h1>
     
@@ -343,17 +345,25 @@
           // Study Information
           $('#client').val(<?= d.client ?>);
           $('#protocol').val(<?= d.protocol ?>);
-          $('#device').val(<?= d.device ?>);
-          $('#server').val(<?= d.server ?>);
+          if (<?= d.device ?>) {
+            $('#device').val(<?= d.device ?>);
+          }
+          if (<?= d.server ?>) {
+            $('#server').val(<?= d.server ?>);
+          }
 
           console.log("device: " + <?= d.device ?>);
 
           // Request Basics
-          $('#reqCode').val(<?= d.reqCode ?>);
+          if (<?= d.reqCode ?>) {
+            $('#reqCode').val(<?= d.reqCode ?>);
+          }
           $('#batch').val(<?= d.batch ?>);
           $('#langCnt').val(<?= d.langCnt ?>);
           $('#astCnt').val(<?= d.astCnt ?>);
-          $('#vend').val(<?= d.vend ?>);
+          if (<?= d.vend ?>) {
+            $('#vend').val(<?= d.vend ?>);
+          }
           $('#langsV001').val(<?= d.langsV001 ?>);
           $('#langsCR').val(<?= d.langsCR ?>);
           $('#cpyast').val(<?= d.cpyast ?>);
@@ -377,8 +387,9 @@
           $('#start').val(<?= d.startDateForm ?>);
           $('#prefDue').val(<?= d.prefDueDateForm ?>);
           $('#hardDue').val(<?= d.hardDueDateForm ?>);
-          $('#hardtime').val(<?= d.hardtime ?>);
-
+          if (<?= d.hardtime ?>) {
+            $('#hardtime').val(<?= d.hardtime ?>);
+          }
 
           // Additional Information
           $('#actwkbks').val(<?= d.actwkbks ?>);
