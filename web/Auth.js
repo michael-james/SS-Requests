@@ -1,8 +1,8 @@
-function rec(page, func, row, source) {
+function rec(page, func, row, source, dur) {
   var ss = SpreadsheetApp.getActiveSpreadsheet();
   var sh = ss.getSheetByName("Queue");
   var email = Session.getActiveUser().getEmail();
-  var info = [moment().format("MM/DD/YYYY h:mm:ss a"), email || "", page || "", func || "", source || "", row || ""];
+  var info = [moment().format("MM/DD/YYYY h:mm:ss a"), email || "", page || "", func || "", source || "", dur || "", row || ""];
   if (row) {
     info.push(sh.getRange(row, getColNumByName(sh, "Client")).getValue(),
               sh.getRange(row, getColNumByName(sh, "Protocol Number")).getValue(),
@@ -10,6 +10,7 @@ function rec(page, func, row, source) {
               sh.getRange(row, getColNumByName(sh, "Status")).getValue());
   }
   ss.getSheetByName("[activity]").insertRowBefore(2).getRange(2, 1, 1, info.length).setValues([info]);
+  
   // re-applies Column 1 filter whenever Column 1 is changed
   var filter = ss.getSheetByName("[activity]").getFilter();
   var currCriteria = filter.getColumnFilterCriteria(2);

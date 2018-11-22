@@ -7,20 +7,27 @@
  */
 function doGet(e) {
   // Logger.log( Utilities.jsonStringify(e) );
+  var t0 = new Date();
   var page = "Home";
+  if (e.parameter.page) {
+    page = e.parameter['page'];
+  }
   var row = null;
+  if (e.parameter.row) {
+    row = e.parameter['row'];
+  }
+  // var timeLabel = page + " load time";  // Labels the timing log entry.
+  
+  // console.time(timeLabel); 
+
+  
   var html = HtmlService.createTemplateFromFile('Default');
   var s = null;
   var view = null;
   var role = null; // 0 = basic, 1 = asst, 2 = lead, 3 = admin
   var u = user();
-  if (e.parameter.page) {
-    page = e.parameter['page'];
-  }
-  if (e.parameter.row) {
-    row = e.parameter['row'];
-  }
-  if (e.parameter.status) {
+  
+    if (e.parameter.status) {
     s = e.parameter['status'];
     if (row) {
       chgStatus(row, statuses[s]);
@@ -36,14 +43,30 @@ function doGet(e) {
 //      Logger.log('isAdmin');
       role = e.parameter['role'];
     }
-  }
-  rec(page, null, row);
+  }  
   // return HtmlService.createTemplateFromFile(e.parameter['page']).evaluate();
   var data = {page: page, row: row, status: statuses[s], view: view, role: role, email: u.email, u: u, admin: u.admin, asst: u.asst, lead: u.lead};
   html.data = data;
-  return html.evaluate()
+  var evalHTML = html.evaluate()
     .setTitle("SS Requests: " + page + (Boolean(row) ? (" " + row) : ""))
     .addMetaTag('viewport', 'width=device-width, initial-scale=1, shrink-to-fit=no');
+  // console.timeEnd(timeLabel);
+
+  var t1 = new Date();
+  var dur = t1.getTime() - t0.getTime();
+  // var parameters = {
+  //   message: 'perf',
+  //   func: "doGet",
+  //   row: row,
+  //   content: page,
+  //   t0: t0,
+  //   t1: t1,
+  //   dur: dur
+  // };
+  // console.log(parameters);
+  rec(page, null, row, null, dur);
+
+  return evalHTML;
 }
 
 function include(filename, data) {

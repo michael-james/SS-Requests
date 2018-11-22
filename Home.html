@@ -1,5 +1,8 @@
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mixitup/3.3.1/mixitup.min.js"></script>
+
 <? if(!(parseInt(data.role) === 0) && !data.view && data.asst || data.role == 1) { ?>
      <?!= include('Dashboard', data); ?>
   <? } else { ?>
      <?!= include('Queue', data); ?>
 <?}?>
+
