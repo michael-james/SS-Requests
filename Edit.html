@@ -7,7 +7,7 @@
       <a id="view-link" class="btn btn-outline-secondary" href="<?=url?>?page=View<?= (data.asst || data.lead || data.admin) && "Admin" ?>&row=<?= d.row ?>">View</a>
     </div>
  
-    <form>
+    <form id="edit">
       <input type="hidden" id="row" name="row">
       
       <h3 class="mt-3">Study Information</h3>
@@ -187,10 +187,9 @@
         <div class="form-group col-md-6 col-lg">
           <label for="hardtime">Hard Deadline Time of Day</label>
           <select name="Hard Deadline Time" id="hardtime" class="form-control" required>
-            <option selected disabled>(select a time)</option>
             <option value="Open of Business">Open OB (9 am)</option>
             <option value="Open of Business">Midday (1 pm)</option>
-            <option value="Close of Business">Close OB (5 pm)</option>
+            <option value="Close of Business" selected>Close OB (5 pm)</option>
             <small class="form-text text-muted">
               The time of day you need the files based on the time zone of your office.
             </small>
@@ -386,6 +385,8 @@
           $('#actwkbks').val(<?= d.actwkbks ?>);
           if (<?= d.temp ?> == "Create new template") {
             $('#tempYes').prop('checked', true);
+          } else if (<?= d.temp ?> == "Use existing template") {
+            $('#tempNo').prop('checked', true);
           }
           $('#naming').val(<?= d.naming ?>);
 
@@ -394,12 +395,18 @@
           $('#waitfor').val(<?= d.waitfor ?>);
           $('#jira').val(<?= d.jira ?>);
 
+
+
           
-          // $('#go').click(function() {
-          //   $('#go, #go-view').prop("disabled",true);
-          //   var val = $('form').serializeArray();
-          //   google.script.run.withSuccessHandler(onEditSuccess).withFailureHandler(onEditFailure).processForm(val, null, null, "EditSave");
-          // });
+          $('#go').click(function() {
+            // $('#go, #go-view').prop("disabled",true);
+            var $form = $('form#edit');
+            if ($form.get(0).reportValidity()) {
+              console.log('form is good to go!');
+            }
+            // var val = $('form').serializeArray();
+            // google.script.run.withSuccessHandler(onEditSuccess).withFailureHandler(onEditFailure).processForm(val, null, null, "EditSave");
+          });
           
           // $('#go-view').click(function() {
           //   $('#go, #go-view').prop("disabled",true);
