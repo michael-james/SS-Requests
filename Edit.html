@@ -361,11 +361,11 @@
           $('#tbbuild').val(<?= d.TBbld ?>);
           $('#hhbuild').val(<?= d.HHbld ?>);
 
-          if (d.msgbx == "Yes") {
+          if (<?= d.msgbx ?> == "Yes") {
             $('#msgbx').prop('checked', true);
           }
 
-          if (d.msgbx == "Yes") {
+          if (<?= d.manscr ?> == "Yes") {
             $('#manscr').prop('checked', true);
           }
 
@@ -380,7 +380,7 @@
 
           // Additional Information
           $('#actwkbks').val(<?= d.actwkbks ?>);
-          if (d.temp == "Create new template") {
+          if (<?= d.temp ?> == "Create new template") {
             $('#tempYes').prop('checked', true);
           }
           $('#naming').val(<?= d.naming ?>);
