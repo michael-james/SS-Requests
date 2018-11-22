@@ -61,7 +61,7 @@
           <label for="batch">Batch</label>
           <input name="Batch #" type="text" class="form-control" id="batch">
           <small class="form-text text-muted">
-            If more than one, separate by comma. <i>eg. 1, 2</i>
+            If more than one, separate by comma. eg. 1, 2
           </small>
         </div>
         <div class="form-group col-sm">
@@ -89,6 +89,13 @@
         <div class="form-group col">
           <label for="langsV001">Languages (v0.01)</label>
           <textarea class="form-control" name="Languages for v0.01" id="langsV001" rows="3"></textarea>
+          <small class="form-text text-muted">
+            Please enter languages as their codes (preferred), such as nlBE, or language/country, such as Dutch (Belgium), separated by commas.
+          </small>
+        </div>
+        <div class="form-group col">
+          <label for="langsCR">Languages (CR)</label>
+          <textarea class="form-control" name="Languages for corrections" id="langsCR" rows="3"></textarea>
           <small class="form-text text-muted">
             Please enter languages as their codes (preferred), such as nlBE, or language/country, such as Dutch (Belgium), separated by commas.
           </small>
@@ -133,24 +140,24 @@
             We will use the latest build if none is specified.
           </small>
         </div>
-        <div class="row">
-          <div class="form-check col-sm-auto">
-            <input class="form-check-input" name="Messageboxes screen capture required?" type="checkbox" id="msgbx" value="Yes">
-            <label class="form-check-label" for="msgbx">Messagebox?</label>
-          </div>
-          <small class="form-text text-muted col-sm">
-            Please specify in "Additional Notes" which dialog screens are needed for this request or refer to a specific section of the template.
-          </small>
+      </div>
+      <div class="row">
+        <div class="form-check col-sm-auto">
+          <input class="form-check-input" name="Messageboxes screen capture required?" type="checkbox" id="msgbx" value="Yes">
+          <label class="form-check-label" for="msgbx">Messagebox?</label>
         </div>
-        <div class="row">
-          <div class="form-check col-sm-auto">
-            <input class="form-check-input" name="Manual screenshots required?" type="checkbox" id="manscr" value="Yes">
-            <label class="form-check-label" for="manscr">Manual scrolling?</label>
-          </div>
-          <small class="form-text text-muted col-sm">
-            Any screens that are not automatically captured, such as messages, reminders, etc. or assessments that require manual screenshots due to scrolling. Please specify in "Additional Notes" which assessments/screens may need to be captured manually.
-          </small>
+        <small class="form-text text-muted col-sm">
+          Please specify in "Additional Notes" which dialog screens are needed for this request or refer to a specific section of the template.
+        </small>
+      </div>
+      <div class="row">
+        <div class="form-check col-sm-auto">
+          <input class="form-check-input" name="Manual screenshots required?" type="checkbox" id="manscr" value="Yes">
+          <label class="form-check-label" for="manscr">Manual scrolling?</label>
         </div>
+        <small class="form-text text-muted col-sm">
+          Any screens that are not automatically captured, such as messages, reminders, etc. or assessments that require manual screenshots due to scrolling. Please specify in "Additional Notes" which assessments/screens may need to be captured manually.
+        </small>
       </div>
 
       </div>
@@ -197,7 +204,7 @@
       <h3 class="mt-3">Additional Information</h3>
 
       <div class="row">
-        <div class="form-group col-sm-3">
+        <div class="form-group col-sm-2">
           <label for="actwkbks"># Excel files</label>
           <input name="Act. Wkbk. Cnt." type="number" class="form-control" id="actwkbks">
           <small class="form-text text-muted">
@@ -209,15 +216,13 @@
           <label>File Preparation</label>
           <small class="form-text text-muted">
             <strong> To Assistant</strong><br>
-            Please place all files needed for this request (eg. JSONs and Excel workbooks) in the protocol's "<u>...\Translations\z - To Assistant\</u>"" folder on the server inside a folder named with the day the files became available for screenshot generation.<br>
-            eg. "<u>K:\Alexion\ALXN1210-PNH-303\Translations\z - To Assistant\2018.10.18</u>".<br><br>
+            Please place all files needed for this request (eg. JSONs and Excel workbooks) in the protocol's "<u>...\Translations\z - To Assistant\</u>"" folder on the server inside a folder named with the day the files became available for screenshot generation. eg. "<u>K:\Alexion\ALXN1210-PNH-303\Translations\z - To Assistant\2018.10.18</u>".<br><br>
 
-            <strong>Templates &amp; Naming Conventions</strong>
+            <strong>Templates &amp; Naming Conventions</strong><br>
             The only exception to this is files that are generally relevant to the protocol's screenshot generation, such as the most recent macro template or naming convention text files, which do not go inside of a date folder but instead just live in the "<u>...\z - To Assistant</u>" folder. Whenever we update the template, the latest version will go here.<br><br>
 
             <strong>From Assistant</strong>
-            When the request is completed, files will be placed in a new folder named with the date the request was performed and a Request ID which is the [Request #]-[Request Type]-[Batch].<br>
-            eg. "<u>...\z - From Assistant\2018.10.18 -- 87-FLCR-3</u>".
+            When the request is completed, files will be placed in a new folder named with the date the request was performed and a Request ID which is the [Request #]-[Request Type]-[Batch]. eg. "<u>...\z - From Assistant\2018.10.18 -- 87-FLCR-3</u>".
           </small>
         </div>
       </div>
@@ -239,27 +244,30 @@
         </small>
       </div>
 
-      <div class="form-group">
-        <label for="naming">Naming Conventions</label>
-        <small class="form-text text-muted">
-          Workbooks for <strong>copyrighted assessments</strong> will have:
-          <ul>
-            <li>no AFFIDAVIT</li>
-            <li>filenames with <strong>without</strong> client name or protocol number</li>
-          </ul>
-          Additionally, we will add the assessment to the macro's list of copyrighted assessments.<br>
-          <i>eg. EQ-5D-5L_eCOA Handheld_English (Singapore)_v0.02.xlsx</i><br><br>
+      <div class="row">
+        <div class="col-sm-8">
+          <label for="naming">Naming Conventions</label>
+          <small class="form-text text-muted">
+            Copyrighted workbooks are added to the Excel macro. Workbooks for <strong>copyrighted assessments</strong> will have:
+            <ul style="margin-bottom: 0">
+              <li>no AFFIDAVIT</li>
+              <li>filenames <strong>without</strong> client name or protocol number</li>
+            </ul>
+            <i>eg. EQ-5D-5L_eCOA Handheld_English (Singapore)_v0.02.xlsx</i><br><br>
 
-          Workbooks for <strong>non-copyrighted assessments</strong>will have:
-            <ul>
+            Workbooks for <strong>non-copyrighted assessments</strong>will have:
+            <ul style="margin-bottom: 0">
               <li>an AFFIDAVIT screen</li>
               <li>filenames with the client name and protocol number</li>
             </ul>
-          <i>eg. Deciphera DCC-2618-03-002_eCOA Handheld_Training Module_English (Singapore)_v0.02.xlsx</i><br><br>
+            <i>eg. Deciphera DCC-2618-03-002_eCOA Handheld_Training Module_English (Singapore)_v0.02.xlsx</i><br><br>
 
-          If your study requires deviations to these standards, please copy and paste the naming conventions here.
-        </small>
-        <textarea class="form-control" name="Naming Conventions" id="naming" rows="3"></textarea>
+            If your study requires deviations to these standards, please copy and paste the naming conventions here.
+          </small>
+        </div>
+        <div class="col-sm">
+          <textarea class="form-control" name="Naming Conventions" id="naming" rows="3"></textarea>
+        </div>
       </div>
-      
+
     </form>
