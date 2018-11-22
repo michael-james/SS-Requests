@@ -45,6 +45,7 @@ function getRequestData(data, i, newReq, keepSt, filt) {
   var ss = SpreadsheetApp.openById(ssID);
   var sh = ss.getSheetByName("Queue");
   var newReq = newReq || false;
+  // console.log("newReq is %s", newReq);
   var keepSt = keepSt || false;
   var rowOffset = filt ? 0 : headerRows;
   var row = filt ? data[i - rowOffset][getColNumByName(sh, "row") - 1] : i;
@@ -55,9 +56,9 @@ function getRequestData(data, i, newReq, keepSt, filt) {
     row:   row,
     getByName: function(colName) {
       var col = data[0].indexOf(colName); //1 for column names
-      Logger.log("%s is col %s and its value in row %s (array row %s) is...", colName, col, row, i);
+      // Logger.log("%s is col %s and its value in row %s (array row %s) is...", colName, col, row, i);
       if (col != -1) {
-        Logger.log(data);
+        // Logger.log(data);
         return data[i - rowOffset][col];
       }
       //Logger.log(" is %s", i, data[i - rowOffset][col]);
@@ -146,6 +147,7 @@ function getRequestData(data, i, newReq, keepSt, filt) {
   d.expRetDateForm = d.expRetDate && d.expRetDate.format(dfform);
   
   //Logger.log('\nHard Due: ' + d.hardDue + '\nPref Due: ' + d.prefDue + '\n Start: ' + d.start);
+  // rec(null, arguments.callee.name + " - basics", d.row, null, t0);
   
   // Work Summary
   d.status = d.getByName("Status") || "";
@@ -205,15 +207,14 @@ function getRequestData(data, i, newReq, keepSt, filt) {
   d.filesDate = d.dFiles ? d.dFiles : (d.startDate && d.startDate);
   // console.log("request %s: files ready/exp on %s", d.row, d.filesDate);
   d.daysFiles = workdays(moment(), d.filesDate);
-  
+
+  // rec(null, arguments.callee.name + " - prev info", d.row, null, t0);
+
   if (newReq) {
     sh.getRange(row, d.getColNumByName("row")).setValue(d.row);
     
     d.requestor = d.email.substr(0, d.email.indexOf("@")).replace(".", " ");
     d.requestor = d.requestor && toTitleCase(d.requestor);
-    //d.daysDue = d.getByName("Hard Deadline") && daysTo(d.getByName("Hard Deadline")).toFixed(0);
-    //d.daysPref = d.getByName("Preferred Deadline") && daysTo(d.getByName("Preferred Deadline")).toFixed(0);
-    //d.daysStart = d.getByName("Expected Date Files Will Be Available") && daysTo(d.getByName("Expected Date Files Will Be Available")).toFixed(0);
     
     switch (d.reqType) {
     case "enUS v1.00":
@@ -263,20 +264,20 @@ function getRequestData(data, i, newReq, keepSt, filt) {
     }
     
     if (d.office == "Geneva") {
-    if (d.hardtime == "Open of Business") {
-        d.hardDueDate.hour(3);
+      if (d.hardtime == "Open of Business") {
+          d.hardDueDate.hour(3);
+      } else {
+          d.hardDueDate.hour(11);
+      }
     } else {
-        d.hardDueDate.hour(11);
+      if (d.hardtime == "Open of Business") {
+          d.hardDueDate.hour(9);
+      } else {
+          d.hardDueDate.hour(17);
+      }
     }
-  } else {
-    if (d.hardtime == "Open of Business") {
-        d.hardDueDate.hour(9);
-    } else {
-        d.hardDueDate.hour(17);
-    }
-  }
   
-  sh.getRange(row, d.getColNumByName("Hard Deadline")).setValue(d.hardDueDate.toDate());
+    sh.getRange(row, d.getColNumByName("Hard Deadline")).setValue(d.hardDueDate.toDate());
   }
   
   if (d.requestor) {
@@ -285,7 +286,7 @@ function getRequestData(data, i, newReq, keepSt, filt) {
   
   d.statusCode = getStatusCode(d.status);
   
-  rec(null, arguments.callee.name, d.row, null, t0);
+  var dur = new Date().getTime() - t0.getTime(); console.log({ type: 'perf', message: Utilities.formatString('perf: %s %s %sms', arguments.callee.name, (typeof page !== 'undefined') ? page : '', dur), func: "doGet", row: (typeof d.row !== 'undefined') ? d.row : '', page: (typeof page !== 'undefined') ? page : '', source: (typeof source !== 'undefined') ? source : '', dur: dur, user: user().email});
   return d;
 }
 

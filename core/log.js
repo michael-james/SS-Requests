@@ -1,11 +1,12 @@
 function rec(page, func, row, source, t0) {
+  var dur;
+  if (t0) {
+    dur = new Date().getTime() - t0.getTime();
+  }
+
   var ss = SpreadsheetApp.getActiveSpreadsheet();
   var sh = ss.getSheetByName("Queue");
   var email = Session.getActiveUser().getEmail();
-  var dur;
-  if (t0) {
-  	dur = new Date().getTime() - t0.getTime();
-  }
 
   var info = [moment().format("MM/DD/YYYY h:mm:ss a"), email || "", page || "", func || "", source || "", dur || "", row || ""];
   if (row) {

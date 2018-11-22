@@ -123,7 +123,6 @@ function sortRequestsStatusRec(){
 //  sh.getRange(1, 1, rows + headerRows, cols).setValues(vf);
 
   ss.toast('Sorted by: ' + sortCol1 + ", " + sortCol2,'Sort Complete');
-  rec('',arguments.callee.name);
 }
 
 function sortRequestsTime(){
@@ -142,5 +141,4 @@ function sortRequestsTime(){
     {column:getColNumByName(sh, sortCol3),ascending: true}, {column:getColNumByName(sh, sortCol4),ascending: true}]) // regular sort
     
   ss.toast('Sorted by: ' + sortCol1 + ", " + sortCol2 + ", " + sortCol3 + ", " + sortCol4,'Sort Complete');
-  rec('',arguments.callee.name);
 }

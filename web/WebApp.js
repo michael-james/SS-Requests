@@ -78,7 +78,6 @@ function getPrevReq(id, currRow) {
       info.push(req);
     }
   }
-  rec(null,arguments.callee.name, obj.row, null, t0);
   return info;
 }
 
@@ -136,7 +135,7 @@ try {
     updateEventRow(obj.row);
   }
   
-  rec(null,arguments.callee.name, obj.row, source, t0);
+  var dur = new Date().getTime() - t0.getTime(); console.log({ type: 'perf', message: Utilities.formatString('perf: %s %s %sms', arguments.callee.name, (typeof page !== 'undefined') ? page : '', dur), func: "doGet", row: (typeof obj.row !== 'undefined') ? obj.row : '', page: (typeof page !== 'undefined') ? page : '', source: (typeof source !== 'undefined') ? source : '', dur: dur, user: user().email});
   return obj.row
 } catch (e) {
     throwAlert(e, "Request not updated.");
@@ -171,7 +170,7 @@ function doSomething() {
 function relReqAsstCounts(protocol) {
   var t0 = new Date();
   var cnts = formatCounts(countReqs(['Asgd To', 'Req Code'], ['Status', ['Cancelled']], ["Protocol Number", [protocol]]));
-  rec(null, arguments.callee.name, null, null, t0);
+  var dur = new Date().getTime() - t0.getTime(); console.log({ type: 'perf', message: Utilities.formatString('perf: %s %s %sms', arguments.callee.name, (typeof page !== 'undefined') ? page : '', dur), func: "doGet", row: (typeof row !== 'undefined') ? row : '', page: (typeof page !== 'undefined') ? page : '', source: (typeof source !== 'undefined') ? source : '', dur: dur, user: user().email});
   return cnts
 }
 

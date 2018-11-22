@@ -46,22 +46,17 @@ function doGet(e) {
   // return HtmlService.createTemplateFromFile(e.parameter['page']).evaluate();
   var data = {page: page, row: row, status: statuses[s], view: view, role: role, email: u.email, u: u, admin: u.admin, asst: u.asst, lead: u.lead};
   html.data = data;
+  // var favicon = "http://michael-james.github.io/ERT/ert-logo.png";
+  // var favicon = "http://michael-james.github.io/ERT/favicon.ico";
   var evalHTML = html.evaluate()
     .setTitle("SS Requests: " + page + (Boolean(row) ? (" " + row) : ""))
     .addMetaTag('viewport', 'width=device-width, initial-scale=1, shrink-to-fit=no');
+    // .setFaviconUrl(favicon);
   // console.timeEnd(timeLabel);
+  // console.log(evalHTML.getFaviconUrl());
 
-  // var parameters = {
-  //   message: 'perf',
-  //   func: "doGet",
-  //   row: row,
-  //   content: page,
-  //   t0: t0,
-  //   t1: t1,
-  //   dur: dur
-  // };
-  // console.log(parameters);
-  rec(page, null, row, null, t0);
+  var dur = new Date().getTime() - t0.getTime(); console.log({ type: 'perf', message: Utilities.formatString('perf: %s %s %sms', arguments.callee.name, (typeof page !== 'undefined') ? page : '', dur), func: "doGet", row: (typeof row !== 'undefined') ? row : '', page: (typeof page !== 'undefined') ? page : '', source: (typeof source !== 'undefined') ? source : '', dur: dur, user: user().email});
+  // rec(page, null, row, null, t0);
 
   return evalHTML;
 }
@@ -171,7 +166,7 @@ function chgStatus(row, newStatus) {
           break;
       }
       
-      rec(null, arguments.callee.name, row, null, t0);
+      var dur = new Date().getTime() - t0.getTime(); console.log({ type: 'perf', message: Utilities.formatString('perf: %s %s %sms', arguments.callee.name, (typeof page !== 'undefined') ? page : '', dur), func: "doGet", row: (typeof row !== 'undefined') ? row : '', page: (typeof page !== 'undefined') ? page : '', source: (typeof source !== 'undefined') ? source : '', dur: dur, user: user().email});
       return { st: newStatus, cls: stCls(newStatus), row: row, code: getStatusCode(newStatus) }
     } catch (e) {
       throwAlert(e, "Request status not changed.");

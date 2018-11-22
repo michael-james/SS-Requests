@@ -1,5 +1,4 @@
 function getSortedReqs(direction, sortBy, stExclude) {
-  var t0 = new Date();
   //Logger.log("started getSortedReqs...");
   var sortBy = sortBy || ['Hard Deadline','Preferred Deadline', 'Expected Date Files Will Be Available', 'Timestamp'];
   // Logger.log(typeof stExclude);
@@ -57,7 +56,7 @@ function getSortedReqs(direction, sortBy, stExclude) {
   }
   
   reqs.unshift(headers);
-  rec(null, arguments.callee.name, null, null, t0);
+  //var dur = new Date().getTime() - t0.getTime(); console.log({ type: 'perf', message: Utilities.formatString('perf: %s %s %sms', arguments.callee.name, (typeof page !== 'undefined') ? page : '', dur), func: "doGet", row: (typeof row !== 'undefined') && row, page: (typeof page !== 'undefined') ? page : '', source: (typeof source !== 'undefined') ? source : '', dur: dur, user: user().email});
   return reqs
 }
 
