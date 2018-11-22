@@ -27,6 +27,7 @@
             <option selected disabled>(select a device)</option>
             <option value="TB-syn">Tablet syndication</option>
             <option value="HH-syn">Handheld syndication</option>
+            <option value="TB-syn, HH-syn">Tablet &amp; Handheld syndication</option>
             <option value="SP 10">SitePad 10"</option>
             <option value="SP 12">SitePad 12"</option>
             <option value="LP E5">LogPad E5</option>
@@ -347,11 +348,14 @@
           $('#device').val(<?= d.device ?>);
           $('#server').val(<?= d.server ?>);
 
+          console.log("device: " + <?= d.device ?>);
+
           // Request Basics
           $('#reqCode').val(<?= d.reqCode ?>);
           $('#batch').val(<?= d.batch ?>);
           $('#langCnt').val(<?= d.langCnt ?>);
           $('#astCnt').val(<?= d.astCnt ?>);
+          $('#vend').val(<?= d.vend ?>);
           $('#langsV001').val(<?= d.langsV001 ?>);
           $('#langsCR').val(<?= d.langsCR ?>);
           $('#cpyast').val(<?= d.cpyast ?>);
@@ -372,7 +376,7 @@
           $('#addlnotes').val(<?= d.addlnotes ?>);
 
           // Timeline
-          $('#start').val(<?= d.startDueDateForm ?>);
+          $('#start').val(<?= d.startDateForm ?>);
           $('#prefDue').val(<?= d.prefDueDateForm ?>);
           $('#hardDue').val(<?= d.hardDueDateForm ?>);
           $('#hardtime').val(<?= d.hardtime ?>);
