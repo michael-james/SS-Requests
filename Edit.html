@@ -1,7 +1,7 @@
 <? var d = getRequest(data.row); ?>
 
 <div class="container" style="padding-top:20px">
-    <h1><span class="badge badge-primary">Perform</span> <span class="badge <?= typClass(d.reqCode) ?>"><?= d.reqCode ?></span> <?= d.client + ' ' + d.protocol + (d.batch && (' Batch ' + d.batch)) ?></h1>
+    <h1><span class="badge badge-primary">Edit</span> <span class="badge <?= typClass(d.reqCode) ?>"><?= d.reqCode ?></span> <?= d.client + ' ' + d.protocol + (d.batch && (' Batch ' + d.batch)) ?></h1>
     
     <div class="py-3">
       <a id="view-link" class="btn btn-outline-secondary" href="<?=url?>?page=View<?= (data.asst || data.lead || data.admin) && "Admin" ?>&row=<?= d.row ?>">View</a>
@@ -15,14 +15,25 @@
       <div class="row">
         <div class="form-group col-sm">
           <label for="client">Client</label>
-          <input name="Client" type="text" class="form-control" id="client">
+          <input name="Client" type="text" class="form-control" id="client" required>
         </div>
         <div class="form-group col-sm">
           <label for="protocol">Protocol</label>
           <input name="Protocol Number" type="text" class="form-control" id="protocol" required>
         </div>
         <div class="form-group col">
-          <label for="server">Type</label>
+          <label for="vend">Device</label>
+          <select name="Translations Vendor(s)" id="vend" class="form-control" required>
+            <option value="TB-syn">Tablet syndication</option>
+            <option value="HH-syn">Handheld syndication</option>
+            <option value="SP 10">SitePad 10"</option>
+            <option value="SP 12">SitePad 12"</option>
+            <option value="LP E5">LogPad E5</option>
+            <option value="LP N5">LogPad N5</option>
+          </select>
+        </div>
+        <div class="form-group col">
+          <label for="server">Server</label>
           <select name="Which server is this study on?" id="server" class="form-control" required>
             <option value="K - fileserv">K - fileserv</option>
             <option value="G - genserv">G - genserv</option>
@@ -37,17 +48,20 @@
         <div class="form-group col">
           <label for="reqCode">Type</label>
           <select name="Req Code" id="reqCode" class="form-control" required>
-            <option value="enV1">enV1</option>
-            <option value="enCR">enCR</option>
-            <option value="FLv1">FLv1</option>
-            <option value="FLCR">FLCR</option>
-            <option value="FLCR">v1CR</option>
-            <option value="OTH" selected>OTH</option>
+            <option value="enV1">enUS v1.00</option>
+            <option value="enCR">enUS corrections</option>
+            <option value="FLv1">foreign language v0.01</option>
+            <option value="FLCR">foreign language corrections</option>
+            <option value="FLCR">foreign language v0.01 and corrections</option>
+            <option value="OTH" selected>other</option>
           </select>
         </div>
         <div class="form-group col-sm">
           <label for="batch">Batch</label>
           <input name="Batch #" type="text" class="form-control" id="batch">
+          <small class="form-text text-muted">
+            If more than one, please separate with comma, such as: 1, 2
+          </small>
         </div>
         <div class="form-group col-sm">
           <label for="langCnt"># Languages</label>
@@ -56,6 +70,16 @@
         <div class="form-group col-sm">
           <label for="astCnt"># Assessments</label>
           <input name="# of assessments for this request" type="number" class="form-control" id="astCnt" required>
+        </div>
+        <div class="form-group col">
+          <label for="vend">Vendor</label>
+          <select name="Translations Vendor(s)" id="vend" class="form-control" required>
+            <option value="enV1">ICON</option>
+            <option value="enCR">Mapi</option>
+            <option value="FLv1">RWS</option>
+            <option value="FLCR">TPT</option>
+            <option value="FLCR">Other</option>
+          </select>
         </div>
         
       </div>
@@ -71,13 +95,24 @@
         </div>
       </div>
       <div class="row">
+        <small class="form-text text-muted">
+          Please enter languages as their codes, such as nlBE, or language/country, such as Dutch (Belgium), separated by commas.
+        </small>
+      </div>
+      <div class="row">
         <div class="form-group col">
           <label for="cpyast">Copyrighted Assessments</label>
           <textarea class="form-control" name="Copyrighted assessments for this request" id="cpyast" rows="3"></textarea>
+          <small class="form-text text-muted">
+            Please list the names of the copyrighted assessments, separated by commas.
+          </small>
         </div>
         <div class="form-group col">
           <label for="nonast">Non-Copyrighted Assessments</label>
           <textarea class="form-control" name="Non-copyrighted assessments for this request" id="nonast" rows="3"></textarea>
+          <small class="form-text text-muted">
+            Please list the names of the non-copyrighted assessments, separated by commas.
+          </small>
         </div>
       </div>
 
@@ -87,19 +122,31 @@
         <div class="form-group col-sm">
           <label for="tbbuild">TB-syn Build</label>
           <input name="TB-syn Build #" type="text" class="form-control" id="tbbuild" placeholder="latest">
+          <small class="form-text text-muted">
+            We will use the latest build if none is specified.
+          </small>
         </div>
         <div class="form-group col-sm">
           <label for="hhbuild">HH-syn Build</label>
           <input name="HH-syn Build #" type="text" class="form-control" id="hhbuild" placeholder="latest">
+          <small class="form-text text-muted">
+            We will use the latest build if none is specified.
+          </small>
         </div>
         <div class="form-group">
           <div class="form-check form-check-inline">
             <input class="form-check-input" name="Messageboxes screen capture required?" type="checkbox" id="msgbx" value="Yes">
             <label class="form-check-label" for="msgbx">Messagebox?</label>
+            <small class="form-text text-muted">
+              Please specify in "Additional Notes" which dialog screens are needed for this request or refer to a specific section of the template.
+            </small>
           </div>
           <div class="form-check form-check-inline">
             <input class="form-check-input" name="Manual screenshots required?" type="checkbox" id="manscr" value="Yes">
             <label class="form-check-label" for="manscr">Manual scrolling?</label>
+            <small class="form-text text-muted">
+              Any screens that are not automatically captured, such as messages, reminders, etc. or assessments that require manual screenshots due to scrolling. Please specify in "Additional Notes" which assessments/screens may need to be captured manually.
+            </small>
           </div>
         </div>
 
@@ -115,23 +162,30 @@
       <h3>Timeline</h3>
 
       <div class="row">
-        <div class="form-group col-sm-auto">
+        <div class="form-group col-sm">
           <label for="start">Files Expected</label>
-          <input name="Expected Date Files Will Be Available" type="date" class="form-control" id="start">
+          <input name="Expected Date Files Will Be Available" type="date" class="form-control" id="start" required>
+          <small class="form-text text-muted">
+            If the files are available now, enter today's date. 
+        </small>
         </div>
-        <div class="form-group col-sm-auto">
-          <label for="prefDue">Preferred</label>
+        <div class="form-group col-sm">
+          <label for="prefDue">Preferred Deadline</label>
           <input name="Preferred Deadline" type="date" class="form-control" id="prefDue">
         </div>
-        <div class="form-group col-sm-auto">
-          <label for="hardDue">Due Date</label>
+        <div class="form-group col-sm">
+          <label for="hardDue">Scheduled Deadline</label>
           <input name="Hard Deadline" type="date" class="form-control" id="hardDue" required>
         </div>
         <div class="form-group col-sm">
-          <label for="hardtime">Due Time</label>
+          <label for="hardtime">Scheduled Deadline Time of Day</label>
           <select name="Hard Deadline Time" id="hardtime" class="form-control" required>
-            <option value="Open of Business">Open OB</option>
-            <option value="Close of Business" selected>Close OB</option>
+            <option value="Open of Business">Open OB (9 am)</option>
+            <option value="Open of Business">Midday (1 pm)</option>
+            <option value="Close of Business" selected>Close OB (5 pm)</option>
+            <small class="form-text text-muted">
+              The time of day you need the files based on the time zone of your office.
+            </small>
           </select>
         </div>
       </div>
@@ -142,8 +196,21 @@
       <div class="form-group">
         <label for="actwkbks"># Excel files</label>
         <input name="Act. Wkbk. Cnt." type="number" class="form-control" id="actwkbks">
-        <small id="passwordHelpBlock" class="form-text text-muted">
-          If the files for this request are already available, please enter the number of Excel workbooks that will be created for this request (v0.01) or corrected for this request (CR).
+        <small class="form-text text-muted">
+          If the files for this request are already available, please enter the total number of Excel workbooks that will be created for this request (v0.01) or corrected for this request (CR).
+        </small>
+      </div>
+
+      <div class="form-group">
+        <label>File Preparation</label>
+        <small class="form-text text-muted">
+          All files needed for this request should be placed in the "<u>...\To Assistant\[expected start date]</u>" folder of the protocol's server folder. This includes JSONs and Excel workbooks from vendors.<br>
+          <i>eg. "<u>K:\Alexion\ALXN1210-PNH-303\Translations\To Assistant\2018.10.18</u>".</i><br><br>
+
+          The only exception to this is files that are generally relevant to the protocol's screenshot generation, such as the most recent macro template or naming convention text files, which should just be placed in "<u>...\To Assistant</u>".<br><br>
+
+          When the request is completed, files will be placed in a new folder named with the date the request was performed.<br>
+          <i>eg. "<u>...\From Assistant\2018.10.18 -- 87-FLCR-3</u>".</i>
         </small>
       </div>
 
@@ -161,11 +228,23 @@
           <input class="form-check-input" type="radio" name="Excel Macro template" id="tempNo" value="Use existing template">
           <label class="form-check-label" for="tempNo">Use existing template</label>
         </div>
+        <small class="form-text text-muted">
+          If you have an existing template, include the most recent version at the root of the "To Assistant" folder of your study.
+        </small>
       </div>
 
       <div class="form-group">
         <label for="naming">Naming Conventions</label>
         <textarea class="form-control" name="Naming Conventions" id="naming" rows="3"></textarea>
+        <small class="form-text text-muted">
+          Workbooks for <strong>copyrighted assessments</strong> will have 1) no AFFIDAVIT and 2) their filename will <strong>not</strong> include the client or protocol. Additionally, 3) we will add the assessment to the macro's list of copyrighted assessments.<br>
+          <i>eg. EQ-5D-5L_eCOA Handheld_English (Singapore)_v0.02.xlsx</i><br><br>
+
+          Workbooks for <strong>non-copyrighted assessments</strong>strong> will have 1) an AFFIDAVIT screen and 2) filenames with the client and protocol.<br>
+          <i>eg. Deciphera DCC-2618-03-002_eCOA Handheld_Training Module_English (Singapore)_v0.02.xlsx</i><br><br>
+
+          If your study includes involves any exceptions or to ensure the naming conventions for your template creation are correct, please specify any deviations from this standard or copy and paste the naming conventions for your assessments.
+        </small>
       </div>
       
     </form>
