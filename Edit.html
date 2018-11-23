@@ -55,7 +55,7 @@
       <h3 class="mt-3">Request Basics</h3>
     
       <div class="row">
-        <div class="form-group col-md-6 col-lg">
+        <div class="form-group col-md">
           <label for="reqCode">Type</label>
           <select name="Req Code" id="reqCode" class="form-control" required>
             <option selected disabled>(select a type)</option>
@@ -67,21 +67,21 @@
             <option value="OTH">other</option>
           </select>
         </div>
-        <div class="form-group col-md-6 col-lg">
+        <div class="form-group col-md">
           <label for="batch">Batch</label>
           <input name="Batch #" type="text" class="form-control" id="batch">
           <small class="form-text text-muted">
             If more than one, separate by comma. eg. 1, 2
           </small>
         </div>
-        <div class="form-group col-md-6 col-lg">
+        <!-- <div class="form-group col-md-6 col-lg">
           <label for="langCnt"># Languages</label>
           <input name="# of languages/countries for this request" type="number" class="form-control" id="langCnt" required>
         </div>
         <div class="form-group col-md-6 col-lg">
           <label for="astCnt"># Assessments</label>
           <input name="# of assessments for this request" type="number" class="form-control" id="astCnt" required>
-        </div>
+        </div> -->
         <div class="form-group col-md">
           <label for="vend">Vendor</label>
           <select name="Translations Vendor(s)" id="vend" class="form-control" required>
@@ -202,7 +202,7 @@
             <option value="Close of Business" id="cob" selected>Close OB (5 pm)</option>
           </select>
           <small class="form-text text-muted">
-              The time of day you need the files based on the time zone of your office. Options are disabled if they fall before our standard turn around time.
+              Based on the time zone of your office. Options are disabled if they fall before our standard turn around time.
             </small>
         </div>
       </div>
@@ -358,7 +358,7 @@
       
       $( document ).ready(function() {
           console.log( "ready!" );
-          var dFilesFormTime, timestampForm;
+          var dFilesFormTime, timestampForm, status;
 
         <? if (data.action !== 'submit') { ?>
 
@@ -427,6 +427,7 @@
 
           dFilesFormTime = <?= d.dFiles && d.dFiles.format('YYYY-MM-DD-kk-mm-ss') ?>;
           timestampForm = <?= d.timestamp && d.timestamp.format('YYYY-MM-DD') ?>;
+          status = <?= d.statusCode ?>;
 
         <? } ?>
           
@@ -495,14 +496,14 @@
             var dd = earliestAvailDate.getDate();
             var mm = earliestAvailDate.getMonth() + 1; // add one because base 0
             var y = earliestAvailDate.getFullYear();
-            var earliestAvailForm = y + '-'+ mm + '-'+ dd;
+            var earliestAvailForm = y + '-'+ pad(mm) + '-'+ pad(dd);
             $('#start').attr('min', earliestAvailForm);
 
             /////////////////////////////////////////////////
             // files available date (set pref min)
             /////////////////////////////////////////////////
-            // var todayDate = new Date(); 
-            var todayDate = new Date(2018, 11 - 1, 23, 8); // month -1 because base 0
+            var todayDate = new Date(); 
+            // var todayDate = new Date(2018, 11 - 1, 23, 16, 59, 59); // month -1 because base 0
 
             var start = $('#start').val();
             var filesAvailDate;
@@ -511,15 +512,29 @@
               filesAvailDate = new Date(dFilesFormTime.substring(0, 4), dFilesFormTime.substring(5, 7) - 1, dFilesFormTime.substring(8, 10), dFilesFormTime.substring(11, 13), dFilesFormTime.substring(14, 16), dFilesFormTime.substring(17, 19));
             } else if (start.length) {
               console.log('...using start from form');
-              filesAvailDate = new Date(start.substring(0, 4), start.substring(5, 7) - 1, start.substring(8, 10), todayDate.getHours(), todayDate.getMinutes(), todayDate.getSeconds());
+              filesAvailDate = new Date(start.substring(0, 4), start.substring(5, 7) - 1, start.substring(8, 10));
+              var todayDateNoTime = new Date(todayDate.getTime());
+              
+              // console.log("filesAvailDate: " + filesAvailDate.getTime());
+              // console.log('todayDateNoTime: ' + todayDateNoTime.getTime());
+              // console.log(filesAvailDate.getTime() == todayDateNoTime.setHours(0, 0, 0, 0));
+              if (filesAvailDate.getTime() == todayDateNoTime.setHours(0, 0, 0, 0)) {
+                filesAvailDate = todayDate;
+              }
+              console.log("filesAvailDate: " + filesAvailDate);
+              // filesAvailDate = new Date(start.substring(0, 4), start.substring(5, 7) - 1, start.substring(8, 10), todayDate.getHours(), todayDate.getMinutes(), todayDate.getSeconds());
             } else {
               console.log('...using today');
               filesAvailDate = todayDate;
             }
+
             var dd = filesAvailDate.getDate();
             var mm = filesAvailDate.getMonth() + 1; // add one because base 0
             var y = filesAvailDate.getFullYear();
-            var filesAvailForm = y + '-'+ mm + '-'+ dd;
+            var filesAvailForm = y + '-'+ pad(mm) + '-'+ pad(dd);
+            if (dFilesFormTime) {
+              $('#start').prop('disabled', true).val(filesAvailForm);
+            }
 
             /////////////////////////////////////////////////
             // earliest TAT (set hard due min)
@@ -533,22 +548,21 @@
               numberOfDaysToAdd =  3;
             }
 
-            // account for weekend
-            if (earliestTATDate.getDay() == 4 || earliestTATDate.getDay() == 5) { // if files come in Thursday or Friday, add weekend
-              earliestTATDate.setDate(earliestTATDate.getDate() + 2);
-            } else if (earliestTATDate.getDay() == 6) {
-              earliestTATDate.setDate(earliestTATDate.getDate() + 1); // if files come in Saturday, add Sunday
+            // add TAT and account for weekend
+            if (earliestTATDate.getDay() == 4 || earliestTATDate.getDay() == 5 || earliestTATDate.getDay() == 6) { // if files come in Thursday, Friday, or Saturday add weekend
+              earliestTATDate.setDate(earliestTATDate.getDate() + 2 + numberOfDaysToAdd);
+            } else if (earliestTATDate.getDay() == 0) {
+              earliestTATDate.setDate(earliestTATDate.getDate() + 1 + numberOfDaysToAdd); // if files come in Sunday add a day
+            } else {
+              earliestTATDate.setDate(earliestTATDate.getDate() + numberOfDaysToAdd);
             }
-
-            // add TAT
-            earliestTATDate.setDate(earliestTATDate.getDate() + numberOfDaysToAdd);
 
             // add day if files avail after COB
             var earliestTATDateMaxTime = new Date(earliestTATDate.getTime());
             earliestTATDateMaxTime.setHours(times.cob, 0, 0, 0);
             var afterCOBOffset = 0;
             if(earliestTATDate > earliestTATDateMaxTime) {
-              console.log('...adding a day because filesAvail after COB');
+              // console.log('...adding a day because filesAvail after COB');
               afterCOBOffset += 1;
             }
 
@@ -558,7 +572,7 @@
             var dd = earliestTATDateOffset.getDate();
             var mm = earliestTATDateOffset.getMonth() + 1; // add one because base 0
             var y = earliestTATDateOffset.getFullYear();
-            var earliestTATForm = y + '-'+ mm + '-'+ dd;
+            var earliestTATForm = y + '-'+ pad(mm) + '-'+ pad(dd);
 
             console.log("earliestAvailDate: " + earliestAvailDate);
             console.log("filesAvailDate: " + filesAvailDate);
@@ -573,31 +587,31 @@
             if (hardDue.length) {
               var hardDueDate = new Date(hardDue.substring(0, 4), hardDue.substring(5, 7) - 1, hardDue.substring(8, 10));
               
-              console.log("hardDueDate:" + hardDueDate);
+              // console.log("hardDueDate:" + hardDueDate);
 
               var earliestTATDateNoTime = new Date(earliestTATDateOffset.getTime());
               earliestTATDateNoTime.setHours(0, 0, 0, 0);
 
-              if (hardDueDate <= earliestTATDateNoTime) {
-                console.log('hard due is BEFORE or SAME as today');
-                } else {
-                console.log('hard due is AFTER today');
-              }
+              // if (hardDueDate <= earliestTATDateNoTime) {
+              //   console.log('hard due is BEFORE or SAME as today');
+              //   } else {
+              //   // console.log('hard due is AFTER today');
+              // }
 
               // disable hard time of day options if less than TAT
               $.each(times, function(i, v) {
-                console.log(i + ' is ' + v);
+                // console.log(i + ' is ' + v);
                 var thisDateTime = new Date(hardDueDate.getTime());
                 thisDateTime.setHours(v);
                 if (thisDateTime < earliestTATDate) {
-                  console.log('thisDateTime ' + i + ': ' + thisDateTime);
-                  console.log('hard due time of day is AFTER earliest TAT');
-                  console.log('...disabling ' + i);
+                  // console.log('thisDateTime ' + i + ': ' + thisDateTime);
+                  // console.log('hard due time of day is AFTER earliest TAT');
+                  // console.log('...disabling ' + i);
                   $('#' + i).prop('disabled', true);
                 } else {
-                  console.log('thisDateTime ' + i + ': ' + thisDateTime);
-                  console.log('hard due time of day is BEFORE or SAME as earliest TAT');
-                  console.log('...enabling ' + i);
+                  // console.log('thisDateTime ' + i + ': ' + thisDateTime);
+                  // console.log('hard due time of day is BEFORE or SAME as earliest TAT');
+                  // console.log('...enabling ' + i);
                   $('#' + i).prop('disabled', false);
                 }
               });
@@ -606,7 +620,11 @@
             /////////////////////////////////////////////////
             // set mins and state
             /////////////////////////////////////////////////
-            if (dFilesFormTime || start.length) {
+            var disabledStatuses = ['INP', 'UNR', 'PND', 'CPL', 'CAN'];
+            // console.log(status);
+            // console.log(disabledStatuses.indexOf(status));
+            // console.log(disabledStatuses.indexOf(status) > -1);
+            if ((disabledStatuses.indexOf(status) == -1) && (dFilesFormTime || start.length)) {
               $('#prefDue').attr('min', filesAvailForm).prop('disabled', false);
               $('#hardDue').attr('min', earliestTATForm).prop('disabled', false);
 
@@ -624,45 +642,44 @@
             console.log(".....................................that's it!");
           }
 
-          function setTimeMin() {
+          // function setTimeMin() {
             
-            var hardDueDate = new Date(hardDue.substring(0, 4), hardDue.substring(5, 7) - 1, hardDue.substring(8, 10));
+          //   var hardDueDate = new Date(hardDue.substring(0, 4), hardDue.substring(5, 7) - 1, hardDue.substring(8, 10));
 
-            var filesAvail = new Date();
-            if (dFilesForm) {
-              filesAvail = new Date(dFilesForm.substring(0, 4), dFilesForm.substring(5, 7) - 1, dFilesForm.substring(8, 10));
-            }
-            var filesAvailNoTime = filesAvail;
-            filesAvailNoTime.setHours(0, 0, 0, 0);
-            console.log(filesAvailNoTime);
-            console.log(typeof filesAvailNoTime);
+          //   var filesAvail = new Date();
+          //   if (dFilesForm) {
+          //     filesAvail = new Date(dFilesForm.substring(0, 4), dFilesForm.substring(5, 7) - 1, dFilesForm.substring(8, 10));
+          //   }
+          //   var filesAvailNoTime = filesAvail;
+          //   filesAvailNoTime.setHours(0, 0, 0, 0);
+          //   console.log(filesAvailNoTime);
+          //   console.log(typeof filesAvailNoTime);
 
-            var reqCode = $('#reqCode').val();
-            var numberOfDaysToAdd = 2;
-            if (reqCode == 'enV1' || reqCode == 'OTH') {
-              numberOfDaysToAdd =  3;
-            }
-            console.log('...updating today');
-            filesAvailNoTime.setDate(filesAvailNoTime.getDate() + numberOfDaysToAdd);
+          //   var reqCode = $('#reqCode').val();
+          //   var numberOfDaysToAdd = 2;
+          //   if (reqCode == 'enV1' || reqCode == 'OTH') {
+          //     numberOfDaysToAdd =  3;
+          //   }
+          //   console.log('...updating today');
+          //   filesAvailNoTime.setDate(filesAvailNoTime.getDate() + numberOfDaysToAdd);
 
-            console.log(hardDueDate);
-            console.log(filesAvailNoTime);
-            console.log(hardDueDate == filesAvailNoTime);
-            console.log(hardDueDate <= filesAvailNoTime);
-            console.log(hardDueDate - filesAvailNoTime);
+          //   console.log(hardDueDate);
+          //   console.log(filesAvailNoTime);
+          //   console.log(hardDueDate == filesAvailNoTime);
+          //   console.log(hardDueDate <= filesAvailNoTime);
+          //   console.log(hardDueDate - filesAvailNoTime);
 
-            if (hardDueDate <= filesAvailNoTime) {
-              console.log('hard due is BEFORE or SAME as today');
-            } else {
-              console.log('hard due is AFTER today');
-            }
-          }
+          //   if (hardDueDate <= filesAvailNoTime) {
+          //     console.log('hard due is BEFORE or SAME as today');
+          //   } else {
+          //     console.log('hard due is AFTER today');
+          //   }
+          // }
 
           function updateValidity() {
             console.log("updating validity...");
 
             setDateMin();
-            setTimeMin();
 
             var reqCode = $('#reqCode').val();
 

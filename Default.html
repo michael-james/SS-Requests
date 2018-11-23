@@ -157,6 +157,10 @@ var sh = ss.getSheetByName("Queue");
       function unload(event) {
           event.returnValue = "Are you sure you want to leave?";
         }
+
+      var pad = function(number, width) {
+        return new Array((width || 2) + 1 - (number + '').length).join('0') + number;
+      }
     </script>
   </body>
 </html>
