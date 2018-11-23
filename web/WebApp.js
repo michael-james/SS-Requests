@@ -99,8 +99,8 @@ try {
   //Logger.log(arr);
   //Logger.log(arr[0]['value']);
   var obj = objectifyForm(arr);
-  // console.log(obj);
-  
+  console.log(obj);
+
   if (typeof obj['Status'] !== 'undefined') {
     chgStatus(obj.row, obj['Status']);
   }
@@ -113,7 +113,12 @@ try {
   var headers = sh.getRange(headerRows, 1, 1, sh.getLastColumn()).getValues()[0];
   var data = sh.getRange(obj.row, 1, 1, sh.getLastColumn()).getValues()[0];
   
-  //Logger.log(headers);
+  var uR = updateReq(oldStatus, batch, reqCode, startDate, dWFS, dFiles, office, hardDueDate, hardtime);
+  var uRTransposed = {row: uR.row, id: uR.id, Status: uR.status, Date Files: uR.dFiles, Date WFS: uR.dWFS,
+                    Hard Deadline: uR.hardDueDate.toDate()}
+  console.log(uRTransposed);
+  obj = Object.assign(uRTransposed, obj);
+  console.log(obj);
   
   var newRow = headers.map(function(header, index) {
     //Logger.log("TYPE: " + typeof obj[header]);
