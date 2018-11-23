@@ -294,7 +294,9 @@ function updateReq(oldStatus, batch, reqCode, startDate, dWFS, dFiles, office, h
   //////////////////////////////////////////////////////////
 
   if (hardDueDate) {
-    if (typeof hardDueDate !== 'object') {
+    console.log('%s is a %s', hardDueDate, hardDueDate.constructor.name);
+    console.log('%s is a %s', moment(hardDueDate), moment(hardDueDate).constructor.name);
+    if (hardDueDate.constructor.name !== 'Moment') {
       hardDueDate = moment(hardDueDate);
     }
     if (office == "Geneva") {
