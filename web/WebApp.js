@@ -106,10 +106,6 @@ try {
     obj['Timestamp'] = new Date();
   }
 
-  if (!obj.row) { 
-    obj.row = SpreadsheetApp.openById(ssID).getSheetByName('Queue').getLastRow() + 1;
-  }
-
   if (typeof obj['Status'] !== 'undefined') {
     chgStatus(obj.row, obj['Status']);
   }
@@ -124,6 +120,10 @@ try {
   var newRow = headers.map(function(header, index) {
     return typeof obj[header] !== 'undefined' ? obj[header] : data[index]
   })
+
+  if (newRow[getColNumByName(sh, "row") - 1]) { 
+    newRow[getColNumByName(sh, "row") - 1] = SpreadsheetApp.openById(ssID).getSheetByName('Queue').getLastRow() + 1;
+  }
   
   var uR = updateReq(newRow[getColNumByName(sh, "row") - 1],
                      newRow[getColNumByName(sh, "ID") - 1],
@@ -137,12 +137,11 @@ try {
                      newRow[getColNumByName(sh, "Hard Deadline") - 1],
                      newRow[getColNumByName(sh, "Hard Deadline Time") - 1]);
   console.log(uR);
-  var uRTransposed = {row: uR.row ? uR.row : '',
-                      ID: uR.id ? uR.id : '',
-                      Status: uR.status ? uR.status : '',
-                      'Date Files': uR.dFiles ? uR.dFiles : '',
-                      'Date WFS': uR.dWFS ? uR.dWFS : '',
-                      'Hard Deadline': uR.hardDueDate ? uR.hardDueDate.toDate() : ''};
+  var uRTransposed = {ID: uR.id ? uR.id : ,
+                      Status: uR.status ? uR.status : ,
+                      'Date Files': uR.dFiles ? uR.dFiles : ,
+                      'Date WFS': uR.dWFS ? uR.dWFS : ,
+                      'Hard Deadline': uR.hardDueDate ? uR.hardDueDate.toDate() : };
   console.log(uRTransposed);
 
   var updRow = headers.map(function(header, index) {

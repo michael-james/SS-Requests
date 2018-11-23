@@ -256,15 +256,6 @@ function getRequestData(data, i, newReq, keepSt, filt) {
 function updateReq(row, id, oldStatus, batch, reqCode, startDate, dWFS, dFiles, office, hardDueDate, hardtime) {
 
   var obj = {};
-
-  //////////////////////////////////////////////////////////
-  // determine request number (row)
-  //////////////////////////////////////////////////////////
-
-  if (!row) {
-    obj.row = SpreadsheetApp.openById(ssID).getSheetByName('Queue').getLastRow() + 1;
-    row = obj.row;
-  }
   
   //////////////////////////////////////////////////////////
   // determine request ID (id)
