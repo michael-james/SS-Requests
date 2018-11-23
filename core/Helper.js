@@ -293,30 +293,35 @@ function updateReq(oldStatus, batch, reqCode, startDate, dWFS, dFiles, office, h
   // combine hard due date and time (hardDueDate)
   //////////////////////////////////////////////////////////
 
-  if (office == "Geneva") {
-    switch (hardtime) {
-      case "Open of Business":
-        hardDueDate.hour(3);
-        break;
-      case "Early afternoon":
-        hardDueDate.hour(7);
-        break;
-      default:
-        hardDueDate.hour(11);
+  if (hardDueDate) {
+    if (typeof hardDueDate !== 'object') {
+      hardDueDate = moment(hardDueDate);
     }
-  } else {
-    switch (hardtime) {
-      case "Open of Business":
-        hardDueDate.hour(9);
-        break;
-      case "Early afternoon":
-        hardDueDate.hour(1);
-        break;
-      default:
-        hardDueDate.hour(5);
+    if (office == "Geneva") {
+      switch (hardtime) {
+        case "Open of Business":
+          hardDueDate.hour(3);
+          break;
+        case "Early afternoon":
+          hardDueDate.hour(7);
+          break;
+        default:
+          hardDueDate.hour(11);
+      }
+    } else {
+      switch (hardtime) {
+        case "Open of Business":
+          hardDueDate.hour(9);
+          break;
+        case "Early afternoon":
+          hardDueDate.hour(1);
+          break;
+        default:
+          hardDueDate.hour(5);
+      }
     }
+    obj.hardDueDate = hardDueDate;
   }
-  obj.hardDueDate = hardDueDate;
   
   // logging only
 //  obj.hardDueDate = obj.hardDueDate.format(dtf);
