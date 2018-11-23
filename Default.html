@@ -137,7 +137,7 @@ var sh = ss.getSheetByName("Queue");
       
       $(document).ready(function() {
 
-        $("input[required], textarea[required], select[required]").prev("label").addClass("required");
+        $("input[required], textarea[required], select[required]").siblings("label").addClass("required");
           
         google.script.url.getLocation(function(location) {
           var page = location.parameter.page;
