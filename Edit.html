@@ -512,20 +512,19 @@
             console.log("updating validity...");
             var reqCode = $('#reqCode').val();
 
-            // // assessments validation
-            // if (reqCode !== 'OTH') {
-            //   if (!$('#cpyast').val().length || !$('#nonast').length) {
-            //     $('#cpyast')[0].setCustomValidity("All " + reqCode + " requests require assessments.");
-                
-            //   } else {
-            //     $('#cpyast')[0].setCustomValidity("");
-            //   }
-            //   $('#cpyast').prev("label").addClass("required-soft");
-            //   $('#nonast').prev("label").addClass("required-soft");
-            // } else {
-            //   $('#cpyast').prev("label").removeClass("required-soft").find('textarea')[0].setCustomValidity("");
-            //   $('#nonast').prev("label").removeClass("required-soft");
-            // }
+            // assessments validation
+            if (reqCode !== 'OTH') {
+              if (!$('#cpyast').val().length || !$('#nonast').length) {
+                $('#cpyast')[0].setCustomValidity("All " + reqCode + " requests require assessments.");
+              } else {
+                $('#cpyast')[0].setCustomValidity("");
+              }
+              $('#cpyast').prev("label").addClass("required-soft");
+              $('#nonast').prev("label").addClass("required-soft");
+            } else {
+              $('#cpyast').prev("label").removeClass("required-soft").next('textarea')[0].setCustomValidity("");
+              $('#nonast').prev("label").removeClass("required-soft");
+            }
 
             // languages validation
             var lv1 = $('#langsV001').val().length;
