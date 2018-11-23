@@ -134,14 +134,14 @@
 
       <div class="row">
         <div class="form-group col-sm-3">
-          <label for="tbbuild">TB-syn Build</label>
+          <label for="tbbuild">TB-syn/SP Build #</label>
           <input name="TB-syn Build #" type="text" class="form-control" id="tbbuild" placeholder="latest">
           <small class="form-text text-muted">
             We will use the latest build if none is specified.
           </small>
         </div>
         <div class="form-group col-sm-3">
-          <label for="hhbuild">HH-syn Build</label>
+          <label for="hhbuild">HH-syn/LP Build #</label>
           <input name="HH-syn Build #" type="text" class="form-control" id="hhbuild" placeholder="latest">
           <small class="form-text text-muted">
             We will use the latest build if none is specified.
@@ -472,6 +472,8 @@
           });
 
           $('#reqCode').change(function() {
+            console.log('reqCode changed to ' + $(this).val());
+
             setHardDueMin();
 
             updateValidity();
@@ -507,14 +509,23 @@
           }
 
           function updateValidity() {
+            console.log("updating validity...");
             var reqCode = $('#reqCode').val();
 
-            // assessments validation
-            if (reqCode !== 'OTH' && (!$('#cpyast').val().length || !$('#nonast').length)) {
-              $('#cpyast')[0].setCustomValidity("All " + reqCode + " requests require assessments.");
-            } else {
-              $('#cpyast')[0].setCustomValidity("");
-            }
+            // // assessments validation
+            // if (reqCode !== 'OTH') {
+            //   if (!$('#cpyast').val().length || !$('#nonast').length) {
+            //     $('#cpyast')[0].setCustomValidity("All " + reqCode + " requests require assessments.");
+                
+            //   } else {
+            //     $('#cpyast')[0].setCustomValidity("");
+            //   }
+            //   $('#cpyast').prev("label").addClass("required-soft");
+            //   $('#nonast').prev("label").addClass("required-soft");
+            // } else {
+            //   $('#cpyast').prev("label").removeClass("required-soft").find('textarea')[0].setCustomValidity("");
+            //   $('#nonast').prev("label").removeClass("required-soft");
+            // }
 
             // languages validation
             var lv1 = $('#langsV001').val().length;
@@ -523,31 +534,44 @@
             switch (reqCode) {
               case 'FLv1':
                 if (!lv1) {
-                  $('#langsV001')[0].setCustomValidity("All " + reqCode + " requests require v0.01 languages.");
+                  $('#langsV001').prop('required', true).parent().show().find('textarea')[0].setCustomValidity("All " + reqCode + " requests require v0.01 languages.");
                 } else {
-                  $('#langsV001')[0].setCustomValidity("");
+                  $('#langsV001').prop('required', true).parent().show().find('textarea')[0].setCustomValidity("");
                 }
+                $('#langsCR').prop('required', false).parent().hide().find('textarea')[0].setCustomValidity("");
                 break;
               case 'FLCR':
                 if (!lcr) {
-                  $('#langsCR')[0].setCustomValidity("All " + reqCode + " requests require languages for corrections.");
+                  $('#langsCR').prop('required', true).parent().show().find('textarea')[0].setCustomValidity("All " + reqCode + " requests require languages for corrections.");
                 } else {
-                  $('#langsCR')[0].setCustomValidity("");
+                  $('#langsCR').prop('required', true).parent().show().find('textarea')[0].setCustomValidity("");
                 }
+                $('#langsV001').prop('required', false).parent().hide().find('textarea')[0].setCustomValidity("");
                 break;
               case 'v1CR':
                 if (!lv1) {
-                  $('#langsV001')[0].setCustomValidity("All " + reqCode + " requests require v0.01 languages.");
+                  $('#langsV001').prop('required', true).parent().show().find('textarea')[0].setCustomValidity("All " + reqCode + " requests require v0.01 languages.");
                 } else {
-                  $('#langsV001')[0].setCustomValidity("");
+                  $('#langsV001').prop('required', false).parent().show().find('textarea')[0].setCustomValidity("");
                 }
                 if (!lcr) {
-                  $('#langsCR')[0].setCustomValidity("All " + reqCode + " requests require languages for corrections.");
+                  $('#langsCR').prop('required', true).parent().show().find('textarea')[0].setCustomValidity("All " + reqCode + " requests require languages for corrections.");
                 } else {
-                  $('#langsCR')[0].setCustomValidity("");
+                  $('#langsCR').prop('required', false).parent().show().find('textarea')[0].setCustomValidity("");
                 }
                 break;
+              default:
+                if (reqCode == 'enV1' || reqCode == 'enCR') {
+                  $('#langsV001').prop('required', false).parent().hide().find('textarea')[0].setCustomValidity("");
+                  $('#langsCR').prop('required', false).parent().hide().find('textarea')[0].setCustomValidity("");
+                } else {
+                  $('#langsV001').prop('required', false).parent().show().find('textarea')[0].setCustomValidity("");
+                  $('#langsCR').prop('required', false).parent().show().find('textarea')[0].setCustomValidity("");
+                } 
             }
+
+            $("input[required], textarea[required], select[required]").prev("label").addClass("required");
+            $("input:not([required]), textarea:not([required]), select:not([required])").prev("label").removeClass("required");
           }
           
       });
