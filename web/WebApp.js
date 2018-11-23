@@ -137,11 +137,11 @@ try {
                      newRow[getColNumByName(sh, "Hard Deadline") - 1],
                      newRow[getColNumByName(sh, "Hard Deadline Time") - 1]);
   console.log(uR);
-  var uRTransposed = {ID: uR.id ? uR.id : ,
-                      Status: uR.status ? uR.status : ,
-                      'Date Files': uR.dFiles ? uR.dFiles : ,
-                      'Date WFS': uR.dWFS ? uR.dWFS : ,
-                      'Hard Deadline': uR.hardDueDate ? uR.hardDueDate.toDate() : };
+  var uRTransposed = {ID: uR.id && uR.id,
+                      Status: uR.status && uR.status,
+                      'Date Files': uR.dFiles && uR.dFiles,
+                      'Date WFS': uR.dWFS && uR.dWFS,
+                      'Hard Deadline': uR.hardDueDate && uR.hardDueDate.toDate()};
   console.log(uRTransposed);
 
   var updRow = headers.map(function(header, index) {
