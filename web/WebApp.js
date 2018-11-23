@@ -100,6 +100,7 @@ try {
   //Logger.log(arr[0]['value']);
   var obj = objectifyForm(arr);
   console.log(obj);
+  console.log("obj.row is %s so it's not %s", obj.row, !obj.row);
   if (!obj.row) {
     obj['Email Address'] = user().email;
     obj['Your Office'] = user().office;
