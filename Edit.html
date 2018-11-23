@@ -63,7 +63,7 @@
             <option value="enCR">enUS corrections</option>
             <option value="FLv1">foreign language v0.01</option>
             <option value="FLCR">foreign language corrections</option>
-            <option value="FLCR">foreign language v0.01 and corrections</option>
+            <option value="v1CR">foreign language v0.01 and corrections</option>
             <option value="OTH">other</option>
           </select>
         </div>
@@ -181,15 +181,18 @@
           <input name="Expected Date Files Will Be Available" type="date" class="form-control" id="start" required>
           <small class="form-text text-muted">
             If the files are available now, enter today's date. 
-        </small>
+          </small>
         </div>
         <div class="form-group col-md-6 col-lg">
           <label for="prefDue">Preferred</label>
-          <input name="Preferred Deadline" type="date" class="form-control" id="prefDue">
+          <input name="Preferred Deadline" type="date" class="form-control" id="prefDue" disabled>
         </div>
         <div class="form-group col-md-6 col-lg">
           <label for="hardDue">Hard Deadline</label>
-          <input name="Hard Deadline" type="date" class="form-control" id="hardDue" required>
+          <input name="Hard Deadline" type="date" class="form-control" id="hardDue" required disabled>
+          <small class="form-text text-muted">
+            Our standard turn around time is 2 business days for most requests (3 business days for enV1 or other).
+          </small>
         </div>
         <div class="form-group col-md-6 col-lg">
           <label for="hardtime">Hard Deadline Time of Day</label>
@@ -425,6 +428,9 @@
           
           $('#go').click(function() {
             var $form = $('form#edit');
+
+            updateValidity();
+
             if ($form.get(0).reportValidity()) {
               $('#go, #go-view, #go-submit').prop("disabled", true);
               var val = $form.serializeArray();
@@ -434,6 +440,9 @@
           
           $('#go-view, #go-submit').click(function() {
             var $form = $('form#edit');
+
+            updateValidity();
+
             if ($form.get(0).reportValidity()) {
               $('#go, #go-view, #go-submit').prop("disabled",true);
               var val = $form.serializeArray();
@@ -449,10 +458,98 @@
                     
           $('input, textarea, select').change(function() {
             $('#go, #go-submit').addClass("btn-warning");
-            console.log('changed!');
             
             window.addEventListener("beforeunload", unload);
           });
+
+          $('#start').change(function() {
+            var start = $(this).val();
+            if (start) {
+              $('#prefDue').attr('min', start).prop('disabled', false);
+
+              setHardDueMin();
+            }
+          });
+
+          $('#reqCode').change(function() {
+            setHardDueMin();
+
+            updateValidity();
+          });
+
+          function setHardDueMin() {
+            var start = $('#start').val();
+            var reqCode = $('#reqCode').val();
+
+            if (start) {
+              if (reqCode) {
+                var numberOfDaysToAdd = (reqCode == 'enV1' || reqCode == 'OTH') ? 3 : 2;
+
+                // account for weekend
+                var startDate = new Date(start.substring(0, 4), start.substring(5, 7) - 1, start.substring(8, 10));
+                if (startDate.getDay() == 4 || startDate.getDay() == 5) { // if files come in Thursday or Friday, add weekend
+                  startDate.setDate(startDate.getDate() + 2);
+                }
+                if (startDate.getDay() == 6) {
+                  startDate.setDate(startDate.getDate() + 1); // if files come in Saturday, add Sunday
+                }
+
+                // add TAT
+                startDate.setDate(startDate.getDate() + numberOfDaysToAdd); // add one because base 0
+
+                var dd = startDate.getDate();
+                var mm = startDate.getMonth() + 1; // add one because base 0
+                var y = startDate.getFullYear();
+                var startDateForm = y + '-'+ mm + '-'+ dd;
+                $('#hardDue').attr('min', startDateForm).prop('disabled', false);
+              }
+            }
+          }
+
+          function updateValidity() {
+            var reqCode = $('#reqCode').val();
+
+            // assessments validation
+            if (reqCode !== 'OTH' && (!$('#cpyast').val().length || !$('#nonast').length)) {
+              $('#cpyast')[0].setCustomValidity("All " + reqCode + " requests require assessments.");
+            } else {
+              $('#cpyast')[0].setCustomValidity("");
+            }
+
+            // languages validation
+            var lv1 = $('#langsV001').val().length;
+            var lcr = $('#langsCR').val().length;
+
+            switch (reqCode) {
+              case 'FLv1':
+                if (!lv1) {
+                  $('#langsV001')[0].setCustomValidity("All " + reqCode + " requests require v0.01 languages.");
+                } else {
+                  $('#langsV001')[0].setCustomValidity("");
+                }
+                break;
+              case 'FLCR':
+                if (!lcr) {
+                  $('#langsCR')[0].setCustomValidity("All " + reqCode + " requests require languages for corrections.");
+                } else {
+                  $('#langsCR')[0].setCustomValidity("");
+                }
+                break;
+              case 'v1CR':
+                if (!lv1) {
+                  $('#langsV001')[0].setCustomValidity("All " + reqCode + " requests require v0.01 languages.");
+                } else {
+                  $('#langsV001')[0].setCustomValidity("");
+                }
+                if (!lcr) {
+                  $('#langsCR')[0].setCustomValidity("All " + reqCode + " requests require languages for corrections.");
+                } else {
+                  $('#langsCR')[0].setCustomValidity("");
+                }
+                break;
+            }
+          }
+          
       });
       
     </script>

@@ -106,6 +106,7 @@ try {
       chgStatus(obj.row, obj['Status']);
     }
     var data = sh.getRange(obj.row, 1, 1, sh.getLastColumn()).getValues()[0];
+    // console.log('...processing form... get data worked!');
   } else {
     obj['Email Address'] = user().email;
     obj['office'] = user().office;
@@ -115,6 +116,7 @@ try {
   // console.log(obj);
   
   var headers = sh.getRange(headerRows, 1, 1, sh.getLastColumn()).getValues()[0];
+  // console.log('...processing form... get headers worked!');
   var newRow = headers.map(function(header, index) {
     var base;
     if (obj.row) {
@@ -128,6 +130,7 @@ try {
 
   if (!newRow[getColNumByName(sh, "row") - 1]) { 
     newRow[getColNumByName(sh, "row") - 1] = SpreadsheetApp.openById(ssID).getSheetByName('Queue').getLastRow() + 1;
+    // console.log('...processing form... get new row # worked!');
   }
   
   var uR = updateReq(newRow[getColNumByName(sh, "row") - 1],
