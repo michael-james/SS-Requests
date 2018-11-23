@@ -514,10 +514,10 @@
 
             // assessments validation
             if (reqCode !== 'OTH') {
-              if (!$('#cpyast').val().length || !$('#nonast').length) {
-                $('#cpyast')[0].setCustomValidity("All " + reqCode + " requests require assessments.");
-              } else {
+              if ($('#cpyast').val().length || $('#nonast').val().length) {
                 $('#cpyast')[0].setCustomValidity("");
+              } else {
+                $('#cpyast')[0].setCustomValidity("All " + reqCode + " requests require assessments.");
               }
               $('#cpyast').prev("label").addClass("required-soft");
               $('#nonast').prev("label").addClass("required-soft");
@@ -551,12 +551,12 @@
                 if (!lv1) {
                   $('#langsV001').prop('required', true).parent().show().find('textarea')[0].setCustomValidity("All " + reqCode + " requests require v0.01 languages.");
                 } else {
-                  $('#langsV001').prop('required', false).parent().show().find('textarea')[0].setCustomValidity("");
+                  $('#langsV001').prop('required', true).parent().show().find('textarea')[0].setCustomValidity("");
                 }
                 if (!lcr) {
                   $('#langsCR').prop('required', true).parent().show().find('textarea')[0].setCustomValidity("All " + reqCode + " requests require languages for corrections.");
                 } else {
-                  $('#langsCR').prop('required', false).parent().show().find('textarea')[0].setCustomValidity("");
+                  $('#langsCR').prop('required', true).parent().show().find('textarea')[0].setCustomValidity("");
                 }
                 break;
               default:
