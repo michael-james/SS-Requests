@@ -18,6 +18,15 @@ var statuses = {
   "CAN": "Cancelled"
 }
 
+var types = {
+  "enV1": "enUS v1.00",
+  "enCR": "enUS corrections",
+  "FLv1": "foreign language v0.01",
+  "FLCR": "foreign language corrections",
+  "v1CR": "foreign language v0.01 and corrections",
+  "OTH": "other"
+}
+
 var offices = {
   "PGH": "Pittsburgh",
   "PHL": "Philadelphia",

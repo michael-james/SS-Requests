@@ -73,12 +73,11 @@ function getRequestData(data, i, newReq, keepSt, filt) {
   
   // Request Basics
   d.id = d.getByName("ID") || "";
-  Logger.log(d.id);
-  d.reqType = d.getByName("Request Type") || "";
+  d.reqCode = d.getByName("Req Code") || "";
+  d.reqType = d.reqCode && types[d.reqCode];
   d.client = d.getByName("Client") || "";
   d.protocol = d.getByName("Protocol Number") || "";
   d.batch = d.getByName("Batch #") || "";
-  d.reqCode = d.getByName("Req Code") || "";
   d.email = d.getByName("Email Address") || "";
   d.office = d.getByName("Office Code") && offices[d.getByName("Office Code")] || "";
   d.asst = d.getByName("Asgd To") || "";
@@ -205,29 +204,6 @@ function getRequestData(data, i, newReq, keepSt, filt) {
   // determine if files are ready
   d.filesDate = d.dFiles ? d.dFiles : (d.startDate && d.startDate);
   d.daysFiles = workdays(moment(), d.filesDate);
-
-  // reqCode (get rid of)
-  switch (d.reqType) {
-    case "enUS v1.00":
-        d.reqCode = "enV1";
-        break;
-    case "enUS corrections":
-        d.reqCode = "enCR";
-        break;
-    case "foreign language v0.01":
-        d.reqCode = "FLv1";
-        break;
-    case "foreign language corrections":
-        d.reqCode = "FLCR";
-        break;
-    case "foreign language v0.01 and corrections":
-        d.reqCode = "v1CR";
-        break;
-    default: 
-        d.reqCode = "OTH";
-    }
-
-  sh.getRange(row, d.getColNumByName("Req Code")).setValue(d.reqCode);
 
   // requestor name
   d.requestor = d.email.substr(0, d.email.indexOf("@")).replace(".", " ");
