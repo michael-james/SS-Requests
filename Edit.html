@@ -1,17 +1,21 @@
-<? var d = getRequest(data.row); ?>
+<? if (data.action == 'submit') {
+     var d = getRequest(data.row)
+   } ?>
 
 <!-- messagebox?/manscr? do not update database properly - try putting them in groups but with hidden 'no' -->
 
 <div class="container" style="padding-top:20px">
-    <?= data.action ?>
+  <? if (data.action == 'new') { ?>
     <h1><span class="badge badge-primary">Edit</span> <span class="badge <?= typClass(d.reqCode) ?>"><?= d.reqCode ?></span> <?= d.client + ' ' + d.protocol + (d.batch && (' Batch ' + d.batch)) ?></h1>
-    
+   <? } else { ?> 
+    <h1><span class="badge badge-primary">Submit</span> New Request
+   <? } ?>
     <div class="py-3">
       <a id="view-link" class="btn btn-outline-secondary" href="<?=url?>?page=View<?= (data.asst || data.lead || data.admin) ? 'Admin' : '' ?>&row=<?= d.row ?>">View</a>
     </div>
  
     <form id="edit">
-      <input type="hidden" id="row" name="row" value="<?= d.row ?>">
+      <input type="hidden" id="row" name="row">
       
       <h3 class="mt-3">Study Information</h3>
 
@@ -342,6 +346,10 @@
       
       $( document ).ready(function() {
           console.log( "ready!" );
+
+        <? if (data.action == 'submit') { ?>
+
+          $('#row').val(<?= d.row ?>);
           
           // Study Information
           $('#client').val(<?= d.client ?>);
@@ -353,10 +361,7 @@
             $('#server').val(<?= d.server ?>);
           }
 
-          console.log("device: " + <?= d.device ?>);
-
           // Request Basics
-          console.log("reqCode: " + <?= d.reqCode ?>);
           if (<?= d.reqCode ?>) {
             $('#reqCode').val(<?= d.reqCode ?>);
           }
@@ -407,7 +412,7 @@
           $('#waitfor').val(<?= d.waitfor ?>);
           $('#jira').val(<?= d.jira ?>);
 
-
+        <? } ?>
           
           $('#go').click(function() {
             var $form = $('form#edit');
