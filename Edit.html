@@ -312,7 +312,7 @@
           <button id="go" class="btn btn-primary">Save</button>
           <button id="go-view" class="btn btn-outline-secondary">Save &amp; View</button>
         <? } else { ?>
-          <button id="go-view" class="btn btn-primary">Submit</button>
+          <button id="go-submit" class="btn btn-primary">Submit</button>
         <? } ?>
         <!-- <button id="go-send" class="btn btn-outline-success">Save &amp; Send</button> -->
         <span id="perfoutput" class="pl-3 text-success"></span>
@@ -323,7 +323,7 @@
 
   <script>
       function onEditSuccess(msg) {
-        $('#go, #go-view').prop("disabled",false).removeClass('btn-warning');
+        $('#go, #go-view, #go-submit').prop("disabled",false).removeClass('btn-warning');
         $('#perfoutput').removeClass("text-danger").addClass("text-success").text("Saved!").show();
         
         setTimeout(function(){
@@ -334,7 +334,7 @@
       }
       
       function onEditSuccessView(msg) {
-        $('#go, #go-view').removeClass('btn-warning');
+        $('#go, #go-view, #go-submit').removeClass('btn-warning');
         window.removeEventListener("beforeunload", unload);
       
         document.getElementById('view-link').click();
@@ -344,7 +344,7 @@
         console.log(error.message);
         $('#perfoutput').removeClass("text-success").addClass("text-danger").text("Save Failed").show();
         
-        onFailure(error, $('#go, #go-view'));
+        onFailure(error, $('#go, #go-view, #go-submit'));
         
         setTimeout(function(){
           $('#perfoutput').hide()
@@ -424,16 +424,16 @@
           $('#go').click(function() {
             var $form = $('form#edit');
             if ($form.get(0).reportValidity()) {
-              $('#go, #go-view').prop("disabled", true);
+              $('#go, #go-view, #go-submit').prop("disabled", true);
               var val = $form.serializeArray();
               google.script.run.withSuccessHandler(onEditSuccess).withFailureHandler(onEditFailure).processForm(val, null, true, "EditSave");
             }
           });
           
-          $('#go-view').click(function() {
+          $('#go-view, #go-submit').click(function() {
             var $form = $('form#edit');
             if ($form.get(0).reportValidity()) {
-              $('#go, #go-view').prop("disabled",true);
+              $('#go, #go-view, #go-submit').prop("disabled",true);
               var val = $form.serializeArray();
               google.script.run.withSuccessHandler(onEditSuccessView).withFailureHandler(onEditFailure).processForm(val, true, true, "EditSaveView");
             }
@@ -446,7 +446,7 @@
           // });
                     
           $('input, textarea, select').change(function() {
-            $('#go').addClass("btn-warning");
+            $('#go, #go-submit').addClass("btn-warning");
             console.log('changed!');
             
             window.addEventListener("beforeunload", unload);
