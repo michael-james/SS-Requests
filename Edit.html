@@ -5,7 +5,7 @@
 <!-- messagebox?/manscr? do not update database properly - try putting them in groups but with hidden 'no' -->
 
 <div class="container" style="padding-top:20px">
-  <? if (data.action == 'new') { ?>
+  <? if (data.action !== 'submit') { ?>
     <h1><span class="badge badge-primary">Edit</span> <span class="badge <?= typClass(d.reqCode) ?>"><?= d.reqCode ?></span> <?= d.client + ' ' + d.protocol + (d.batch && (' Batch ' + d.batch)) ?></h1>
     <div class="py-3">
       <a id="view-link" class="btn btn-outline-secondary" href="<?=url?>?page=View<?= (data.asst || data.lead || data.admin) ? 'Admin' : '' ?>&row=<?= d.row ?>">View</a>
@@ -347,7 +347,7 @@
       $( document ).ready(function() {
           console.log( "ready!" );
 
-        <? if (data.action == 'submit') { ?>
+        <? if (data.action !== 'submit') { ?>
 
           $('#row').val(<?= d.row ?>);
           
