@@ -47,6 +47,7 @@ function doGet(e) {
   if (e.parameter.action) {
     view = e.parameter['action'];
   }
+  console.log(action);
 
   // return HtmlService.createTemplateFromFile(e.parameter['page']).evaluate();
   var data = {page: page, row: row, status: statuses[s], view: view, role: role, action: action, email: u.email, u: u, admin: u.admin, asst: u.asst, lead: u.lead};
