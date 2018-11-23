@@ -63,17 +63,21 @@ function doGet(e) {
 
 function include(filename, data) {
   // Logger.log(filename);
-  try {
+  // try {
     var html = HtmlService.createTemplateFromFile(filename);
     html.data = data;
     return html.evaluate().getContent();
-  } catch(e) {
-    console.error('%s (line %s, file "%s"', e, e.lineNumber, e.fileName);
-    var html = HtmlService.createTemplateFromFile('Home');
-    html.data = data;
-//    throwAlert(e, "The requested page is not accessible at this time.");
-    return html.evaluate().getContent();
-  }
+  // } catch(e) {
+    // console.error('%s (line %s, file "%s"', e, e.lineNumber, e.fileName);
+    // throwAlert(e, "The requested page is not accessible at this time.");
+    // try {
+    //   var html = HtmlService.createTemplateFromFile('Home');
+    //   html.data = data;
+    //   return html.evaluate().getContent();
+    // } catch(e) {
+    //     throwAlert(e, "The requested page is not accessible at this time.");
+    // }
+  // }
 }
 
 /**

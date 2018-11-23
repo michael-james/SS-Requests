@@ -286,7 +286,7 @@ function getRequestData(data, i, newReq, keepSt, filt) {
   
   d.statusCode = getStatusCode(d.status);
   
-  var dur = new Date().getTime() - t0.getTime(); console.log({ type: 'perf', message: Utilities.formatString('perf: %s %s %sms', arguments.callee.name, (typeof page !== 'undefined') ? page : '', dur), func: "doGet", row: (typeof d.row !== 'undefined') ? d.row : '', page: (typeof page !== 'undefined') ? page : '', source: (typeof source !== 'undefined') ? source : '', dur: dur, user: user().email});
+  // var dur = new Date().getTime() - t0.getTime(); console.log({ type: 'perf', message: Utilities.formatString('perf: %s %s %sms', arguments.callee.name, (typeof page !== 'undefined') ? page : '', dur), func: "doGet", row: (typeof d.row !== 'undefined') ? d.row : '', page: (typeof page !== 'undefined') ? page : '', source: (typeof source !== 'undefined') ? source : '', dur: dur, user: user().email});
   return d;
 }
 
