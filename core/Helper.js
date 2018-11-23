@@ -290,6 +290,10 @@ function getRequestData(data, i, newReq, keepSt, filt) {
   return d;
 }
 
+function updateReq(batch, reqCode, startDate, office, hardDueDate, hardDueTime) {
+
+}
+
 function getRequestsSummary() {
   var ss = SpreadsheetApp.getActiveSpreadsheet();
   var sheet = ss.getSheetByName("Pivot - Counts");
@@ -547,7 +551,7 @@ function setReqID(d) {
   //var scriptProperties = PropertiesService.getScriptProperties();
   //var last = parseInt(scriptProperties.getProperty('lastID'));
   //var num = last + 1;
-  var id = d.row + '-' + d.timestamp.date() + '-' + clientShort + "-" + (protocolShort && (protocolShort + "-")) + (batch && batch + '-') + d.reqCode.toUpperCase();
+  var id = (batch && ('B' + batch + '-')) + d.reqCode.toUpperCase() + '-' + d.row; 
   //console.log("id %s", id);
   d.sh.getRange(d.row, d.getColNumByName("ID")).setValue(id);
   return id;
