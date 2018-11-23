@@ -253,7 +253,7 @@ function getRequestData(data, i, newReq, keepSt, filt) {
   return d;
 }
 
-function updateReq(batch, reqCode, startDate, dWFS, dFiles, office, hardDueDate, hardDueTime) {
+function updateReq(oldStatus, batch, reqCode, startDate, dWFS, dFiles, office, hardDueDate, hardtime) {
 
   var obj = {};
 
@@ -272,8 +272,8 @@ function updateReq(batch, reqCode, startDate, dWFS, dFiles, office, hardDueDate,
   //////////////////////////////////////////////////////////
   // determine whether request is ready to start (status)
   //////////////////////////////////////////////////////////
-
-  if (!keepSt) {
+  
+  if (!oldStatus) {
     var today = new Date();
     var diff = startDate && startDate.diff(moment(), 'days', true);
     if (Math.ceil(diff) >= 1) {
@@ -287,7 +287,7 @@ function updateReq(batch, reqCode, startDate, dWFS, dFiles, office, hardDueDate,
         obj.dFiles = today;
       }
     }
-  }
+   }
 
   //////////////////////////////////////////////////////////
   // combine hard due date and time (hardDueDate)
@@ -317,15 +317,56 @@ function updateReq(batch, reqCode, startDate, dWFS, dFiles, office, hardDueDate,
     }
   }
   obj.hardDueDate = hardDueDate;
+  
+  // logging only
+//  obj.hardDueDate = obj.hardDueDate.format(dtf);
 
   return obj
 }
 
-// function testUpdateReq() {
-//   return updateReq("1, 2", "FLCR", moment('2018-11-26'), "", "", "Geneva", moment('2018-11-28'), "Early afternoon")
-// }
+ function testUpdateReq() {
+   Logger.log( updateReq("", "1, 2", "FLCR", moment('2018-11-26'), "", "", "Geneva", moment('2018-11-28'), "Early afternoon") );
+ }
 
 // console.log(testUpdateReq());
+
+function setReqID(row, b, reqCode) {
+  //console.log({client: d.client, protocol: d.protocol, batch: d.batch, reqCode: d.reqCode, timestamp: d.timestamp.format(), row: d.row});
+  // var clientRegEx = /([A-Za-z]){3}/g;
+  // var clientShort = (typeof d.client == 'string') ? d.client.match(clientRegEx)[0].toUpperCase() : '';
+  // var protocolRegEx = /-?([A-Za-z])/g; // characeters and hyphens if before characters
+  // var protocolShort = (typeof d.protocol == 'string') ? d.protocol.match(protocolRegEx) : '';
+  // protocolShort = protocolShort && protocolShort.join('').toUpperCase();
+  var batchRegEx = /([^A-Za-z0-9,]+)/g;
+  var batch = (typeof b == 'string') ? b.replace(batchRegEx, '') : '';
+  var batch = batch.split(',');
+  var batch = batch.join('-B');
+    
+  //var scriptProperties = PropertiesService.getScriptProperties();
+  //var last = parseInt(scriptProperties.getProperty('lastID'));
+  //var num = last + 1;
+  var id = (batch && ('B' + batch + '-')) + (reqCode ? reqCode.toUpperCase() : "OTH") + (row ? ('-' + row) : ""); 
+  //console.log("id %s", id);
+  // d.sh.getRange(d.row, d.getColNumByName("ID")).setValue(id);
+  return id
+}
+
+function setIDSel() {
+  getSelectedRows().forEach(setIDbyRow);
+
+  function setIDbyRow(value) {
+     var d = getRequest(value);
+     
+     if (d.id) {
+       alertMsg = Utilities.formatString("Are you sure you want to create a new ID for request %s?\n\n%s\n%s %s%s- %s", d.id, d.status, d.client, d.protocol, (d.batch && (' Batch ' + d.batch)), d.reqCode);
+      if (showAlert(alertMsg)) {
+        setReqID(d);
+      }
+     } else {
+       setReqID(d);
+     }
+  }
+}
 
 function getRequestsSummary() {
   var ss = SpreadsheetApp.getActiveSpreadsheet();
@@ -569,42 +610,6 @@ function properties() {
   scriptProperties.setProperty('lastID', num);
   var now = scriptProperties.getProperty('lastID');
   Logger.log("the number was %s (type %s) but I set it to %s so now it is %s", last, typeof last, num, now);
-}
-
-function setReqID(row, b, reqCode) {
-  //console.log({client: d.client, protocol: d.protocol, batch: d.batch, reqCode: d.reqCode, timestamp: d.timestamp.format(), row: d.row});
-  // var clientRegEx = /([A-Za-z]){3}/g;
-  // var clientShort = (typeof d.client == 'string') ? d.client.match(clientRegEx)[0].toUpperCase() : '';
-  // var protocolRegEx = /-?([A-Za-z])/g; // characeters and hyphens if before characters
-  // var protocolShort = (typeof d.protocol == 'string') ? d.protocol.match(protocolRegEx) : '';
-  // protocolShort = protocolShort && protocolShort.join('').toUpperCase();
-  var batchRegEx = /([^A-Za-z0-9]+)/g;
-  var batch = (typeof b == 'string') ? b.replace(batchRegEx, '') : '';
-    
-  //var scriptProperties = PropertiesService.getScriptProperties();
-  //var last = parseInt(scriptProperties.getProperty('lastID'));
-  //var num = last + 1;
-  var id = (batch && ('B' + batch + '-')) + reqCode.toUpperCase() + '-' + row; 
-  //console.log("id %s", id);
-  // d.sh.getRange(d.row, d.getColNumByName("ID")).setValue(id);
-  return id
-}
-
-function setIDSel() {
-  getSelectedRows().forEach(setIDbyRow);
-
-  function setIDbyRow(value) {
-     var d = getRequest(value);
-     
-     if (d.id) {
-       alertMsg = Utilities.formatString("Are you sure you want to create a new ID for request %s?\n\n%s\n%s %s%s- %s", d.id, d.status, d.client, d.protocol, (d.batch && (' Batch ' + d.batch)), d.reqCode);
-      if (showAlert(alertMsg)) {
-        setReqID(d);
-      }
-     } else {
-       setReqID(d);
-     }
-  }
 }
 
 function countReqs(fields, exc, inc) {
