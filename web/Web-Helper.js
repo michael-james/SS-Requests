@@ -63,7 +63,7 @@ function doGet(e) {
 
 function include(filename, data) {
   // Logger.log(filename);
-  console.log('...including %s with %s', filename, data);
+  console.log('...including %s', filename);
   var html = HtmlService.createTemplateFromFile(filename);
   html.data = data;
   return html.evaluate().getContent();

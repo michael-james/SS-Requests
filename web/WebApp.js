@@ -106,6 +106,8 @@ try {
     obj['Timestamp'] = new Date();
   }
 
+  console.log(obj);
+
   if (typeof obj['Status'] !== 'undefined') {
     chgStatus(obj.row, obj['Status']);
   }
@@ -121,7 +123,7 @@ try {
     return typeof obj[header] !== 'undefined' ? obj[header] : data[index]
   })
 
-  if (newRow[getColNumByName(sh, "row") - 1]) { 
+  if (!newRow[getColNumByName(sh, "row") - 1]) { 
     newRow[getColNumByName(sh, "row") - 1] = SpreadsheetApp.openById(ssID).getSheetByName('Queue').getLastRow() + 1;
   }
   
