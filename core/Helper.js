@@ -253,7 +253,7 @@ function getRequestData(data, i, newReq, keepSt, filt) {
   return d;
 }
 
-function updateReq(oldStatus, batch, reqCode, startDate, dWFS, dFiles, office, hardDueDate, hardtime) {
+function updateReq(row, id, oldStatus, batch, reqCode, startDate, dWFS, dFiles, office, hardDueDate, hardtime) {
 
   var obj = {};
 
@@ -261,13 +261,15 @@ function updateReq(oldStatus, batch, reqCode, startDate, dWFS, dFiles, office, h
   // determine request number (row)
   //////////////////////////////////////////////////////////
 
-  obj.row = SpreadsheetApp.openById(ssID).getSheetByName('Queue').getLastRow() + 1;
+  if (!row) {
+    obj.row = SpreadsheetApp.openById(ssID).getSheetByName('Queue').getLastRow() + 1;
+  }
   
   //////////////////////////////////////////////////////////
   // determine request ID (id)
   //////////////////////////////////////////////////////////
 
-  obj.id = setReqID(obj.row, batch, reqCode); //--- change to accept vars instead of obj
+  obj.id = setReqID(obj.row, batch, reqCode);
 
   //////////////////////////////////////////////////////////
   // determine whether request is ready to start (status)

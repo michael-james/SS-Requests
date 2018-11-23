@@ -117,12 +117,12 @@ try {
   var headers = sh.getRange(headerRows, 1, 1, sh.getLastColumn()).getValues()[0];
   var data = sh.getRange(obj.row, 1, 1, sh.getLastColumn()).getValues()[0];
   var newRow = headers.map(function(header, index) {
-    //Logger.log("TYPE: " + typeof obj[header]);
     return typeof obj[header] !== 'undefined' ? obj[header] : data[index]
-    // return obj[header] ? obj[header] : data[index];
   })
   
-  var uR = updateReq(newRow[getColNumByName(sh, "Status") - 1],
+  var uR = updateReq(newRow[getColNumByName(sh, "row") - 1],
+                     newRow[getColNumByName(sh, "ID") - 1],
+                     newRow[getColNumByName(sh, "Status") - 1],
                      newRow[getColNumByName(sh, "Batch #") - 1],
                      newRow[getColNumByName(sh, "Req Code") - 1],
                      newRow[getColNumByName(sh, "Expected Date Files Will Be Available") - 1],
@@ -139,17 +139,14 @@ try {
                       'Date WFS': uR.dWFS ? uR.dWFS : '',
                       'Hard Deadline': uR.hardDueDate ? uR.hardDueDate.toDate() : ''};
   console.log(uRTransposed);
-  // obj = Object.assign(uRTransposed, obj);
-  // console.log(obj);
+
+  var updRow = headers.map(function(header, index) {
+    return typeof uRTransposed[header] !== 'undefined' ? uRTransposed[header] : newRow[index]
+  })
   
-  
-  
-  //Logger.log(newRow);
-  
+  console.log(updRow);
   sh.getRange(obj.row, 1, 1, newRow.length).setValues([newRow])
-  
-  //console.log({statusVal: obj['Status'], statusChanged: statusChanged}); 
-  
+    
   if (send) {
     sendSummaryRow(obj.row);
   }
