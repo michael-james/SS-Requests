@@ -7,13 +7,12 @@
 <div class="container" style="padding-top:20px">
   <? if (data.action !== 'submit') { ?>
     <h1><span class="badge badge-primary">Edit</span> <span class="badge <?= typClass(d.reqCode) ?>"><?= d.reqCode ?></span> <?= d.client + ' ' + d.protocol + (d.batch && (' Batch ' + d.batch)) ?></h1>
+    <div class="py-3">
+      <a id="view-link" class="btn btn-outline-secondary" href="<?=url?>?page=View<?= (data.asst || data.lead || data.admin) ? 'Admin' : '' ?>&row=<?= d.row ?>">View</a>
+    </div>
    <? } else { ?> 
     <h1><span class="badge badge-primary">Submit</span> New Request</h1>
    <? } ?>
-
-   <div class="py-3" style="<?= (data.action == 'submit') ? 'display: none;' : ''?>">
-      <a id="view-link" class="btn btn-outline-secondary" href="<?=url?>?page=View<?= (data.asst || data.lead || data.admin) ? 'Admin' : '' ?>&row=<?= d.row ?>">View</a>
-    </div>
  
     <form id="edit">
       <input type="hidden" id="row" name="row">
@@ -321,6 +320,7 @@
 
     </div> <!-- container -->
 
+<a href="<?=url?>?page=ViewAdmin&row=" id="this-link" hidden></a>
 
   <script>
       function onEditSuccess(msg) {
@@ -338,7 +338,8 @@
         $('#go, #go-view, #go-submit').removeClass('btn-warning');
         window.removeEventListener("beforeunload", unload);
       
-        document.getElementById('view-link').click();
+        var href = $('#this-link').attr('href');
+        $('#this-link').attr('href', href + msg).click();
       }
       
       function onEditFailure(error) {

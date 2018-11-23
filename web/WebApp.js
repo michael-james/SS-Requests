@@ -152,8 +152,9 @@ try {
   var updRow = headers.map(function(header, index) {
     return typeof uRTransposed[header] !== 'undefined' ? uRTransposed[header] : newRow[index]
   })
-  Logger.log(updRow);
-  console.log(updRow);
+
+  var row = updRow[getColNumByName(sh, "row") - 1];
+
   if (obj.row) {
     console.log('...updating existing row %s', obj.row);
     sh.getRange(obj.row, 1, 1, newRow.length).setValues([updRow])
@@ -171,7 +172,7 @@ try {
   }
   
   if (send || update) {
-    var d = getRequest(updRow[getColNumByName(sh, "row") - 1]);
+    var d = getRequest(row);
 
     if (send) {
       sendSummary(d);
@@ -182,8 +183,8 @@ try {
     }
   }
   
-  var dur = new Date().getTime() - t0.getTime(); console.info({ type: 'perf', message: Utilities.formatString('perf: %s %s %sms', arguments.callee.name, (typeof page !== 'undefined') ? page : '', dur), func: "doGet", row: (typeof obj.row !== 'undefined') ? obj.row : '', page: (typeof page !== 'undefined') ? page : '', source: (typeof source !== 'undefined') ? source : '', dur: dur, user: user().email});
-  return obj.row
+  var dur = new Date().getTime() - t0.getTime(); console.info({ type: 'perf', message: Utilities.formatString('perf: %s %s %sms', arguments.callee.name, (typeof page !== 'undefined') ? page : '', dur), func: "doGet", row: (typeof row !== 'undefined') ? row : '', page: (typeof page !== 'undefined') ? page : '', source: (typeof source !== 'undefined') ? source : '', dur: dur, user: user().email});
+  return row
 } catch (e) {
     throwAlert(e, "Request not updated.");
   }
