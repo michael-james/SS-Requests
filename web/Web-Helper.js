@@ -47,7 +47,6 @@ function doGet(e) {
   if (e.parameter.action) {
     action = e.parameter['action'];
   }
-  console.log(action);
 
   // return HtmlService.createTemplateFromFile(e.parameter['page']).evaluate();
   var data = {page: page, row: row, status: statuses[s], view: view, role: role, action: action, email: u.email, u: u, admin: u.admin, asst: u.asst, lead: u.lead};
@@ -69,7 +68,7 @@ function doGet(e) {
 
 function include(filename, data) {
   // Logger.log(filename);
-  console.log('...including %s', filename);
+  // console.log('...including %s', filename);
   var html = HtmlService.createTemplateFromFile(filename);
   html.data = data;
   return html.evaluate().getContent();
