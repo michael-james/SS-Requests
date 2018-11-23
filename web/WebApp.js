@@ -99,8 +99,8 @@ try {
   var sh = ss.getSheetByName("Queue");
 
   var obj = objectifyForm(arr);
-  console.log(obj);
-  console.log("obj.row is %s so it's not %s", obj.row, !obj.row);
+  // console.log(obj);
+  // console.log("obj.row is '%s' so it's not %s", obj.row, !obj.row);
   if (obj.row) {
     if (typeof obj['Status'] !== 'undefined') {
       chgStatus(obj.row, obj['Status']);
@@ -108,11 +108,11 @@ try {
     var data = sh.getRange(obj.row, 1, 1, sh.getLastColumn()).getValues()[0];
   } else {
     obj['Email Address'] = user().email;
-    obj['Your Office'] = user().office;
+    obj['office'] = user().office;
     obj['Timestamp'] = new Date();
   }
 
-  console.log(obj);
+  // console.log(obj);
   
   var headers = sh.getRange(headerRows, 1, 1, sh.getLastColumn()).getValues()[0];
   var newRow = headers.map(function(header, index) {
@@ -141,13 +141,13 @@ try {
                      newRow[getColNumByName(sh, "Your Office") - 1],
                      newRow[getColNumByName(sh, "Hard Deadline") - 1],
                      newRow[getColNumByName(sh, "Hard Deadline Time") - 1]);
-  console.log(uR);
+  // console.log(uR);
   var uRTransposed = {ID: uR.id && uR.id,
                       Status: uR.status && uR.status,
                       'Date Files': uR.dFiles && uR.dFiles,
                       'Date WFS': uR.dWFS && uR.dWFS,
                       'Hard Deadline': uR.hardDueDate && uR.hardDueDate.toDate()};
-  console.log(uRTransposed);
+  // console.log(uRTransposed);
 
   var updRow = headers.map(function(header, index) {
     return typeof uRTransposed[header] !== 'undefined' ? uRTransposed[header] : newRow[index]
@@ -159,7 +159,15 @@ try {
     sh.getRange(obj.row, 1, 1, newRow.length).setValues([updRow])
   } else {
     console.log('...appending new row %s', updRow[0]);
-    sh.appendRow(updRow);
+    sh.appendRow(updRow)
+
+    // copy prediction formulas
+    var predWkbksCol = getColNumByName(sh, "Pred. Wkbk. Cnt.");
+    var predWkbksFormula = sh.getRange(2, predWkbksCol).getFormula();
+    sh.getRange(sh.getLastRow(), predWkbksCol).setFormula(predWkbksFormula);
+    var predHrsCol = getColNumByName(sh, "Pred. Wkbk. Cnt.");
+    var predHrsFormula = sh.getRange(2, predHrsCol).getFormula();
+    sh.getRange(sh.getLastRow(), predHrsCol).setFormula(predHrsFormula);
   }
     
   if (send) {

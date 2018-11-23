@@ -80,7 +80,7 @@ function getRequestData(data, i, newReq, keepSt, filt) {
   d.batch = d.getByName("Batch #") || "";
   d.reqCode = d.getByName("Req Code") || "";
   d.email = d.getByName("Email Address") || "";
-  d.office = d.getByName("Your Office") || "";
+  d.office = d.getByName("Office Code") && offices[d.getByName("Office Code")] || "";
   d.asst = d.getByName("Asgd To") || "";
   d.langs = d.getByName("Languages for v0.01") + " " + d.getByName("Languages for corrections") || "None";
   d.langsV001 = d.getByName("Languages for v0.01") || "";
@@ -90,7 +90,6 @@ function getRequestData(data, i, newReq, keepSt, filt) {
   d.addlnotes = d.getByName("Additional Notes") || "";
   d.astCnt = d.getByName("# of assessments for this request");
   d.langCnt = d.getByName("# of languages/countries for this request");
-  d.estwkbks = d.getByName("Est. Ast. x Lang.") || "";
   d.predwkbks = d.getByName("Pred. Wkbk. Cnt.") && d.getByName("Pred. Wkbk. Cnt.").toFixed(0) || "";
   d.actwkbks = d.getByName("Act. Wkbk. Cnt.") || "";
   d.predhrs = d.getByName("Pred. Bill Hrs") || "";
@@ -240,9 +239,6 @@ function getRequestData(data, i, newReq, keepSt, filt) {
 
   // estimated workbooks
   if (!isNaN(d.astCnt) && !isNaN(d.langCnt)) {
-    if (d.langCnt == 0 && d.reqCode !== 'OTH') {
-      d.langCnt = 1;
-    }
     d.estwkbks = (d.astCnt * d.langCnt).toFixed(0);
   }
 
