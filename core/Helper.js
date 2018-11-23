@@ -80,7 +80,6 @@ function getRequestData(data, i, newReq, keepSt, filt) {
   d.batch = d.getByName("Batch #") || "";
   d.reqCode = d.getByName("Req Code") || "";
   d.email = d.getByName("Email Address") || "";
-  d.requestor = d.getByName("Requestor") || "";
   d.office = d.getByName("Your Office") || "";
   d.asst = d.getByName("Asgd To") || "";
   d.langs = d.getByName("Languages for v0.01") + " " + d.getByName("Languages for corrections") || "None";
@@ -204,19 +203,12 @@ function getRequestData(data, i, newReq, keepSt, filt) {
   d.dCPL = d.getByName("Date CPL") && moment(d.getByName("Date CPL"));
   d.dCAN = d.getByName("Date CAN") && moment(d.getByName("Date CAN"));
   
+  // determine if files are ready
   d.filesDate = d.dFiles ? d.dFiles : (d.startDate && d.startDate);
-  // console.log("request %s: files ready/exp on %s", d.row, d.filesDate);
   d.daysFiles = workdays(moment(), d.filesDate);
 
-  // rec(null, arguments.callee.name + " - prev info", d.row, null, t0);
-
-  if (newReq) {
-    sh.getRange(row, d.getColNumByName("row")).setValue(d.row);
-    
-    d.requestor = d.email.substr(0, d.email.indexOf("@")).replace(".", " ");
-    d.requestor = d.requestor && toTitleCase(d.requestor);
-    
-    switch (d.reqType) {
+  // reqCode (get rid of)
+  switch (d.reqType) {
     case "enUS v1.00":
         d.reqCode = "enV1";
         break;
@@ -235,64 +227,105 @@ function getRequestData(data, i, newReq, keepSt, filt) {
     default: 
         d.reqCode = "OTH";
     }
-    
-    sh.getRange(row, d.getColNumByName("Req Code")).setValue(d.reqCode);
-    
-    if (!keepSt) {
-      var today = new Date();
-      var diff = d.startDate && d.startDate.diff(moment(), 'days', true);
-      if (Math.ceil(diff) >= 1) {
-        d.status = "Waiting for Start";
-        var c = sh.getRange(row, d.getColNumByName("Date WFS"));
-        if (!c.getValue()) {c.setValue(today);}
-      } else {
-        d.status = "Received";
-        var c = sh.getRange(row, d.getColNumByName("Date Files"));
-        if (!c.getValue()) {c.setValue(today);}
-      }
-      console.log("moment (float - ceil): Starts %s in %s days (%s) so status is %s.", d.startDate.format(sdtf), Math.ceil(diff), diff, d.status);
-      sh.getRange(row, d.getColNumByName("Status")).setValue(d.status);
-      
-      d.id = setReqID(d); 
-    }
-    
-    if (!isNaN(d.astCnt) && !isNaN(d.langCnt)) {
-      if (d.langCnt == 0) {
-        d.langCnt = 1;
-      }
-      d.estwkbks = (d.astCnt * d.langCnt).toFixed(0);
-    }
-    
-    if (d.office == "Geneva") {
-      if (d.hardtime == "Open of Business") {
-          d.hardDueDate.hour(3);
-      } else {
-          d.hardDueDate.hour(11);
-      }
-    } else {
-      if (d.hardtime == "Open of Business") {
-          d.hardDueDate.hour(9);
-      } else {
-          d.hardDueDate.hour(17);
-      }
-    }
-  
-    sh.getRange(row, d.getColNumByName("Hard Deadline")).setValue(d.hardDueDate.toDate());
-  }
-  
+
+  sh.getRange(row, d.getColNumByName("Req Code")).setValue(d.reqCode);
+
+  // requestor name
+  d.requestor = d.email.substr(0, d.email.indexOf("@")).replace(".", " ");
+  d.requestor = d.requestor && toTitleCase(d.requestor);
+
   if (d.requestor) {
     d.requestorNames = d.requestor.split(" ");
   }
-  
+
+  // estimated workbooks
+  if (!isNaN(d.astCnt) && !isNaN(d.langCnt)) {
+    if (d.langCnt == 0 && d.reqCode !== 'OTH') {
+      d.langCnt = 1;
+    }
+    d.estwkbks = (d.astCnt * d.langCnt).toFixed(0);
+  }
+
+  // status code (get rid of)
   d.statusCode = getStatusCode(d.status);
   
   var dur = new Date().getTime() - t0.getTime(); console.log({ type: 'perf', message: Utilities.formatString('perf: %s %s %sms', arguments.callee.name, (typeof page !== 'undefined') ? page : '', dur), func: "doGet", row: (typeof d.row !== 'undefined') ? d.row : '', page: (typeof page !== 'undefined') ? page : '', source: (typeof source !== 'undefined') ? source : '', dur: dur, user: user().email});
   return d;
 }
 
-function updateReq(batch, reqCode, startDate, office, hardDueDate, hardDueTime) {
+function updateReq(batch, reqCode, startDate, dWFS, dFiles, office, hardDueDate, hardDueTime) {
 
+  var obj = {};
+
+  //////////////////////////////////////////////////////////
+  // determine request number (row)
+  //////////////////////////////////////////////////////////
+
+  obj.row = SpreadsheetApp.openById(ssID).getSheetByName('Queue').getLastRow() + 1;
+  
+  //////////////////////////////////////////////////////////
+  // determine request ID (id)
+  //////////////////////////////////////////////////////////
+
+  obj.id = setReqID(obj.row, batch, reqCode); //--- change to accept vars instead of obj
+
+  //////////////////////////////////////////////////////////
+  // determine whether request is ready to start (status)
+  //////////////////////////////////////////////////////////
+
+  if (!keepSt) {
+    var today = new Date();
+    var diff = startDate && startDate.diff(moment(), 'days', true);
+    if (Math.ceil(diff) >= 1) {
+      obj.status = "Waiting for Start";
+      if (!dWFS) {
+        obj.dWFS = today;
+      }
+    } else {
+      obj.status = "Received";
+      if (!dFiles) {
+        obj.dFiles = today;
+      }
+    }
+  }
+
+  //////////////////////////////////////////////////////////
+  // combine hard due date and time (hardDueDate)
+  //////////////////////////////////////////////////////////
+
+  if (office == "Geneva") {
+    switch (hardtime) {
+      case "Open of Business":
+        hardDueDate.hour(3);
+        break;
+      case "Early afternoon":
+        hardDueDate.hour(7);
+        break;
+      default:
+        hardDueDate.hour(11);
+    }
+  } else {
+    switch (hardtime) {
+      case "Open of Business":
+        hardDueDate.hour(9);
+        break;
+      case "Early afternoon":
+        hardDueDate.hour(1);
+        break;
+      default:
+        hardDueDate.hour(5);
+    }
+  }
+  obj.hardDueDate = hardDueDate;
+
+  return obj
 }
+
+// function testUpdateReq() {
+//   return updateReq("1, 2", "FLCR", moment('2018-11-26'), "", "", "Geneva", moment('2018-11-28'), "Early afternoon")
+// }
+
+// console.log(testUpdateReq());
 
 function getRequestsSummary() {
   var ss = SpreadsheetApp.getActiveSpreadsheet();
@@ -538,23 +571,23 @@ function properties() {
   Logger.log("the number was %s (type %s) but I set it to %s so now it is %s", last, typeof last, num, now);
 }
 
-function setReqID(d) {
+function setReqID(row, b, reqCode) {
   //console.log({client: d.client, protocol: d.protocol, batch: d.batch, reqCode: d.reqCode, timestamp: d.timestamp.format(), row: d.row});
-  var clientRegEx = /([A-Za-z]){3}/g;
-  var clientShort = (typeof d.client == 'string') ? d.client.match(clientRegEx)[0].toUpperCase() : '';
-  var protocolRegEx = /-?([A-Za-z])/g; // characeters and hyphens if before characters
-  var protocolShort = (typeof d.protocol == 'string') ? d.protocol.match(protocolRegEx) : '';
-  protocolShort = protocolShort && protocolShort.join('').toUpperCase();
+  // var clientRegEx = /([A-Za-z]){3}/g;
+  // var clientShort = (typeof d.client == 'string') ? d.client.match(clientRegEx)[0].toUpperCase() : '';
+  // var protocolRegEx = /-?([A-Za-z])/g; // characeters and hyphens if before characters
+  // var protocolShort = (typeof d.protocol == 'string') ? d.protocol.match(protocolRegEx) : '';
+  // protocolShort = protocolShort && protocolShort.join('').toUpperCase();
   var batchRegEx = /([^A-Za-z0-9]+)/g;
-  var batch = (typeof d.batch == 'string') ? d.batch.replace(batchRegEx, '') : '';
+  var batch = (typeof b == 'string') ? b.replace(batchRegEx, '') : '';
     
   //var scriptProperties = PropertiesService.getScriptProperties();
   //var last = parseInt(scriptProperties.getProperty('lastID'));
   //var num = last + 1;
-  var id = (batch && ('B' + batch + '-')) + d.reqCode.toUpperCase() + '-' + d.row; 
+  var id = (batch && ('B' + batch + '-')) + reqCode.toUpperCase() + '-' + row; 
   //console.log("id %s", id);
-  d.sh.getRange(d.row, d.getColNumByName("ID")).setValue(id);
-  return id;
+  // d.sh.getRange(d.row, d.getColNumByName("ID")).setValue(id);
+  return id
 }
 
 function setIDSel() {
