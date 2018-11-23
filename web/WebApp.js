@@ -95,34 +95,36 @@ try {
   var t0 = new Date();
   var send = send || false;
 
-  //Logger.log("processing form...");
-  //Logger.log(arr);
-  //Logger.log(arr[0]['value']);
+  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var sh = ss.getSheetByName("Queue");
+
   var obj = objectifyForm(arr);
   console.log(obj);
   console.log("obj.row is %s so it's not %s", obj.row, !obj.row);
-  if (!obj.row) {
+  if (obj.row) {
+    if (typeof obj['Status'] !== 'undefined') {
+      chgStatus(obj.row, obj['Status']);
+    }
+    var data = sh.getRange(obj.row, 1, 1, sh.getLastColumn()).getValues()[0];
+  } else {
     obj['Email Address'] = user().email;
     obj['Your Office'] = user().office;
     obj['Timestamp'] = new Date();
   }
 
   console.log(obj);
-
-  if (typeof obj['Status'] !== 'undefined') {
-    chgStatus(obj.row, obj['Status']);
-  }
-  
-  var ss = SpreadsheetApp.getActiveSpreadsheet();
-  var sh = ss.getSheetByName("Queue");
-    
-  //Logger.log("Last Row: " + sh.getLastRow());
   
   var headers = sh.getRange(headerRows, 1, 1, sh.getLastColumn()).getValues()[0];
-  var data = sh.getRange(obj.row, 1, 1, sh.getLastColumn()).getValues()[0];
   var newRow = headers.map(function(header, index) {
-    return typeof obj[header] !== 'undefined' ? obj[header] : data[index]
-  })
+    var base;
+    if (obj.row) {
+      base = data[index];
+    } else {
+      base = "";
+    }
+
+    return typeof obj[header] !== 'undefined' ? obj[header] : base;
+  });
 
   if (!newRow[getColNumByName(sh, "row") - 1]) { 
     newRow[getColNumByName(sh, "row") - 1] = SpreadsheetApp.openById(ssID).getSheetByName('Queue').getLastRow() + 1;
@@ -153,8 +155,10 @@ try {
   Logger.log(updRow);
   console.log(updRow);
   if (obj.row) {
+    console.log('...updating existing row %s', obj.row);
     sh.getRange(obj.row, 1, 1, newRow.length).setValues([updRow])
   } else {
+    console.log('...appending new row %s', updRow[0]);
     sh.appendRow(updRow);
   }
     
