@@ -45,7 +45,7 @@ function doGet(e) {
   }
   var action = null;
   if (e.parameter.action) {
-    view = e.parameter['action'];
+    action = e.parameter['action'];
   }
   console.log(action);
 
