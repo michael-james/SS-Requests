@@ -19,11 +19,8 @@
                 <th scope="col" class="tb-bl tb-br"></th>
               </tr>
        <? var reqs = showMyLoggedTime();
-//          Logger.log(reqs);
           for (var r = 1; r < reqs.length; r++) { 
           var d = getRequestData(reqs, r, false, true, true);
-//          Logger.log("got d ....");
-//          Logger.log(d);
           
           var info = "<div class='row'><div class='col'>" +
                      "<strong>Files Exp:</strong> <span style='font-size: 90%' class='badge " + urgency(d.daysStart, 'badge', 'success') + "'>" + (d.startDate && d.startDate.format(sdf)) + "</span>\n" +
