@@ -42,7 +42,7 @@ var sh = ss.getSheetByName("Queue");
             <a class="nav-link" href="<?=url?>" id="home-link">Home <span class="sr-only">(current)</span></a>
           </li>
           <li class="nav-item">
-          <? if (data.admin) {
+          <? if (data.admin) { ?>
             <a class="nav-link" href="<?=url?>?page=Edit&action=submit" target="_blank">Submit Request</a>
           <? } ?>
             <a class="nav-link" href="https://sites.google.com/ert.com/cstlwiki/ss-requests/form" target="_blank">Submit Request</a>
