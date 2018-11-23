@@ -249,7 +249,7 @@ function getRequestData(data, i, newReq, keepSt, filt) {
   // status code (get rid of)
   d.statusCode = getStatusCode(d.status);
   
-  // var dur = new Date().getTime() - t0.getTime(); console.log({ type: 'perf', message: Utilities.formatString('perf: %s %s %sms', arguments.callee.name, (typeof page !== 'undefined') ? page : '', dur), func: "doGet", row: (typeof d.row !== 'undefined') ? d.row : '', page: (typeof page !== 'undefined') ? page : '', source: (typeof source !== 'undefined') ? source : '', dur: dur, user: user().email});
+  // var dur = new Date().getTime() - t0.getTime(); console.info({ type: 'perf', message: Utilities.formatString('perf: %s %s %sms', arguments.callee.name, (typeof page !== 'undefined') ? page : '', dur), func: "doGet", row: (typeof d.row !== 'undefined') ? d.row : '', page: (typeof page !== 'undefined') ? page : '', source: (typeof source !== 'undefined') ? source : '', dur: dur, user: user().email});
   return d;
 }
 
@@ -263,21 +263,25 @@ function updateReq(row, id, oldStatus, batch, reqCode, startDate, dWFS, dFiles, 
 
   if (!row) {
     obj.row = SpreadsheetApp.openById(ssID).getSheetByName('Queue').getLastRow() + 1;
+    row = obj.row;
   }
   
   //////////////////////////////////////////////////////////
   // determine request ID (id)
   //////////////////////////////////////////////////////////
 
-  obj.id = setReqID(obj.row, batch, reqCode);
+  obj.id = setReqID(row, batch, reqCode);
 
   //////////////////////////////////////////////////////////
   // determine whether request is ready to start (status)
   //////////////////////////////////////////////////////////
   
-  if (!oldStatus) {
+  if (!oldStatus && startDate) {
     var today = new Date();
-    var diff = startDate && startDate.diff(moment(), 'days', true);
+    if (startDate.constructor.name !== 'Moment') {
+      startDate = moment(startDate);
+    }
+    var diff =  startDate.diff(moment(), 'days', true);
     if (Math.ceil(diff) >= 1) {
       obj.status = "Waiting for Start";
       if (!dWFS) {
@@ -296,8 +300,6 @@ function updateReq(row, id, oldStatus, batch, reqCode, startDate, dWFS, dFiles, 
   //////////////////////////////////////////////////////////
 
   if (hardDueDate) {
-    console.log('%s is a %s', hardDueDate, hardDueDate.constructor.name);
-    console.log('%s is a %s', moment(hardDueDate), moment(hardDueDate).constructor.name);
     if (hardDueDate.constructor.name !== 'Moment') {
       hardDueDate = moment(hardDueDate);
     }

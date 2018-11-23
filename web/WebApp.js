@@ -100,6 +100,11 @@ try {
   //Logger.log(arr[0]['value']);
   var obj = objectifyForm(arr);
   console.log(obj);
+  if (!obj.row) {
+    obj['Email Address'] = user().email;
+    obj['Your Office'] = user().office;
+    obj['Timestamp'] = new Date();
+  }
 
   if (!obj.row) { 
     obj.row = SpreadsheetApp.openById(ssID).getSheetByName('Queue').getLastRow() + 1;
@@ -143,9 +148,13 @@ try {
   var updRow = headers.map(function(header, index) {
     return typeof uRTransposed[header] !== 'undefined' ? uRTransposed[header] : newRow[index]
   })
-  
+  Logger.log(updRow);
   console.log(updRow);
-  sh.getRange(obj.row, 1, 1, newRow.length).setValues([newRow])
+  if (obj.row) {
+    sh.getRange(obj.row, 1, 1, newRow.length).setValues([updRow])
+  } else {
+    sh.appendRow(updRow);
+  }
     
   if (send) {
     sendSummaryRow(obj.row);
@@ -155,7 +164,7 @@ try {
     updateEventRow(obj.row);
   }
   
-  var dur = new Date().getTime() - t0.getTime(); console.log({ type: 'perf', message: Utilities.formatString('perf: %s %s %sms', arguments.callee.name, (typeof page !== 'undefined') ? page : '', dur), func: "doGet", row: (typeof obj.row !== 'undefined') ? obj.row : '', page: (typeof page !== 'undefined') ? page : '', source: (typeof source !== 'undefined') ? source : '', dur: dur, user: user().email});
+  var dur = new Date().getTime() - t0.getTime(); console.info({ type: 'perf', message: Utilities.formatString('perf: %s %s %sms', arguments.callee.name, (typeof page !== 'undefined') ? page : '', dur), func: "doGet", row: (typeof obj.row !== 'undefined') ? obj.row : '', page: (typeof page !== 'undefined') ? page : '', source: (typeof source !== 'undefined') ? source : '', dur: dur, user: user().email});
   return obj.row
 } catch (e) {
     throwAlert(e, "Request not updated.");
@@ -190,7 +199,7 @@ function doSomething() {
 function relReqAsstCounts(protocol) {
   var t0 = new Date();
   var cnts = formatCounts(countReqs(['Asgd To', 'Req Code'], ['Status', ['Cancelled']], ["Protocol Number", [protocol]]));
-  var dur = new Date().getTime() - t0.getTime(); console.log({ type: 'perf', message: Utilities.formatString('perf: %s %s %sms', arguments.callee.name, (typeof page !== 'undefined') ? page : '', dur), func: "doGet", row: (typeof row !== 'undefined') ? row : '', page: (typeof page !== 'undefined') ? page : '', source: (typeof source !== 'undefined') ? source : '', dur: dur, user: user().email});
+  var dur = new Date().getTime() - t0.getTime(); console.info({ type: 'perf', message: Utilities.formatString('perf: %s %s %sms', arguments.callee.name, (typeof page !== 'undefined') ? page : '', dur), func: "doGet", row: (typeof row !== 'undefined') ? row : '', page: (typeof page !== 'undefined') ? page : '', source: (typeof source !== 'undefined') ? source : '', dur: dur, user: user().email});
   return cnts
 }
 

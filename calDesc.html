@@ -1,4 +1,4 @@
-<i><?= d.requestor ?> submitted a request for screenshots on <?= d.timestamp.format(ldf) + " at " + d.timestamp.format(tf) ?>.</i>
+<i><?= d.requestor ?> submitted a request for screenshots on <?= d.timestamp && d.timestamp.format(ldf) + " at " + d.timestamp && d.timestamp.format(tf) ?>.</i>
 
 STATUS: <strong><?= d.status.toUpperCase() ?></strong>
 <? if (d.asst) { ?>
