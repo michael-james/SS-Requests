@@ -43,8 +43,14 @@ function doGet(e) {
       role = e.parameter['role'];
     }
   }  
+  var action = null;
+  if (e.parameter.action) {
+    action = e.parameter['action'];
+  }
+  console.log(action);
+
   // return HtmlService.createTemplateFromFile(e.parameter['page']).evaluate();
-  var data = {page: page, row: row, status: statuses[s], view: view, role: role, email: u.email, u: u, admin: u.admin, asst: u.asst, lead: u.lead};
+  var data = {page: page, row: row, status: statuses[s], view: view, role: role, action: action, email: u.email, u: u, admin: u.admin, asst: u.asst, lead: u.lead};
   html.data = data;
   // var favicon = "http://michael-james.github.io/ERT/ert-logo.png";
   // var favicon = "http://michael-james.github.io/ERT/favicon.ico";
