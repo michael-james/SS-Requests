@@ -211,7 +211,7 @@
       <h3 class="mt-3">Additional Information</h3>
 
       <div class="row">
-        <div class="form-group col-sm-3 col-lg-2">
+        <div class="form-group col-sm-3 col-xl-2">
           <label for="actwkbks"># Excel workbooks</label>
           <input name="Act. Wkbk. Cnt." type="number" class="form-control" id="actwkbks">
           <small class="form-text text-muted">
@@ -239,7 +239,7 @@
       <h4 class="mt-3">enUS v0.01 Details</h4>
 
       <div class="form-group">
-        <label for="naming">Excel Template</label><br>
+        <label for="tempYes" id="temp-label">Excel Template</label><br>
         <div class="form-check form-check-inline">
           <input class="form-check-input" type="radio" name="Excel Macro template" id="tempYes" value="Create new template">
           <label class="form-check-label" for="tempYes">Create new template</label>
@@ -567,6 +567,14 @@
                   $('#langsV001').prop('required', false).parent().show().find('textarea')[0].setCustomValidity("");
                   $('#langsCR').prop('required', false).parent().show().find('textarea')[0].setCustomValidity("");
                 } 
+            }
+
+            if (reqCode == 'enV1') {
+              $('#tempYes').prop('required', true);
+              $('#temp-label').addClass('required');
+            } else {
+              $('#tempYes').prop('required', false);
+              $('#temp-label').removeClass('required');
             }
 
             $("input[required], textarea[required], select[required]").prev("label").addClass("required");
