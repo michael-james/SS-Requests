@@ -132,8 +132,13 @@ try {
                      newRow[getColNumByName(sh, "Hard Deadline") - 1],
                      newRow[getColNumByName(sh, "Hard Deadline Time") - 1]);
   console.log(uR);
-  // var uRTransposed = {row: uR.row, Status: uR.status, Date Files: uR.dFiles, Date WFS: uR.dWFS, Hard Deadline: uR.hardDueDate.toDate()};
-  // console.log(uRTransposed);
+  var uRTransposed = {row: uR.row ? uR.row : '',
+                      ID: uR.id ? uR.id : '',
+                      Status: uR.status ? uR.status : '',
+                      'Date Files': uR.dFiles ? uR.dFiles : '',
+                      'Date WFS': uR.dWFS ? uR.dWFS : '',
+                      'Hard Deadline': uR.hardDueDate ? uR.hardDueDate.toDate() : ''};
+  console.log(uRTransposed);
   // obj = Object.assign(uRTransposed, obj);
   // console.log(obj);
   
