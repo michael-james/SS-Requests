@@ -101,6 +101,10 @@ try {
   var obj = objectifyForm(arr);
   console.log(obj);
 
+  if (!obj.row) { 
+    obj.row = SpreadsheetApp.openById(ssID).getSheetByName('Queue').getLastRow() + 1;
+  }
+
   if (typeof obj['Status'] !== 'undefined') {
     chgStatus(obj.row, obj['Status']);
   }
@@ -112,19 +116,28 @@ try {
   
   var headers = sh.getRange(headerRows, 1, 1, sh.getLastColumn()).getValues()[0];
   var data = sh.getRange(obj.row, 1, 1, sh.getLastColumn()).getValues()[0];
-  
-  var uR = updateReq(oldStatus, batch, reqCode, startDate, dWFS, dFiles, office, hardDueDate, hardtime);
-  var uRTransposed = {row: uR.row, id: uR.id, Status: uR.status, Date Files: uR.dFiles, Date WFS: uR.dWFS,
-                    Hard Deadline: uR.hardDueDate.toDate()}
-  console.log(uRTransposed);
-  obj = Object.assign(uRTransposed, obj);
-  console.log(obj);
-  
   var newRow = headers.map(function(header, index) {
     //Logger.log("TYPE: " + typeof obj[header]);
     return typeof obj[header] !== 'undefined' ? obj[header] : data[index]
     // return obj[header] ? obj[header] : data[index];
   })
+  
+  var uR = updateReq(newRow[getColNumByName(sh, "Status") - 1],
+                     newRow[getColNumByName(sh, "Batch #") - 1],
+                     newRow[getColNumByName(sh, "Req Code") - 1],
+                     newRow[getColNumByName(sh, "Expected Date Files Will Be Available") - 1],
+                     newRow[getColNumByName(sh, "Date WFS") - 1],
+                     newRow[getColNumByName(sh, "Date Files") - 1],
+                     newRow[getColNumByName(sh, "Your Office") - 1],
+                     newRow[getColNumByName(sh, "Hard Deadline") - 1],
+                     newRow[getColNumByName(sh, "Hard Deadline Time") - 1]);
+  console.log(uR);
+  // var uRTransposed = {row: uR.row, Status: uR.status, Date Files: uR.dFiles, Date WFS: uR.dWFS, Hard Deadline: uR.hardDueDate.toDate()};
+  // console.log(uRTransposed);
+  // obj = Object.assign(uRTransposed, obj);
+  // console.log(obj);
+  
+  
   
   //Logger.log(newRow);
   
