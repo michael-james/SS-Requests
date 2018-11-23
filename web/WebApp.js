@@ -161,13 +161,13 @@ try {
     console.log('...appending new row %s', updRow[0]);
     sh.appendRow(updRow)
 
-    // copy prediction formulas
-    var predWkbksCol = getColNumByName(sh, "Pred. Wkbk. Cnt.");
-    var predWkbksFormula = sh.getRange(2, predWkbksCol).getFormula();
-    sh.getRange(sh.getLastRow(), predWkbksCol).setFormula(predWkbksFormula);
-    var predHrsCol = getColNumByName(sh, "Pred. Wkbk. Cnt.");
-    var predHrsFormula = sh.getRange(2, predHrsCol).getFormula();
-    sh.getRange(sh.getLastRow(), predHrsCol).setFormula(predHrsFormula);
+    // // copy prediction formulas
+    // var predWkbksCol = getColNumByName(sh, "Pred. Wkbk. Cnt.");
+    // var predWkbksFormula = sh.getRange(2, predWkbksCol).getFormula();
+    // sh.getRange(sh.getLastRow(), predWkbksCol).setFormula(predWkbksFormula);
+    // var predHrsCol = getColNumByName(sh, "Pred. Wkbk. Cnt.");
+    // var predHrsFormula = sh.getRange(2, predHrsCol).getFormula();
+    // sh.getRange(sh.getLastRow(), predHrsCol).setFormula(predHrsFormula);
   }
     
   if (send) {

@@ -60,16 +60,14 @@
           
           ?>  
                 <tr class="req-row <?= stCls(d.status).tbl ?> mix category-<?= (d.email == data.email) && 'myreqs' ?>" data-email="<?= d.email ?>" data-order="<?= r ?>">
+                
                 <? if (data.view !== 'all') { ?>
                   <td class="text-muted"><?= r ?></td>
                 <? } ?>
+                  
                   <td><a data-toggle="tooltip" data-placement="right" title="<?= d.id ?>"><?= d.row ?></a></td>
                   
-              <? Logger.log(d.email);
-                 Logger.log(data.email);
-                 Logger.log(d.email == data.email);
-              
-              if (d.statusCode == "WFS" && (d.email == data.email)) { ?>
+              <? if (d.statusCode == "WFS" && (d.email == data.email)) { ?>
                   <? d.typClass = typClass(d.reqCode) ?>
                   <td><a class="btn btn-sm <?= stCls(d.status).btn ?>" style="margin-left: -10px; font-size: 1rem" id="ready" data-row="<?= d.row ?>" data-toggle="modal" data-target="#readyModal"><?= d.status ?></a></td>
                   <script>
@@ -80,19 +78,33 @@
            <? } ?>
            
                   <td><?= d.asst ?></td>
+                  
                   <td><span class='badge <?= urgency(d.daysExp, "badge", "dark", ((!(d.dFiles)) ? true : false)) ?>'><?= d.expRetDate && d.expRetDate.format(sdf) ?></span></td>
+                  
                   <td><span class='badge <?= urgency(d.daysDue, "badge", "danger", ((!(d.dFiles)) ? true : false)) ?>'><?= d.hardDueDate && d.hardDueDate.format(sdtf).slice(0, -1) ?></span></td>
+                  
                   <td><span class='badge <?= urgency(d.daysPref, "badge", "warning", ((!(d.dFiles)) ? true : false)) ?>'><?= d.prefDueDate && d.prefDueDate.format(sdf) ?></span></td>
+                  
                   <td><span class='badge <?= urgency(d.daysFiles, "badge", "success", ((!(d.dFiles)) ? true : false)) ?>'><?= d.filesDate && d.filesDate.format(sdf) ?></span></td>
+                  
                   <td><span class='badge <?= typClass(d.reqCode) ?>'><?= d.reqCode ?></span></td>
+                  
                   <td style="border-left: 1" class="<?= d.email == data.email && 'du' ?>"><?= d.requestorNames[0] + " " + d.requestorNames[1][0] + "." ?></td>
+                  
                   <td><?= d.client ?></td>
+                  
                   <td><?= d.protocol ?></td>
+                  
                   <td><?= d.batch ?></td>
-                  <td><a data-toggle="tooltip" data-html="true" data-placement="right" title="<?= (d.cpyast && ("<strong>CPY:</strong> " + d.cpyast + (d.nonast && "\n\n"))) + (d.nonast && ("<strong>NON:</strong> " + d.nonast)) ?>"><?= d.astCnt ?></a></td>
+                  
                   <td><a data-toggle="tooltip" data-html="true" data-placement="right" title="<?= (d.langsV001 && ("<strong>v0.01:</strong> " + d.langsV001 + (d.langsCR && "\n\n"))) + (d.langsCR && ("<strong>CR:</strong> " + d.langsCR)) ?>"><?= d.langCnt ?></a></td>
-                  <td><?= d.predwkbks ?></td>
+
+                  <td><a data-toggle="tooltip" data-html="true" data-placement="right" title="<?= (d.cpyast && ("<strong>CPY:</strong> " + d.cpyast + (d.nonast && "\n\n"))) + (d.nonast && ("<strong>NON:</strong> " + d.nonast)) ?>"><?= d.astCnt ?></a></td>
+                  
+                  <td><?= (d.predwkbks && d.predwkbks) && d.estwkbks ?></td>
+                  
                   <td><strong><?= d.actwkbks ?></strong></td>
+                  
                   <td>
                     <div class="btn-group btn-group-sm" role="group">
                       <a class="btn btn-outline-secondary" href="<?=url?>?page=View&row=<?= d.row ?>">View</a>
@@ -102,6 +114,7 @@
                       <!--<button class="btn btn-info" id="feedback">Feedback</button>-->
                     </div>
                   </td>
+
                 </tr>
           <? } ?>
               </tbody>

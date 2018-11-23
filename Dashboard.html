@@ -60,25 +60,43 @@
 
               <tr  class="req-row <?= stCls(d.status).tbl ?>" data-fname="<?= d.asst ?>">
                 <td class="text-muted bl"><?= r ?></td>
+                
                 <td><a data-toggle="tooltip" data-placement="right" title="<?= d.id ?>"><?= d.row ?></a></td>
+                
                 <td><a class="btn btn-sm status <?= stCls(d.status).btn ?>" data-toggle="modal" data-target="#exampleModal" data-name="<?= d.client + " " + d.protocol ?>" data-type="<span class='badge <?= typClass(d.reqCode) ?>'><?= d.reqCode ?></span>" data-status="<?= d.status ?>" data-asgd="<?= d.asst ?>" data-expdate="<?= d.expRetDate && d.expRetDate.format("YYYY-MM-DD") ?>" data-row="<?= d.row ?>" data-actwkbks="<?= d.actwkbks ?>" data-info="<?= info ?>" data-notes="<?= d.getByName("General Notes") ?>" data-protocol="<?= d.protocol?>"><?= d.statusCode ?></a></td>
+                
                 <td class="<?= d.asst == fname && 'du' ?>"><?= d.asst ?></td>
+                
                 <td><span class='badge <?= urgency(d.daysExp, "badge", "dark", ((!(d.dFiles)) ? true : false)) ?>'><?= d.expRetDate && d.expRetDate.format(sdf) ?></span></td>
+                
                 <td class=tb-bl><span class='badge <?= urgency(d.daysDue, "badge", "danger", ((!(d.dFiles)) ? true : false)) ?>'><?= d.hardDueDate && d.hardDueDate.format(sdtf).slice(0, -1) ?></span></td>
+                
                 <td><span class='badge <?= urgency(d.daysPref, "badge", "warning", ((!(d.dFiles)) ? true : false)) ?>'><?= d.prefDueDate && d.prefDueDate.format(sdf) ?></span></td>
                 <? //console.log("req %s - dFiles %s - startDate %s - filesDate %s - daysFiles %s - class %s", d.row, d.dFiles && d.dFiles.format(sdf), d.startDate && d.startDate.format(sdf), d.filesDate && d.filesDate.format(sdf), d.daysFiles, urgency(d.daysFiles, "badge", "success", ((!(d.dFiles)) ? true : false))) ?>
+                
                 <td><span class='badge <?= urgency(d.daysFiles, "badge", "success", ((!(d.dFiles)) ? true : false)) ?>'><?= d.filesDate && d.filesDate.format(sdf) ?></span></td>
+                
                 <td><?= d.timestamp && d.timestamp.format(sdf) ?></td>
+                
                 <td class=tb-bl><span class='badge <?= typClass(d.reqCode) ?>'><?= d.reqCode ?></span></td>
-                <td><a data-toggle="tooltip" data-html="true" data-placement="right" title="<?= (d.cpyast && ("<strong>CPY:</strong> " + d.cpyast + (d.nonast && "\n\n"))) + (d.nonast && ("<strong>NON:</strong> " + d.nonast)) ?>"><?= d.astCnt ?></a></td>
+                
                 <td><a data-toggle="tooltip" data-html="true" data-placement="right" title="<?= (d.langsV001 && ("<strong>v0.01:</strong> " + d.langsV001 + (d.langsCR && "\n\n"))) + (d.langsCR && ("<strong>CR:</strong> " + d.langsCR)) ?>"><?= d.langCnt ?></a></td>
-                <td><?= d.predwkbks ?></td>
+
+                <td><a data-toggle="tooltip" data-html="true" data-placement="right" title="<?= (d.cpyast && ("<strong>CPY:</strong> " + d.cpyast + (d.nonast && "\n\n"))) + (d.nonast && ("<strong>NON:</strong> " + d.nonast)) ?>"><?= d.astCnt ?></a></td>
+                
+                <td><?= (d.predwkbks && d.predwkbks) && d.estwkbks ?></td>
+                
                 <td><strong><?= d.actwkbks ?></strong></td>
+                
                 <td class=tb-bl><?= d.requestorNames[0] + " " + d.requestorNames[1][0] + "." ?></td>
                 <!--<td><a data-toggle="tooltip" data-html="true" data-placement="right" title="<?= Utilities.formatString("<b>Request # %s</b>\nRec'd %s\n%s\n%s%s", d.row, d.timestamp && d.timestamp.format(sdf), d.client, d.protocol, d.batch && "\nBatch " + d.batch) ?>"><?= d.id ?></a></td>-->
+                
                 <td><?= d.client ?></td>
+                
                 <td><?= d.protocol ?></td>
+                
                 <td><?= d.batch ?></td>
+                
                 <td class="tb-bl tb-br">
                   <div class="btn-group btn-group-sm" role="group">
                     <a class="btn btn-outline-secondary" href="<?=url?>?page=ViewAdmin&row=<?= d.row ?>">View</a>
@@ -88,6 +106,7 @@
                     <a class="btn btn-primary" href="<?=url?>?page=Perform&row=<?= d.row ?>">Perform</a>
                   </div>
                 </td>
+
               </tr>
           <? } ?>
             </table>
