@@ -169,13 +169,17 @@ try {
     // var predHrsFormula = sh.getRange(2, predHrsCol).getFormula();
     // sh.getRange(sh.getLastRow(), predHrsCol).setFormula(predHrsFormula);
   }
-    
-  if (send) {
-    sendSummaryRow(obj.row);
-  }
   
-  if (update) {
-    updateEventRow(obj.row);
+  if (send || update) {
+    var d = getRequest(updRow[getColNumByName(sh, "row") - 1]);
+
+    if (send) {
+      sendSummary(d);
+    }
+    
+    if (update) {
+      updateEvent(d);
+    }
   }
   
   var dur = new Date().getTime() - t0.getTime(); console.info({ type: 'perf', message: Utilities.formatString('perf: %s %s %sms', arguments.callee.name, (typeof page !== 'undefined') ? page : '', dur), func: "doGet", row: (typeof obj.row !== 'undefined') ? obj.row : '', page: (typeof page !== 'undefined') ? page : '', source: (typeof source !== 'undefined') ? source : '', dur: dur, user: user().email});
