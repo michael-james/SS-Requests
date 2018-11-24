@@ -10,20 +10,14 @@
         <table border="0" cellpadding="0" cellspacing="0" height="100%" width="100%" id="bodyTable" style="border-collapse: collapse; box-sizing: border-box;">
             <tr style="box-sizing: border-box;">
                 <td align="center" valign="top" style="box-sizing: border-box;">
-                    <table border="0" cellpadding="20" cellspacing="0" width="600" id="emailContainer" style="border-collapse: collapse; box-sizing: border-box;">
+                    <table border="0" cellpadding="20" cellspacing="0" id="emailContainer" style="border-collapse: collapse; box-sizing: border-box;">
                         <tr style="box-sizing: border-box;">
                             <td align="left" valign="top" style="box-sizing: border-box;">
-
-<? if (data) {
-	<p>dev: <?= data.dev ?><br style="box-sizing: border-box;">
-	   devResult: <?= data.devResult ?><p style="box-sizing: border-box; margin-bottom: 1rem; margin-top: 0;"></p>
-<? } ?>
-
-<?  var d = d || getRequest(data.row);
-	var info = position(d.row);
-	for (var i in info) {?>
-	<!-- <p><strong><?= i ?>:</strong> <?= ord(info[i]) ?></p> -->
-<?	} ?>
+                            
+<?  console.log(d);
+    var d = d || getRequest(80);
+    console.log(d);
+	var info = position(d.row); ?>
 
 <p style="box-sizing: border-box; margin-bottom: 1rem; margin-top: 0;">
 <? if (!d.dFiles && d.startDate) { ?>
@@ -55,7 +49,12 @@
 <? } ?>
 
 <? if (info.wkbksBefore) { ?>
-	There are approximately <?= info.wkbksBefore ?> workbooks ahead of this request.
+	There are approximately <?= info.wkbksBefore ?> workbooks ahead of this request
+
+	<? if (info.wkbksBeforeNotStart) { ?
+&nbsp;(of which <?= info.wkbksBeforeNotStart ?> have not been started)
+	<? } ?>
+.
 <? } ?>
 </span></p>
 

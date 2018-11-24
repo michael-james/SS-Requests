@@ -2,7 +2,7 @@ const inlineCss = require('inline-css');
 const fs = require('fs');
 
 // var fileToRead = 'email/email.html';
-var fileToRead = 'emailtest.html';
+var fileToRead = 'email/email.html';
 // var fileToRead = 'ReqUpdate.html';
 
 var fileToWrite = "email/email-inline.html";

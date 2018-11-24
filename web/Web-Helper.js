@@ -25,7 +25,6 @@ function doGet(e) {
   
   // console.time(timeLabel); 
 
-  var html = HtmlService.createTemplateFromFile('Default');
   var s = null;
   var view = null;
   var role = null; // 0 = basic, 1 = asst, 2 = lead, 3 = admin
@@ -57,14 +56,14 @@ function doGet(e) {
   if (e.parameter.dev) {
     dev = e.parameter['dev'];
   }
-  var devResult = "";
-  if (dev == "send") {
-    sendEmail(getRequest(row));
-    devResult = "email sent!";
-  }
 
-  // return HtmlService.createTemplateFromFile(e.parameter['page']).evaluate();
-  var data = {page: page, row: row, status: statuses[s], view: view, role: role, action: action, email: u.email, u: u, admin: u.admin, asst: u.asst, lead: u.lead, dev: dev, devResult: devResult};
+  if (dev == "send") {
+    var html = HtmlService.createTemplateFromFile('email/email-inline');
+  } else {
+    var html = HtmlService.createTemplateFromFile('Default');
+  }
+  
+  var data = {page: page, row: row, status: statuses[s], view: view, role: role, action: action, email: u.email, u: u, admin: u.admin, asst: u.asst, lead: u.lead, dev: dev};
   html.data = data;
   // var favicon = "http://michael-james.github.io/ERT/ert-logo.png";
   // var favicon = "http://michael-james.github.io/ERT/favicon.ico";
@@ -73,6 +72,10 @@ function doGet(e) {
     // .setTitle("SS Requests: " + page + (Boolean(row) ? (" " + row) : ""))
     .setTitle(title)
     .addMetaTag('viewport', 'width=device-width, initial-scale=1, shrink-to-fit=no');
+
+  if (dev == "send") {
+    sendEmailHTML(evalHTML);
+  }
     // .setFaviconUrl(favicon);
   // console.timeEnd(timeLabel);
   // console.log(evalHTML.getFaviconUrl());

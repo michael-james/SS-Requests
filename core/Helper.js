@@ -22,6 +22,20 @@ function getColNumByName(sheet, colName) {
   }
 }
 
+function getColNumByNameData(data, colName) {
+  if (typeof colName == "string") {
+    return col = data.indexOf(colName) + 1;
+  } else if (typeof colName == "object") {
+    
+    var cols = [];
+    for (var n in colName) {
+      var num = data.indexOf(colName[n]) + 1;
+      cols.push(num ? num : "");
+    }
+    return cols;
+  }
+}
+
 function testGetColNumByName() {
   Logger.log(getColNumByName(SpreadsheetApp.getActiveSpreadsheet().getSheetByName("Queue"), ["Status", "Requestor", "Asgd To", "Protocol Number"]));
   Logger.log(getColNumByName(SpreadsheetApp.getActiveSpreadsheet().getSheetByName("Queue"), "Asgd To"));
@@ -229,9 +243,9 @@ function getRequestData(data, i, newReq, keepSt, filt) {
   return d;
 }
 
-function getCounts(d, r, sh) {
+function getCounts(d, r) {
   if (Array.isArray(d)) {
-    var inds = {langsV001: getColNumByName(sh, "Languages for v0.01") - 1, langsCR: getColNumByName(sh, "Languages for corrections") - 1, cpyast: getColNumByName(sh, "Copyrighted assessments for this request") - 1, nonast: getColNumByName(sh, "Non-copyrighted assessments for this request") - 1, actwkbks: getColNumByName(sh, "Act. Wkbk. Cnt.") - 1};
+    var inds = {langsV001: getColNumByNameData(d[0], "Languages for v0.01") - 1, langsCR: getColNumByNameData(d[0], "Languages for corrections") - 1, cpyast: getColNumByNameData(d[0], "Copyrighted assessments for this request") - 1, nonast: getColNumByNameData(d[0], "Non-copyrighted assessments for this request") - 1, actwkbks: getColNumByNameData(d[0], "Act. Wkbk. Cnt.") - 1};
     d = {langsV001: d[r][inds.langsV001], langsCR: d[r][inds.langsCR], cpyast: d[r][inds.cpyast], nonast: d[r][inds.nonast], actwkbks: d[r][inds.actwkbks]};
   }
   Logger.log(d.langsV001 + '\n' + d.cpyast);

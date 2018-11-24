@@ -1,11 +1,78 @@
-<html>
-<head>
-  <style>
-    p { color: red; }
-  </style> 
-  <link rel="stylesheet" href="style.css">
-</head>
-<body>
-  <p>Test</p>
-</body>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <title></title>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+	<link rel="stylesheet" type="text/css" href="styles.css">
+    </head>
+    <body>
+        <table border="0" cellpadding="0" cellspacing="0" height="100%" width="100%" id="bodyTable">
+            <tr>
+                <td align="center" valign="top">
+                    <table border="0" cellpadding="20" cellspacing="0" id="emailContainer">
+                        <tr>
+                            <td align="left" valign="top">
+                            
+<?  console.log(d);
+    var d = d || getRequest(80);
+    console.log(d);
+	var info = position(d.row); ?>
+
+<p>
+<? if (!d.dFiles && d.startDate) { ?>
+	We <?= d.daysStart < 0 ? 'were' : 'are' ?> expecting your <strong>files</strong> <?= bdText(d.startDate && d.startDate.format(dfo), d.daysStart, 0) ?>. When they arrive, please <a href="<?= url ?>">mark them as ready</a>.
+<? } else if (!d.dREV) { ?>
+	Please make sure your files are on <strong><?= d.server.slice(4) ?></strong> at the file path* <u><?= d.server[0] ?>:/<?= d.client ?>/<?= d.protocol ?>/z - To Assistant/<strong><?= d.timestamp && d.timestamp.format("YYYY.MM.DD") ?> -- <?= d.id ?></strong></u>.
+<? } ?>
+</p>
+
+<p>
+<? if (d.hardDueDate) { ?>
+	Your <strong>hard</strong> deadline <?= bdText(d.hardDueDate && d.hardDueDate.format(dtfo), d.daysDue, 1) ?>.<br>
+<? } ?>
+
+<? if (d.prefDueDate) { ?>
+	Your <strong>preferred</strong> deadline <?= bdText(d.prefDueDate && d.prefDueDate.format(dfo), d.daysPref, 1) ?>.<br>
+<? } ?>
+
+<? if (d.expRetDate && d.daysExp >= 0) { ?>
+	We currently <strong>estimate</strong> that we will deliver the screenshots for your review <?= bdText(d.expRetDate && d.expRetDate.format(dfo), d.daysExp, 0) ?>.
+<? } ?>
+</p>
+
+<p><span class="text-muted">
+	This is the <strong><?= ord(info.pos) ?></strong> request in our queue.
+
+<? if (info.posNotStart) { ?>
+	It is the <strong><?= ord(info.posNotStart) ?></strong> request out of those we have not yet started.
+<? } ?>
+
+<? if (info.wkbksBefore) { ?>
+	There are approximately <?= info.wkbksBefore ?> workbooks ahead of this request
+
+	<? if (info.wkbksBeforeNotStart) { ?
+&nbsp;(of which <?= info.wkbksBeforeNotStart ?> have not been started)
+	<? } ?>
+.
+<? } ?>
+</span></p>
+
+<? if (!d.dRev) { ?>
+<p>
+	<span class="text-muted" style="font-size: 75%"><i>*It's ok if your file path is</i> slightly <i>different because of the way client/study folders are named.</i>
+</p>
+<? } ?>
+
+<!-- <p style="white-space: pre-wrap;"><?= Logger.getLog() ?></p> -->
+
+</div>
+
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+    </body>
 </html>

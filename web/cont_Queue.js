@@ -1,4 +1,5 @@
 function getSortedReqs(direction, sortBy, stExclude) {
+  var t0 = new Date();
   //Logger.log("started getSortedReqs...");
   var sortBy = sortBy || ['Hard Deadline','Preferred Deadline', 'Expected Date Files Will Be Available', 'Timestamp'];
   // Logger.log(typeof stExclude);
@@ -56,7 +57,7 @@ function getSortedReqs(direction, sortBy, stExclude) {
   }
   
   reqs.unshift(headers);
-  //var dur = new Date().getTime() - t0.getTime(); console.info({ type: 'perf', message: Utilities.formatString('perf: %s %s %sms', arguments.callee.name, (typeof page !== 'undefined') ? page : '', dur), func: "doGet", row: (typeof row !== 'undefined') && row, page: (typeof page !== 'undefined') ? page : '', source: (typeof source !== 'undefined') ? source : '', dur: dur, user: user().email});
+  var dur = new Date().getTime() - t0.getTime(); console.info({ type: 'perf', message: Utilities.formatString('perf: %s %s %sms', arguments.callee.name, (typeof page !== 'undefined') ? page : '', dur), func: "doGet", row: (typeof row !== 'undefined') && row, page: (typeof page !== 'undefined') ? page : '', source: (typeof source !== 'undefined') ? source : '', dur: dur, user: user().email});
   
   return reqs
 }
@@ -71,38 +72,37 @@ function tesetGetSortedReqsHelper() {
 }
 
 function position(thisRow) {
+  var t0 = new Date();
   thisRow = parseInt(thisRow);
-  Logger.log(thisRow);
   var reqs = getSortedReqs();
   var posNotStart = 0;
   var wkbksBefore = 0;
-  var sh = SpreadsheetApp.openById(ssID).getSheetByName("Queue");
-  var inds = {row: getColNumByName(sh, "row") - 1, dINP: getColNumByName(sh, "Date INP") - 1}
+  var wkbksBeforeNotStart = 0;
+  var inds = {row: getColNumByNameData(reqs[0], "row") - 1, dINP: getColNumByNameData(reqs[0], "Date INP") - 1}
   var info = {};
 
   for (var r = 1; r < reqs.length; r++) {
-    Logger.log('////////////////// ' + r + ' //////////////////')
-    Logger.log(r);
     // Logger.log(r + ": " + reqs[r]);
     var row = reqs[r][inds.row];
-    Logger.log(row);
-    Logger.log(reqs[r][inds.dINP]);
-    Logger.log(parseInt(row) == thisRow);
     if (!reqs[r][inds.dINP]) {
       posNotStart += 1;
     }
 
     if (parseInt(row) == thisRow) {
-      Logger.log("it's a match!");
       info.pos = r;
       info.posNotStart = (!reqs[r][inds.dINP]) ? posNotStart : 0;
       info.wkbksBefore = wkbksBefore;
+      info.wkbksBeforeNotStart = wkbksBeforeNotStart;
     } else {
-      var counts = getCounts(reqs, r, sh);
+      var counts = getCounts(reqs, r);
       wkbksBefore += parseInt(counts.bestwkbks);
-      Logger.log(wkbksBefore);
+
+      if (!reqs[r][inds.dINP]) {
+        wkbksBeforeNotStart += parseInt(counts.bestwkbks);
+      }
     }
   }
 
+  var dur = new Date().getTime() - t0.getTime(); console.info({ type: 'perf', message: Utilities.formatString('perf: %s %s %sms', arguments.callee.name, (typeof page !== 'undefined') ? page : '', dur), func: "doGet", row: (typeof d.row !== 'undefined') ? d.row : '', page: (typeof page !== 'undefined') ? page : '', source: (typeof source !== 'undefined') ? source : '', dur: dur, user: user().email});
   return info
 }
