@@ -752,17 +752,21 @@ function testWFS() {
   function bdText(date, days, pre) {
     if (days == 0) {
       if (pre) {
-        return "is today"
+        return "is today, " + date
       } else {
-        return "today"
+        return "today, " + date
       }
-    } else if (days == -1 && pre) {
-      return "was yesterday"
+    } else if (days == -1) {
+      if (pre) {
+        return "was yesterday, " + date
+      } else {
+        return "yesterday, " + date
+      }
     } else if (days == 1) {
       if (pre) {
-        return "of " + date + " is tomorrow"
+        return "is tomorrow, " + date
       } else {
-        return "on " + date + ", which is tomorrow"
+        return "tomorrow, " + date
       }
     } else if (days < 0) {
       if (pre) {
