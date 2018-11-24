@@ -91,8 +91,8 @@ function getRequestData(data, i, newReq, keepSt, filt) {
   d.predhrs = d.getByName("Pred. Bill Hrs") || "";
   d.hardtime = d.getByName("Hard Deadline Time");
 
-  d.langCnt = (typeof d.langsV001 == 'string' && d.langsV001 && d.langsV001.split(",").length) + (typeof d.langsCR == 'string' && d.langsCR && d.langsCR.split(",").length);
-  d.astCnt = (typeof d.cpyast == 'string' && d.cpyast && d.cpyast.split(",").length) + (typeof d.nonast == 'string' && d.nonast && d.nonast.split(",").length);
+  d.langCnt = ((typeof d.langsV001 == 'string' && d.langsV001) ? d.langsV001.split(",").length : 0) + ((typeof d.langsCR == 'string' && d.langsCR) ? d.langsCR.split(",").length : 0);
+  d.astCnt = ((typeof d.cpyast == 'string' && d.cpyast) ? d.cpyast.split(",").length : 0) + ((typeof d.nonast == 'string' && d.nonast) ? d.nonast.split(",").length : 0);
 
   // estimated workbooks
   if (!isNaN(d.astCnt) && !isNaN(d.langCnt)) {
@@ -314,9 +314,9 @@ function setReqID(row, b, reqCode) {
   // var protocolShort = (typeof d.protocol == 'string') ? d.protocol.match(protocolRegEx) : '';
   // protocolShort = protocolShort && protocolShort.join('').toUpperCase();
   var batchRegEx = /([^A-Za-z0-9,]+)/g;
-  var batch = (typeof b == 'string') ? b.replace(batchRegEx, '') : '';
-  var batch = batch.split(',');
-  var batch = batch.join('-B');
+  var batch = (typeof b == 'string') ? b.toUpperCase().replace(batchRegEx, '') : '';
+  batch = batch.split(',');
+  batch = batch.join('-B');
     
   //var scriptProperties = PropertiesService.getScriptProperties();
   //var last = parseInt(scriptProperties.getProperty('lastID'));

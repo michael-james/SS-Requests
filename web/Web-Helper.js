@@ -13,9 +13,14 @@ function doGet(e) {
     page = e.parameter['page'];
   }
   var row = null;
+  var rowTitle = "";
   if (e.parameter.row) {
     row = e.parameter['row'];
+    var sh = SpreadsheetApp.openById(ssID).getSheetByName("Queue");
+    var data = sh.getRange(row, 1, 1, sh.getLastColumn()).getValues()[0];
+    rowTitle += ": " + data[getColNumByName(sh, "ID") -1 ] + ' ' + data[getColNumByName(sh, "Client") - 1] + ' ' + data[getColNumByName(sh, "Protocol Number") - 1];
   }
+  
   // var timeLabel = page + " load time";  // Labels the timing log entry.
   
   // console.time(timeLabel); 
@@ -53,8 +58,10 @@ function doGet(e) {
   html.data = data;
   // var favicon = "http://michael-james.github.io/ERT/ert-logo.png";
   // var favicon = "http://michael-james.github.io/ERT/favicon.ico";
+  var title = getPageDisplayName(page, view, action) + rowTitle + " - SS Requests";
   var evalHTML = html.evaluate()
-    .setTitle("SS Requests: " + page + (Boolean(row) ? (" " + row) : ""))
+    // .setTitle("SS Requests: " + page + (Boolean(row) ? (" " + row) : ""))
+    .setTitle(title)
     .addMetaTag('viewport', 'width=device-width, initial-scale=1, shrink-to-fit=no');
     // .setFaviconUrl(favicon);
   // console.timeEnd(timeLabel);
@@ -85,15 +92,37 @@ function include(filename, data) {
   // }
 }
 
-/**
- * Get the URL for the Google Apps Script running as a WebApp.
- */
-function getScriptUrl() {
- var url = ScriptApp.getService().getUrl();
- return url;
+function getPageDisplayName(page, view, action) {
+  var display;
+
+  switch (page) {
+    case 'Home':
+      if (view == 'all') {
+        display = 'All Requests'
+      }
+      break
+    case 'ViewAdmin':
+      display = 'View';
+      break
+    case 'Viz':
+      display = 'Analytics';
+      break
+    case 'Cal':
+      display = 'Calendar';
+      break
+    case 'MyActivity':
+      display = 'My Activity';
+      break
+    case 'Edit':
+      if (action == 'submit') {
+        display = 'Submit New Request';
+      }
+      break
+  }
+  return display || page;
 }
 
-var url = getScriptUrl();
+var url = ScriptApp.getService().getUrl();
 
 function chgStatus(row, newStatus) {
   try {

@@ -19,6 +19,7 @@ function sendSummary(d) {
     t.d = d;
     var data = {row: d.row};
     t.data = data;
+    var html = t.evaluate();
     
     var title = 'SS Request Update - ' + d.client + ' ' + d.protocol + (d.batch && (' Batch ' + d.batch)) + ' - ' + d.reqCode + " - " + moment().format(ERTdf).toUpperCase();
     var doc = makeSummaryDoc(d, title);
@@ -41,15 +42,19 @@ function sendSummary(d) {
       default:
         asstEmail = "michael.james@ert.com";
     }
+
+    if (d.email == 'michael.james@ert.com') {
+      asstEmail = 'michael.james@ert.com';
+    }
     
     MailApp.sendEmail({
       name: "SS Requests",
       to: "michael.james@ert.com", //d.email,
       cc: asstEmail,
       subject: title,
-      htmlBody: t.evaluate().getContent(),
+      htmlBody: html.getContent(),
       replyTo: asstEmail,
-      attachments: doc.getAs(MimeType.PDF)
+      attachments: html.getAs(MimeType.PDF)
     });
       
     d.ss.toast(d.client + ' ' + d.protocol + (d.batch && (' Batch ' + d.batch)) + ' - ' + d.reqCode, 'Request Update Sent');
