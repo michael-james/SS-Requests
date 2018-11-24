@@ -22,7 +22,7 @@
 
 <p style="box-sizing: border-box; margin-bottom: 1rem; margin-top: 0;">
 <? if (!d.dFiles && d.startDate) { ?>
-	We <?= d.daysStart < 0 ? 'were' : 'are' ?> expecting your <strong style="box-sizing: border-box; font-weight: bolder;">files</strong> <?= bdText(d.startDate && d.startDate.format(dfo), d.daysStart, 0) ?>. When they arrive, please <a href="<?= url ?>" style="-webkit-text-decoration-skip: objects; background-color: transparent; box-sizing: border-box; color: #007bff; text-decoration: none;">mark them as ready</a>.
+	We <?= d.daysStart < 0 ? 'were' : 'are' ?> expecting your <strong style="box-sizing: border-box; font-weight: bolder;">files</strong> <?= bdText(d.startDate && d.startDate.format(dfo), d.daysStart, 0) ?>. When they arrive, please <a href="<?=url?>?page=View&row=<?= d.row ?>" style="-webkit-text-decoration-skip: objects; background-color: transparent; box-sizing: border-box; color: #007bff; text-decoration: none;">mark them as ready</a>.
 <? } else if (!d.dREV) { ?>
 	Please make sure your files are on <strong style="box-sizing: border-box; font-weight: bolder;"><?= d.server.slice(4) ?></strong> at the file path* <u style="box-sizing: border-box;"><?= d.server[0] ?>:/<?= d.client ?>/<?= d.protocol ?>/z - To Assistant/<strong style="box-sizing: border-box; font-weight: bolder;"><?= d.timestamp && d.timestamp.format("YYYY.MM.DD") ?> -- <?= d.id ?></strong></u>.
 <? } ?>
