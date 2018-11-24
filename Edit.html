@@ -693,7 +693,7 @@
               $('#cpyast').siblings("label").addClass("required-soft");
               $('#nonast').siblings("label").addClass("required-soft");
             } else {
-              $('#cpyast').siblings("label").removeClass("required-soft").next('textarea')[0].setCustomValidity("");
+              $('#cpyast').siblings("label").removeClass("required-soft").siblings('textarea')[0].setCustomValidity("");
               $('#nonast').siblings("label").removeClass("required-soft");
             }
 
@@ -737,7 +737,7 @@
                 } else {
                   $('#langsV001').prop('required', false).parent().show().find('textarea')[0].setCustomValidity("");
                   $('#langsCR').prop('required', false).parent().show().find('textarea')[0].setCustomValidity("");
-                } 
+                }
             }
 
             if (reqCode == 'enV1') {
