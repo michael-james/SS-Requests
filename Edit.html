@@ -359,6 +359,7 @@
       $( document ).ready(function() {
           console.log( "ready!" );
           var dFilesFormTime, timestampForm, status;
+          var priveleges = <?= (data.asst || data.lead || data.admin) ? true : false ?>;
 
         <? if (data.action !== 'submit') { ?>
 
@@ -484,6 +485,11 @@
           });
 
           function setDateMin() {
+            console.log(priveleges);
+            if (!(parseInt(data.role) === 0) && priveleges ) {
+              console.log('...exiting setDateMin() because of priveleges');
+              return
+            }
             /////////////////////////////////////////////////
             // earliest available date (set start min)
             /////////////////////////////////////////////////
