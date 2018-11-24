@@ -1,0 +1,100 @@
+    <tr class="table-dark">
+      <th scope="col" colspan="2">Request Basics</th>
+    </tr>
+
+<? if (d.reqType) { ?>
+    <tr>
+      <th scope="row">Type</th>
+      <td><?= d.reqType ?></td>
+    </tr>
+
+<? } if (d.batch) { ?>
+    <tr>
+      <th scope="row">Batch</th>
+      <td><?= d.batch ?></td>
+    </tr>
+
+<? } if (d.vend) { ?>
+    <tr>
+      <th scope="row">Vendor</th>
+      <td><?= d.vend ?></td>
+    </tr>
+
+<? } if (d.langsV001) { ?>
+    <tr>
+      <th scope="row">Languages (v0.01)</th>
+      <td><?= d.langsV001 ?></td>
+    </tr>
+
+<? } if (d.langsCR) { ?>
+    <tr>
+      <th scope="row">Languages (CR)</th>
+      <td><?= d.langsCR ?></td>
+    </tr>
+
+<? } if (d.cpyast) { ?>
+    <tr>
+      <th scope="row">Copyrighted Assessments</th>
+      <td><?= d.cpyast ?></td>
+    </tr>
+
+<? } if (d.nonast) { ?>
+    <tr>
+      <th scope="row">Non-Copyrighted Assessments</th>
+      <td><?= d.nonast ?></td>
+    </tr>
+<? } ?>
+
+<? if (d.majIssues || d.minIssues || d.gennotes || d.vendiss) { ?>
+    <tr class="table-dark">
+      <th scope="col" colspan="2">Performance Notes</th>
+    </tr>
+
+<? } if (d.majIssues) { ?>
+    <tr>
+      <th scope="row">Major Issues (Blockers)</th>
+      <td><?= d.workcompl ?></td>
+    </tr>
+
+<? } if (d.minIssues) { ?>
+    <tr>
+      <th scope="row">Minor Issues</th>
+      <td><?= d.batch ?></td>
+    </tr>
+
+<? } if (d.gennotes) { ?>
+    <tr>
+      <th scope="row">General Notes</th>
+      <td><?= d.vend ?></td>
+    </tr>
+
+<? } if (d.vendiss) { ?>
+    <tr>
+      <th scope="row">Vendor Mistakes</th>
+      <td><?= d.langsV001 ?></td>
+    </tr>
+<? } } ?>
+
+<? if (d.tcfdbk || d.waitfor || d.jira) { ?>
+    <tr class="table-dark">
+      <th scope="col" colspan="2">Follow-up</th>
+    </tr>
+
+<? } if (d.tcfdbk) { ?>
+    <tr>
+      <th scope="row">Requestor Feedback</th>
+      <td><?= d.tcfdbk ?></td>
+    </tr>
+
+<? } if (d.waitfor) { ?>
+    <tr>
+      <th scope="row">On-hold: Waiting For</th>
+      <td><?= d.waitfor ?></td>
+    </tr>
+
+<? } if (d.jira) { ?>
+    <tr>
+      <th scope="row">Associated JIRA Defects</th>
+      <td><?= d.jira ?></td>
+    </tr>
+<? } } ?>

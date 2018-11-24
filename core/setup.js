@@ -50,7 +50,7 @@ var dtf = "ddd, MMM D, h:mm a"; // Thurs, Oct 3, 3:44 pm
 var dtfo = "ddd, MMM Do, h:mm a"; // Thurs, Oct 3, 3:44 pm
 
 var ldf = "dddd, MMMM Do"; // Thursday, October 3rd
-var ldtf = "dddd, MMMM Do h:mm a"; // Thursday, October 3rd 3:44 pm
+var ldtf = "dddd, MMMM Do, h:mm a"; // Thursday, October 3rd 3:44 pm
 
 var dfform = "YYYY-MM-DD";
 var dffiles = "YYYY.MM.DD";

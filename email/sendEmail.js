@@ -39,10 +39,10 @@ function sendEmailHTML(HTMLOUT, d) {
   MailApp.sendEmail({
     to: 'michael.james@ert.com',
     subject: 'SS Request Update / ' + d.id + ' / ' + d.status,
-    htmlBody: HTMLOUT.setTitle('SS Request Update / ' + d.id + ' / ' + d.status + ' / ' + moment().format(ERTdf)).getContent(),
+    htmlBody: HTMLOUT.setTitle('SS Request Update / ' + d.id + ' / ' + d.status + ' - ' + moment().format(ERTdf)).getContent(),
     name: "SS Requests",
     // replyTo: asstEmail,
-    attachments: HTMLOUT.getAs(MimeType.PDF)
+    // attachments: HTMLOUT.getAs(MimeType.PDF)
   });
   
   

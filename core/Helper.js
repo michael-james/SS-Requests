@@ -328,7 +328,7 @@ function updateReq(row, id, oldStatus, client, protocol, batch, reqCode, startDa
           hardDueDate.hour(1);
           break;
         default:
-          hardDueDate.hour(5);
+          hardDueDate.hour(17);
       }
     }
     obj.hardDueDate = hardDueDate;

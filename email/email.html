@@ -11,19 +11,21 @@
         <table border="0" cellpadding="0" cellspacing="0" height="100%" width="100%" id="bodyTable">
             <tr>
                 <td align="center" valign="top">
-                    <table border="0" cellpadding="20" cellspacing="0" id="emailContainer">
+                    <table border="0" cellpadding="20" cellspacing="0" id="emailContainer" style="max-width: 750px;">
                         <tr>
                             <td align="left" valign="top">
                             
 <?  console.log('working...');
     console.log(d);
-    var d = d || getRequest(80);
+    var d = d || getRequest(66);
     console.log(d);
 	var info = position(d.row); ?>
 
 
-<h3><strong>SS Request Update</strong> / <?= d.id ?> / <?= d.status ?></h3>
-<h4 class="mb-3"><?= d.client + ' ' + d.protocol + (d.batch && (' Batch ' + d.batch)) ?> &mdash; <?= d.reqCode ?></h4>
+<h3><strong>SS Request Update</strong> / <?= d.id ?></h3>
+<h3><?= d.status ?></h3>
+<h4><?= d.client + ' ' + d.protocol + (d.batch && (' Batch ' + d.batch)) ?> &mdash; <?= d.reqCode ?></h4>
+<h5 class="mb-4 text-secondary"><?= moment().format(ERTdf) ?></h5>
 
 <p>
 <? if (!d.dFiles && d.startDate) { ?>
@@ -35,11 +37,11 @@
 
 <p>
 <? if (d.hardDueDate) { ?>
-	Your <strong>hard</strong> deadline <?= bdText(d.hardDueDate && d.hardDueDate.format(dtfo), d.daysDue, 1) ?>.<br>
+	Your <strong>hard</strong> deadline <?= bdText(d.hardDueDate && d.hardDueDate.format(dtfo), d.daysDue, 1) ?>.
 <? } ?>
 
 <? if (d.prefDueDate) { ?>
-	Your <strong>preferred</strong> deadline <?= bdText(d.prefDueDate && d.prefDueDate.format(dfo), d.daysPref, 1) ?>.<br>
+	Your <strong>preferred</strong> deadline <?= bdText(d.prefDueDate && d.prefDueDate.format(dfo), d.daysPref, 1) ?>.
 <? } ?>
 
 <? if (d.expRetDate && d.daysExp >= 0) { ?>
@@ -62,6 +64,10 @@
 <? } ?>
 </span></p>
 
+<p>
+    Thank you,<br>
+    The Assistants&trade;
+
 <? if (!d.dRev) { ?>
 <p>
 	<span class="text-muted" style="font-size: 75%"><i>*It's ok if your file path is</i> slightly <i>different because of the way client/study folders are named.</i>
@@ -70,13 +76,95 @@
 
 <!-- <p style="white-space: pre-wrap;"><?= Logger.getLog() ?></p> -->
 
-</div>
-
-                            </td>
-                        </tr>
-                    </table>
-                </td>
+<table class="table table-striped table-sm" style="text-align: left">
+  <thead class="thead-dark">
+    <tr>
+      <th scope="col" colspan="2">
+        <table border="0" cellpadding="0" cellspacing="0" height="100%" width="100%">
+            <tr border="0">
+                <th><?= (d.client && (d.client + ' ')) + (d.protocol && (d.protocol + ' ')) + (d.batch && (' Batch ' + d.batch)) ?> &mdash; <?= d.reqCode ?></th>
+                <th align="right" style="text-align: right"><?= d.id ?></th>
             </tr>
         </table>
-    </body>
-</html>
+      </th>
+    </tr>    
+  </thead>
+
+
+  <tbody>
+    <tr class="table-primary">
+      <th scope="row">Status</th>
+      <td><?= d.status ?></td>
+    </tr>
+    <tr>
+      <th scope="row">Position in Queue</th>
+      <td><?= ord(info.pos) ?></td>
+    </tr>
+    <tr>
+      <th scope="row">Estimated Return Date</th>
+      <td><?= (d.expRetDate && d.expRetDate.format(ldf)) || "(not estimated yet)" ?></td>
+    </tr>
+    <tr>
+      <th scope="row">Assignee</th>
+      <td><?= d.asst || "(not assigned)" ?></td>
+    </tr>
+
+    <tr class="table-dark">
+      <th scope="col" colspan="2">Timeline</th>
+    </tr>
+
+<? if (d.dCPL) { ?>
+    <tr>
+      <th scope="row">Date Completed</th>
+      <td><?= d.dCPL.format(ldtf) ?></td>
+    </tr>
+
+<? } if (d.hardDueDate) { ?>
+    <tr>
+      <th scope="row">Hard Deadline</th>
+      <td><?= d.hardDueDate.format(ldtf) ?></td>
+    </tr>
+
+<? } if (d.prefDueDate) { ?>
+    <tr>
+      <th scope="row">Preferred Deadline</th>
+      <td><?= d.prefDueDate.format(ldf) ?></td>
+    </tr>
+
+<? } if (d.dRet) { ?>
+    <tr>
+      <th scope="row">Request First Returned</th>
+      <td><?= d.dRet.format(ldtf) ?></td>
+    </tr>
+
+<? } if (d.dINP) { ?>
+    <tr>
+      <th scope="row">Request Started</th>
+      <td><?= d.dINP.format(ldtf) ?></td>
+    </tr>
+
+<? } if (d.dFiles) { ?>
+    <tr>
+      <th scope="row">Files Received</th>
+      <td><?= d.dFiles.format(ldtf) ?></td>
+    </tr>
+
+<? } if (d.startDate) { ?>
+    <tr>
+      <th scope="row">Files Expected</th>
+      <td><?= d.startDate.format(ldf) ?></td>
+    </tr>
+
+<? } if (d.timestamp) { ?>
+    <tr>
+      <th scope="row">Request Received</th>
+      <td><?= d.timestamp.format(ldtf) ?></td>
+    </tr>
+
+<? } ?>
+
+
+
+
+  </tbody>
+</table>
