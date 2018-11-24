@@ -476,7 +476,7 @@
           });
 
           $('#reqCode').change(function() {
-            console.log('reqCode changed to ' + $(this).val());
+            // console.log('reqCode changed to ' + $(this).val());
 
             setDateMin();
 
@@ -508,10 +508,10 @@
             var start = $('#start').val();
             var filesAvailDate;
             if (dFilesFormTime) {
-              console.log('...using dFilesFormTime from data');
+              // console.log('...using dFilesFormTime from data');
               filesAvailDate = new Date(dFilesFormTime.substring(0, 4), dFilesFormTime.substring(5, 7) - 1, dFilesFormTime.substring(8, 10), dFilesFormTime.substring(11, 13), dFilesFormTime.substring(14, 16), dFilesFormTime.substring(17, 19));
             } else if (start.length) {
-              console.log('...using start from form');
+              // console.log('...using start from form');
               filesAvailDate = new Date(start.substring(0, 4), start.substring(5, 7) - 1, start.substring(8, 10));
               var todayDateNoTime = new Date(todayDate.getTime());
               
@@ -521,10 +521,10 @@
               if (filesAvailDate.getTime() == todayDateNoTime.setHours(0, 0, 0, 0)) {
                 filesAvailDate = todayDate;
               }
-              console.log("filesAvailDate: " + filesAvailDate);
+              // console.log("filesAvailDate: " + filesAvailDate);
               // filesAvailDate = new Date(start.substring(0, 4), start.substring(5, 7) - 1, start.substring(8, 10), todayDate.getHours(), todayDate.getMinutes(), todayDate.getSeconds());
             } else {
-              console.log('...using today');
+              // console.log('...using today');
               filesAvailDate = todayDate;
             }
 
@@ -574,11 +574,11 @@
             var y = earliestTATDateOffset.getFullYear();
             var earliestTATForm = y + '-'+ pad(mm) + '-'+ pad(dd);
 
-            console.log("earliestAvailDate: " + earliestAvailDate);
-            console.log("filesAvailDate: " + filesAvailDate);
-            console.log("earliestTATDate: " + earliestTATDate);
-            console.log("earliestTATDateOffset: " + earliestTATDateOffset);
-            console.log('earliestTATDateMaxTime: ' + earliestTATDateMaxTime);
+            // console.log("earliestAvailDate: " + earliestAvailDate);
+            // console.log("filesAvailDate: " + filesAvailDate);
+            // console.log("earliestTATDate: " + earliestTATDate);
+            // console.log("earliestTATDateOffset: " + earliestTATDateOffset);
+            // console.log('earliestTATDateMaxTime: ' + earliestTATDateMaxTime);
 
             /////////////////////////////////////////////////
             // earliest TAT time of day (disable hard time of day options)
@@ -639,7 +639,7 @@
               $('#hardtime').prop('disabled', true);
             }
 
-            console.log(".....................................that's it!");
+            // console.log(".....................................that's it!");
           }
 
           // function setTimeMin() {
@@ -677,7 +677,7 @@
           // }
 
           function updateValidity() {
-            console.log("updating validity...");
+            // console.log("updating validity...");
 
             setDateMin();
 
@@ -740,16 +740,16 @@
                 }
             }
 
-            if (reqCode == 'enV1') {
-              $('#tempYes').prop('required', true);
-              $('#temp-label').addClass('required');
-            } else {
-              $('#tempYes').prop('required', false);
-              $('#temp-label').removeClass('required');
-            }
-
             $("input[required], textarea[required], select[required]").siblings("label").addClass("required");
             $("input:not([required]), textarea:not([required]), select:not([required])").siblings("label").removeClass("required");
+
+            if (reqCode == 'enV1') {
+              $('#tempYes')[0].setCustomValidity("This question is required for enV1 requests.");
+              $('#temp-label').addClass('required');
+            } else {
+              $('#tempYes')[0].setCustomValidity("");
+              $('#temp-label').removeClass('required');
+            }
           }
 
           function updateCounts($textarea) {
