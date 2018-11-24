@@ -79,7 +79,7 @@ function getRequestData(data, i, newReq, keepSt, filt) {
   d.protocol = d.getByName("Protocol Number") || "";
   d.batch = d.getByName("Batch #") || "";
   d.email = d.getByName("Email Address") || "";
-  d.office = d.getByName("Office Code") && offices[d.getByName("Office Code")] || "";
+  d.office = d.getByName("office") && offices[d.getByName("office")] || "";
   d.asst = d.getByName("Asgd To") || "";
   d.langs = d.getByName("Languages for v0.01") + " " + d.getByName("Languages for corrections") || "None";
   d.langsV001 = d.getByName("Languages for v0.01") || "";
@@ -87,12 +87,19 @@ function getRequestData(data, i, newReq, keepSt, filt) {
   d.cpyast = d.getByName("Copyrighted assessments for this request") || "";
   d.nonast = d.getByName("Non-copyrighted assessments for this request") || "";
   d.addlnotes = d.getByName("Additional Notes") || "";
-  d.astCnt = d.getByName("# of assessments for this request");
-  d.langCnt = d.getByName("# of languages/countries for this request");
-  d.predwkbks = d.getByName("Pred. Wkbk. Cnt.") && d.getByName("Pred. Wkbk. Cnt.").toFixed(0) || "";
   d.actwkbks = d.getByName("Act. Wkbk. Cnt.") || "";
   d.predhrs = d.getByName("Pred. Bill Hrs") || "";
   d.hardtime = d.getByName("Hard Deadline Time");
+
+  d.langCnt = (typeof d.langsV001 == 'string' && d.langsV001 && d.langsV001.split(",").length) + (typeof d.langsCR == 'string' && d.langsCR && d.langsCR.split(",").length);
+  d.astCnt = (typeof d.cpyast == 'string' && d.cpyast && d.cpyast.split(",").length) + (typeof d.nonast == 'string' && d.nonast && d.nonast.split(",").length);
+
+  // estimated workbooks
+  if (!isNaN(d.astCnt) && !isNaN(d.langCnt)) {
+    d.estwkbks = (d.astCnt * d.langCnt).toFixed(0);
+  }
+  d.predwkbks = d.estwkbks;
+  // d.predwkbks = d.getByName("Pred. Wkbk. Cnt.") && d.getByName("Pred. Wkbk. Cnt.").toFixed(0) || "";
   
   // device & build
   var dvcbld = "";
@@ -211,11 +218,6 @@ function getRequestData(data, i, newReq, keepSt, filt) {
 
   if (d.requestor) {
     d.requestorNames = d.requestor.split(" ");
-  }
-
-  // estimated workbooks
-  if (!isNaN(d.astCnt) && !isNaN(d.langCnt)) {
-    d.estwkbks = (d.astCnt * d.langCnt).toFixed(0);
   }
 
   // status code (get rid of)
