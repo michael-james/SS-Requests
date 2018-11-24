@@ -128,29 +128,32 @@ function processForm(arr, send, update, source) {
     return typeof obj[header] !== 'undefined' ? obj[header] : base;
   });
 
-  if (!newRow[getColNumByName(sh, "row") - 1]) { 
-    newRow[getColNumByName(sh, "row") - 1] = SpreadsheetApp.openById(ssID).getSheetByName('Queue').getLastRow() + 1;
+  var rowIdx = getColNumByNameData(headers, "row") - 1;
+  if (!newRow[rowIdx]) { 
+    newRow[rowIdx] = SpreadsheetApp.openById(ssID).getSheetByName('Queue').getLastRow() + 1;
     // console.log('...processing form... get new row # worked!');
   }
   
-  var uR = updateReq(newRow[getColNumByName(sh, "row") - 1],
-                     newRow[getColNumByName(sh, "ID") - 1],
-                     newRow[getColNumByName(sh, "Status") - 1],
-                     newRow[getColNumByName(sh, "Batch #") - 1],
-                     newRow[getColNumByName(sh, "Req Code") - 1],
-                     newRow[getColNumByName(sh, "Expected Date Files Will Be Available") - 1],
-                     newRow[getColNumByName(sh, "Date WFS") - 1],
-                     newRow[getColNumByName(sh, "Date Files") - 1],
-                     newRow[getColNumByName(sh, "Your Office") - 1],
-                     newRow[getColNumByName(sh, "Hard Deadline") - 1],
-                     newRow[getColNumByName(sh, "Hard Deadline Time") - 1]);
-  // console.log(uR);
+  var uR = updateReq(newRow[getColNumByNameData(headers, "row") - 1],
+                     newRow[getColNumByNameData(headers, "ID") - 1],
+                     newRow[getColNumByNameData(headers, "Status") - 1],
+                     newRow[getColNumByNameData(headers, "Client") - 1],
+                     newRow[getColNumByNameData(headers, "Protocol Number") - 1],
+                     newRow[getColNumByNameData(headers, "Batch #") - 1],
+                     newRow[getColNumByNameData(headers, "Req Code") - 1],
+                     newRow[getColNumByNameData(headers, "Expected Date Files Will Be Available") - 1],
+                     newRow[getColNumByNameData(headers, "Date WFS") - 1],
+                     newRow[getColNumByNameData(headers, "Date Files") - 1],
+                     newRow[getColNumByNameData(headers, "Your Office") - 1],
+                     newRow[getColNumByNameData(headers, "Hard Deadline") - 1],
+                     newRow[getColNumByNameData(headers, "Hard Deadline Time") - 1]);
+  console.log(uR);
   var uRTransposed = {ID: uR.id && uR.id,
                       Status: uR.status && uR.status,
                       'Date Files': uR.dFiles && uR.dFiles,
                       'Date WFS': uR.dWFS && uR.dWFS,
                       'Hard Deadline': uR.hardDueDate && uR.hardDueDate.toDate()};
-  // console.log(uRTransposed);
+  console.log(uRTransposed);
 
   var updRow = headers.map(function(header, index) {
     return typeof uRTransposed[header] !== 'undefined' ? uRTransposed[header] : newRow[index]

@@ -265,15 +265,17 @@ function getCounts(d, r) {
   return o
 }
 
-function updateReq(row, id, oldStatus, batch, reqCode, startDate, dWFS, dFiles, office, hardDueDate, hardtime) {
+function updateReq(row, id, oldStatus, client, protocol, batch, reqCode, startDate, dWFS, dFiles, office, hardDueDate, hardtime) {
 
   var obj = {};
+
+  console.log(client + ' ' + protocol);
   
   //////////////////////////////////////////////////////////
   // determine request ID (id)
   //////////////////////////////////////////////////////////
 
-  obj.id = setReqID(row, batch, reqCode);
+  obj.id = setReqID(row, client, protocol, batch, reqCode);
 
   //////////////////////////////////////////////////////////
   // determine whether request is ready to start (status)
@@ -344,13 +346,13 @@ function updateReq(row, id, oldStatus, batch, reqCode, startDate, dWFS, dFiles, 
 
 // console.log(testUpdateReq());
 
-function setReqID(row, b, reqCode) {
+function setReqID(row, client, protocol, b, reqCode) {
   //console.log({client: d.client, protocol: d.protocol, batch: d.batch, reqCode: d.reqCode, timestamp: d.timestamp.format(), row: d.row});
-  // var clientRegEx = /([A-Za-z]){3}/g;
-  // var clientShort = (typeof d.client == 'string') ? d.client.match(clientRegEx)[0].toUpperCase() : '';
-  // var protocolRegEx = /-?([A-Za-z])/g; // characeters and hyphens if before characters
-  // var protocolShort = (typeof d.protocol == 'string') ? d.protocol.match(protocolRegEx) : '';
-  // protocolShort = protocolShort && protocolShort.join('').toUpperCase();
+  var clientRegEx = /([A-Za-z]){3}/g;
+  var clientShort = (typeof client == 'string') ? client.match(clientRegEx)[0].toUpperCase() : '';
+  var protocolRegEx = /-?([A-Za-z])/g; // characeters and hyphens if before characters
+  var protocolShort = (typeof protocol == 'string') ? protocol.match(protocolRegEx) : '';
+  protocolShort = protocolShort && protocolShort.join('').toUpperCase();
   var batchRegEx = /([^A-Za-z0-9,]+)/g;
   var batch = (typeof b == 'string') ? b.toUpperCase().replace(batchRegEx, '') : '';
   batch = batch.split(',');
@@ -359,7 +361,7 @@ function setReqID(row, b, reqCode) {
   //var scriptProperties = PropertiesService.getScriptProperties();
   //var last = parseInt(scriptProperties.getProperty('lastID'));
   //var num = last + 1;
-  var id = (batch && ('B' + batch + '-')) + (reqCode ? reqCode.toUpperCase() : "OTH") + (row ? ('-' + row) : ""); 
+  var id = (clientShort && (clientShort + '-')) + (protocolShort && (protocolShort + '-')) + (batch && ('B' + batch + '-')) + (reqCode ? reqCode.toUpperCase() : "OTH") + (row ? ('-' + row) : ""); 
   //console.log("id %s", id);
   // d.sh.getRange(d.row, d.getColNumByName("ID")).setValue(id);
   return id

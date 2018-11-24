@@ -4,7 +4,8 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" style="box-sizing: border-box;">
         <title style="box-sizing: border-box;"></title>
         
-	
+	   
+       <div w3-include-html="../css.html" style="box-sizing: border-box;"></div>
     </head>
     <body style="background-color: #fff; box-sizing: border-box; color: #212529; font-family: -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif,'Apple Color Emoji','Segoe UI Emoji','Segoe UI Symbol','Noto Color Emoji'; font-size: 1rem; font-weight: 400; line-height: 1.5; margin: 0; text-align: left;">
         <table border="0" cellpadding="0" cellspacing="0" height="100%" width="100%" id="bodyTable" style="border-collapse: collapse; box-sizing: border-box;">
@@ -20,9 +21,13 @@
     console.log(d);
 	var info = position(d.row); ?>
 
+
+<h3 style="box-sizing: border-box; color: inherit; font-family: inherit; font-size: 1.75rem; font-weight: 500; line-height: 1.2; margin-bottom: .5rem; margin-top: 0;"><strong style="box-sizing: border-box; font-weight: bolder;">SS Request Update</strong> / <?= d.id ?> / <?= d.status ?></h3>
+<h4 class="mb-3" style="box-sizing: border-box; color: inherit; font-family: inherit; font-size: 1.5rem; font-weight: 500; line-height: 1.2; margin-bottom: 1rem !important; margin-top: 0;"><?= d.client + ' ' + d.protocol + (d.batch && (' Batch ' + d.batch)) ?> &mdash; <?= d.reqCode ?></h4>
+
 <p style="box-sizing: border-box; margin-bottom: 1rem; margin-top: 0;">
 <? if (!d.dFiles && d.startDate) { ?>
-	We <?= d.daysStart < 0 ? 'were' : 'are' ?> expecting your <strong style="box-sizing: border-box; font-weight: bolder;">files</strong> <?= bdText(d.startDate && d.startDate.format(dfo), d.daysStart, 0) ?>. When they arrive, please place them on <strong style="box-sizing: border-box; font-weight: bolder;"><?= d.server.slice(4) ?></strong> at the file path* <u style="box-sizing: border-box;"><?= d.server[0] ?>:/<?= d.client ?>/<?= d.protocol ?>/z - To Assistant/<strong style="box-sizing: border-box; font-weight: bolder;"><?= d.timestamp && d.timestamp.format("YYYY.MM.DD") ?> -- <?= d.id ?></strong></u> and <a href="<?=url?>?page=View&row=<?= d.row ?>" style="-webkit-text-decoration-skip: objects; background-color: transparent; box-sizing: border-box; color: #007bff; text-decoration: none;">mark them as ready</a>.
+	We <?= d.daysStart < 0 ? 'were' : 'are' ?> expecting your <strong style="box-sizing: border-box; font-weight: bolder;">files</strong> <span class="text-info" style="box-sizing: border-box; color: #17a2b8 !important;"><?= bdText(d.startDate && d.startDate.format(dfo), d.daysStart, 0) ?></span>. When they arrive, please place them on <strong style="box-sizing: border-box; font-weight: bolder;"><?= d.server.slice(4) ?></strong> at the file path* <u style="box-sizing: border-box;"><?= d.server[0] ?>:/<?= d.client ?>/<?= d.protocol ?>/z - To Assistant/<strong style="box-sizing: border-box; font-weight: bolder;"><?= d.timestamp && d.timestamp.format("YYYY.MM.DD") ?> -- <?= d.id ?></strong></u> and <a href="<?=url?>?page=View&row=<?= d.row ?>" target="_blank" style="-webkit-text-decoration-skip: objects; background-color: transparent; box-sizing: border-box; color: #007bff; text-decoration: none;">mark them as ready</a>.
 <? } else if (!d.dREV) { ?>
 	Please make sure your files are on <strong style="box-sizing: border-box; font-weight: bolder;"><?= d.server.slice(4) ?></strong> at the file path* <u style="box-sizing: border-box;"><?= d.server[0] ?>:/<?= d.client ?>/<?= d.protocol ?>/z - To Assistant/<strong style="box-sizing: border-box; font-weight: bolder;"><?= d.timestamp && d.timestamp.format("YYYY.MM.DD") ?> -- <?= d.id ?></strong></u>.
 <? } ?>
@@ -38,7 +43,7 @@
 <? } ?>
 
 <? if (d.expRetDate && d.daysExp >= 0) { ?>
-	We currently <strong style="box-sizing: border-box; font-weight: bolder;">estimate</strong> that we will deliver the screenshots for your review <?= bdText(d.expRetDate && d.expRetDate.format(dfo), d.daysExp, 0) ?>.
+	We currently <strong style="box-sizing: border-box; font-weight: bolder;">estimate</strong> that we will deliver the screenshots for your review <span class="text-info" style="box-sizing: border-box; color: #17a2b8 !important;"><?= bdText(d.expRetDate && d.expRetDate.format(dfo), d.daysExp, 0) ?></span>.
 <? } ?>
 </p>
 

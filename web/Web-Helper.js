@@ -18,7 +18,7 @@ function doGet(e) {
     row = e.parameter['row'];
     var sh = SpreadsheetApp.openById(ssID).getSheetByName("Queue");
     var data = sh.getRange(row, 1, 1, sh.getLastColumn()).getValues()[0];
-    rowTitle += ": " + data[getColNumByName(sh, "ID") -1 ] + ' ' + data[getColNumByName(sh, "Client") - 1] + ' ' + data[getColNumByName(sh, "Protocol Number") - 1];
+    rowTitle += " / " + data[getColNumByName(sh, "ID") -1 ] + ' / ' + data[getColNumByName(sh, "Client") - 1] + ' ' + data[getColNumByName(sh, "Protocol Number") - 1];
   }
   
   // var timeLabel = page + " load time";  // Labels the timing log entry.

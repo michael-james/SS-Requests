@@ -38,9 +38,11 @@ function sendEmailHTML(HTMLOUT, d) {
   
   MailApp.sendEmail({
     to: 'michael.james@ert.com',
-    subject: 'SS Request Update / ' + d.status + ' / ' + d.id + ' ' + d.client + ' ' + d.protocol,
-    htmlBody: HTMLOUT.getContent(),
-    name: "SS Requests"
+    subject: 'SS Request Update / ' + d.id + ' / ' + d.status,
+    htmlBody: HTMLOUT.setTitle('SS Request Update / ' + d.id + ' / ' + d.status + ' / ' + moment().format(ERTdf)).getContent(),
+    name: "SS Requests",
+    // replyTo: asstEmail,
+    attachments: HTMLOUT.getAs(MimeType.PDF)
   });
   
   
