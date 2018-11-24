@@ -359,7 +359,8 @@
       $( document ).ready(function() {
           console.log( "ready!" );
           var dFilesFormTime, timestampForm, status;
-          var priveleges = <?= (data.asst || data.lead || data.admin) ? true : false ?>;
+          <? console.log(!(parseInt(data.role) === 0)); ?>
+          var priveleges = parseInt(<?= (!(parseInt(data.role) === 0) && (data.asst || data.lead || data.admin)) ? 1 : 0 ?>);
 
         <? if (data.action !== 'submit') { ?>
 
@@ -486,7 +487,7 @@
 
           function setDateMin() {
             console.log(priveleges);
-            if (!(parseInt(data.role) === 0) && priveleges ) {
+            if (priveleges) {
               console.log('...exiting setDateMin() because of priveleges');
               return
             }
