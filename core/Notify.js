@@ -67,3 +67,7 @@ function testNewRequest() {
   
   newRequest(e);
 }
+
+function testHi() {
+  
+}

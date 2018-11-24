@@ -1,8 +1,8 @@
-function sendNewRequest() {
+function sendEmail() {
   var t0 = new Date();
     
-  var t = HtmlService.createTemplateFromFile('plain-text-inline');
-  t.d = d;
+  var t = HtmlService.createTemplateFromFile('email/plain-text-inline');
+  // t.d = d;
     
   MailApp.sendEmail({
     to: 'michael.james@ert.com',
