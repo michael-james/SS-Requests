@@ -33,12 +33,12 @@ function testSendEmail() {
   console.log(sendEmail(getRequest(80)));
 }
 
-function sendEmailHTML(HTMLOUT) {
+function sendEmailHTML(HTMLOUT, d) {
   var t0 = new Date();
   
   MailApp.sendEmail({
     to: 'michael.james@ert.com',
-    subject: 'Hi',
+    subject: 'SS Request Update / ' + d.status + ' / ' + d.id + ' ' + d.client + ' ' + d.protocol,
     htmlBody: HTMLOUT.getContent(),
     name: "SS Requests"
   });

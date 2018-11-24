@@ -78,7 +78,8 @@ function doGet(e) {
     .addMetaTag('viewport', 'width=device-width, initial-scale=1, shrink-to-fit=no');
 
   if (dev == "send") {
-    sendEmailHTML(evalHTML);
+    var d = getRequest(d);
+    sendEmailHTML(evalHTML, d);
   }
     // .setFaviconUrl(favicon);
   // console.timeEnd(timeLabel);

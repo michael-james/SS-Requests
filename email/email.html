@@ -22,7 +22,7 @@
 
 <p>
 <? if (!d.dFiles && d.startDate) { ?>
-	We <?= d.daysStart < 0 ? 'were' : 'are' ?> expecting your <strong>files</strong> <?= bdText(d.startDate && d.startDate.format(dfo), d.daysStart, 0) ?>. When they arrive, please <a href="<?=url?>?page=View&row=<?= d.row ?>">mark them as ready</a>.
+	We <?= d.daysStart < 0 ? 'were' : 'are' ?> expecting your <strong>files</strong> <?= bdText(d.startDate && d.startDate.format(dfo), d.daysStart, 0) ?>. When they arrive, please place them on <strong><?= d.server.slice(4) ?></strong> at the file path* <u><?= d.server[0] ?>:/<?= d.client ?>/<?= d.protocol ?>/z - To Assistant/<strong><?= d.timestamp && d.timestamp.format("YYYY.MM.DD") ?> -- <?= d.id ?></strong></u> and <a href="<?=url?>?page=View&row=<?= d.row ?>">mark them as ready</a>.
 <? } else if (!d.dREV) { ?>
 	Please make sure your files are on <strong><?= d.server.slice(4) ?></strong> at the file path* <u><?= d.server[0] ?>:/<?= d.client ?>/<?= d.protocol ?>/z - To Assistant/<strong><?= d.timestamp && d.timestamp.format("YYYY.MM.DD") ?> -- <?= d.id ?></strong></u>.
 <? } ?>
@@ -49,13 +49,11 @@
 	It is the <strong><?= ord(info.posNotStart) ?></strong> request out of those we have not yet started.
 <? } ?>
 
-<? if (info.wkbksBefore) { ?>
-	There are approximately <?= info.wkbksBefore ?> workbooks ahead of this request\
-
-	<? if (info.wkbksBeforeNotStart) { ?>
-&nbsp;(of which <?= info.wkbksBeforeNotStart ?> have not been started)\
-	<? } ?>
-.
+    <? if (info.wkbksBefore) { ?>
+    	There are approximately <?= info.wkbksBefore ?> workbooks ahead of this request <?
+    if (info.wkbksBeforeNotStart) { ?>
+        (of which <?= info.wkbksBeforeNotStart ?> have not been started).
+    <? } else { ?>.<? } ?>
 <? } ?>
 </span></p>
 
