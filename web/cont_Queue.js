@@ -72,6 +72,7 @@ function tesetGetSortedReqsHelper() {
 }
 
 function position(thisRow) {
+  console.log('...getting position');
   var t0 = new Date();
   thisRow = parseInt(thisRow);
   var reqs = getSortedReqs();
@@ -92,14 +93,14 @@ function position(thisRow) {
       info.pos = r;
       info.posNotStart = (!reqs[r][inds.dINP]) ? posNotStart : 0;
       info.wkbksBefore = wkbksBefore;
-      info.wkbksBeforeNotStart = wkbksBeforeNotStart;
+      // info.wkbksBeforeNotStart = wkbksBeforeNotStart;
     } else {
       var counts = getCounts(reqs, r);
       wkbksBefore += parseInt(counts.bestwkbks);
 
-      if (!reqs[r][inds.dINP]) {
-        wkbksBeforeNotStart += parseInt(counts.bestwkbks);
-      }
+      // if (!reqs[r][inds.dINP]) {
+      //   wkbksBeforeNotStart += parseInt(counts.bestwkbks);
+      // }
     }
   }
 

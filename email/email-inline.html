@@ -14,7 +14,8 @@
                         <tr style="box-sizing: border-box;">
                             <td align="left" valign="top" style="box-sizing: border-box;">
                             
-<?  console.log(d);
+<?  console.log('working...');
+    console.log(d);
     var d = d || getRequest(80);
     console.log(d);
 	var info = position(d.row); ?>
@@ -51,7 +52,7 @@
 <? if (info.wkbksBefore) { ?>
 	There are approximately <?= info.wkbksBefore ?> workbooks ahead of this request
 
-	<? if (info.wkbksBeforeNotStart) { ?
+	<? if (info.wkbksBeforeNotStart) { ?>
 &nbsp;(of which <?= info.wkbksBeforeNotStart ?> have not been started)
 	<? } ?>
 .

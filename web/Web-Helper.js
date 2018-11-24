@@ -57,19 +57,23 @@ function doGet(e) {
     dev = e.parameter['dev'];
   }
 
+  var title;
   if (dev == "send") {
     var html = HtmlService.createTemplateFromFile('email/email-inline');
+    console.log("...preparing to send email and preview it");
+    title = "Email Test " + row;
   } else {
     var html = HtmlService.createTemplateFromFile('Default');
+    title = getPageDisplayName(page, view, action) + rowTitle + " - SS Requests";
   }
+  console.log("...everything seems fine?");
   
   var data = {page: page, row: row, status: statuses[s], view: view, role: role, action: action, email: u.email, u: u, admin: u.admin, asst: u.asst, lead: u.lead, dev: dev};
   html.data = data;
   // var favicon = "http://michael-james.github.io/ERT/ert-logo.png";
   // var favicon = "http://michael-james.github.io/ERT/favicon.ico";
-  var title = getPageDisplayName(page, view, action) + rowTitle + " - SS Requests";
+  
   var evalHTML = html.evaluate()
-    // .setTitle("SS Requests: " + page + (Boolean(row) ? (" " + row) : ""))
     .setTitle(title)
     .addMetaTag('viewport', 'width=device-width, initial-scale=1, shrink-to-fit=no');
 
