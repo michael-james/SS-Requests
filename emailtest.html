@@ -13,14 +13,10 @@
                     <table border="0" cellpadding="20" cellspacing="0" width="600" id="emailContainer">
                         <tr>
                             <td align="left" valign="top">
-
-<? if (data) { ?>
-	<p>dev: <?= data.dev ?><br>
-	   devResult: <?= data.devResult ?>
-	</p>
-<? } ?>
-
-<?  var d = d || getRequest(data.row);
+                            
+<?  Logger.log(d);
+    var d = d || getRequest(data.row);
+    Logger.log(d);
 	var info = position(d.row); ?>
 
 <p>

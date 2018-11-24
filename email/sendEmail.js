@@ -1,16 +1,22 @@
 function sendEmail(d) {
   var t0 = new Date();
+  var s = getRequestsSummary();
+  
+ Logger.log(d);
     
-  // var t = HtmlService.createTemplateFromFile("emailtest");
-  // var data = null;
-  // t.data = data;
-  // t.d = d;
+ var t = HtmlService.createTemplateFromFile('NewRequest');
+  t.d = d;
+  t.s = s;
+// var data = null;
+// t.data = data;
+ var html = t.evaluate().getContent();
+// console.log(html);
     
   MailApp.sendEmail({
     to: 'michael.james@ert.com',
     subject: 'Hi',
-    // htmlBody: t.evaluate().getContent(),
-    htmlBody: 'Hi',
+    htmlBody: html,
+    //htmlBody: 'Hi',
     name: "SS Requests"
   });
   
