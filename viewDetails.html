@@ -28,7 +28,7 @@
             <div class="row"><div class="col-sm-4">Date Requested</div><div class="col-sm-8"><strong><?= data.timestamp.format(df + ', ' + tf) ?></strong></div></div>
             <div class="row"><div class="col-sm-4">Files Expected</div><div class="col-sm-8"><span class='badge <?= urgency(d.daysStart, "badge", "success") ?>'><?= d.startDate && d.startDate.format(df) ?></span> <strong><?= (data.daysStart == 0 || data.daysStart) && ("(" + data.daysStart + ")")?></strong></div></div>
             <div class="row"><div class="col-sm-4">Pref. Deadline</div><div class="col-sm-8"><span class='badge <?= urgency(d.daysPref, "badge", "warning") ?>'><?= d.prefDueDate && d.prefDueDate.format(df) ?></span> <strong><?= (data.daysPref == 0 || data.daysPref) && ("(" + data.daysPref + ")")?></strong></div></div>
-            <div class="row"><div class="col-sm-4">Hard Deadline</div><div class="col-sm-8"><span class='badge <?= urgency(d.daysDue, "badge", "danger") ?>'><?= d.hardDueDate && d.hardDueDate.format("ddd, MMM D, h:mm a") ?></span> <strong><?= (data.daysDue == 0 || data.daysDue) && ("(" + data.daysDue + ")")?></strong></div></div>
+            <div class="row"><div class="col-sm-4">Hard Deadline</div><div class="col-sm-8"><span class='badge <?= urgency(d.daysDueWhole, "badge", "danger") ?>'><?= d.hardDueDate && d.hardDueDate.format("ddd, MMM D, h:mm a") ?></span> <strong><?= (data.daysDue == 0 || data.daysDue) && ("(" + data.daysDue + ")")?></strong></div></div>
         </div>
 	</div>
     <br>

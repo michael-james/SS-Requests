@@ -91,15 +91,10 @@ function getRequestData(data, i, newReq, keepSt, filt) {
   d.predhrs = d.getByName("Pred. Bill Hrs") || "";
   d.hardtime = d.getByName("Hard Deadline Time");
 
-  d.langCnt = ((typeof d.langsV001 == 'string' && d.langsV001) ? d.langsV001.split(",").length : 0) + ((typeof d.langsCR == 'string' && d.langsCR) ? d.langsCR.split(",").length : 0);
-  d.astCnt = ((typeof d.cpyast == 'string' && d.cpyast) ? d.cpyast.split(",").length : 0) + ((typeof d.nonast == 'string' && d.nonast) ? d.nonast.split(",").length : 0);
-
-  // estimated workbooks
-  if (!isNaN(d.astCnt) && !isNaN(d.langCnt)) {
-    d.estwkbks = (d.astCnt * d.langCnt).toFixed(0);
+  var o = getCounts(d);
+  for (var prop in o) {
+    d[prop] = o[prop];
   }
-  d.predwkbks = d.estwkbks;
-  // d.predwkbks = d.getByName("Pred. Wkbk. Cnt.") && d.getByName("Pred. Wkbk. Cnt.").toFixed(0) || "";
   
   // device & build
   var dvcbld = "";
@@ -149,6 +144,12 @@ function getRequestData(data, i, newReq, keepSt, filt) {
   d.prefDueDateForm = d.prefDueDate && d.prefDueDate.format(dfform);
   d.hardDueDateForm = d.hardDueDate && d.hardDueDate.format(dfform);
   d.expRetDateForm = d.expRetDate && d.expRetDate.format(dfform);
+
+  if (d.hardDue == d.prefDue) {
+    d.prefDue = null;
+    d.prefDueDate = null;
+    d.prefDueDateForm = null;
+  }
   
   //Logger.log('\nHard Due: ' + d.hardDue + '\nPref Due: ' + d.prefDue + '\n Start: ' + d.start);
   // rec(null, arguments.callee.name + " - basics", d.row, null, t0);
@@ -180,7 +181,8 @@ function getRequestData(data, i, newReq, keepSt, filt) {
   
   // Logger.log(d.status + ' - ' + d.client + ' ' + d.protocol)
   // metrics
-  d.daysDue = workdaysWhole(moment(), d.hardDueDate); // d.getByName("Days to DUE");
+  d.daysDueWhole = workdaysWhole(moment(), d.hardDueDate); // d.getByName("Days to DUE");
+  d.daysDue = workdays(moment(), d.hardDueDate); // d.getByName("Days to DUE");
   d.daysPref = workdays(moment(), d.prefDueDate); // d.getByName("Days to Pref");
   d.daysStart = workdays(moment(), d.startDate);
   d.daysExp = workdays(moment(), d.expRetDate); // d.getByName("Days to Start");
@@ -225,6 +227,28 @@ function getRequestData(data, i, newReq, keepSt, filt) {
   
   // var dur = new Date().getTime() - t0.getTime(); console.info({ type: 'perf', message: Utilities.formatString('perf: %s %s %sms', arguments.callee.name, (typeof page !== 'undefined') ? page : '', dur), func: "doGet", row: (typeof d.row !== 'undefined') ? d.row : '', page: (typeof page !== 'undefined') ? page : '', source: (typeof source !== 'undefined') ? source : '', dur: dur, user: user().email});
   return d;
+}
+
+function getCounts(d, r, sh) {
+  if (Array.isArray(d)) {
+    var inds = {langsV001: getColNumByName(sh, "Languages for v0.01") - 1, langsCR: getColNumByName(sh, "Languages for corrections") - 1, cpyast: getColNumByName(sh, "Copyrighted assessments for this request") - 1, nonast: getColNumByName(sh, "Non-copyrighted assessments for this request") - 1, actwkbks: getColNumByName(sh, "Act. Wkbk. Cnt.") - 1};
+    d = {langsV001: d[r][inds.langsV001], langsCR: d[r][inds.langsCR], cpyast: d[r][inds.cpyast], nonast: d[r][inds.nonast], actwkbks: d[r][inds.actwkbks]};
+  }
+  Logger.log(d.langsV001 + '\n' + d.cpyast);
+
+  o = {};
+  o.langCnt = ((typeof d.langsV001 == 'string' && d.langsV001) ? d.langsV001.split(",").length : 0) + ((typeof d.langsCR == 'string' && d.langsCR) ? d.langsCR.split(",").length : 0);
+  o.astCnt = ((typeof d.cpyast == 'string' && d.cpyast) ? d.cpyast.split(",").length : 0) + ((typeof d.nonast == 'string' && d.nonast) ? d.nonast.split(",").length : 0);
+
+  // estimated workbooks
+  if (!isNaN(o.astCnt) && !isNaN(o.langCnt)) {
+    o.estwkbks = (o.astCnt * o.langCnt).toFixed(0);
+  }
+  o.predwkbks = o.estwkbks;
+  o.bestwkbks = d.actwkbks || o.predwkbks;
+
+  Logger.log(o);
+  return o
 }
 
 function updateReq(row, id, oldStatus, batch, reqCode, startDate, dWFS, dFiles, office, hardDueDate, hardtime) {
@@ -709,3 +733,48 @@ function testWFS() {
   
   //sh.getRange(row, d.getColNumByName("Status")).setValue(d.status);
 }
+
+  function ord(i) {
+    var j = i % 10,
+        k = i % 100;
+    if (j == 1 && k != 11) {
+        return i + "st";
+    }
+    if (j == 2 && k != 12) {
+        return i + "nd";
+    }
+    if (j == 3 && k != 13) {
+        return i + "rd";
+    }
+    return i + "th";
+  }
+
+  function bdText(date, days, pre) {
+    if (days == 0) {
+      if (pre) {
+        return "is today"
+      } else {
+        return "today"
+      }
+    } else if (days == -1 && pre) {
+      return "was yesterday"
+    } else if (days == 1) {
+      if (pre) {
+        return "of " + date + " is tomorrow"
+      } else {
+        return "on " + date + ", which is tomorrow"
+      }
+    } else if (days < 0) {
+      if (pre) {
+        return "of " + date + " was " + (days * -1) + " business day ago"
+      } else {
+        return "on <span class='text-info'" + date + "</span>, which was <span class='text-info'" + (days * -1) + " business day</span> ago"
+      }
+    } else {
+      if (pre) {
+        return "of " + date + " is " + days + " business days away"
+      } else {
+        return "on <span class='text-info'" + date + "</span>, which is <span class='text-info'" + days + " business days</span> away"
+      }
+    }
+  }

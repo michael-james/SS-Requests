@@ -1,277 +1,79 @@
-<?  var d = d || getRequest(data.row); ?>
-<!DOCTYPE html>
-<html style="--blue: #007bff; --breakpoint-lg: 992px; --breakpoint-md: 768px; --breakpoint-sm: 576px; --breakpoint-xl: 1200px; --breakpoint-xs: 0; --cyan: #17a2b8; --danger: #dc3545; --dark: #343a40; --font-family-monospace: SFMono-Regular,Menlo,Monaco,Consolas,'Liberation Mono','Courier New',monospace; --font-family-sans-serif: -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif,'Apple Color Emoji','Segoe UI Emoji','Segoe UI Symbol','Noto Color Emoji'; --gray: #6c757d; --gray-dark: #343a40; --green: #28a745; --indigo: #6610f2; --info: #17a2b8; --light: #f8f9fa; --orange: #fd7e14; --pink: #e83e8c; --primary: #007bff; --purple: #6f42c1; --red: #dc3545; --secondary: #6c757d; --success: #28a745; --teal: #20c997; --warning: #ffc107; --white: #fff; --yellow: #ffc107; -ms-overflow-style: scrollbar; -ms-text-size-adjust: 100%; -webkit-tap-highlight-color: transparent; -webkit-text-size-adjust: 100%; box-sizing: border-box; font-family: sans-serif; line-height: 1.15;">
-<head style="box-sizing: border-box;">
-	<title style="box-sizing: border-box;"></title>
-    
-    <?!= // include('css') ?>
-    
-</head>
-<body style="background-color: #fff; box-sizing: border-box; color: #212529; font-family: Arial; font-size: 1rem; font-weight: 400; line-height: 1.5; margin: 0; text-align: left;">
-    <p dir="ltr" style="box-sizing: border-box; line-height: 1.38; margin-bottom: 3pt; margin-top: 0pt;">
-      <span style="background-color: transparent; box-sizing: border-box; color: rgb(0, 0, 0); font-size: 26pt; font-variant-east-asian: normal; font-variant-numeric: normal; vertical-align: baseline; white-space: pre-wrap;">Screenshots Request Update</span>
-    </p>
-	<p dir="ltr" style="box-sizing: border-box; line-height: 1.38; margin-bottom: 0pt; margin-top: 0pt;">
-      <span style="background-color: transparent; box-sizing: border-box; color: rgb(102, 102, 102); font-size: 15pt; font-variant-east-asian: normal; font-variant-numeric: normal; vertical-align: baseline; white-space: pre-wrap;"><?= d.client + ' ' + d.protocol + (d.batch && (' Batch ' + d.batch)) + ' - ' + d.reqCode + ' - ' + moment().format(ERTdf) ?></span>
-    </p>
-    <br style="box-sizing: border-box;">
-	<p dir="ltr" style="box-sizing: border-box; line-height: 1.38; margin-bottom: 0pt; margin-top: 0pt;">
-      <span style="box-sizing: border-box; font-size: 11pt; font-variant-east-asian: normal; font-variant-numeric: normal; vertical-align: baseline; white-space: pre-wrap;">Hello <?= d.requestorNames[0] ?>,</span>
-    </p>
-    <br style="box-sizing: border-box;">
-	<p dir="ltr" style="box-sizing: border-box; line-height: 1.38; margin-bottom: 0pt; margin-top: 0pt;">
-      <span style="background-color: transparent; box-sizing: border-box; font-size: 11pt; font-variant-east-asian: normal; font-variant-numeric: normal; vertical-align: baseline; white-space: pre-wrap;">Here is a summary of the status of your request. Please review this and the associated files then verify completion or outline necessary revisions.</span>
-    </p>
-<? if(d.alerts) { ?>
-    <br style="box-sizing: border-box;">
-	<p dir="ltr" style="box-sizing: border-box; line-height: 1.38; margin-bottom: 0pt; margin-top: 0pt;">
-      <span style="background-color: transparent; box-sizing: border-box; color: rgb(0, 0, 0); font-size: 11pt; font-variant-east-asian: normal; font-variant-numeric: normal; vertical-align: baseline; white-space: pre-wrap;"><strong style="box-sizing: border-box; font-weight: bolder;"><?= d.alerts ?></strong></span>
-    </p>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" style="--blue: #007bff; --breakpoint-lg: 992px; --breakpoint-md: 768px; --breakpoint-sm: 576px; --breakpoint-xl: 1200px; --breakpoint-xs: 0; --cyan: #17a2b8; --danger: #dc3545; --dark: #343a40; --font-family-monospace: SFMono-Regular,Menlo,Monaco,Consolas,'Liberation Mono','Courier New',monospace; --font-family-sans-serif: -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif,'Apple Color Emoji','Segoe UI Emoji','Segoe UI Symbol','Noto Color Emoji'; --gray: #6c757d; --gray-dark: #343a40; --green: #28a745; --indigo: #6610f2; --info: #17a2b8; --light: #f8f9fa; --orange: #fd7e14; --pink: #e83e8c; --primary: #007bff; --purple: #6f42c1; --red: #dc3545; --secondary: #6c757d; --success: #28a745; --teal: #20c997; --warning: #ffc107; --white: #fff; --yellow: #ffc107; -ms-overflow-style: scrollbar; -ms-text-size-adjust: 100%; -webkit-tap-highlight-color: transparent; -webkit-text-size-adjust: 100%; box-sizing: border-box; font-family: sans-serif; line-height: 1.15;">
+    <head style="box-sizing: border-box;">
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" style="box-sizing: border-box;">
+        <title style="box-sizing: border-box;"></title>
+        
+	
+    </head>
+    <body style="background-color: #fff; box-sizing: border-box; color: #212529; font-family: -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif,'Apple Color Emoji','Segoe UI Emoji','Segoe UI Symbol','Noto Color Emoji'; font-size: 1rem; font-weight: 400; line-height: 1.5; margin: 0; text-align: left;">
+        <table border="0" cellpadding="0" cellspacing="0" height="100%" width="100%" id="bodyTable" style="border-collapse: collapse; box-sizing: border-box;">
+            <tr style="box-sizing: border-box;">
+                <td align="center" valign="top" style="box-sizing: border-box;">
+                    <table border="0" cellpadding="20" cellspacing="0" width="600" id="emailContainer" style="border-collapse: collapse; box-sizing: border-box;">
+                        <tr style="box-sizing: border-box;">
+                            <td align="left" valign="top" style="box-sizing: border-box;">
+
+<? if (data) {
+	<p>dev: <?= data.dev ?><br style="box-sizing: border-box;">
+	   devResult: <?= data.devResult ?><p style="box-sizing: border-box; margin-bottom: 1rem; margin-top: 0;"></p>
 <? } ?>
-    <div class="btn-group btn-group-sm my-3" role="group" style="box-sizing: border-box; display: inline-flex; margin-bottom: 1rem !important; margin-top: 1rem !important; position: relative; vertical-align: middle;">
-      <a class="btn btn-inprogress" href="<?=url?>?page=View&row=<?= d.row ?>&status=INP" style="-moz-user-select: none; -ms-flex: 0 1 auto; -ms-user-select: none; -webkit-text-decoration-skip: objects; -webkit-user-select: none; background-color: rgb(252, 229, 205); border: 1px solid transparent; border-bottom-right-radius: 0; border-color: rgb(252, 229, 205); border-radius: .2rem; border-top-right-radius: 0; box-sizing: border-box; color: #212529; cursor: pointer; display: inline-block; flex: 0 1 auto; font-size: .875rem; font-weight: 400; line-height: 1.5; margin-left: 0; padding: .25rem .5rem; position: relative; text-align: center; text-decoration: none; transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out; user-select: none; vertical-align: middle; white-space: nowrap;">Needs Corrections</a>
-      <a class="btn btn-warning" href="<?=url?>?page=View&row=<?= d.row ?>&status=ONH" style="-moz-user-select: none; -ms-flex: 0 1 auto; -ms-user-select: none; -webkit-text-decoration-skip: objects; -webkit-user-select: none; background-color: #ffc107; border: 1px solid transparent; border-bottom-left-radius: 0; border-bottom-right-radius: 0; border-color: #ffc107; border-radius: .2rem; border-top-left-radius: 0; border-top-right-radius: 0; box-sizing: border-box; color: #212529; cursor: pointer; display: inline-block; flex: 0 1 auto; font-size: .875rem; font-weight: 400; line-height: 1.5; margin-left: -1px; padding: .25rem .5rem; position: relative; text-align: center; text-decoration: none; transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out; user-select: none; vertical-align: middle; white-space: nowrap;">On-hold</a>
-      <a class="btn btn-completed" href="<?=url?>?page=View&row=<?= d.row ?>&status=CPL" style="-moz-user-select: none; -ms-flex: 0 1 auto; -ms-user-select: none; -webkit-text-decoration-skip: objects; -webkit-user-select: none; background-color: #6aa84f; background-image: none; border: 1px solid transparent; border-bottom-left-radius: 0; border-color: #6aa84f; border-radius: .2rem; border-top-left-radius: 0; box-sizing: border-box; color: #fff; cursor: pointer; display: inline-block; flex: 0 1 auto; font-size: .875rem; font-weight: 400; line-height: 1.5; margin-left: -1px; padding: .25rem .5rem; position: relative; text-align: center; text-decoration: none; transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out; user-select: none; vertical-align: middle; white-space: nowrap;">Completed</a>
-    </div>
-	<p dir="ltr" style="box-sizing: border-box; line-height: 1.38; margin-bottom: 0pt; margin-top: 0pt;">
-      <span style="background-color: transparent; box-sizing: border-box; font-size: 11pt; font-variant-east-asian: normal; font-variant-numeric: normal; vertical-align: baseline; white-space: pre-wrap;">Let me know if you have any questions or feedback!</span>
-    </p>
-    <br style="box-sizing: border-box;">
-	<p dir="ltr" style="box-sizing: border-box; line-height: 1.38; margin-bottom: 0pt; margin-top: 0pt;">
-      <span style="background-color: transparent; box-sizing: border-box; font-size: 11pt; font-variant-east-asian: normal; font-variant-numeric: normal; vertical-align: baseline; white-space: pre-wrap;">best,</span>  
-    </p>
-	<p dir="ltr" style="box-sizing: border-box; line-height: 1.38; margin-bottom: 0pt; margin-top: 0pt;">
-      <span style="background-color: transparent; box-sizing: border-box; font-size: 11pt; font-variant-east-asian: normal; font-variant-numeric: normal; vertical-align: baseline; white-space: pre-wrap;"><?= d.asst ?></span>
-    </p>
-    <br style="box-sizing: border-box;">
-    
-	<div dir="ltr" style="box-sizing: border-box; margin-left: 0pt;">
-		<table style="border: none; border-collapse: collapse; box-sizing: border-box;">
-        <colgroup style="box-sizing: border-box;">
-        <col width="141" style="box-sizing: border-box;">
-        <col width="483" style="box-sizing: border-box;">
-        </colgroup>
-				<tbody style="box-sizing: border-box;">
-					<tr style="box-sizing: border-box; height: 21pt;">
-						<td colspan="2" style="background-color: rgb(204, 204, 204); border-color: rgb(0, 0, 0); border-style: solid; border-width: 1pt; box-sizing: border-box; padding: 5pt; vertical-align: top;">
-							<p dir="ltr" style="box-sizing: border-box; line-height: 1.2; margin-bottom: 0pt; margin-top: 0pt;"><span style="background-color: transparent; box-sizing: border-box; color: rgb(0, 0, 0); font-size: 11pt; font-variant-east-asian: normal; font-variant-numeric: normal; font-weight: 700; vertical-align: baseline; white-space: pre-wrap;">Request Basics</span></p>
-						</td>
-					</tr>
-					<tr style="box-sizing: border-box; height: 0pt;">
-						<td style="border-color: rgb(0, 0, 0); border-style: solid; border-width: 1pt; box-sizing: border-box; padding: 5pt; vertical-align: top;">
-							<p dir="ltr" style="box-sizing: border-box; line-height: 1.2; margin-bottom: 0pt; margin-top: 0pt;"><span style="background-color: transparent; box-sizing: border-box; color: rgb(0, 0, 0); font-size: 11pt; font-variant-east-asian: normal; font-variant-numeric: normal; vertical-align: baseline; white-space: pre-wrap;">TC</span></p>
-						</td>
-						<td style="border-color: rgb(0, 0, 0); border-style: solid; border-width: 1pt; box-sizing: border-box; padding: 5pt; vertical-align: top;">
-							<p dir="ltr" style="box-sizing: border-box; line-height: 1.2; margin-bottom: 0pt; margin-top: 0pt;"><span style="background-color: transparent; box-sizing: border-box; color: rgb(0, 0, 0); font-size: 11pt; font-variant-east-asian: normal; font-variant-numeric: normal; vertical-align: baseline; white-space: pre-wrap;"><?= d.requestor ?></span></p>
-						</td>
-					</tr>
-					<tr style="box-sizing: border-box; height: 0pt;">
-						<td style="border-color: rgb(0, 0, 0); border-style: solid; border-width: 1pt; box-sizing: border-box; padding: 5pt; vertical-align: top;">
-							<p dir="ltr" style="box-sizing: border-box; line-height: 1.2; margin-bottom: 0pt; margin-top: 0pt;"><span style="background-color: transparent; box-sizing: border-box; color: rgb(0, 0, 0); font-size: 11pt; font-variant-east-asian: normal; font-variant-numeric: normal; vertical-align: baseline; white-space: pre-wrap;">Client</span></p>
-						</td>
-						<td style="border-color: rgb(0, 0, 0); border-style: solid; border-width: 1pt; box-sizing: border-box; padding: 5pt; vertical-align: top;">
-							<p dir="ltr" style="box-sizing: border-box; line-height: 1.2; margin-bottom: 0pt; margin-top: 0pt;"><span style="background-color: transparent; box-sizing: border-box; color: rgb(0, 0, 0); font-size: 11pt; font-variant-east-asian: normal; font-variant-numeric: normal; vertical-align: baseline; white-space: pre-wrap;"><?= d.client ?></span></p>
-						</td>
-					</tr>
-					<tr style="box-sizing: border-box; height: 0pt;">
-						<td style="border-color: rgb(0, 0, 0); border-style: solid; border-width: 1pt; box-sizing: border-box; padding: 5pt; vertical-align: top;">
-							<p dir="ltr" style="box-sizing: border-box; line-height: 1.2; margin-bottom: 0pt; margin-top: 0pt;"><span style="background-color: transparent; box-sizing: border-box; color: rgb(0, 0, 0); font-size: 11pt; font-variant-east-asian: normal; font-variant-numeric: normal; vertical-align: baseline; white-space: pre-wrap;">Protocol</span></p>
-						</td>
-						<td style="border-color: rgb(0, 0, 0); border-style: solid; border-width: 1pt; box-sizing: border-box; padding: 5pt; vertical-align: top;">
-							<p dir="ltr" style="box-sizing: border-box; line-height: 1.2; margin-bottom: 0pt; margin-top: 0pt;"><span style="box-sizing: border-box; color: rgb(0, 0, 0); font-size: 11pt; font-variant-east-asian: normal; font-variant-numeric: normal; vertical-align: baseline; white-space: pre-wrap;"><?= d.protocol ?></span></p>
-						</td>
-					</tr>
-					<tr style="box-sizing: border-box; height: 0pt;">
-						<td style="border-color: rgb(0, 0, 0); border-style: solid; border-width: 1pt; box-sizing: border-box; padding: 5pt; vertical-align: top;">
-							<p dir="ltr" style="box-sizing: border-box; line-height: 1.2; margin-bottom: 0pt; margin-top: 0pt;"><span style="background-color: transparent; box-sizing: border-box; color: rgb(0, 0, 0); font-size: 11pt; font-variant-east-asian: normal; font-variant-numeric: normal; vertical-align: baseline; white-space: pre-wrap;">Request Type</span></p>
-						</td>
-						<td style="border-color: rgb(0, 0, 0); border-style: solid; border-width: 1pt; box-sizing: border-box; padding: 5pt; vertical-align: top;">
-							<p dir="ltr" style="box-sizing: border-box; line-height: 1.2; margin-bottom: 0pt; margin-top: 0pt;"><span style="background-color: transparent; box-sizing: border-box; color: rgb(0, 0, 0); font-size: 11pt; font-variant-east-asian: normal; font-variant-numeric: normal; vertical-align: baseline; white-space: pre-wrap;"><?= d.reqType ?></span></p>
-						</td>
-					</tr>
-					<tr style="box-sizing: border-box; height: 0pt;">
-						<td style="border-color: rgb(0, 0, 0); border-style: solid; border-width: 1pt; box-sizing: border-box; padding: 5pt; vertical-align: top;">
-							<p dir="ltr" style="box-sizing: border-box; line-height: 1.2; margin-bottom: 0pt; margin-top: 0pt;"><span style="background-color: transparent; box-sizing: border-box; color: rgb(0, 0, 0); font-size: 11pt; font-variant-east-asian: normal; font-variant-numeric: normal; vertical-align: baseline; white-space: pre-wrap;">Device, Build</span></p>
-						</td>
-						<td style="border-color: rgb(0, 0, 0); border-style: solid; border-width: 1pt; box-sizing: border-box; padding: 5pt; vertical-align: top;">
-							<p dir="ltr" style="box-sizing: border-box; line-height: 1.2; margin-bottom: 0pt; margin-top: 0pt;"><span style="box-sizing: border-box; color: rgb(0, 0, 0); font-size: 11pt; font-variant-east-asian: normal; font-variant-numeric: normal; vertical-align: baseline; white-space: pre-wrap;"><?= d.dvcbld ?></span></p>
-						</td>
-					</tr>
-					<tr style="box-sizing: border-box; height: 0pt;">
-						<td style="border-color: rgb(0, 0, 0); border-style: solid; border-width: 1pt; box-sizing: border-box; padding: 5pt; vertical-align: top;">
-							<p dir="ltr" style="box-sizing: border-box; line-height: 1.2; margin-bottom: 0pt; margin-top: 0pt;"><span style="background-color: transparent; box-sizing: border-box; color: rgb(0, 0, 0); font-size: 11pt; font-variant-east-asian: normal; font-variant-numeric: normal; vertical-align: baseline; white-space: pre-wrap;">Batch</span></p>
-						</td>
-						<td style="border-color: rgb(0, 0, 0); border-style: solid; border-width: 1pt; box-sizing: border-box; padding: 5pt; vertical-align: top;">
-							<p dir="ltr" style="box-sizing: border-box; line-height: 1.2; margin-bottom: 0pt; margin-top: 0pt;"><span style="box-sizing: border-box; color: rgb(0, 0, 0); font-size: 11pt; font-variant-east-asian: normal; font-variant-numeric: normal; vertical-align: baseline; white-space: pre-wrap;"><?= d.batch ?></span></p>
-						</td>
-					</tr>
-					<tr style="box-sizing: border-box; height: 0pt;">
-						<td style="border-color: rgb(0, 0, 0); border-style: solid; border-width: 1pt; box-sizing: border-box; padding: 5pt; vertical-align: top;">
-							<p dir="ltr" style="box-sizing: border-box; line-height: 1.2; margin-bottom: 0pt; margin-top: 0pt;"><span style="background-color: transparent; box-sizing: border-box; color: rgb(0, 0, 0); font-size: 11pt; font-variant-east-asian: normal; font-variant-numeric: normal; vertical-align: baseline; white-space: pre-wrap;">Languages</span></p>
-						</td>
-						<td style="border-color: rgb(0, 0, 0); border-style: solid; border-width: 1pt; box-sizing: border-box; padding: 5pt; vertical-align: top;">
-							<p dir="ltr" style="box-sizing: border-box; line-height: 1.2; margin-bottom: 0pt; margin-top: 0pt;"><span style="background-color: transparent; box-sizing: border-box; color: rgb(0, 0, 0); font-size: 11pt; font-variant-east-asian: normal; font-variant-numeric: normal; vertical-align: baseline; white-space: pre-wrap;"><?= d.langs ?></span></p>
-						</td>
-					</tr>
-					<tr style="box-sizing: border-box; height: 0pt;">
-						<td style="border-color: rgb(0, 0, 0); border-style: solid; border-width: 1pt; box-sizing: border-box; padding: 5pt; vertical-align: top;">
-							<p dir="ltr" style="box-sizing: border-box; line-height: 1.2; margin-bottom: 0pt; margin-top: 0pt;"><span style="background-color: transparent; box-sizing: border-box; color: rgb(0, 0, 0); font-size: 11pt; font-variant-east-asian: normal; font-variant-numeric: normal; vertical-align: baseline; white-space: pre-wrap;">Copyrighted Assessments</span></p>
-						</td>
-						<td style="border-color: rgb(0, 0, 0); border-style: solid; border-width: 1pt; box-sizing: border-box; padding: 5pt; vertical-align: top;">
-							<p dir="ltr" style="box-sizing: border-box; line-height: 1.2; margin-bottom: 0pt; margin-top: 0pt;"><span style="background-color: transparent; box-sizing: border-box; color: rgb(0, 0, 0); font-size: 11pt; font-variant-east-asian: normal; font-variant-numeric: normal; vertical-align: baseline; white-space: pre-wrap;"><?= d.cpyast ?></span></p><br style="box-sizing: border-box;">
-						</td>
-					</tr>
-					<tr style="box-sizing: border-box; height: 0pt;">
-						<td style="border-color: rgb(0, 0, 0); border-style: solid; border-width: 1pt; box-sizing: border-box; padding: 5pt; vertical-align: top;">
-							<p dir="ltr" style="box-sizing: border-box; line-height: 1.2; margin-bottom: 0pt; margin-top: 0pt;"><span style="background-color: transparent; box-sizing: border-box; color: rgb(0, 0, 0); font-size: 11pt; font-variant-east-asian: normal; font-variant-numeric: normal; vertical-align: baseline; white-space: pre-wrap;">Non-Copyrighted Assessments</span></p>
-						</td>
-						<td style="border-color: rgb(0, 0, 0); border-style: solid; border-width: 1pt; box-sizing: border-box; padding: 5pt; vertical-align: top;">
-							<p dir="ltr" style="box-sizing: border-box; line-height: 1.2; margin-bottom: 0pt; margin-top: 0pt;"><span style="background-color: transparent; box-sizing: border-box; color: rgb(0, 0, 0); font-size: 11pt; font-variant-east-asian: normal; font-variant-numeric: normal; vertical-align: baseline; white-space: pre-wrap;"><?= d.nonast ?></span></p>
-						</td>
-					</tr>
-					<tr style="box-sizing: border-box; height: 0pt;">
-						<td style="border-color: rgb(0, 0, 0); border-style: solid; border-width: 1pt; box-sizing: border-box; padding: 5pt; vertical-align: top;">
-							<p dir="ltr" style="box-sizing: border-box; line-height: 1.2; margin-bottom: 0pt; margin-top: 0pt;"><span style="background-color: transparent; box-sizing: border-box; color: rgb(0, 0, 0); font-size: 11pt; font-variant-east-asian: normal; font-variant-numeric: normal; vertical-align: baseline; white-space: pre-wrap;">Hard Deadline</span></p>
-						</td>
-						<td style="border-color: rgb(0, 0, 0); border-style: solid; border-width: 1pt; box-sizing: border-box; padding: 5pt; vertical-align: top;">
-							<p dir="ltr" style="box-sizing: border-box; line-height: 1.2; margin-bottom: 0pt; margin-top: 0pt;"><span style="box-sizing: border-box; color: rgb(0, 0, 0); font-size: 11pt; font-variant-east-asian: normal; font-variant-numeric: normal; vertical-align: baseline; white-space: pre-wrap;"><?= d.hardDue + ', ' + d.hardtime ?></span></p>
-						</td>
-					</tr>
-					<tr style="box-sizing: border-box; height: 0pt;">
-						<td style="border-color: rgb(0, 0, 0); border-style: solid; border-width: 1pt; box-sizing: border-box; padding: 5pt; vertical-align: top;">
-							<p dir="ltr" style="box-sizing: border-box; line-height: 1.2; margin-bottom: 0pt; margin-top: 0pt;"><span style="background-color: transparent; box-sizing: border-box; color: rgb(0, 0, 0); font-size: 11pt; font-variant-east-asian: normal; font-variant-numeric: normal; vertical-align: baseline; white-space: pre-wrap;">Pref. Deadline</span></p>
-						</td>
-						<td style="border-color: rgb(0, 0, 0); border-style: solid; border-width: 1pt; box-sizing: border-box; padding: 5pt; vertical-align: top;">
-							<p dir="ltr" style="box-sizing: border-box; line-height: 1.2; margin-bottom: 0pt; margin-top: 0pt;"><span style="box-sizing: border-box; color: rgb(0, 0, 0); font-size: 11pt; font-variant-east-asian: normal; font-variant-numeric: normal; vertical-align: baseline; white-space: pre-wrap;"><?= d.prefDue ?></span></p>
-						</td>
-					</tr>
-					<tr style="box-sizing: border-box; height: 0pt;">
-						<td style="border-color: rgb(0, 0, 0); border-style: solid; border-width: 1pt; box-sizing: border-box; padding: 5pt; vertical-align: top;">
-							<p dir="ltr" style="box-sizing: border-box; line-height: 1.2; margin-bottom: 0pt; margin-top: 0pt;"><span style="background-color: transparent; box-sizing: border-box; color: rgb(0, 0, 0); font-size: 11pt; font-variant-east-asian: normal; font-variant-numeric: normal; vertical-align: baseline; white-space: pre-wrap;">Earliest Start</span></p>
-						</td>
-						<td style="border-color: rgb(0, 0, 0); border-style: solid; border-width: 1pt; box-sizing: border-box; padding: 5pt; vertical-align: top;">
-							<p dir="ltr" style="box-sizing: border-box; line-height: 1.2; margin-bottom: 0pt; margin-top: 0pt;"><span style="box-sizing: border-box; color: rgb(0, 0, 0); font-size: 11pt; font-variant-east-asian: normal; font-variant-numeric: normal; vertical-align: baseline; white-space: pre-wrap;"><?= d.start ?></span></p>
-						</td>
-					</tr>
-					<tr style="box-sizing: border-box; height: 0pt;">
-						<td style="border-color: rgb(0, 0, 0); border-style: solid; border-width: 1pt; box-sizing: border-box; padding: 5pt; vertical-align: top;">
-							<p dir="ltr" style="box-sizing: border-box; line-height: 1.2; margin-bottom: 0pt; margin-top: 0pt;"><span style="background-color: transparent; box-sizing: border-box; color: rgb(0, 0, 0); font-size: 11pt; font-variant-east-asian: normal; font-variant-numeric: normal; vertical-align: baseline; white-space: pre-wrap;">Additional Notes</span></p>
-						</td>
-						<td style="border-color: rgb(0, 0, 0); border-style: solid; border-width: 1pt; box-sizing: border-box; padding: 5pt; vertical-align: top;">
-							<p dir="ltr" style="box-sizing: border-box; line-height: 1.2; margin-bottom: 0pt; margin-top: 0pt;"><span style="box-sizing: border-box; color: rgb(0, 0, 0); font-size: 11pt; font-variant-east-asian: normal; font-variant-numeric: normal; vertical-align: baseline; white-space: pre-wrap;"><?= d.addlnotes || "None" ?></span></p>
-						</td>
-					</tr>
-					<tr style="box-sizing: border-box; height: 21pt;">
-						<td colspan="2" style="background-color: rgb(204, 204, 204); border-color: rgb(0, 0, 0); border-style: solid; border-width: 1pt; box-sizing: border-box; padding: 5pt; vertical-align: top;">
-							<p dir="ltr" style="box-sizing: border-box; line-height: 1.2; margin-bottom: 0pt; margin-top: 0pt;"><span style="background-color: transparent; box-sizing: border-box; color: rgb(0, 0, 0); font-size: 11pt; font-variant-east-asian: normal; font-variant-numeric: normal; font-weight: 700; vertical-align: baseline; white-space: pre-wrap;">Work Summary</span></p>
-						</td>
-					</tr>
-					<tr style="box-sizing: border-box; height: 21pt;">
-						<td style="border-color: rgb(0, 0, 0); border-style: solid; border-width: 1pt; box-sizing: border-box; padding: 5pt; vertical-align: top;">
-							<p dir="ltr" style="box-sizing: border-box; line-height: 1.2; margin-bottom: 0pt; margin-top: 0pt;"><span style="background-color: transparent; box-sizing: border-box; color: rgb(0, 0, 0); font-size: 11pt; font-variant-east-asian: normal; font-variant-numeric: normal; font-weight: 700; vertical-align: baseline; white-space: pre-wrap;">Status</span></p>
-						</td>
-						<td style="border-color: rgb(0, 0, 0); border-style: solid; border-width: 1pt; box-sizing: border-box; padding: 5pt; vertical-align: top;">
-							<p dir="ltr" style="box-sizing: border-box; line-height: 1.2; margin-bottom: 0pt; margin-top: 0pt;"><span style="box-sizing: border-box; color: rgb(0, 0, 0); font-size: 11pt; font-variant-east-asian: normal; font-variant-numeric: normal; font-weight: 700; vertical-align: baseline; white-space: pre-wrap;"><?= d.status ?></span></p>
-						</td>
-					</tr>
-					<tr style="box-sizing: border-box; height: 21pt;">
-						<td style="border-color: rgb(0, 0, 0); border-style: solid; border-width: 1pt; box-sizing: border-box; padding: 5pt; vertical-align: top;">
-							<p dir="ltr" style="box-sizing: border-box; line-height: 1.2; margin-bottom: 0pt; margin-top: 0pt;"><span style="background-color: transparent; box-sizing: border-box; color: rgb(0, 0, 0); font-size: 11pt; font-variant-east-asian: normal; font-variant-numeric: normal; vertical-align: baseline; white-space: pre-wrap;">Date Returned</span></p>
-						</td>
-						<td style="border-color: rgb(0, 0, 0); border-style: solid; border-width: 1pt; box-sizing: border-box; padding: 5pt; vertical-align: top;">
-							<p dir="ltr" style="box-sizing: border-box; line-height: 1.2; margin-bottom: 0pt; margin-top: 0pt;"><span style="box-sizing: border-box; color: rgb(0, 0, 0); font-size: 11pt; font-variant-east-asian: normal; font-variant-numeric: normal; vertical-align: baseline; white-space: pre-wrap;"><?= d.dateRet ?></span></p>
-						</td>
-					</tr>
-					<tr style="box-sizing: border-box; height: 21pt;">
-						<td style="border-color: rgb(0, 0, 0); border-style: solid; border-width: 1pt; box-sizing: border-box; padding: 5pt; vertical-align: top;">
-							<p dir="ltr" style="box-sizing: border-box; line-height: 1.2; margin-bottom: 0pt; margin-top: 0pt;"><span style="background-color: transparent; box-sizing: border-box; color: rgb(0, 0, 0); font-size: 11pt; font-variant-east-asian: normal; font-variant-numeric: normal; vertical-align: baseline; white-space: pre-wrap;">Completed By</span></p>
-						</td>
-						<td style="border-color: rgb(0, 0, 0); border-style: solid; border-width: 1pt; box-sizing: border-box; padding: 5pt; vertical-align: top;">
-							<p dir="ltr" style="box-sizing: border-box; line-height: 1.2; margin-bottom: 0pt; margin-top: 0pt;"><span style="box-sizing: border-box; color: rgb(0, 0, 0); font-size: 11pt; font-variant-east-asian: normal; font-variant-numeric: normal; vertical-align: baseline; white-space: pre-wrap;"><?= d.asst ?></span></p>
-						</td>
-					</tr>
-					<tr style="box-sizing: border-box; height: 21pt;">
-						<td style="border-color: rgb(0, 0, 0); border-style: solid; border-width: 1pt; box-sizing: border-box; padding: 5pt; vertical-align: top;">
-							<p dir="ltr" style="box-sizing: border-box; line-height: 1.2; margin-bottom: 0pt; margin-top: 0pt;"><span style="background-color: transparent; box-sizing: border-box; color: rgb(0, 0, 0); font-size: 11pt; font-variant-east-asian: normal; font-variant-numeric: normal; vertical-align: baseline; white-space: pre-wrap;">Work Completed</span></p>
-						</td>
-						<td style="border-color: rgb(0, 0, 0); border-style: solid; border-width: 1pt; box-sizing: border-box; padding: 5pt; vertical-align: top;">
-							<p dir="ltr" style="box-sizing: border-box; line-height: 1.2; margin-bottom: 0pt; margin-top: 0pt;"><span style="background-color: transparent; box-sizing: border-box; color: rgb(0, 0, 0); font-size: 11pt; font-variant-east-asian: normal; font-variant-numeric: normal; vertical-align: baseline; white-space: pre-wrap;"><?= d.workcompl ?></span></p>
-						</td>
-					</tr>
-					<tr style="box-sizing: border-box; height: 21pt;">
-						<td style="border-color: rgb(0, 0, 0); border-style: solid; border-width: 1pt; box-sizing: border-box; padding: 5pt; vertical-align: top;">
-							<p dir="ltr" style="box-sizing: border-box; line-height: 1.2; margin-bottom: 0pt; margin-top: 0pt;"><span style="background-color: transparent; box-sizing: border-box; color: rgb(0, 0, 0); font-size: 11pt; font-variant-east-asian: normal; font-variant-numeric: normal; vertical-align: baseline; white-space: pre-wrap;">Deliverables</span></p>
-						</td>
-						<td style="border-color: rgb(0, 0, 0); border-style: solid; border-width: 1pt; box-sizing: border-box; padding: 5pt; vertical-align: top;">
-							<p dir="ltr" style="box-sizing: border-box; line-height: 1.2; margin-bottom: 0pt; margin-top: 0pt;"><span style="box-sizing: border-box; color: rgb(0, 0, 0); font-size: 11pt; font-variant-east-asian: normal; font-variant-numeric: normal; vertical-align: baseline; white-space: pre-wrap;"><?= d.deliv ?></span></p>
-						</td>
-					</tr>
-					<tr style="box-sizing: border-box; height: 21pt;">
-						<td style="border-color: rgb(0, 0, 0); border-style: solid; border-width: 1pt; box-sizing: border-box; padding: 5pt; vertical-align: top;">
-							<p dir="ltr" style="box-sizing: border-box; line-height: 1.2; margin-bottom: 0pt; margin-top: 0pt;"><span style="background-color: transparent; box-sizing: border-box; color: rgb(0, 0, 0); font-size: 11pt; font-variant-east-asian: normal; font-variant-numeric: normal; vertical-align: baseline; white-space: pre-wrap;">File Location</span></p>
-						</td>
-						<td style="border-color: rgb(0, 0, 0); border-style: solid; border-width: 1pt; box-sizing: border-box; padding: 5pt; vertical-align: top;">
-							<p dir="ltr" style="box-sizing: border-box; line-height: 1.2; margin-bottom: 0pt; margin-top: 0pt;"><span style="box-sizing: border-box; color: rgb(0, 0, 0); font-size: 11pt; font-variant-east-asian: normal; font-variant-numeric: normal; vertical-align: baseline; white-space: pre-wrap;"><?= d.fileloc ?></span></p>
-						</td>
-					</tr>
-					<tr style="box-sizing: border-box; height: 21pt;">
-						<td style="border-color: rgb(0, 0, 0); border-style: solid; border-width: 1pt; box-sizing: border-box; padding: 5pt; vertical-align: top;">
-							<p dir="ltr" style="box-sizing: border-box; line-height: 1.2; margin-bottom: 0pt; margin-top: 0pt;"><span style="background-color: transparent; box-sizing: border-box; color: rgb(0, 0, 0); font-size: 11pt; font-variant-east-asian: normal; font-variant-numeric: normal; vertical-align: baseline; white-space: pre-wrap;">Incomplete workbooks</span></p>
-						</td>
-						<td style="border-color: rgb(0, 0, 0); border-style: solid; border-width: 1pt; box-sizing: border-box; padding: 5pt; vertical-align: top;">
-							<p dir="ltr" style="box-sizing: border-box; line-height: 1.2; margin-bottom: 0pt; margin-top: 0pt;"><span style="background-color: transparent; box-sizing: border-box; color: rgb(0, 0, 0); font-size: 11pt; font-variant-east-asian: normal; font-variant-numeric: normal; vertical-align: baseline; white-space: pre-wrap;"><?= d.incmplwkbks ?></span></p>
-						</td>
-					</tr>
-					<tr style="box-sizing: border-box; height: 21pt;">
-						<td style="border-color: rgb(0, 0, 0); border-style: solid; border-width: 1pt; box-sizing: border-box; padding: 5pt; vertical-align: top;">
-							<p dir="ltr" style="box-sizing: border-box; line-height: 1.2; margin-bottom: 0pt; margin-top: 0pt;"><span style="background-color: transparent; box-sizing: border-box; color: rgb(0, 0, 0); font-size: 11pt; font-variant-east-asian: normal; font-variant-numeric: normal; vertical-align: baseline; white-space: pre-wrap;">Assessments that required JSON corrections</span></p>
-						</td>
-						<td style="border-color: rgb(0, 0, 0); border-style: solid; border-width: 1pt; box-sizing: border-box; padding: 5pt; vertical-align: top;">
-							<p dir="ltr" style="box-sizing: border-box; line-height: 1.2; margin-bottom: 0pt; margin-top: 0pt;"><span style="background-color: transparent; box-sizing: border-box; color: rgb(0, 0, 0); font-size: 11pt; font-variant-east-asian: normal; font-variant-numeric: normal; vertical-align: baseline; white-space: pre-wrap;"><?= d.astJSONcorr ?></span></p>
-						</td>
-					</tr>
-					<tr style="box-sizing: border-box; height: 21pt;">
-						<td style="border-color: rgb(0, 0, 0); border-style: solid; border-width: 1pt; box-sizing: border-box; padding: 5pt; vertical-align: top;">
-							<p dir="ltr" style="box-sizing: border-box; line-height: 1.2; margin-bottom: 0pt; margin-top: 0pt;"><span style="background-color: transparent; box-sizing: border-box; color: rgb(0, 0, 0); font-size: 11pt; font-variant-east-asian: normal; font-variant-numeric: normal; vertical-align: baseline; white-space: pre-wrap;">Billable Hours</span></p>
-						</td>
-						<td style="border-color: rgb(0, 0, 0); border-style: solid; border-width: 1pt; box-sizing: border-box; padding: 5pt; vertical-align: top;">
-							<p dir="ltr" style="box-sizing: border-box; line-height: 1.2; margin-bottom: 0pt; margin-top: 0pt;"><span style="background-color: transparent; box-sizing: border-box; color: rgb(0, 0, 0); font-size: 11pt; font-variant-east-asian: normal; font-variant-numeric: normal; vertical-align: baseline; white-space: pre-wrap;"><?= d.billhrs ?></span></p>
-						</td>
-					</tr>
-					<tr style="box-sizing: border-box; height: 21pt;">
-						<td colspan="2" style="background-color: rgb(204, 204, 204); border-color: rgb(0, 0, 0); border-style: solid; border-width: 1pt; box-sizing: border-box; padding: 5pt; vertical-align: top;">
-							<p dir="ltr" style="box-sizing: border-box; line-height: 1.2; margin-bottom: 0pt; margin-top: 0pt;"><span style="background-color: transparent; box-sizing: border-box; color: rgb(0, 0, 0); font-size: 11pt; font-variant-east-asian: normal; font-variant-numeric: normal; font-weight: 700; vertical-align: baseline; white-space: pre-wrap;">Notes</span></p>
-						</td>
-					</tr>
-					<tr style="box-sizing: border-box; height: 21pt;">
-						<td colspan="2" style="border-color: rgb(0, 0, 0); border-style: solid; border-width: 1pt; box-sizing: border-box; padding: 5pt; vertical-align: top;">
-							<p dir="ltr" style="box-sizing: border-box; line-height: 1.2; margin-bottom: 0pt; margin-top: 0pt;">
-                              <span style="background-color: transparent; box-sizing: border-box; color: rgb(0, 0, 0); font-size: 11pt; font-variant-east-asian: normal; font-variant-numeric: normal; font-weight: 700; vertical-align: baseline; white-space: pre-wrap;">Major Unresolved ERT Issues</span>
-                              <br style="box-sizing: border-box;">
-                              <span style="background-color: transparent; box-sizing: border-box; color: rgb(0, 0, 0); font-size: 11pt; font-variant-east-asian: normal; font-variant-numeric: normal; vertical-align: baseline; white-space: pre-wrap;"><?= d.majIssues || "None" ?></span>
-                            </p>
-                            <br style="box-sizing: border-box;">
-                            <p dir="ltr" style="box-sizing: border-box; line-height: 1.2; margin-bottom: 0pt; margin-top: 0pt;">
-                              <span style="background-color: transparent; box-sizing: border-box; color: rgb(0, 0, 0); font-size: 11pt; font-variant-east-asian: normal; font-variant-numeric: normal; font-weight: 700; vertical-align: baseline; white-space: pre-wrap;">Minor Unresolved ERT Issues</span>
-                              <br style="box-sizing: border-box;">
-                              <span style="background-color: transparent; box-sizing: border-box; color: rgb(0, 0, 0); font-size: 11pt; font-variant-east-asian: normal; font-variant-numeric: normal; vertical-align: baseline; white-space: pre-wrap;"><?= d.minIssues || "None" ?></span>
-                            </p>
-                            <br style="box-sizing: border-box;">
-                            <p dir="ltr" style="box-sizing: border-box; line-height: 1.2; margin-bottom: 0pt; margin-top: 0pt;">
-                              <span style="background-color: transparent; box-sizing: border-box; color: rgb(0, 0, 0); font-size: 11pt; font-variant-east-asian: normal; font-variant-numeric: normal; font-weight: 700; vertical-align: baseline; white-space: pre-wrap;">General Notes</span>
-                              <br style="box-sizing: border-box;">
-                              <span style="box-sizing: border-box; color: rgb(0, 0, 0); font-size: 11pt; font-variant-east-asian: normal; font-variant-numeric: normal; vertical-align: baseline; white-space: pre-wrap;"><?= d.gennotes || "None" ?></span>
-                            </p>
-                            <br style="box-sizing: border-box;">
-							<p dir="ltr" style="box-sizing: border-box; line-height: 1.2; margin-bottom: 0pt; margin-top: 0pt;">
-                              <span style="background-color: transparent; box-sizing: border-box; color: rgb(0, 0, 0); font-size: 11pt; font-variant-east-asian: normal; font-variant-numeric: normal; font-weight: 700; vertical-align: baseline; white-space: pre-wrap;">Vendor Issues</span>
-                              <br style="box-sizing: border-box;">
-                              <span style="background-color: transparent; box-sizing: border-box; color: rgb(0, 0, 0); font-size: 11pt; font-variant-east-asian: normal; font-variant-numeric: normal; vertical-align: baseline; white-space: pre-wrap;"><?= d.vendiss || "None" ?></span>
-                            </p>
-						</td>
-					</tr>
-				</tbody>
-          </table>
-	</div>
-</body>
+
+<?  var d = d || getRequest(data.row);
+	var info = position(d.row);
+	for (var i in info) {?>
+	<!-- <p><strong><?= i ?>:</strong> <?= ord(info[i]) ?></p> -->
+<?	} ?>
+
+<p style="box-sizing: border-box; margin-bottom: 1rem; margin-top: 0;">
+<? if (!d.dFiles && d.startDate) { ?>
+	We <?= d.daysStart < 0 ? 'were' : 'are' ?> expecting your <strong style="box-sizing: border-box; font-weight: bolder;">files</strong> <?= bdText(d.startDate && d.startDate.format(dfo), d.daysStart, 0) ?>. When they arrive, please <a href="<?= url ?>" style="-webkit-text-decoration-skip: objects; background-color: transparent; box-sizing: border-box; color: #007bff; text-decoration: none;">mark them as ready</a>.
+<? } else if (!d.dREV) { ?>
+	Please make sure your files are on <strong style="box-sizing: border-box; font-weight: bolder;"><?= d.server.slice(4) ?></strong> at the file path* <u style="box-sizing: border-box;"><?= d.server[0] ?>:/<?= d.client ?>/<?= d.protocol ?>/z - To Assistant/<strong style="box-sizing: border-box; font-weight: bolder;"><?= d.timestamp && d.timestamp.format("YYYY.MM.DD") ?> -- <?= d.id ?></strong></u>.
+<? } ?>
+</p>
+
+<p style="box-sizing: border-box; margin-bottom: 1rem; margin-top: 0;">
+<? if (d.hardDueDate) { ?>
+	Your <strong style="box-sizing: border-box; font-weight: bolder;">hard</strong> deadline <?= bdText(d.hardDueDate && d.hardDueDate.format(dtfo), d.daysDue, 1) ?>.<br style="box-sizing: border-box;">
+<? } ?>
+
+<? if (d.prefDueDate) { ?>
+	Your <strong style="box-sizing: border-box; font-weight: bolder;">preferred</strong> deadline <?= bdText(d.prefDueDate && d.prefDueDate.format(dfo), d.daysPref, 1) ?>.<br style="box-sizing: border-box;">
+<? } ?>
+
+<? if (d.expRetDate && d.daysExp >= 0) { ?>
+	We currently <strong style="box-sizing: border-box; font-weight: bolder;">estimate</strong> that we will deliver the screenshots for your review <?= bdText(d.expRetDate && d.expRetDate.format(dfo), d.daysExp, 0) ?>.
+<? } ?>
+</p>
+
+<p style="box-sizing: border-box; margin-bottom: 1rem; margin-top: 0;"><span class="text-muted" style="box-sizing: border-box; color: #6c757d !important;">
+	This is the <strong style="box-sizing: border-box; font-weight: bolder;"><?= ord(info.pos) ?></strong> request in our queue.
+
+<? if (info.posNotStart) { ?>
+	It is the <strong style="box-sizing: border-box; font-weight: bolder;"><?= ord(info.posNotStart) ?></strong> request out of those we have not yet started.
+<? } ?>
+
+<? if (info.wkbksBefore) { ?>
+	There are approximately <?= info.wkbksBefore ?> workbooks ahead of this request.
+<? } ?>
+</span></p>
+
+<? if (!d.dRev) { ?>
+<p style="box-sizing: border-box; margin-bottom: 1rem; margin-top: 0;">
+	<span class="text-muted" style="box-sizing: border-box; color: #6c757d !important; font-size: 75%;"><i style="box-sizing: border-box;">*It's ok if your file path is</i> slightly <i style="box-sizing: border-box;">different because of the way client/study folders are named.</i>
+</span></p>
+<? } ?>
+
+<!-- <p style="white-space: pre-wrap;"><?= Logger.getLog() ?></p> -->
+
+
+
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+    </body>
 </html>
