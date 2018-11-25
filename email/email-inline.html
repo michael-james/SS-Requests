@@ -17,7 +17,7 @@
                             
 <?  console.log('working...');
     console.log(d);
-    var d = d || getRequest(66);
+    var d = d || getRequest(108);
     console.log(d);
 	var info = position(d.row); ?>
 
@@ -29,22 +29,64 @@
 <h5 class="mb-4 text-secondary" style="box-sizing: border-box; color: #6c757d !important; font-family: inherit; font-size: 1.25rem; font-weight: 500; line-height: 1.2; margin-bottom: 1.5rem !important; margin-top: 0;"><?= moment().format(ERTdf) ?></h5>
 
 <p style="box-sizing: border-box; margin-bottom: 1rem; margin-top: 0;">
-<? console.log("%s %s %s %s", d.dREV, d.dINP, d.dRet, d.dONH)
-    console.log((!(d.dREV || d.dINP || d.dRet || d.dONH)))?>
+    Hello<?= d.requestorNames && (" " + d.requestorNames[0]) ?>,
+</p>
+
+<!-- START OF DYNAMIC MESSAGE -->
+
+<!-- UN-RESOLVED ISSUES message -->
+
+<? if (d.statusCode == 'UNR') { ?>
+    <p style="box-sizing: border-box; margin-bottom: 1rem; margin-top: 0;">There are <strong style="box-sizing: border-box; font-weight: bolder;"><span class="text-danger" style="box-sizing: border-box; color: #dc3545 !important;">unresolved issues</span></strong> that are keeping us from delivering your request. Please review the information below and take appropriate action.</p>
+<? } ?>
+
+
+<!-- ON-HOLD message -->
+
+<? if (d.statusCode == 'ONH') {
+    if (d.waitfor) { ?>
+        <p style="box-sizing: border-box; margin-bottom: 1rem; margin-top: 0; white-space: pre-wrap;">Your request was placed <strong style="box-sizing: border-box; font-weight: bolder;"><span class="text-warning" style="box-sizing: border-box; color: #ffc107 !important;">on-hold</span></strong> because it cannot continue until the following is resolved:<br style="box-sizing: border-box;"><?= d.waitfor.trim() ?></p>
+        <? if (d.jira) { ?>
+            <p style="box-sizing: border-box; margin-bottom: 1rem; margin-top: 0; white-space: pre-wrap;">There are associated JIRA defects:<br style="box-sizing: border-box;"><?= d.jira.trim() ?></p>
+        <? } ?>
+    <? } else if (d.jira) { ?>
+        <p style="box-sizing: border-box; margin-bottom: 1rem; margin-top: 0; white-space: pre-wrap;">Your request was placed <strong style="box-sizing: border-box; font-weight: bolder;"><span class="text-warning" style="box-sizing: border-box; color: #ffc107 !important;">on-hold</span></strong> because it cannot continue until the following defect(s) are resolved:<br style="box-sizing: border-box;"><?= d.jira.trim() ?></p>
+    <? } else { ?>
+        <p style="box-sizing: border-box; margin-bottom: 1rem; margin-top: 0;">Your request was placed <strong style="box-sizing: border-box; font-weight: bolder;"><span class="text-warning" style="box-sizing: border-box; color: #ffc107 !important;">on-hold</span></strong> because there is an unresolved issue that is currently being resolved.
+            <? if (d.asst) { ?>
+                <?= d.asst ?> will get in touch if your assistance is required.<? } else { ?>We will get in touch if your assistance is required.
+            <? } ?></p>
+    <? } ?>
+<? } ?>
+
+
+<!-- placing files on server -->
+
+<p style="box-sizing: border-box; margin-bottom: 1rem; margin-top: 0;">
+<!-- files not received -->
 <? if (!d.dFiles && d.startDate) { ?>
 	We <?= d.daysStart < 0 ? 'were' : 'are' ?> expecting your <strong style="box-sizing: border-box; font-weight: bolder;">files</strong> <span class="text-info" style="box-sizing: border-box; color: #17a2b8 !important;"><?= bdText(d.startDate && d.startDate.format(dfo), d.daysStart, 0) ?></span>. When they arrive, please place them on <strong style="box-sizing: border-box; font-weight: bolder;"><?= d.server.slice(4) ?></strong> at the file path* <u style="box-sizing: border-box;"><?= d.server[0] ?>:/<?= d.client ?>/<?= d.protocol ?>/z - To Assistant/<strong style="box-sizing: border-box; font-weight: bolder;"><?= d.timestamp && d.timestamp.format("YYYY.MM.DD") ?> -- <?= d.id ?></strong></u> and <a href="<?=url?>?page=View&row=<?= d.row ?>" target="_blank" style="-webkit-text-decoration-skip: objects; background-color: transparent; box-sizing: border-box; color: #007bff; text-decoration: none;">mark them as ready</a>.
+
+<!-- files not reviewed -->
 <? } else if (!(d.dREV || d.dINP || d.dRet || d.dONH)) { ?>
 	Please make sure your files are on <strong style="box-sizing: border-box; font-weight: bolder;"><?= d.server.slice(4) ?></strong> at the file path* <u style="box-sizing: border-box;"><?= d.server[0] ?>:/<?= d.client ?>/<?= d.protocol ?>/z - To Assistant/<strong style="box-sizing: border-box; font-weight: bolder;"><?= d.timestamp && d.timestamp.format("YYYY.MM.DD") ?> -- <?= d.id ?></strong></u>.
 <? } ?>
 </p>
 
+
+<!-- estimated return -->
+
 <p style="box-sizing: border-box; margin-bottom: 1rem; margin-top: 0;">
-<? if (d.expRetDate && d.daysExp >= 0) { ?>
+<? if (d.expRetDate && d.daysExp >= 0 && (d.statusCode !== 'ONH') && (d.statusCode !== 'UNR') && (d.statusCode !== 'CPL') && (d.statusCode !== 'PND') && (d.statusCode !== 'CAN')) { ?>
 	We currently <strong style="box-sizing: border-box; font-weight: bolder;">estimate</strong> that we will deliver the screenshots for your review <span class="text-info" style="box-sizing: border-box; color: #17a2b8 !important;"><?= bdText(d.expRetDate && d.expRetDate.format(dfo), d.daysExp, 0) ?></span>.
 <? } ?>
 </p>
 
-<p style="box-sizing: border-box; margin-bottom: 1rem; margin-top: 0;">
+
+<!-- END OF DYNAMIC MESSAGE -->
+
+
+<p class="mb-4" style="box-sizing: border-box; margin-bottom: 1.5rem !important; margin-top: 0;">
     Thank you,<br style="box-sizing: border-box;">
     The Assistants&trade;
 </p>
@@ -53,7 +95,7 @@
 
 <p class="text-muted" style="box-sizing: border-box; color: #6c757d !important; margin-bottom: 1rem; margin-top: 0;">
 <? if (d.hardDueDate) { ?>
-    Your <strong style="box-sizing: border-box; font-weight: bolder;">hard</strong> deadline <?= bdText(d.hardDueDate && d.hardDueDate.format(dtfo), d.daysDue, 1) ?>.
+    Your <strong style="box-sizing: border-box; font-weight: bolder;">hard</strong> deadline <?= bdText(d.hardDueDate && d.hardDueDate.format(dtfo), d.daysDue, 1) ?>.<br style="box-sizing: border-box;">
 <? } ?>
 
 <? if (d.prefDueDate) { ?>
@@ -91,8 +133,8 @@
       <th scope="col" colspan="2" style="background-color: #212529; border-bottom: 2px solid #dee2e6; border-color: #32383e; border-top: 1px solid #dee2e6; box-sizing: border-box; color: #fff; padding: .3rem; text-align: inherit; vertical-align: bottom;">
         <table border="0" cellpadding="0" cellspacing="0" height="100%" width="100%" style="border-collapse: collapse; box-sizing: border-box;">
             <tr style="border: 0; box-sizing: border-box;">
-                <th style="background-color: #212529; border: 0 !important; border-bottom: 2px solid #dee2e6; border-color: #32383e; border-top: 1px solid #dee2e6; box-sizing: border-box; color: #fff; padding: .3rem; text-align: inherit; vertical-align: bottom;"><?= (d.client && (d.client + ' ')) + (d.protocol && (d.protocol + ' ')) + (d.batch && (' Batch ' + d.batch)) ?> &mdash; <?= d.reqCode ?></th>
-                <th align="right" style="background-color: #212529; border: 0 !important; border-bottom: 2px solid #dee2e6; border-color: #32383e; border-top: 1px solid #dee2e6; box-sizing: border-box; color: #fff; padding: .3rem; text-align: right; vertical-align: bottom;"><?= d.id ?></th>
+                <th class="py-2" style="background-color: #212529; border: 0 !important; border-bottom: 2px solid #dee2e6; border-color: #32383e; border-top: 1px solid #dee2e6; box-sizing: border-box; color: #fff; padding: .3rem; padding-bottom: .5rem !important; padding-top: .5rem !important; text-align: inherit; vertical-align: bottom;"><?= (d.client && (d.client + ' ')) + (d.protocol && (d.protocol + ' ')) + (d.batch && (' Batch ' + d.batch)) ?> &mdash; <?= d.reqCode ?></th>
+                <th class="py-2" align="right" style="background-color: #212529; border: 0 !important; border-bottom: 2px solid #dee2e6; border-color: #32383e; border-top: 1px solid #dee2e6; box-sizing: border-box; color: #fff; padding: .3rem; padding-bottom: .5rem !important; padding-top: .5rem !important; text-align: right; vertical-align: bottom;"><?= d.id ?></th>
             </tr>
         </table>
       </th>

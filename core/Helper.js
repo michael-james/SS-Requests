@@ -229,7 +229,7 @@ function getRequestData(data, i, newReq, keepSt, filt) {
   d.daysFiles = workdays(moment(), d.filesDate);
 
   // requestor name
-  d.requestor = d.email.substr(0, d.email.indexOf("@")).replace(".", " ");
+  d.requestor = d.email && d.email.substr(0, d.email.indexOf("@")).replace(".", " ");
   d.requestor = d.requestor && toTitleCase(d.requestor);
 
   if (d.requestor) {

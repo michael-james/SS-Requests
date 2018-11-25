@@ -17,7 +17,7 @@
                             
 <?  console.log('working...');
     console.log(d);
-    var d = d || getRequest(66);
+    var d = d || getRequest(108);
     console.log(d);
 	var info = position(d.row); ?>
 
@@ -29,22 +29,64 @@
 <h5 class="mb-4 text-secondary"><?= moment().format(ERTdf) ?></h5>
 
 <p>
-<? console.log("%s %s %s %s", d.dREV, d.dINP, d.dRet, d.dONH)
-    console.log((!(d.dREV || d.dINP || d.dRet || d.dONH)))?>
+    Hello<?= d.requestorNames && (" " + d.requestorNames[0]) ?>,
+</p>
+
+<!-- START OF DYNAMIC MESSAGE -->
+
+<!-- UN-RESOLVED ISSUES message -->
+
+<? if (d.statusCode == 'UNR') { ?>
+    <p>There are <strong><span class="text-danger">unresolved issues</span></strong> that are keeping us from delivering your request. Please review the information below and take appropriate action.</p>
+<? } ?>
+
+
+<!-- ON-HOLD message -->
+
+<? if (d.statusCode == 'ONH') {
+    if (d.waitfor) { ?>
+        <p style="white-space: pre-wrap">Your request was placed <strong><span class="text-warning">on-hold</span></strong> because it cannot continue until the following is resolved:<br><?= d.waitfor.trim() ?></p>
+        <? if (d.jira) { ?>
+            <p style="white-space: pre-wrap">There are associated JIRA defects:<br><?= d.jira.trim() ?></p>
+        <? } ?>
+    <? } else if (d.jira) { ?>
+        <p style="white-space: pre-wrap">Your request was placed <strong><span class="text-warning">on-hold</span></strong> because it cannot continue until the following defect(s) are resolved:<br><?= d.jira.trim() ?></p>
+    <? } else { ?>
+        <p>Your request was placed <strong><span class="text-warning">on-hold</span></strong> because there is an unresolved issue that is currently being resolved.
+            <? if (d.asst) { ?>
+                <?= d.asst ?> will get in touch if your assistance is required.<? } else { ?>We will get in touch if your assistance is required.
+            <? } ?></p>
+    <? } ?>
+<? } ?>
+
+
+<!-- placing files on server -->
+
+<p>
+<!-- files not received -->
 <? if (!d.dFiles && d.startDate) { ?>
 	We <?= d.daysStart < 0 ? 'were' : 'are' ?> expecting your <strong>files</strong> <span class="text-info"><?= bdText(d.startDate && d.startDate.format(dfo), d.daysStart, 0) ?></span>. When they arrive, please place them on <strong><?= d.server.slice(4) ?></strong> at the file path* <u><?= d.server[0] ?>:/<?= d.client ?>/<?= d.protocol ?>/z - To Assistant/<strong><?= d.timestamp && d.timestamp.format("YYYY.MM.DD") ?> -- <?= d.id ?></strong></u> and <a href="<?=url?>?page=View&row=<?= d.row ?>" target="_blank">mark them as ready</a>.
+
+<!-- files not reviewed -->
 <? } else if (!(d.dREV || d.dINP || d.dRet || d.dONH)) { ?>
 	Please make sure your files are on <strong><?= d.server.slice(4) ?></strong> at the file path* <u><?= d.server[0] ?>:/<?= d.client ?>/<?= d.protocol ?>/z - To Assistant/<strong><?= d.timestamp && d.timestamp.format("YYYY.MM.DD") ?> -- <?= d.id ?></strong></u>.
 <? } ?>
 </p>
 
+
+<!-- estimated return -->
+
 <p>
-<? if (d.expRetDate && d.daysExp >= 0) { ?>
+<? if (d.expRetDate && d.daysExp >= 0 && (d.statusCode !== 'ONH') && (d.statusCode !== 'UNR') && (d.statusCode !== 'CPL') && (d.statusCode !== 'PND') && (d.statusCode !== 'CAN')) { ?>
 	We currently <strong>estimate</strong> that we will deliver the screenshots for your review <span class="text-info"><?= bdText(d.expRetDate && d.expRetDate.format(dfo), d.daysExp, 0) ?></span>.
 <? } ?>
 </p>
 
-<p>
+
+<!-- END OF DYNAMIC MESSAGE -->
+
+
+<p class="mb-4">
     Thank you,<br>
     The Assistants&trade;
 </p>
@@ -53,7 +95,7 @@
 
 <p class="text-muted">
 <? if (d.hardDueDate) { ?>
-    Your <strong>hard</strong> deadline <?= bdText(d.hardDueDate && d.hardDueDate.format(dtfo), d.daysDue, 1) ?>.
+    Your <strong>hard</strong> deadline <?= bdText(d.hardDueDate && d.hardDueDate.format(dtfo), d.daysDue, 1) ?>.<br>
 <? } ?>
 
 <? if (d.prefDueDate) { ?>
@@ -76,7 +118,7 @@
 <? } ?>
 </p>
 
-<? if (!d.dRev) { ?>
+<? if (!(d.dREV || d.dINP || d.dRet || d.dONH)) { ?>
 <p>
 	<span class="text-muted" style="font-size: 75%"><i>*It's ok if your file path is</i> slightly <i>different because of the way client/study folders are named.</i>
 </p>
@@ -91,8 +133,8 @@
       <th scope="col" colspan="2">
         <table border="0" cellpadding="0" cellspacing="0" height="100%" width="100%">
             <tr style="border: 0">
-                <th style="border: 0!important"><?= (d.client && (d.client + ' ')) + (d.protocol && (d.protocol + ' ')) + (d.batch && (' Batch ' + d.batch)) ?> &mdash; <?= d.reqCode ?></th>
-                <th align="right" style="border: 0!important; text-align: right"><?= d.id ?></th>
+                <th class="py-2" style="border: 0!important"><?= (d.client && (d.client + ' ')) + (d.protocol && (d.protocol + ' ')) + (d.batch && (' Batch ' + d.batch)) ?> &mdash; <?= d.reqCode ?></th>
+                <th class="py-2" align="right" style="border: 0!important; text-align: right"><?= d.id ?></th>
             </tr>
         </table>
       </th>
