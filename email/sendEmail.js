@@ -36,7 +36,7 @@ function sendEmail(d, ev) {
   
   MailApp.sendEmail({
     to: 'michael.james@ert.com',
-    cc: ((eventID == 0 && d.email !== 'michael.james@ert.com') ? 'michael.james@ert.com, affoua.jasnault@ert.com, alexandre.cortez@ert.com' : asstEmail),
+    cc: ((ev == 0 && user().email !== 'michael.james@ert.com') ? 'michael.james@ert.com, affoua.jasnault@ert.com, alexandre.cortez@ert.com' : asstEmail),
     bcc: 'michael.james@ert.com',
     replyTo: asstEmail,
     name: "SS Requests",

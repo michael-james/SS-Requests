@@ -145,17 +145,20 @@
 <!-- CANCELLED message -->
 
 <? if (d.statusCode == 'CAN') { 
-   var u = user() ?>
-  <p>This request was marked <strong><span class="text-secondary">cancelled</span></strong> by <?= (u.fname == d.requestorNames && (" " + d.requestorNames[0])) ? 'you' : u.fname ?>.</p>
+  var u = user()
+  if (u.fname == (d.requestorNames && (d.requestorNames[0]))) { ?>
+    <p>You marked this request as <strong><span class="text-secondary">cancelled</span></strong>.</p>
+  <? } else { ?>
+    <p>This request was marked <strong><span class="text-secondary">cancelled</span></strong> by <?= u.fname ?>.</p>
+  <? } ?>
   <p>Please let us know if you would like to re-open it.</p>
-  <p><?= u.fname ?> <?= d.requestorNames && (" " + d.requestorNames[0]) ?> <?= (u.fname == d.requestorNames && (" " + d.requestorNames[0])) ? 'you' : u.fname ?></p>
 <? } ?>
 
 
 <!-- placing files on server -->
 
 <!-- files not received -->
-<? if (!d.dFiles && d.startDate && d.statusCode !== 'CAN')) { ?>
+<? if (!d.dFiles && d.startDate && d.statusCode !== 'CAN') { ?>
 	<p>We <?= d.daysStart < 0 ? 'were' : 'are' ?> expecting your <strong>files</strong> <span class="text-info"><?= bdText(d.startDate && d.startDate.format(dfo), d.daysStart, 0) ?></span>. When they arrive, please place them on <strong><?= d.server.slice(4) ?></strong> at the file path* <u><?= d.server[0] ?>:/<?= d.client ?>/<?= d.protocol ?>/z - To Assistant/<strong><?= d.timestamp && d.timestamp.format("YYYY.MM.DD") ?> -- <?= d.id ?></strong></u> and <a href="<?=url?>?page=View&row=<?= d.row ?>" class='text-success' target="_blank" style="text-decoration: underline;">mark them as ready</a>.</p>
 
 <!-- files not reviewed -->
@@ -329,6 +332,12 @@
 
 <tr class="table-dark">
       <th scope="col" colspan="2">Request Basics</th>
+    </tr>
+
+<? if (d.requestor) { ?>
+    <tr>
+      <th scope="row">Requested By</th>
+      <td><?= d.requestor ?></td>
     </tr>
 
 <? if (d.reqType) { ?>
