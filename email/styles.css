@@ -1,0 +1,71 @@
+table {
+  color: red;
+}
+
+/*Bootstrap*/
+
+.btn-group>.btn-group:not(:last-child)>.btn,.btn-group>.btn:not(:last-child):not(.dropdown-toggle){
+    border-top-right-radius:0;
+    border-bottom-right-radius:0
+}
+.btn-group>.btn-group:not(:first-child)>.btn,.btn-group>.btn:not(:first-child){
+    border-top-left-radius:0;
+    border-bottom-left-radius:0
+}
+
+.btn-group-vertical>.btn-group:not(:last-child)>.btn,.btn-group-vertical>.btn:not(:last-child):not(.dropdown-toggle){
+    border-bottom-right-radius:0;
+    border-bottom-left-radius:0
+}
+.btn-group-vertical>.btn-group:not(:first-child)>.btn,.btn-group-vertical>.btn:not(:first-child){
+    border-top-left-radius:0;
+    border-top-right-radius:0
+}
+
+/*custom*/
+
+/*statuses*/
+
+.btn-inprogress {
+    color: #212529;
+    background-color: rgb(252, 229, 205);
+    border-color: #212529;
+  }
+  
+  .btn-inprogress:hover {
+    color: #212529;
+    background-color: rgb(249, 209, 166);
+    border-color: #fff;
+  }
+  
+  .btn-assigned {
+    color: rgb(246, 178, 107);
+    background-color: transparent;
+    border-color: rgb(246, 178, 107);
+    background-image: none;
+  }
+  
+  .btn-assigned:hover {
+    color: #212529;
+    background-color: rgb(246, 178, 107);
+    border-color: rgb(246, 178, 107);
+  }
+  
+  .btn-completed {
+    color: #fff;
+    background-color: #6aa84f;
+    border-color: #6aa84f;
+    background-image: none;
+  }
+  
+  .btn-completed:hover {
+    color: #fff;
+    background-color: #417729;
+    border-color: #417729;
+    background-image: none;
+  }
+  
+  .btn.status {
+    width: 50px;
+    height: 31px;
+  }

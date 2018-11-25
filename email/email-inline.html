@@ -4,8 +4,9 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" style="box-sizing: border-box;">
         <title style="box-sizing: border-box;"></title>
         
-	   
-       <div w3-include-html="../css.html" style="box-sizing: border-box;"></div>
+	      
+        <div w3-include-html="../css.html" style="box-sizing: border-box;"></div>
+        
     </head>
     <body style="background-color: #fff; box-sizing: border-box; color: #212529; font-family: -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif,'Apple Color Emoji','Segoe UI Emoji','Segoe UI Symbol','Noto Color Emoji'; font-size: 1rem; font-weight: 400; line-height: 1.5; margin: 0; text-align: left;">
         <table border="0" cellpadding="0" cellspacing="0" height="100%" width="100%" id="bodyTable" style="border-collapse: collapse; box-sizing: border-box;">
@@ -17,7 +18,7 @@
                             
 <?  console.log('working...');
     console.log(d);
-    var d = d || getRequest(68);
+    var d = d || getRequest(69);
     console.log(d);
 	var info = position(d.row); ?>
 
@@ -38,6 +39,22 @@
 
 <? if (d.statusCode == 'UNR') { ?>
     <p style="box-sizing: border-box; margin-bottom: 1rem; margin-top: 0;">There are <strong style="box-sizing: border-box; font-weight: bolder;"><span class="text-danger" style="box-sizing: border-box; color: #dc3545 !important;">unresolved issues</span></strong> that are keeping us from delivering your request. Please review the information below and take appropriate action.</p>
+<? } ?>
+
+
+<!-- PENDING CONFIRMATION message -->
+
+<? if (d.statusCode == 'PND') {
+    if (d.fileloc) { ?>
+        <p style="box-sizing: border-box; margin-bottom: 1rem; margin-top: 0;">Your request is ready for delivery <strong style="box-sizing: border-box; font-weight: bolder;"><span class="text-success" style="box-sizing: border-box; color: #28a745 !important;">pending confirmation</span></strong>. Please review the notes below and the associated files at <u style="box-sizing: border-box;"><?= d.fileloc ?></u> then select an option below.</p>
+    <? } else { ?>
+        <p style="box-sizing: border-box; margin-bottom: 1rem; margin-top: 0;">Your request is ready for delivery <strong style="box-sizing: border-box; font-weight: bolder;"><span class="text-success" style="box-sizing: border-box; color: #28a745 !important;">pending confirmation</span></strong>. Please review the notes below and the associated files then select an option below.</p>
+    <? } ?>
+    <div class="btn-group btn-group-sm mb-3" role="group" style="box-sizing: border-box; display: inline-flex; margin-bottom: 1rem !important; position: relative; vertical-align: middle;">
+      <a class="btn btn-inprogress" style="-moz-user-select: none; -ms-flex: 0 1 auto; -ms-user-select: none; -webkit-text-decoration-skip: objects; -webkit-user-select: none; background-color: rgb(252, 229, 205); border: 1px solid transparent; border-bottom-right-radius: 0 !important; border-radius: .2rem; border-top-right-radius: 0 !important; box-sizing: border-box; color: #212529; cursor: pointer; display: inline-block; flex: 0 1 auto; font-size: .875rem; font-weight: 400; line-height: 1.5; margin-left: 0; padding: .25rem .5rem; position: relative; text-align: center; text-decoration: none; transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out; user-select: none; vertical-align: middle; white-space: nowrap;" href="<?=url?>?page=View&row=<?= d.row ?>&status=INP">Needs Corrections</a>
+      <a class="btn btn-warning" style="-moz-user-select: none; -ms-flex: 0 1 auto; -ms-user-select: none; -webkit-text-decoration-skip: objects; -webkit-user-select: none; background-color: #ffc107; border: 1px solid transparent; border-bottom-left-radius: 0 !important; border-bottom-right-radius: 0 !important; border-color: #ffc107; border-radius: .2rem; border-top-left-radius: 0 !important; border-top-right-radius: 0 !important; box-sizing: border-box; color: #212529; cursor: pointer; display: inline-block; flex: 0 1 auto; font-size: .875rem; font-weight: 400; line-height: 1.5; margin-left: -1px; padding: .25rem .5rem; position: relative; text-align: center; text-decoration: none; transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out; user-select: none; vertical-align: middle; white-space: nowrap;" href="<?=url?>?page=View&row=<?= d.row ?>&status=ONH">On-hold</a>
+      <a class="btn btn-completed" style="-moz-user-select: none; -ms-flex: 0 1 auto; -ms-user-select: none; -webkit-text-decoration-skip: objects; -webkit-user-select: none; background-color: #6aa84f; background-image: none; border: 1px solid transparent; border-bottom-left-radius: 0 !important; border-color: #6aa84f; border-radius: .2rem; border-top-left-radius: 0 !important; box-sizing: border-box; color: #fff; cursor: pointer; display: inline-block; flex: 0 1 auto; font-size: .875rem; font-weight: 400; line-height: 1.5; margin-left: -1px; padding: .25rem .5rem; position: relative; text-align: center; text-decoration: none; transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out; user-select: none; vertical-align: middle; white-space: nowrap;" href="<?=url?>?page=View&row=<?= d.row ?>&status=CPL">Completed</a>
+    </div>
 <? } ?>
 
 
@@ -62,25 +79,22 @@
 
 <!-- placing files on server -->
 
-<p style="box-sizing: border-box; margin-bottom: 1rem; margin-top: 0;">
 <!-- files not received -->
 <? if (!d.dFiles && d.startDate) { ?>
-	We <?= d.daysStart < 0 ? 'were' : 'are' ?> expecting your <strong style="box-sizing: border-box; font-weight: bolder;">files</strong> <span class="text-info" style="box-sizing: border-box; color: #17a2b8 !important;"><?= bdText(d.startDate && d.startDate.format(dfo), d.daysStart, 0) ?></span>. When they arrive, please place them on <strong style="box-sizing: border-box; font-weight: bolder;"><?= d.server.slice(4) ?></strong> at the file path* <u style="box-sizing: border-box;"><?= d.server[0] ?>:/<?= d.client ?>/<?= d.protocol ?>/z - To Assistant/<strong style="box-sizing: border-box; font-weight: bolder;"><?= d.timestamp && d.timestamp.format("YYYY.MM.DD") ?> -- <?= d.id ?></strong></u> and <a href="<?=url?>?page=View&row=<?= d.row ?>" class="text-success" target="_blank" style="-webkit-text-decoration-skip: objects; background-color: transparent; box-sizing: border-box; color: #28a745 !important; text-decoration: underline;">mark them as ready</a>.
+	<p style="box-sizing: border-box; margin-bottom: 1rem; margin-top: 0;">We <?= d.daysStart < 0 ? 'were' : 'are' ?> expecting your <strong style="box-sizing: border-box; font-weight: bolder;">files</strong> <span class="text-info" style="box-sizing: border-box; color: #17a2b8 !important;"><?= bdText(d.startDate && d.startDate.format(dfo), d.daysStart, 0) ?></span>. When they arrive, please place them on <strong style="box-sizing: border-box; font-weight: bolder;"><?= d.server.slice(4) ?></strong> at the file path* <u style="box-sizing: border-box;"><?= d.server[0] ?>:/<?= d.client ?>/<?= d.protocol ?>/z - To Assistant/<strong style="box-sizing: border-box; font-weight: bolder;"><?= d.timestamp && d.timestamp.format("YYYY.MM.DD") ?> -- <?= d.id ?></strong></u> and <a href="<?=url?>?page=View&row=<?= d.row ?>" class="text-success" target="_blank" style="-webkit-text-decoration-skip: objects; background-color: transparent; box-sizing: border-box; color: #28a745 !important; text-decoration: underline;">mark them as ready</a>.</p>
 
 <!-- files not reviewed -->
 <? } else if (!(d.dREV || d.dINP || d.dRet || d.dONH)) { ?>
-	Please make sure your files are on <strong style="box-sizing: border-box; font-weight: bolder;"><?= d.server.slice(4) ?></strong> at the file path* <u style="box-sizing: border-box;"><?= d.server[0] ?>:/<?= d.client ?>/<?= d.protocol ?>/z - To Assistant/<strong style="box-sizing: border-box; font-weight: bolder;"><?= d.timestamp && d.timestamp.format("YYYY.MM.DD") ?> -- <?= d.id ?></strong></u>.
+	<p style="box-sizing: border-box; margin-bottom: 1rem; margin-top: 0;">Please make sure your files are on <strong style="box-sizing: border-box; font-weight: bolder;"><?= d.server.slice(4) ?></strong> at the file path* <u style="box-sizing: border-box;"><?= d.server[0] ?>:/<?= d.client ?>/<?= d.protocol ?>/z - To Assistant/<strong style="box-sizing: border-box; font-weight: bolder;"><?= d.timestamp && d.timestamp.format("YYYY.MM.DD") ?> -- <?= d.id ?></strong></u>.</p>
 <? } ?>
-</p>
 
 
 <!-- estimated return -->
 
-<p style="box-sizing: border-box; margin-bottom: 1rem; margin-top: 0;">
+
 <? if (d.expRetDate && d.daysExp >= 0 && (d.statusCode !== 'ONH') && (d.statusCode !== 'UNR') && (d.statusCode !== 'CPL') && (d.statusCode !== 'PND') && (d.statusCode !== 'CAN')) { ?>
-	We currently <strong style="box-sizing: border-box; font-weight: bolder;">estimate</strong> that we will deliver screenshots for your review <span class="text-info" style="box-sizing: border-box; color: #17a2b8 !important;"><?= bdText(d.expRetDate && d.expRetDate.format(dfo), d.daysExp, 0) ?></span>.
+	<p style="box-sizing: border-box; margin-bottom: 1rem; margin-top: 0;">We currently <strong style="box-sizing: border-box; font-weight: bolder;">estimate</strong> that we will deliver screenshots for your review <span class="text-info" style="box-sizing: border-box; color: #17a2b8 !important;"><?= bdText(d.expRetDate && d.expRetDate.format(dfo), d.daysExp, 0) ?></span>.</p>
 <? } ?>
-</p>
 
 
 <!-- END OF DYNAMIC MESSAGE -->
