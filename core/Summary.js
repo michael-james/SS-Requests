@@ -74,7 +74,7 @@ function sendSelectedSummary() {
   getSelectedRows().forEach(sendSummaryByRow);
   
   function sendSummaryByRow(value) {
-      var d = getRequest(value, false);
+      var d = getRequest(value);
       sendSummaryAlert(d);
   }
 }

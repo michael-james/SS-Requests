@@ -22,6 +22,7 @@ function getSortedReqs(direction, sortBy, stExclude) {
   // filter out closed requests
   var stIdx = getColNumByName(sh, "Status") - 1;
   function isOpen(value) {
+    console.log("%s %s", stIdx, value[stIdx]);
     return value[stIdx].length !== 0 && (stExclude ? stExclude.indexOf(value[stIdx]) < 0 : true);
   }
   //Logger.log("filtering %s records...", reqs.length - 1);
@@ -68,7 +69,7 @@ function testGetSortedReqs() {
 }
 
 function tesetGetSortedReqsHelper() {
-  Logger.log(getRequestData(getSortedReqs(), 1, false, true, true))
+  Logger.log(getRequestData(getSortedReqs(), 1))
 }
 
 function position(thisRow) {

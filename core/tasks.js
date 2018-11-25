@@ -37,14 +37,14 @@ function addTask(d) {
 }
 
 function testAddTask() {
-  addTask(getRequest(33, false));
+  addTask(getRequest(33));
 }
 
 function addTasksForSelected() {
   getSelectedRows().forEach(addTaskByRow);
   
   function addTaskByRow(value) {
-      var d = getRequest(value, false);
+      var d = getRequest(value);
       d.ss.toast(d.client + ' ' + d.protocol,'Adding task...');
       if (d.asst) {
         addTask(d);

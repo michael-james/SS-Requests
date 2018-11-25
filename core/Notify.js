@@ -3,7 +3,7 @@ function newRequest(e) {
   var ss = SpreadsheetApp.openById(ssID);
   var sh = ss.getSheetByName("Queue")
   var id = sh.getRange(row, getColNumByName(sh, "ID")).getValue();
-  var d = getRequest(row, !id);
+  var d = getRequest(row);
   sendNewRequest(d);
   updateEvent(d);
   //Utilities.sleep(1200);

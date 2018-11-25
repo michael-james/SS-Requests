@@ -43,7 +43,7 @@
               </tr>
        <? var reqs = getSortedReqs();
           for (var r = 1; r < reqs.length; r++) { 
-          var d = getRequestData(reqs, r, false, true, true);
+          var d = getRequestData(reqs, r);
           
           var info = "<div class='row'><div class='col'>" +
                      "<strong>Files Exp:</strong> <span style='font-size: 90%' class='badge " + urgency(d.daysStart, 'badge', 'success') + "'>" + (d.startDate && d.startDate.format(sdf)) + "</span>\n" +

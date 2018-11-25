@@ -159,12 +159,11 @@ function chgStatus(row, newStatus, oldStatus) {
     }
 
     if (oldStatus !== newStatus) {
-      
-    }
     
-    if (oldStatus == "Waiting for Start" && newStatus == "Received") {
-      var d = getRequest(row);
-      sendEmail(d, 0);
+      if (oldStatus == "Waiting for Start" && newStatus == "Received") {
+        var d = getRequest(row);
+        sendEmail(d, 0);
+      }
     }
   
     switch (newStatus) {
