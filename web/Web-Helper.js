@@ -60,13 +60,11 @@ function doGet(e) {
   var title;
   if (dev == "send") {
     var html = HtmlService.createTemplateFromFile('email/email-inline');
-    console.log("...preparing to send email and preview it");
     title = "Email Test " + row;
   } else {
     var html = HtmlService.createTemplateFromFile('Default');
     title = getPageDisplayName(page, view, action) + rowTitle + " - SS Requests";
   }
-  console.log("...everything seems fine?");
   
   var data = {page: page, row: row, status: statuses[s], view: view, role: role, action: action, email: u.email, u: u, admin: u.admin, asst: u.asst, lead: u.lead, dev: dev};
   html.data = data;
