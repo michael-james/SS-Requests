@@ -93,6 +93,16 @@
 <? } ?>
 
 
+<!-- UPDATAE FROM ASST -->
+
+<? if (ev == 1) { ?>
+  <p>We are working on your request and wanted to send an update.</p>
+  <? if (d.gennotes) { ?>
+    <p style="white-space: pre-wrap;" class="ml-4"><i><?= d.gennotes ?><i></p>
+  <? } ?>
+<? } ?>
+
+
 <!-- NEEDS INFORMATION message -->
 
 <? if (d.statusCode == 'NIF') { ?>
@@ -227,8 +237,12 @@
 
       <? if (info.wkbksBefore) { ?>
           There are approximately <?= info.wkbksBefore ?> workbooks ahead of this request<?
-        if (info.wkbksBeforeNotStart) { 
-          ?> (of which <?= info.wkbksBeforeNotStart ?> have not been started).<?
+        if (info.posNotStart) { 
+          if (!info.wkbksBeforeNotStart) {
+            ?>, all of which have been started.<?
+          } else {
+            ?> (of which <?= info.wkbksBeforeNotStart ?> have not been started).<?
+          }
         } else { ?>.<? } ?>
   <? } ?>
   </p>

@@ -116,8 +116,10 @@
         <!-- <div id="perfoutput" class="pl-3 text-success" style="min-width: 75px; display: inline-block;"></div> -->
       </div>
       
-      <div class="pt-1">
+      <div style="font-size: 85%">
         <strong>Folder:</strong> <span class='text-info'><u><?= moment().format(dffiles) + " -- " + d.id ?> -- <span id="not-ready-text">NOT </span>ready</u></span>
+        <br>
+        <strong>Folder:</strong> <span class='text-info'><u><?= moment().format(dffiles) + " -- " + d.id ?> -- ready</u></span>
       </div>
       
       <div>
@@ -331,21 +333,21 @@
         workComplDefaults = defaults;
       }
       
-      function setFolderReadiness() {
-        var folderName = <?= moment().format(dffiles) + " -- " + d.id ?>;
-//        var notText = "NOT ";
-        console.log("checking folder readiness...");
-        var st = $('#status-dropdown').prev('a').text().trim();
-        if (st == "Pending Confirmation" || st == "Completed" ) {
-          $('#not-ready-text').text("");
-//          $('#deliv').val(<?= d.deliv ?>);
-//          folderName + " -- " + notText + "ready"
-        } else {
-          $('#not-ready-text').text(notText);
-        }   
-      }
+//       function setFolderReadiness() {
+//         var folderName = <?= moment().format(dffiles) + " -- " + d.id ?>;
+//         var notText = "NOT ";
+//         console.log("checking folder readiness...");
+//         var st = $('#status-dropdown').prev('a').text().trim();
+//         if (st == "Pending Confirmation" || st == "Completed" ) {
+//           $('#not-ready-text').text("");
+// //          $('#deliv').val(<?= d.deliv ?>);
+// //          folderName + " -- " + notText + "ready"
+//         } else {
+//           $('#not-ready-text').text(notText);
+//         }   
+//       }
       
-      setFolderReadiness();
+//       setFolderReadiness();
       
       function onStatusSuccess(msg) {
           console.log("Status changed to " + msg.st + "!")
