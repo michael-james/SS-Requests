@@ -19,9 +19,9 @@ var statuses = {
 }
 
 var types = {
-  "enV1": "enUS v1.00",
+  "enV1": "enUS v1.00 screenshots",
   "enCR": "enUS corrections",
-  "FLv1": "foreign language v0.01",
+  "FLv1": "foreign language v0.01 screenshots",
   "FLCR": "foreign language corrections",
   "v1CR": "foreign language v0.01 and corrections",
   "OTH": "other"

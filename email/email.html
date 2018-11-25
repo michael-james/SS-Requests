@@ -84,7 +84,7 @@
 <? if (ev == 0) { ?>
   <p>We have received your request for <strong><?= d.client + ' ' + d.protocol + (d.batch && (' Batch ' + d.batch)) + ' ' + d.reqType ?></strong>. We have assigned it the ID <span class="text-info"><?= d.id ?></span><?
   if (d.dFiles) { 
-    ?>We will review the request and associated files and let you know if we need any information.<?
+    ?>. We will review the request and associated files and let you know if we need any information.<?
   } else if (d.statusCode == 'WFS') {
     ?> and set the status to <strong><span class="text-warning">waiting for start</span></strong>.<?
   } else {
@@ -108,9 +108,9 @@
         <p>Your request is ready for delivery <strong><span class='text-success'>pending confirmation</span></strong>. Please review the notes below and the associated files then one of the following options.</p>
     <? } ?>
     <div class="btn-group btn-group-sm mb-3" role="group">
-      <a class="btn btn-inprogress" style="border-top-right-radius: 0!important; border-bottom-right-radius: 0!important" href="<?=url?>?page=View&row=<?= d.row ?>&status=INP">Needs Corrections</a>
-      <a class="btn btn-warning" style="border-top-right-radius: 0!important; border-bottom-right-radius: 0!important; border-top-left-radius: 0!important; border-bottom-left-radius: 0!important" href="<?=url?>?page=View&row=<?= d.row ?>&status=ONH">On-hold</a>
-      <a class="btn btn-completed" style="border-bottom-left-radius: 0!important; border-top-left-radius: 0!important; " href="<?=url?>?page=View&row=<?= d.row ?>&status=CPL">Completed</a>
+      <a class="btn btn-inprogress" href="<?=url?>?page=View&row=<?= d.row ?>&status=INP">Needs Corrections</a>
+      <a class="btn btn-warning" href="<?=url?>?page=View&row=<?= d.row ?>&status=ONH">On-hold</a>
+      <a class="btn btn-completed" href="<?=url?>?page=View&row=<?= d.row ?>&status=CPL">Completed</a>
     </div>
 <? } ?>
 
@@ -134,14 +134,32 @@
 <? } ?>
 
 
+<!-- COMPLETED message -->
+
+<? if (d.statusCode == 'CPL') { ?>
+  <p>This request is now <strong>completed</strong>. Thank you for working with us!</p>
+  <p>If you require any revisions to this request, you can <a href="<?=url?>?page=View&row=<?= d.row ?>&status=INP" style="text-decoration: underline;">re-open it</a>.</p>
+<? } ?>
+
+
+<!-- CANCELLED message -->
+
+<? if (d.statusCode == 'CAN') { 
+   var u = user() ?>
+  <p>This request was marked <strong><span class="text-secondary">cancelled</span></strong> by <?= (u.fname == d.requestorNames && (" " + d.requestorNames[0])) ? 'you' : u.fname ?>.</p>
+  <p>Please let us know if you would like to re-open it.</p>
+  <p><?= u.fname ?> <?= d.requestorNames && (" " + d.requestorNames[0]) ?> <?= (u.fname == d.requestorNames && (" " + d.requestorNames[0])) ? 'you' : u.fname ?></p>
+<? } ?>
+
+
 <!-- placing files on server -->
 
 <!-- files not received -->
-<? if (!d.dFiles && d.startDate) { ?>
+<? if (!d.dFiles && d.startDate && d.statusCode !== 'CAN')) { ?>
 	<p>We <?= d.daysStart < 0 ? 'were' : 'are' ?> expecting your <strong>files</strong> <span class="text-info"><?= bdText(d.startDate && d.startDate.format(dfo), d.daysStart, 0) ?></span>. When they arrive, please place them on <strong><?= d.server.slice(4) ?></strong> at the file path* <u><?= d.server[0] ?>:/<?= d.client ?>/<?= d.protocol ?>/z - To Assistant/<strong><?= d.timestamp && d.timestamp.format("YYYY.MM.DD") ?> -- <?= d.id ?></strong></u> and <a href="<?=url?>?page=View&row=<?= d.row ?>" class='text-success' target="_blank" style="text-decoration: underline;">mark them as ready</a>.</p>
 
 <!-- files not reviewed -->
-<? } else if (!(d.dREV || d.dINP || d.dRet || d.dONH)) { ?>
+<? } else if (!(d.dREV || d.dINP || d.dRet || d.dONH) && (d.statusCode !== 'CAN') && (d.statusCode !== 'CPL')) { ?>
 	<p>Please make sure your files are on <strong><?= d.server.slice(4) ?></strong> at the file path* <u><?= d.server[0] ?>:/<?= d.client ?>/<?= d.protocol ?>/z - To Assistant/<strong><?= d.timestamp && d.timestamp.format("YYYY.MM.DD") ?> -- <?= d.id ?></strong></u>.</p>
 <? } ?>
 
@@ -181,20 +199,22 @@
 <? } ?>
 </p>
 
-<p class="text-muted">
-    This is the <strong><?= ord(info.pos) ?></strong> request in our queue.
+<? if (info.pos) { ?>
+  <p class="text-muted">
+      This is the <strong><?= ord(info.pos) ?></strong> request in our queue.
 
-<? if (info.posNotStart) { ?>
-    It is the <strong><?= ord(info.posNotStart) ?></strong> request out of those we have not yet started.
-<? } ?>
+  <? if (info.posNotStart) { ?>
+      It is the <strong><?= ord(info.posNotStart) ?></strong> request out of those we have not yet started.
+  <? } ?>
 
-    <? if (info.wkbksBefore) { ?>
-        There are approximately <?= info.wkbksBefore ?> workbooks ahead of this request<?
-      if (info.wkbksBeforeNotStart) { 
-        ?> (of which <?= info.wkbksBeforeNotStart ?> have not been started).<?
-      } else { ?>.<? } ?>
+      <? if (info.wkbksBefore) { ?>
+          There are approximately <?= info.wkbksBefore ?> workbooks ahead of this request<?
+        if (info.wkbksBeforeNotStart) { 
+          ?> (of which <?= info.wkbksBeforeNotStart ?> have not been started).<?
+        } else { ?>.<? } ?>
+  <? } ?>
+  </p>
 <? } ?>
-</p>
 
 <? if (!(d.dREV || d.dINP || d.dRet || d.dONH)) { ?>
 <p>
@@ -227,14 +247,21 @@
       <th scope="row" style="min-width: 215px">Status</th>
       <td><?= d.status ?></td>
     </tr>
+
+<? if (info.pos) { ?>
     <tr>
       <th scope="row">Position in Queue</th>
       <td><?= ord(info.pos) ?></td>
     </tr>
+<? } ?>
+
+<? if (d.expRetDate && (d.statusCode !== 'ONH') && (d.statusCode !== 'UNR') && (d.statusCode !== 'CPL') && (d.statusCode !== 'PND') && (d.statusCode !== 'CAN')) { ?>
     <tr>
       <th scope="row">Estimated Return Date</th>
       <td><?= (d.expRetDate && d.expRetDate.format(ldf)) || "(not estimated yet)" ?></td>
     </tr>
+<? } ?>
+
     <tr>
       <th scope="row">Assignee</th>
       <td><?= d.asst || "(not assigned)" ?></td>

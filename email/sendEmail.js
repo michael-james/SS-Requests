@@ -31,6 +31,8 @@ function sendEmail(d, ev) {
   if (d.email == 'michael.james@ert.com') { // for testing purposes, if requestor is MJ, only send to MJ
     asstEmail = 'michael.james@ert.com';
   }
+
+  var title = (ev == 0 ? 'New SS Request / ' : 'SS Request Update / ') + d.id + ' / ' + d.status;
   
   MailApp.sendEmail({
     to: 'michael.james@ert.com',
@@ -39,9 +41,9 @@ function sendEmail(d, ev) {
     replyTo: asstEmail,
     name: "SS Requests",
     
-    subject: (ev == 0 ? 'New SS Request / ' : 'SS Request Update / ') + d.id + ' / ' + d.status,
+    subject: title,
     htmlBody: htmlOut.getContent(),
-    attachments: htmlOut.setTitle('SS Request Update / ' + d.id + ' / ' + d.status + ' - ' + moment().format(ERTdf)).getAs(MimeType.PDF)
+    attachments: htmlOut.setTitle(title + ' - ' + moment().format(ERTdf)).getAs(MimeType.PDF)
     // attachments: [htmlOut.getAs(MimeType.PDF),
                   // queue.evaluate().setTitle('SS Requests Queue as of ' + moment().format(ERTdf)).getAs(MimeType.PDF)]
   });

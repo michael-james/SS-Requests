@@ -36,7 +36,7 @@
 <? if (ev == 0) { ?>
   <p style="box-sizing: border-box; margin-bottom: 1rem; margin-top: 0;">We have received your request for <strong style="box-sizing: border-box; font-weight: bolder;"><?= d.client + ' ' + d.protocol + (d.batch && (' Batch ' + d.batch)) + ' ' + d.reqType ?></strong>. We have assigned it the ID <span class="text-info" style="box-sizing: border-box; color: #17a2b8 !important;"><?= d.id ?></span><?
   if (d.dFiles) { 
-    ?>We will review the request and associated files and let you know if we need any information.<?
+    ?>. We will review the request and associated files and let you know if we need any information.<?
   } else if (d.statusCode == 'WFS') {
     ?> and set the status to <strong style="box-sizing: border-box; font-weight: bolder;"><span class="text-warning" style="box-sizing: border-box; color: #ffc107 !important;">waiting for start</span></strong>.<?
   } else {
@@ -60,9 +60,9 @@
         <p style="box-sizing: border-box; margin-bottom: 1rem; margin-top: 0;">Your request is ready for delivery <strong style="box-sizing: border-box; font-weight: bolder;"><span class="text-success" style="box-sizing: border-box; color: #28a745 !important;">pending confirmation</span></strong>. Please review the notes below and the associated files then one of the following options.</p>
     <? } ?>
     <div class="btn-group btn-group-sm mb-3" role="group" style="box-sizing: border-box; display: inline-flex; margin-bottom: 1rem !important; position: relative; vertical-align: middle;">
-      <a class="btn btn-inprogress" style="-moz-user-select: none; -ms-flex: 0 1 auto; -ms-user-select: none; -webkit-text-decoration-skip: objects; -webkit-user-select: none; background-color: rgb(252, 229, 205); border: 1px solid transparent; border-bottom-right-radius: 0 !important; border-radius: .2rem; border-top-right-radius: 0 !important; box-sizing: border-box; color: #212529; cursor: pointer; display: inline-block; flex: 0 1 auto; font-size: .875rem; font-weight: 400; line-height: 1.5; margin-left: 0; padding: .25rem .5rem; position: relative; text-align: center; text-decoration: none; transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out; user-select: none; vertical-align: middle; white-space: nowrap;" href="<?=url?>?page=View&row=<?= d.row ?>&status=INP">Needs Corrections</a>
-      <a class="btn btn-warning" style="-moz-user-select: none; -ms-flex: 0 1 auto; -ms-user-select: none; -webkit-text-decoration-skip: objects; -webkit-user-select: none; background-color: #ffc107; border: 1px solid transparent; border-bottom-left-radius: 0 !important; border-bottom-right-radius: 0 !important; border-color: #ffc107; border-radius: .2rem; border-top-left-radius: 0 !important; border-top-right-radius: 0 !important; box-sizing: border-box; color: #212529; cursor: pointer; display: inline-block; flex: 0 1 auto; font-size: .875rem; font-weight: 400; line-height: 1.5; margin-left: -1px; padding: .25rem .5rem; position: relative; text-align: center; text-decoration: none; transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out; user-select: none; vertical-align: middle; white-space: nowrap;" href="<?=url?>?page=View&row=<?= d.row ?>&status=ONH">On-hold</a>
-      <a class="btn btn-completed" style="-moz-user-select: none; -ms-flex: 0 1 auto; -ms-user-select: none; -webkit-text-decoration-skip: objects; -webkit-user-select: none; background-color: #6aa84f; background-image: none; border: 1px solid transparent; border-bottom-left-radius: 0 !important; border-color: #6aa84f; border-radius: .2rem; border-top-left-radius: 0 !important; box-sizing: border-box; color: #fff; cursor: pointer; display: inline-block; flex: 0 1 auto; font-size: .875rem; font-weight: 400; line-height: 1.5; margin-left: -1px; padding: .25rem .5rem; position: relative; text-align: center; text-decoration: none; transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out; user-select: none; vertical-align: middle; white-space: nowrap;" href="<?=url?>?page=View&row=<?= d.row ?>&status=CPL">Completed</a>
+      <a class="btn btn-inprogress" href="<?=url?>?page=View&row=<?= d.row ?>&status=INP" style="-moz-user-select: none; -ms-flex: 0 1 auto; -ms-user-select: none; -webkit-text-decoration-skip: objects; -webkit-user-select: none; background-color: rgb(252, 229, 205); border: 1px solid transparent; border-bottom-right-radius: 0 !important; border-radius: .2rem; border-top-right-radius: 0 !important; box-sizing: border-box; color: #212529; cursor: pointer; display: inline-block; flex: 0 1 auto; font-size: .875rem; font-weight: 400; line-height: 1.5; margin-left: 0; padding: .25rem .5rem; position: relative; text-align: center; text-decoration: none; transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out; user-select: none; vertical-align: middle; white-space: nowrap;">Needs Corrections</a>
+      <a class="btn btn-warning" href="<?=url?>?page=View&row=<?= d.row ?>&status=ONH" style="-moz-user-select: none; -ms-flex: 0 1 auto; -ms-user-select: none; -webkit-text-decoration-skip: objects; -webkit-user-select: none; background-color: #ffc107; border: 1px solid transparent; border-bottom-left-radius: 0 !important; border-bottom-right-radius: 0 !important; border-color: #ffc107; border-radius: .2rem; border-top-left-radius: 0 !important; border-top-right-radius: 0 !important; box-sizing: border-box; color: #212529; cursor: pointer; display: inline-block; flex: 0 1 auto; font-size: .875rem; font-weight: 400; line-height: 1.5; margin-left: -1px; padding: .25rem .5rem; position: relative; text-align: center; text-decoration: none; transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out; user-select: none; vertical-align: middle; white-space: nowrap;">On-hold</a>
+      <a class="btn btn-completed" href="<?=url?>?page=View&row=<?= d.row ?>&status=CPL" style="-moz-user-select: none; -ms-flex: 0 1 auto; -ms-user-select: none; -webkit-text-decoration-skip: objects; -webkit-user-select: none; background-color: #6aa84f; background-image: none; border: 1px solid transparent; border-bottom-left-radius: 0 !important; border-color: #6aa84f; border-radius: .2rem; border-top-left-radius: 0 !important; box-sizing: border-box; color: #fff; cursor: pointer; display: inline-block; flex: 0 1 auto; font-size: .875rem; font-weight: 400; line-height: 1.5; margin-left: -1px; padding: .25rem .5rem; position: relative; text-align: center; text-decoration: none; transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out; user-select: none; vertical-align: middle; white-space: nowrap;">Completed</a>
     </div>
 <? } ?>
 
@@ -86,14 +86,32 @@
 <? } ?>
 
 
+<!-- COMPLETED message -->
+
+<? if (d.statusCode == 'CPL') { ?>
+  <p style="box-sizing: border-box; margin-bottom: 1rem; margin-top: 0;">This request is now <strong style="box-sizing: border-box; font-weight: bolder;">completed</strong>. Thank you for working with us!</p>
+  <p style="box-sizing: border-box; margin-bottom: 1rem; margin-top: 0;">If you require any revisions to this request, you can <a href="<?=url?>?page=View&row=<?= d.row ?>&status=INP" style="-webkit-text-decoration-skip: objects; background-color: transparent; box-sizing: border-box; color: #007bff; text-decoration: underline;">re-open it</a>.</p>
+<? } ?>
+
+
+<!-- CANCELLED message -->
+
+<? if (d.statusCode == 'CAN') { 
+   var u = user() ?>
+  <p style="box-sizing: border-box; margin-bottom: 1rem; margin-top: 0;">This request was marked <strong style="box-sizing: border-box; font-weight: bolder;"><span class="text-secondary" style="box-sizing: border-box; color: #6c757d !important;">cancelled</span></strong> by <?= (u.fname == d.requestorNames && (" " + d.requestorNames[0])) ? 'you' : u.fname ?>.</p>
+  <p style="box-sizing: border-box; margin-bottom: 1rem; margin-top: 0;">Please let us know if you would like to re-open it.</p>
+  <p style="box-sizing: border-box; margin-bottom: 1rem; margin-top: 0;"><?= u.fname ?> <?= d.requestorNames && (" " + d.requestorNames[0]) ?> <?= (u.fname == d.requestorNames && (" " + d.requestorNames[0])) ? 'you' : u.fname ?></p>
+<? } ?>
+
+
 <!-- placing files on server -->
 
 <!-- files not received -->
-<? if (!d.dFiles && d.startDate) { ?>
+<? if (!d.dFiles && d.startDate && d.statusCode !== 'CAN')) { ?>
 	<p style="box-sizing: border-box; margin-bottom: 1rem; margin-top: 0;">We <?= d.daysStart < 0 ? 'were' : 'are' ?> expecting your <strong style="box-sizing: border-box; font-weight: bolder;">files</strong> <span class="text-info" style="box-sizing: border-box; color: #17a2b8 !important;"><?= bdText(d.startDate && d.startDate.format(dfo), d.daysStart, 0) ?></span>. When they arrive, please place them on <strong style="box-sizing: border-box; font-weight: bolder;"><?= d.server.slice(4) ?></strong> at the file path* <u style="box-sizing: border-box;"><?= d.server[0] ?>:/<?= d.client ?>/<?= d.protocol ?>/z - To Assistant/<strong style="box-sizing: border-box; font-weight: bolder;"><?= d.timestamp && d.timestamp.format("YYYY.MM.DD") ?> -- <?= d.id ?></strong></u> and <a href="<?=url?>?page=View&row=<?= d.row ?>" class="text-success" target="_blank" style="-webkit-text-decoration-skip: objects; background-color: transparent; box-sizing: border-box; color: #28a745 !important; text-decoration: underline;">mark them as ready</a>.</p>
 
 <!-- files not reviewed -->
-<? } else if (!(d.dREV || d.dINP || d.dRet || d.dONH)) { ?>
+<? } else if (!(d.dREV || d.dINP || d.dRet || d.dONH) && (d.statusCode !== 'CAN') && (d.statusCode !== 'CPL')) { ?>
 	<p style="box-sizing: border-box; margin-bottom: 1rem; margin-top: 0;">Please make sure your files are on <strong style="box-sizing: border-box; font-weight: bolder;"><?= d.server.slice(4) ?></strong> at the file path* <u style="box-sizing: border-box;"><?= d.server[0] ?>:/<?= d.client ?>/<?= d.protocol ?>/z - To Assistant/<strong style="box-sizing: border-box; font-weight: bolder;"><?= d.timestamp && d.timestamp.format("YYYY.MM.DD") ?> -- <?= d.id ?></strong></u>.</p>
 <? } ?>
 
@@ -133,20 +151,22 @@
 <? } ?>
 </p>
 
-<p class="text-muted" style="box-sizing: border-box; color: #6c757d !important; margin-bottom: 1rem; margin-top: 0;">
-    This is the <strong style="box-sizing: border-box; font-weight: bolder;"><?= ord(info.pos) ?></strong> request in our queue.
+<? if (info.pos) { ?>
+  <p class="text-muted" style="box-sizing: border-box; color: #6c757d !important; margin-bottom: 1rem; margin-top: 0;">
+      This is the <strong style="box-sizing: border-box; font-weight: bolder;"><?= ord(info.pos) ?></strong> request in our queue.
 
-<? if (info.posNotStart) { ?>
-    It is the <strong style="box-sizing: border-box; font-weight: bolder;"><?= ord(info.posNotStart) ?></strong> request out of those we have not yet started.
-<? } ?>
+  <? if (info.posNotStart) { ?>
+      It is the <strong style="box-sizing: border-box; font-weight: bolder;"><?= ord(info.posNotStart) ?></strong> request out of those we have not yet started.
+  <? } ?>
 
-    <? if (info.wkbksBefore) { ?>
-        There are approximately <?= info.wkbksBefore ?> workbooks ahead of this request<?
-      if (info.wkbksBeforeNotStart) { 
-        ?> (of which <?= info.wkbksBeforeNotStart ?> have not been started).<?
-      } else { ?>.<? } ?>
+      <? if (info.wkbksBefore) { ?>
+          There are approximately <?= info.wkbksBefore ?> workbooks ahead of this request<?
+        if (info.wkbksBeforeNotStart) { 
+          ?> (of which <?= info.wkbksBeforeNotStart ?> have not been started).<?
+        } else { ?>.<? } ?>
+  <? } ?>
+  </p>
 <? } ?>
-</p>
 
 <? if (!(d.dREV || d.dINP || d.dRet || d.dONH)) { ?>
 <p style="box-sizing: border-box; margin-bottom: 1rem; margin-top: 0;">
@@ -179,14 +199,21 @@
       <th scope="row" style="background-color: #b8daff; border-top: 1px solid #dee2e6; box-sizing: border-box; min-width: 215px; padding: .3rem; text-align: inherit; vertical-align: top;">Status</th>
       <td style="background-color: #b8daff; border-top: 1px solid #dee2e6; box-sizing: border-box; padding: .3rem; vertical-align: top;"><?= d.status ?></td>
     </tr>
+
+<? if (info.pos) { ?>
     <tr style="box-sizing: border-box;">
       <th scope="row" style="border-top: 1px solid #dee2e6; box-sizing: border-box; padding: .3rem; text-align: inherit; vertical-align: top;">Position in Queue</th>
       <td style="border-top: 1px solid #dee2e6; box-sizing: border-box; padding: .3rem; vertical-align: top;"><?= ord(info.pos) ?></td>
     </tr>
+<? } ?>
+
+<? if (d.expRetDate && (d.statusCode !== 'ONH') && (d.statusCode !== 'UNR') && (d.statusCode !== 'CPL') && (d.statusCode !== 'PND') && (d.statusCode !== 'CAN')) { ?>
     <tr style="background-color: rgba(0,0,0,.05); box-sizing: border-box;">
       <th scope="row" style="border-top: 1px solid #dee2e6; box-sizing: border-box; padding: .3rem; text-align: inherit; vertical-align: top;">Estimated Return Date</th>
       <td style="border-top: 1px solid #dee2e6; box-sizing: border-box; padding: .3rem; vertical-align: top;"><?= (d.expRetDate && d.expRetDate.format(ldf)) || "(not estimated yet)" ?></td>
     </tr>
+<? } ?>
+
     <tr style="box-sizing: border-box;">
       <th scope="row" style="border-top: 1px solid #dee2e6; box-sizing: border-box; padding: .3rem; text-align: inherit; vertical-align: top;">Assignee</th>
       <td style="border-top: 1px solid #dee2e6; box-sizing: border-box; padding: .3rem; vertical-align: top;"><?= d.asst || "(not assigned)" ?></td>
