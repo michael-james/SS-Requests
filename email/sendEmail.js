@@ -42,10 +42,34 @@ function sendEmailHTML(HTMLOUT, d) {
     htmlBody: HTMLOUT.setTitle('SS Request Update / ' + d.id + ' / ' + d.status + ' - ' + moment().format(ERTdf)).getContent(),
     name: "SS Requests",
     // replyTo: asstEmail,
-    // attachments: HTMLOUT.getAs(MimeType.PDF)
+    attachments: HTMLOUT.getAs(MimeType.PDF)
   });
   
   
   var dur = new Date().getTime() - t0.getTime(); console.info({ type: 'perf', message: Utilities.formatString('perf: %s %s %sms', arguments.callee.name, (typeof page !== 'undefined') ? page : '', dur), func: "doGet", row: (typeof d.row !== 'undefined') ? d.row : '', page: (typeof page !== 'undefined') ? page : '', source: (typeof source !== 'undefined') ? source : '', dur: dur, user: user().email});
   return true;
+}
+
+function sendDailyUpdatesGeneva() {
+  console.log('... pretending to send daily updates for Geneva folks');
+}
+
+function sendDailyUpdatesUS() {
+  console.log('... pretending to send daily updates for US folks');
+}
+
+function sendWeeklyUpdatesGeneva() {
+  console.log('... pretending to send weekly update to Geneva folks');
+}
+
+function sendWeeklyUpdatesUS() {
+  console.log('... pretending to send weekly update US folks');
+}
+
+function sendMonthlyUpdatesGeneva() {
+  console.log('... pretending to send monthly update to Geneva folks');
+}
+
+function sendMonthlyUpdatesUS() {
+  console.log('... pretending to send monthly update US folks');
 }
