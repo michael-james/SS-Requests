@@ -139,27 +139,30 @@ function getPageDisplayName(page, view, action) {
 
 var url = ScriptApp.getService().getUrl();
 
-function chgStatus(row, newStatus) {
+function chgStatus(row, newStatus, oldStatus) {
   try {
     var t0 = new Date();
+    var today = new Date();
     var ss = SpreadsheetApp.openById(ssID);
     var sh = ss.getSheetByName("Queue");
-    var statusData = sh.getRange(row, getColNumByName(sh, "Status"));
-    var oldStatus = statusData.getValue();
-    statusData.setValue(newStatus);
     
-    var today = new Date();
-    
-//    console.log("status was %s but now is %s", oldStatus, newStatus)
-    
+    // if no oldStatus is provided, get it from the database and update database with newStatus
+    if (!oldStatus) {
+      var statusData = sh.getRange(row, getColNumByName(sh, "Status"));
+      oldStatus =  statusData.getValue();
+      statusData.setValue(newStatus);
+    }
+        
     if (oldStatus == "On-hold") {
       var c = sh.getRange(row, getColNumByName(sh, "Date ONH End"));
       if (!c.getValue()) {c.setValue(today);}
     }
+
+    if (oldStatus !== newStatus)
     
     if (oldStatus == "Waiting for Start" && newStatus == "Received") {
       var d = getRequest(row);
-      sendNewRequest(d);
+      sendEmail(d, 0);
     }
   
     switch (newStatus) {

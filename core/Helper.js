@@ -6,20 +6,9 @@ function getByName(colName, row, data) {
   }
 }
 
-function getColNumByName(sheet, colName) {
-  var data = sheet.getRange(headerRows, 1, 1, sheet.getLastColumn()).getValues();
-  //Logger.log(sheet + " " + colName + " " + data);
-  if (typeof colName == "string") {
-    return col = data[0].indexOf(colName) + 1;
-  } else if (typeof colName == "object") {
-    
-    var cols = [];
-    for (var n in colName) {
-      var num = data[0].indexOf(colName[n]) + 1;
-      cols.push(num ? num : "");
-    }
-    return cols;
-  }
+function getColNumByName(sh, colName) {
+  var data = sh.getRange(headerRows, 1, 1, sh.getLastColumn()).getValues();
+  getColNumByNameData(data, colName)
 }
 
 function getColNumByNameData(data, colName) {
@@ -41,42 +30,40 @@ function testGetColNumByName() {
   Logger.log(getColNumByName(SpreadsheetApp.getActiveSpreadsheet().getSheetByName("Queue"), "Asgd To"));
 }
 
-function getRequest(row, newReq) {
+function getRequest(row) {
 //  var colNames = sh.getRange(headerRows, 1, 1, sh.getLastColumn()).getValues();
 //  var data = sh.getRange(row, 1, 1, sh.getLastColumn()).getValues();
   var ss = SpreadsheetApp.openById(ssID);
   var sh = ss.getSheetByName("Queue");
-  var data = sh.getRange(headerRows, 1, sh.getLastRow(), sh.getLastColumn()).getValues();
-  return getRequestData(data, row, newReq);
+  var headers = sh.getRange(headerRows, 1, 1, sh.getLastColumn()).getValues()[0];
+  var rowData = sh.getRange(row, 1, 1, sh.getLastColumn()).getValues()[0];
+  var data = [headers, rowData];
+  return getRequestData(data, row);
 }
 
 function testGetRequest() {
   Logger.log(getRequest(4));
 }
 
-function getRequestData(data, i, newReq, keepSt, filt) {
+function getRequestData(data, i) {
+  var i = i || 1;
   var t0 = new Date();
   var ss = SpreadsheetApp.openById(ssID);
   var sh = ss.getSheetByName("Queue");
-  var newReq = newReq || false;
-  // console.log("newReq is %s", newReq);
-  var keepSt = keepSt || false;
-  var rowOffset = filt ? 0 : headerRows;
-  var row = filt ? data[i - rowOffset][getColNumByName(sh, "row") - 1] : i;
+  var row = data[i - rowOffset][getColNumByNameData(data[0], "row") - 1];
 
   d = {
-    sh:    sh,
     ss:    ss,
+    sh:    sh,
     row:   row,
+
     getByName: function(colName) {
       var col = data[0].indexOf(colName); //1 for column names
-      // Logger.log("%s is col %s and its value in row %s (array row %s) is...", colName, col, row, i);
       if (col != -1) {
-        // Logger.log(data);
-        return data[i - rowOffset][col];
+        return data[i][col];
       }
-      //Logger.log(" is %s", i, data[i - rowOffset][col]);
     },
+
     getColNumByName: function(colName) {
       var col = data[0].indexOf(colName) + 1;
       if (col != -1) {
@@ -413,7 +400,7 @@ function refreshAllRequestData() {
   
   for (var i = 1; i < data.length; i++) { // skips header
     if (data[i][0]) {
-      getRequestData(data, headerRows + i, true, true);
+      getRequestData(data, i);
     }
   }
 }

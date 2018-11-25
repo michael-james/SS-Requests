@@ -99,14 +99,10 @@ function processForm(arr, send, update, source) {
   var sh = ss.getSheetByName("Queue");
 
   var obj = objectifyForm(arr);
-  // console.log(obj);
-  // console.log("obj.row is '%s' so it's not %s", obj.row, !obj.row);
+  var headers = sh.getRange(headerRows, 1, 1, sh.getLastColumn()).getValues()[0];
+  
   if (obj.row) {
-    if (typeof obj['Status'] !== 'undefined') {
-      chgStatus(obj.row, obj['Status']);
-    }
     var data = sh.getRange(obj.row, 1, 1, sh.getLastColumn()).getValues()[0];
-    // console.log('...processing form... get data worked!');
   } else {
     obj['Email Address'] = user().email;
     obj['office'] = user().office;
@@ -115,7 +111,7 @@ function processForm(arr, send, update, source) {
 
   // console.log(obj);
   
-  var headers = sh.getRange(headerRows, 1, 1, sh.getLastColumn()).getValues()[0];
+  
   // console.log('...processing form... get headers worked!');
   var newRow = headers.map(function(header, index) {
     var base;
@@ -160,13 +156,23 @@ function processForm(arr, send, update, source) {
   })
 
   var row = updRow[getColNumByName(sh, "row") - 1];
+  var d;
 
   if (obj.row) {
     console.log('...updating existing row %s', obj.row);
     sh.getRange(obj.row, 1, 1, newRow.length).setValues([updRow])
+
+    d = getRequestData([headers, updRow]);
+
+    if (typeof obj['Status'] !== 'undefined') {
+      chgStatus(obj.row, obj['Status'], data[getColNumByNameData(headers, "Status") - 1]);
+    }
   } else {
     console.log('...appending new row %s', updRow[0]);
-    sh.appendRow(updRow)
+    sh.appendRow(updRow);
+
+    d = getRequest(row);
+    sendEmail(d, 0);
 
     // // copy prediction formulas
     // var predWkbksCol = getColNumByName(sh, "Pred. Wkbk. Cnt.");
@@ -176,18 +182,8 @@ function processForm(arr, send, update, source) {
     // var predHrsFormula = sh.getRange(2, predHrsCol).getFormula();
     // sh.getRange(sh.getLastRow(), predHrsCol).setFormula(predHrsFormula);
   }
-  
-  if (send || update) {
-    var d = getRequest(row);
 
-    if (send) {
-      sendSummary(d);
-    }
-    
-    if (update) {
-      updateEvent(d);
-    }
-  }
+  updateEvent(d);
   
   var dur = new Date().getTime() - t0.getTime(); console.info({ type: 'perf', message: Utilities.formatString('perf: %s %s %sms', arguments.callee.name, (typeof page !== 'undefined') ? page : '', dur), func: "doGet", row: (typeof row !== 'undefined') ? row : '', page: (typeof page !== 'undefined') ? page : '', source: (typeof source !== 'undefined') ? source : '', dur: dur, user: user().email});
   return row

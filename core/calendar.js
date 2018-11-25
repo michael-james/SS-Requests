@@ -71,17 +71,17 @@ function updateEventSel() {
   getSelectedRows().forEach(updateEventByRow);
   
   function updateEventByRow(value) {
-      var d = getRequest(value, false);
+      var d = getRequest(value);
       updateEvent(d);
   }
 }
 
 function testCreateEvent() {
-  createEvent(getRequest(20, false));
+  createEvent(getRequest(20));
 }
 
 function testUpdateEvent() {
-  updateEvent(getRequest(20, false));
+  updateEvent(getRequest(20));
 }
 
 function testTime() {
@@ -94,7 +94,7 @@ function testTime() {
   
   // yyyy-MM-dd'T'HH:mm:ss'Z'
   
-  var d = getRequest(20, false);
+  var d = getRequest(20);
   //moment.tz.setDefault("America/New_York");
   var m = moment();
   Logger.log(d.timestamp);
@@ -113,6 +113,6 @@ function testTime() {
 }
 
 function testDates() {
-  var d = getRequest(20, false);
+  var d = getRequest(20);
   Logger.log('\n' + d.hardDue + '\n' + d.prefDue + '\n' + d.start);
 }

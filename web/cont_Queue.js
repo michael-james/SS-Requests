@@ -68,7 +68,7 @@ function testGetSortedReqs() {
 }
 
 function tesetGetSortedReqsHelper() {
-  Logger.log(getRequestData(getSortedReqs(), 1, false, true, true))
+  Logger.log(getRequestData(getSortedReqs(), 1))
 }
 
 function position(thisRow) {
