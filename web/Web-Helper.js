@@ -139,17 +139,18 @@ function getPageDisplayName(page, view, action) {
 
 var url = ScriptApp.getService().getUrl();
 
-function chgStatus(row, newStatus, oldStatus) {
+function chgStatus(row, newStatus, oldStatus, d) {
   try {
     var t0 = new Date();
     var today = new Date();
     var ss = SpreadsheetApp.openById(ssID);
     var sh = ss.getSheetByName("Queue");
-    
+    var d = d || getRequest(row);
+
     // if no oldStatus is provided, get it from the database and update database with newStatus
     if (!oldStatus) {
       var statusData = sh.getRange(row, getColNumByName(sh, "Status"));
-      oldStatus =  statusData.getValue();
+      oldStatus = statusData.getValue();
       statusData.setValue(newStatus);
     }
         
@@ -161,7 +162,6 @@ function chgStatus(row, newStatus, oldStatus) {
     if (oldStatus !== newStatus) {
     
       if (oldStatus == "Waiting for Start" && newStatus == "Received") {
-        var d = getRequest(row);
         sendEmail(d, 0);
       }
     }

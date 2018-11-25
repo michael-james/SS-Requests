@@ -156,22 +156,21 @@ function processForm(arr, send, update, source) {
   })
 
   var row = updRow[getColNumByName(sh, "row") - 1];
-  var d;
+  var d = getRequestData([headers, updRow]);
 
   if (obj.row) {
     console.log('...updating existing row %s', obj.row);
     sh.getRange(obj.row, 1, 1, newRow.length).setValues([updRow])
 
-    d = getRequestData([headers, updRow]);
-
     if (typeof obj['Status'] !== 'undefined') {
-      chgStatus(obj.row, obj['Status'], data[getColNumByNameData(headers, "Status") - 1]);
+      chgStatus(obj.row, obj['Status'], d);
+    } else if (send) {
+      sendEmail(d, 1);
     }
   } else {
     console.log('...appending new row %s', updRow[0]);
     sh.appendRow(updRow);
-
-    d = getRequest(row);
+  
     sendEmail(d, 0);
 
     // // copy prediction formulas
