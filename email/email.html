@@ -17,7 +17,7 @@
                             
 <?  console.log('working...');
     console.log(d);
-    var d = d || getRequest(108);
+    var d = d || getRequest(68);
     console.log(d);
 	var info = position(d.row); ?>
 
@@ -65,7 +65,7 @@
 <p>
 <!-- files not received -->
 <? if (!d.dFiles && d.startDate) { ?>
-	We <?= d.daysStart < 0 ? 'were' : 'are' ?> expecting your <strong>files</strong> <span class="text-info"><?= bdText(d.startDate && d.startDate.format(dfo), d.daysStart, 0) ?></span>. When they arrive, please place them on <strong><?= d.server.slice(4) ?></strong> at the file path* <u><?= d.server[0] ?>:/<?= d.client ?>/<?= d.protocol ?>/z - To Assistant/<strong><?= d.timestamp && d.timestamp.format("YYYY.MM.DD") ?> -- <?= d.id ?></strong></u> and <a href="<?=url?>?page=View&row=<?= d.row ?>" target="_blank">mark them as ready</a>.
+	We <?= d.daysStart < 0 ? 'were' : 'are' ?> expecting your <strong>files</strong> <span class="text-info"><?= bdText(d.startDate && d.startDate.format(dfo), d.daysStart, 0) ?></span>. When they arrive, please place them on <strong><?= d.server.slice(4) ?></strong> at the file path* <u><?= d.server[0] ?>:/<?= d.client ?>/<?= d.protocol ?>/z - To Assistant/<strong><?= d.timestamp && d.timestamp.format("YYYY.MM.DD") ?> -- <?= d.id ?></strong></u> and <a href="<?=url?>?page=View&row=<?= d.row ?>" class='text-success' target="_blank" style="text-decoration: underline;">mark them as ready</a>.
 
 <!-- files not reviewed -->
 <? } else if (!(d.dREV || d.dINP || d.dRet || d.dONH)) { ?>
@@ -78,7 +78,7 @@
 
 <p>
 <? if (d.expRetDate && d.daysExp >= 0 && (d.statusCode !== 'ONH') && (d.statusCode !== 'UNR') && (d.statusCode !== 'CPL') && (d.statusCode !== 'PND') && (d.statusCode !== 'CAN')) { ?>
-	We currently <strong>estimate</strong> that we will deliver the screenshots for your review <span class="text-info"><?= bdText(d.expRetDate && d.expRetDate.format(dfo), d.daysExp, 0) ?></span>.
+	We currently <strong>estimate</strong> that we will deliver screenshots for your review <span class="text-info"><?= bdText(d.expRetDate && d.expRetDate.format(dfo), d.daysExp, 0) ?></span>.
 <? } ?>
 </p>
 
