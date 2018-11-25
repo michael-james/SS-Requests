@@ -17,7 +17,7 @@
               <tr class="table-secondary">
                 <th scope="col" colspan="4">Current</th>
                 <th scope="col" colspan="5">Dates</th>
-                <th scope="col" colspan="5">Workload</th>
+                <th scope="col" colspan="4">Workload</th>
                 <th scope="col" colspan="4">About</th>
                 <th scope="col">Actions</th>
               </tr>
@@ -97,9 +97,7 @@
                 <td class="tb-bl tb-br">
                   <div class="btn-group btn-group-sm" role="group">
                     <a class="btn btn-outline-secondary" href="<?=url?>?page=ViewAdmin&row=<?= d.row ?>">View</a>
-                    <? if (data.admin) { ?>
-                      <a class="btn btn-secondary" href="<?=url?>?page=Edit&row=<?= d.row ?>">Edit</a>
-                    <? } ?>
+                    <a class="btn btn-secondary" href="<?=url?>?page=Edit&row=<?= d.row ?>">Edit</a>
                     <a class="btn btn-primary" href="<?=url?>?page=Perform&row=<?= d.row ?>">Perf</a>
                   </div>
                 </td>

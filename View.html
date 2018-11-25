@@ -8,9 +8,7 @@
       <a class="btn btn-secondary" href="<?=url?>?page=View&row=<?= d.row ?>">Edit</a>
     </div>-->
     <div class="btn-group py-3" role="group">
-      <? if (data.admin) { ?>
-        <a class="btn btn-secondary" href="<?=url?>?page=Edit&row=<?= d.row ?>">Edit</a>
-      <? } ?>
+      <a class="btn btn-secondary" href="<?=url?>?page=Edit&row=<?= d.row ?>">Edit</a>
       <button class="btn btn-success" <?= (d.statusCode !== "WFS") && "disabled" ?> id="ready" data-row="<?= d.row ?>" data-toggle="modal" data-target="#readyModal">Files Ready</button>
       <script>
       $("button[data-row='<?= d.row ?>']").data('key', <?= JSON.stringify(d) ?>);

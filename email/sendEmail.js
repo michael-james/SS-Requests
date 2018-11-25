@@ -1,23 +1,49 @@
-function sendEmail(d) {
+function sendEmail(d, ev) {
+  var eventID = eventID || null;
   var t0 = new Date();
-  var s = getRequestsSummary();
+  // var queue = HtmlService.createTemplateFromFile('Queue');
+  // queue.data = {view: null, email: null, send: true};
+
+  var htmlServ = HtmlService.createTemplateFromFile('email/email-inline');
+  htmlServ.d = d;
+  htmlServ.ev = ev;
+  htmlOut = htmlServ.evaluate();
+
+  var asstEmail = "";
+    
+  switch (d.asst) {
+    case "Michael":
+      asstEmail = "michael.james@ert.com";
+      break;
+    case "Alex":
+      asstEmail = "alexandre.cortez@ert.com";
+      break;
+    case "Affoua":
+      asstEmail = "affoua.jasnault@ert.com";
+      break;
+    case "Carla":
+      asstEmail = "carla.heuer@ert.com";
+      break;
+    default:
+      asstEmail = "michael.james@ert.com";
+  }
+
+  if (d.email == 'michael.james@ert.com') { // for testing purposes, if requestor is MJ, only send to MJ
+    asstEmail = 'michael.james@ert.com';
+  }
   
- console.log(d);
-    
- var t = HtmlService.createTemplateFromFile('email/email-inline');
-  t.d = d;
-  t.s = s;
-// var data = null;
-// t.data = data;
- var html = t.evaluate().getContent();
-// console.log(html);
-    
   MailApp.sendEmail({
     to: 'michael.james@ert.com',
-    subject: 'Hi',
-    htmlBody: html,
-    //htmlBody: 'Hi',
-    name: "SS Requests"
+    cc: ((eventID == 0 && d.email !== 'michael.james@ert.com') ? 'michael.james@ert.com, affoua.jasnault@ert.com, alexandre.cortez@ert.com' : asstEmail),
+    bcc: 'michael.james@ert.com',
+    replyTo: asstEmail,
+    name: "SS Requests",
+    
+    subject: (ev == 0 ? 'New SS Request / ' : 'SS Request Update / ') + d.id + ' / ' + d.status,
+    htmlBody: htmlOut.getContent(),
+    attachments: htmlOut.setTitle('SS Request Update / ' + d.id + ' / ' + d.status + ' - ' + moment().format(ERTdf)).getAs(MimeType.PDF)
+    // attachments: [htmlOut.getAs(MimeType.PDF),
+                  // queue.evaluate().setTitle('SS Requests Queue as of ' + moment().format(ERTdf)).getAs(MimeType.PDF)]
   });
   
   
@@ -35,14 +61,19 @@ function testSendEmail() {
 
 function sendEmailHTML(HTMLOUT, d) {
   var t0 = new Date();
+  // var queue = HtmlService.createTemplateFromFile('Queue');
+  // queue.data = {view: null, email: null, send: true};
   
   MailApp.sendEmail({
     to: 'michael.james@ert.com',
+    bcc: 'michael.james@ert.com',
     subject: 'SS Request Update / ' + d.id + ' / ' + d.status,
     htmlBody: HTMLOUT.setTitle('SS Request Update / ' + d.id + ' / ' + d.status + ' - ' + moment().format(ERTdf)).getContent(),
     name: "SS Requests",
     // replyTo: asstEmail,
     attachments: HTMLOUT.getAs(MimeType.PDF)
+    // attachments: [HTMLOUT.getAs(MimeType.PDF),
+                  // queue.evaluate().setTitle('SS Requests Queue as of ' + moment().format(ERTdf)).getAs(MimeType.PDF)]
   });
   
   

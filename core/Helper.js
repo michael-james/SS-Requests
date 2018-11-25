@@ -251,7 +251,7 @@ function getCounts(d, r) {
   Logger.log(d.langsV001 + '\n' + d.cpyast);
 
   o = {};
-  o.langCnt = ((typeof d.langsV001 == 'string' && d.langsV001) ? d.langsV001.split(",").length : 0) + ((typeof d.langsCR == 'string' && d.langsCR) ? d.langsCR.split(",").length : 0);
+  o.langCnt = ((typeof d.langsV001 == 'string' && d.langsV001) ? d.langsV001.split(",").length : 0) + ((typeof d.langsCR == 'string' && d.langsCR) ? d.langsCR.split(",").length : 0) + ((d.reqCode == 'enV1' || d.reqCode == 'enCR') ? 1 : 0);
   o.astCnt = ((typeof d.cpyast == 'string' && d.cpyast) ? d.cpyast.split(",").length : 0) + ((typeof d.nonast == 'string' && d.nonast) ? d.nonast.split(",").length : 0);
 
   // estimated workbooks

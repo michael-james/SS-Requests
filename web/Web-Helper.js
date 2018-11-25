@@ -21,10 +21,6 @@ function doGet(e) {
     rowTitle += " / " + data[getColNumByName(sh, "ID") -1 ] + ' / ' + data[getColNumByName(sh, "Client") - 1] + ' ' + data[getColNumByName(sh, "Protocol Number") - 1];
   }
   
-  // var timeLabel = page + " load time";  // Labels the timing log entry.
-  
-  // console.time(timeLabel); 
-
   var s = null;
   var view = null;
   var role = null; // 0 = basic, 1 = asst, 2 = lead, 3 = admin
@@ -57,9 +53,18 @@ function doGet(e) {
     dev = e.parameter['dev'];
   }
 
+  var ev = null;
+  if (e.parameter.ev) {
+    ev = e.parameter['ev'];
+  }
+
   var title;
   if (dev == "send") {
+    var d = getRequest(row);
+    sendEmail(d, ev);
     var html = HtmlService.createTemplateFromFile('email/email-inline');
+    html.d = d;
+    html.ev = ev;
     title = "Email Test " + row;
   } else {
     var html = HtmlService.createTemplateFromFile('Default');
@@ -74,13 +79,7 @@ function doGet(e) {
   var evalHTML = html.evaluate()
     .setTitle(title)
     .addMetaTag('viewport', 'width=device-width, initial-scale=1, shrink-to-fit=no');
-
-  if (dev == "send") {
-    var d = getRequest(row);
-    sendEmailHTML(evalHTML, d);
-  }
     // .setFaviconUrl(favicon);
-  // console.timeEnd(timeLabel);
   // console.log(evalHTML.getFaviconUrl());
 
   var dur = new Date().getTime() - t0.getTime(); console.info({ type: 'perf', message: Utilities.formatString('perf: %s %s %sms', arguments.callee.name, (typeof page !== 'undefined') ? page : '', dur), func: "doGet", row: (typeof row !== 'undefined') ? row : '', page: (typeof page !== 'undefined') ? page : '', source: (typeof source !== 'undefined') ? source : '', dur: dur, user: user().email});

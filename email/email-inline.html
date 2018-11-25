@@ -16,11 +16,7 @@
                         <tr style="box-sizing: border-box;">
                             <td align="left" valign="top" style="box-sizing: border-box;">
                             
-<?  console.log('working...');
-    console.log(d);
-    var d = d || getRequest(69);
-    console.log(d);
-	var info = position(d.row); ?>
+<? var info = position(d.row); ?>
 
 
 <h3 style="box-sizing: border-box; color: inherit; font-family: inherit; font-size: 1.75rem; font-weight: 500; line-height: 1.2; margin-bottom: .5rem; margin-top: 0;"><strong style="box-sizing: border-box; font-weight: bolder;">SS Request Update</strong> / <?= d.id ?></h3>
@@ -35,10 +31,23 @@
 
 <!-- START OF DYNAMIC MESSAGE -->
 
+<!-- NEW REQUEST message -->
+
+<? if (ev == 0) { ?>
+  <p style="box-sizing: border-box; margin-bottom: 1rem; margin-top: 0;">We have received your request for <strong style="box-sizing: border-box; font-weight: bolder;"><?= d.client + ' ' + d.protocol + (d.batch && (' Batch ' + d.batch)) + ' ' + d.reqType ?></strong>. We have assigned it the ID <span class="text-info" style="box-sizing: border-box; color: #17a2b8 !important;"><?= d.id ?></span><?
+  if (d.dFiles) { 
+    ?>We will review the request and associated files and let you know if we need any information.<?
+  } else if (d.statusCode == 'WFS') {
+    ?> and set the status to <strong style="box-sizing: border-box; font-weight: bolder;"><span class="text-warning" style="box-sizing: border-box; color: #ffc107 !important;">waiting for start</span></strong>.<?
+  } else {
+    ?>.<?
+  } ?>
+<? } ?>
+
 <!-- UN-RESOLVED ISSUES message -->
 
 <? if (d.statusCode == 'UNR') { ?>
-    <p style="box-sizing: border-box; margin-bottom: 1rem; margin-top: 0;">There are <strong style="box-sizing: border-box; font-weight: bolder;"><span class="text-danger" style="box-sizing: border-box; color: #dc3545 !important;">unresolved issues</span></strong> that are keeping us from delivering your request. Please review the information below and take appropriate action.</p>
+    </p><p style="box-sizing: border-box; margin-bottom: 1rem; margin-top: 0;">There are <strong style="box-sizing: border-box; font-weight: bolder;"><span class="text-danger" style="box-sizing: border-box; color: #dc3545 !important;">unresolved issues</span></strong> that are keeping us from delivering your request. Please review the information below and take appropriate action.</p>
 <? } ?>
 
 
@@ -46,9 +55,9 @@
 
 <? if (d.statusCode == 'PND') {
     if (d.fileloc) { ?>
-        <p style="box-sizing: border-box; margin-bottom: 1rem; margin-top: 0;">Your request is ready for delivery <strong style="box-sizing: border-box; font-weight: bolder;"><span class="text-success" style="box-sizing: border-box; color: #28a745 !important;">pending confirmation</span></strong>. Please review the notes below and the associated files at <u style="box-sizing: border-box;"><?= d.fileloc ?></u> then select an option below.</p>
+        <p style="box-sizing: border-box; margin-bottom: 1rem; margin-top: 0;">Your request is ready for delivery <strong style="box-sizing: border-box; font-weight: bolder;"><span class="text-success" style="box-sizing: border-box; color: #28a745 !important;">pending confirmation</span></strong>. Please review the notes below and the associated files at <u style="box-sizing: border-box;"><?= d.fileloc ?></u> then one of the following options.</p>
     <? } else { ?>
-        <p style="box-sizing: border-box; margin-bottom: 1rem; margin-top: 0;">Your request is ready for delivery <strong style="box-sizing: border-box; font-weight: bolder;"><span class="text-success" style="box-sizing: border-box; color: #28a745 !important;">pending confirmation</span></strong>. Please review the notes below and the associated files then select an option below.</p>
+        <p style="box-sizing: border-box; margin-bottom: 1rem; margin-top: 0;">Your request is ready for delivery <strong style="box-sizing: border-box; font-weight: bolder;"><span class="text-success" style="box-sizing: border-box; color: #28a745 !important;">pending confirmation</span></strong>. Please review the notes below and the associated files then one of the following options.</p>
     <? } ?>
     <div class="btn-group btn-group-sm mb-3" role="group" style="box-sizing: border-box; display: inline-flex; margin-bottom: 1rem !important; position: relative; vertical-align: middle;">
       <a class="btn btn-inprogress" style="-moz-user-select: none; -ms-flex: 0 1 auto; -ms-user-select: none; -webkit-text-decoration-skip: objects; -webkit-user-select: none; background-color: rgb(252, 229, 205); border: 1px solid transparent; border-bottom-right-radius: 0 !important; border-radius: .2rem; border-top-right-radius: 0 !important; box-sizing: border-box; color: #212529; cursor: pointer; display: inline-block; flex: 0 1 auto; font-size: .875rem; font-weight: 400; line-height: 1.5; margin-left: 0; padding: .25rem .5rem; position: relative; text-align: center; text-decoration: none; transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out; user-select: none; vertical-align: middle; white-space: nowrap;" href="<?=url?>?page=View&row=<?= d.row ?>&status=INP">Needs Corrections</a>
@@ -93,7 +102,7 @@
 
 
 <? if (d.expRetDate && d.daysExp >= 0 && (d.statusCode !== 'ONH') && (d.statusCode !== 'UNR') && (d.statusCode !== 'CPL') && (d.statusCode !== 'PND') && (d.statusCode !== 'CAN')) { ?>
-	<p style="box-sizing: border-box; margin-bottom: 1rem; margin-top: 0;">We currently <strong style="box-sizing: border-box; font-weight: bolder;">estimate</strong> that we will deliver screenshots for your review <span class="text-info" style="box-sizing: border-box; color: #17a2b8 !important;"><?= bdText(d.expRetDate && d.expRetDate.format(dfo), d.daysExp, 0) ?></span>.</p>
+	<p style="box-sizing: border-box; margin-bottom: 1rem; margin-top: 0;">We currently <strong style="box-sizing: border-box; font-weight: bolder;">estimate</strong> that we will return screenshots for your review <span class="text-info" style="box-sizing: border-box; color: #17a2b8 !important;"><?= bdText(d.expRetDate && d.expRetDate.format(dfo), d.daysExp, 0) ?></span>.</p>
 <? } ?>
 
 
@@ -104,6 +113,13 @@
     Thank you,<br style="box-sizing: border-box;">
     The Assistants&trade;
 </p>
+
+
+<!-- Actions -->
+<div class="btn-group pb-3" role="group" style="box-sizing: border-box; display: inline-flex; padding-bottom: 1rem !important; position: relative; vertical-align: middle;">
+  <a class="btn btn-sm btn-outline-secondary" href="<?=url?>?page=View&row=<?= d.row ?>" style="-moz-user-select: none; -ms-flex: 0 1 auto; -ms-user-select: none; -webkit-text-decoration-skip: objects; -webkit-user-select: none; background-color: transparent; background-image: none; border: 1px solid transparent; border-bottom-right-radius: 0 !important; border-color: #6c757d; border-radius: .2rem; border-top-right-radius: 0 !important; box-sizing: border-box; color: #6c757d; cursor: pointer; display: inline-block; flex: 0 1 auto; font-size: .875rem; font-weight: 400; line-height: 1.5; margin-left: 0; padding: .25rem .5rem; position: relative; text-align: center; text-decoration: none; transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out; user-select: none; vertical-align: middle; white-space: nowrap;">View</a>
+  <a class="btn btn-sm btn-outline-secondary" href="<?=url?>?page=Edit&row=<?= d.row ?>" style="-moz-user-select: none; -ms-flex: 0 1 auto; -ms-user-select: none; -webkit-text-decoration-skip: objects; -webkit-user-select: none; background-color: transparent; background-image: none; border: 1px solid transparent; border-bottom-left-radius: 0 !important; border-color: #6c757d; border-radius: .2rem; border-top-left-radius: 0 !important; box-sizing: border-box; color: #6c757d; cursor: pointer; display: inline-block; flex: 0 1 auto; font-size: .875rem; font-weight: 400; line-height: 1.5; margin-left: -1px; padding: .25rem .5rem; position: relative; text-align: center; text-decoration: none; transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out; user-select: none; vertical-align: middle; white-space: nowrap;">Edit</a>
+</div>
 
 <!-- Status Info -->
 
@@ -125,10 +141,10 @@
 <? } ?>
 
     <? if (info.wkbksBefore) { ?>
-        There are approximately <?= info.wkbksBefore ?> workbooks ahead of this request <?
-    if (info.wkbksBeforeNotStart) { ?>
-        (of which <?= info.wkbksBeforeNotStart ?> have not been started).
-    <? } else { ?>.<? } ?>
+        There are approximately <?= info.wkbksBefore ?> workbooks ahead of this request<?
+      if (info.wkbksBeforeNotStart) { 
+        ?> (of which <?= info.wkbksBeforeNotStart ?> have not been started).<?
+      } else { ?>.<? } ?>
 <? } ?>
 </p>
 

@@ -10,21 +10,21 @@
           /*Bootstrap*/
 
           .btn-group>.btn-group:not(:last-child)>.btn,.btn-group>.btn:not(:last-child):not(.dropdown-toggle){
-              border-top-right-radius:0;
-              border-bottom-right-radius:0
+              border-top-right-radius:0 !important;
+              border-bottom-right-radius:0 !important
           }
           .btn-group>.btn-group:not(:first-child)>.btn,.btn-group>.btn:not(:first-child){
-              border-top-left-radius:0;
-              border-bottom-left-radius:0
+              border-top-left-radius:0 !important;
+              border-bottom-left-radius:0 !important
           }
 
           .btn-group-vertical>.btn-group:not(:last-child)>.btn,.btn-group-vertical>.btn:not(:last-child):not(.dropdown-toggle){
-              border-bottom-right-radius:0;
-              border-bottom-left-radius:0
+              border-bottom-right-radius:0 !important;
+              border-bottom-left-radius:0 !important
           }
           .btn-group-vertical>.btn-group:not(:first-child)>.btn,.btn-group-vertical>.btn:not(:first-child){
-              border-top-left-radius:0;
-              border-top-right-radius:0
+              border-top-left-radius:0 !important;
+              border-top-right-radius:0 !important
           }
 
           /*custom*/
@@ -64,8 +64,7 @@
                         <tr>
                             <td align="left" valign="top">
                             
-<? var d = d || getRequest(69);
-   var info = position(d.row); ?>
+<? var info = position(d.row); ?>
 
 
 <h3><strong>SS Request Update</strong> / <?= d.id ?></h3>
@@ -79,6 +78,19 @@
 </p>
 
 <!-- START OF DYNAMIC MESSAGE -->
+
+<!-- NEW REQUEST message -->
+
+<? if (ev == 0) { ?>
+  <p>We have received your request for <strong><?= d.client + ' ' + d.protocol + (d.batch && (' Batch ' + d.batch)) + ' ' + d.reqType ?></strong>. We have assigned it the ID <span class="text-info"><?= d.id ?></span><?
+  if (d.dFiles) { 
+    ?>We will review the request and associated files and let you know if we need any information.<?
+  } else if (d.statusCode == 'WFS') {
+    ?> and set the status to <strong><span class="text-warning">waiting for start</span></strong>.<?
+  } else {
+    ?>.<?
+  } ?>
+<? } ?>
 
 <!-- UN-RESOLVED ISSUES message -->
 
@@ -138,7 +150,7 @@
 
 
 <? if (d.expRetDate && d.daysExp >= 0 && (d.statusCode !== 'ONH') && (d.statusCode !== 'UNR') && (d.statusCode !== 'CPL') && (d.statusCode !== 'PND') && (d.statusCode !== 'CAN')) { ?>
-	<p>We currently <strong>estimate</strong> that we will deliver screenshots for your review <span class="text-info"><?= bdText(d.expRetDate && d.expRetDate.format(dfo), d.daysExp, 0) ?></span>.</p>
+	<p>We currently <strong>estimate</strong> that we will return screenshots for your review <span class="text-info"><?= bdText(d.expRetDate && d.expRetDate.format(dfo), d.daysExp, 0) ?></span>.</p>
 <? } ?>
 
 
@@ -149,6 +161,13 @@
     Thank you,<br>
     The Assistants&trade;
 </p>
+
+
+<!-- Actions -->
+<div class="btn-group pb-3" role="group">
+  <a class="btn btn-sm btn-outline-secondary" href="<?=url?>?page=View&row=<?= d.row ?>">View</a>
+  <a class="btn btn-sm btn-outline-secondary" href="<?=url?>?page=Edit&row=<?= d.row ?>">Edit</a>
+</div>
 
 <!-- Status Info -->
 
@@ -170,10 +189,10 @@
 <? } ?>
 
     <? if (info.wkbksBefore) { ?>
-        There are approximately <?= info.wkbksBefore ?> workbooks ahead of this request <?
-    if (info.wkbksBeforeNotStart) { ?>
-        (of which <?= info.wkbksBeforeNotStart ?> have not been started).
-    <? } else { ?>.<? } ?>
+        There are approximately <?= info.wkbksBefore ?> workbooks ahead of this request<?
+      if (info.wkbksBeforeNotStart) { 
+        ?> (of which <?= info.wkbksBeforeNotStart ?> have not been started).<?
+      } else { ?>.<? } ?>
 <? } ?>
 </p>
 

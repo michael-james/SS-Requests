@@ -1,3 +1,4 @@
+  <? console.log(data) ?>
     <div class="container-fluid" style="padding-top:20px">
     
       <div class="row justify-content-center">
@@ -8,7 +9,9 @@
               <h1><?= (data.view == 'all') ? 'All Requests' : 'Queue' ?></h1>
             </div>
             <div>
+            <? if (!data.send) { ?>
               <button class="btn btn-outline-secondary" id="filter-myRequests" data-toggle=".category-myreqs">My Requests</button>
+            <? } ?>
               <!-- <button type="button" class="btn btn-outline-secondary" data-filter="all">Mix All</button> -->
               <!-- <button type="button" class="btn btn-outline-secondary" data-filter=".category-myreqs">Mix My Requests</button> -->
             </div>
@@ -20,7 +23,7 @@
                   <th scope="col" colspan="<?= (data.view == 'all') ? 3 : 4 ?>">Current</th>
                   <th scope="col" colspan="5">Dates</th>
                   <th scope="col" colspan="4">About</th>
-                  <th scope="col" colspan="4">Workload</th>
+                  <th scope="col" colspan="3">Workload</th>
                   <th scope="col">Actions</th>
                 </tr>
                 <tr>
@@ -66,6 +69,7 @@
                   
                   <td><a data-toggle="tooltip" data-placement="right" title="<?= d.id ?>"><?= d.row ?></a></td>
                   
+              <? //console.log("code: %s, req email: %s, my email: %s, data: %s", d.statusCode, d.email, data.email, data) ?>    
               <? if (d.statusCode == "WFS" && (d.email == data.email)) { ?>
                   <? d.typClass = typClass(d.reqCode) ?>
                   <td><a class="btn btn-sm <?= stCls(d.status).btn ?>" style="margin-left: -10px; font-size: 1rem" id="ready" data-row="<?= d.row ?>" data-toggle="modal" data-target="#readyModal"><?= d.status ?></a></td>
@@ -105,9 +109,7 @@
                   <td>
                     <div class="btn-group btn-group-sm" role="group">
                       <a class="btn btn-outline-secondary" href="<?=url?>?page=View&row=<?= d.row ?>">View</a>
-                      <? if (data.admin) { ?>
-                        <a class="btn btn-secondary" href="<?=url?>?page=Edit&row=<?= d.row ?>">Edit</a>
-                      <? } ?>
+                      <a class="btn btn-secondary" href="<?=url?>?page=Edit&row=<?= d.row ?>">Edit</a>
                       <!--<button class="btn btn-info" id="feedback">Feedback</button>-->
                     </div>
                   </td>
@@ -183,18 +185,19 @@
         </div>
       </div>
     </div>
-    
+  <? if (!data.send) { ?>
     <?!= include('readyModal') ?>
+  <? } ?>
         
     <script>
-      var mixer = mixitup('#mixitup-container', {
-        "animation": {
-          "duration": 500,
-          "nudge": true,
-          "reverseOut": false,
-          "effects": "fade translateY(20%)"
-        }
-      });
+      // var mixer = mixitup('#mixitup-container', {
+      //   "animation": {
+      //     "duration": 500,
+      //     "nudge": true,
+      //     "reverseOut": false,
+      //     "effects": "fade translateY(20%)"
+      //   }
+      // });
         
 
       function onReadySuccess(msg) {
@@ -206,9 +209,9 @@
         $('[data-toggle="tooltip"]').tooltip()
       })
       
-        // var user = <?= data.email ?>;
+        var user = <?= data.email ?>;
         $('#filter-myRequests').click(function() {
-          // $('.req-row[data-email!="' + user + '"]').toggle();
+          $('.req-row[data-email!="' + user + '"]').toggle();
           $(this).toggleClass("btn-info").toggleClass("btn-outline-secondary"); //.data('filter', ".category-myreqs");
           // $(this).attr('data-filter', $(this).attr('data-filter') == '.category-myreqs' ? 'all' : '.category-myreqs');
         });
