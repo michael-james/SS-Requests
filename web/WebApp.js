@@ -99,7 +99,7 @@ var sources = {
 }
 
 function processForm(arr, source) {
-  var source = source || null;
+  var source = (typeof source !== 'undefined') ? source : null;
 // try {
   var t0 = new Date();
   var send = send || false;
@@ -147,13 +147,13 @@ function processForm(arr, source) {
                      newRow[getColNumByNameData(headers, "Your Office") - 1],
                      newRow[getColNumByNameData(headers, "Hard Deadline") - 1],
                      newRow[getColNumByNameData(headers, "Hard Deadline Time") - 1]);
-  console.log(uR);
+  // console.log(uR);
   var uRTransposed = {ID: uR.id && uR.id,
                       Status: uR.status && uR.status,
                       'Date Files': uR.dFiles && uR.dFiles,
                       'Date WFS': uR.dWFS && uR.dWFS,
                       'Hard Deadline': uR.hardDueDate && uR.hardDueDate.toDate()};
-  console.log(uRTransposed);
+  // console.log(uRTransposed);
 
   var updRow = headers.map(function(header, index) {
     return typeof uRTransposed[header] !== 'undefined' ? uRTransposed[header] : newRow[index]
@@ -166,18 +166,24 @@ function processForm(arr, source) {
     console.log('...updating existing row %s', obj.row);
     sh.getRange(obj.row, 1, 1, newRow.length).setValues([updRow])
 
+    console.log("source is #%s %s", source, sources[source]);
     if (typeof obj['Status'] !== 'undefined') {
+      console.log("...status is different...going to chgStatus")
       chgStatus(obj.row, obj['Status'], d);
     } else if (source == 1 || source == 3) {
+      console.log("...status is different...sending asst update")
       sendEmail(d, 1);
     } else if (source == 0) {
+      console.log("...source is edit...checking if something changed")
       if (data !== updRow) {
+        console.log("...something changed...figuring out what")
         var chgdCols = {};
         for (var h in headers) {
           if (data[h] !== updRow[h]) {
-            chgdCols[(h + 1)] = headers[h];
+            chgdCols[parseInt(h)] = {old: data[h], new: updRow[h], same: data[h] == updRow[h]};
           }
         }
+        console.log("...here's what changed...sending email")
         console.log(chgdCols);
         sendEmail(d, 2, chgdCols);
       }

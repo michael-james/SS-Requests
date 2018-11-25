@@ -255,8 +255,6 @@ function getCounts(d, r) {
 function updateReq(row, id, oldStatus, client, protocol, batch, reqCode, startDate, dWFS, dFiles, office, hardDueDate, hardtime) {
 
   var obj = {};
-
-  console.log(client + ' ' + protocol);
   
   //////////////////////////////////////////////////////////
   // determine request ID (id)

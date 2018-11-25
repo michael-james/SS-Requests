@@ -233,7 +233,7 @@
 
 <? if (info.pos) { ?>
   <p class="text-muted">
-      This is the <strong><?= ord(info.pos) ?></strong> request in our queue.
+      This is the <strong><?= ord(info.pos) ?></strong> request in our <a href="<?= url ?>" style="text-decoration: underline;">queue</a>.
 
   <? if (info.posNotStart) { ?>
       It is the <strong><?= ord(info.posNotStart) ?></strong> request out of those we have not yet started.
