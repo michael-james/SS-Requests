@@ -1,6 +1,8 @@
 function sendEmail(d, ev) {
-  var eventID = eventID || null;
   var t0 = new Date();
+
+  var eventID = eventID || null;
+  var u = user();
   // var queue = HtmlService.createTemplateFromFile('Queue');
   // queue.data = {view: null, email: null, send: true};
 
@@ -24,8 +26,6 @@ function sendEmail(d, ev) {
     case "Carla":
       asstEmail = "carla.heuer@ert.com";
       break;
-    default:
-      asstEmail = "michael.james@ert.com";
   }
 
   if (d.email == 'michael.james@ert.com') { // for testing purposes, if requestor is MJ, only send to MJ
@@ -34,9 +34,11 @@ function sendEmail(d, ev) {
 
   var title = (ev == 0 ? 'New SS Request / ' : 'SS Request Update / ') + d.id + ' / ' + d.status;
   
+
+
   MailApp.sendEmail({
-    to: 'michael.james@ert.com',
-    cc: ((ev == 0 && user().email !== 'michael.james@ert.com') ? 'michael.james@ert.com, affoua.jasnault@ert.com, alexandre.cortez@ert.com' : asstEmail),
+    to: 'michael.james@ert.com', //((['michael.james@ert.com', 'affoua.jasnault@ert.com', 'alexandre.cortez@ert.com'].indexOf(u.email) > -1) ? 'michael.james@ert.com, affoua.jasnault@ert.com, alexandre.cortez@ert.com' : d.email),
+    cc: ((ev == 0 && u.email !== 'michael.james@ert.com') ? 'michael.james@ert.com, affoua.jasnault@ert.com, alexandre.cortez@ert.com' : asstEmail),
     bcc: 'michael.james@ert.com',
     replyTo: asstEmail,
     name: "SS Requests",

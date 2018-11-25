@@ -2,3 +2,11 @@
 
 
   <?= (u.fname == (d.requestorNames && (d.requestorNames[0]))) ? 'you' : u.fname ?>
+
+  <? if (d.statusCode == 'NIF') { ?>
+  <p>We <strong><span class="text-danger">need information</span></strong> in order to proceed with your request.</p>
+  <? if (d.gennotes) { ?>
+    <p style="white-space: pre-wrap;"><?= d.gennotes ?></p>
+  <? } ?>
+  <p>Please provide this information by <a href="<?=url?>?page=Edit&row=<?= d.row ?>" style="text-decoration: underline;">editing</a> your request then respond to this email to let us know that it is done.</p>
+<? } ?>
