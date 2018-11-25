@@ -47,13 +47,19 @@
 
 <!-- NEEDS INFORMATION message -->
 
-
+<? if (d.statusCode == 'NIF') { ?>
+  </p><p style="box-sizing: border-box; margin-bottom: 1rem; margin-top: 0;">We <strong style="box-sizing: border-box; font-weight: bolder;"><span class="text-danger" style="box-sizing: border-box; color: #dc3545 !important;">need information</span></strong> in order to proceed with your request.</p>
+  <? if (d.gennotes) { ?>
+    <p style="box-sizing: border-box; margin-bottom: 1rem; margin-left: 1.5rem !important; margin-top: 0; white-space: pre-wrap;" class="ml-4"><i style="box-sizing: border-box;"><?= d.gennotes ?><i style="box-sizing: border-box;"></i></i></p>
+  <? } ?>
+  <p style="box-sizing: border-box; margin-bottom: 1rem; margin-top: 0;">Please provide this information by <a href="<?=url?>?page=Edit&row=<?= d.row ?>" style="-webkit-text-decoration-skip: objects; background-color: transparent; box-sizing: border-box; color: #007bff; text-decoration: underline;">editing</a> your request.</p>
+<? } ?>
 
 
 <!-- UN-RESOLVED ISSUES message -->
 
 <? if (d.statusCode == 'UNR') { ?>
-    </p><p style="box-sizing: border-box; margin-bottom: 1rem; margin-top: 0;">There are <strong style="box-sizing: border-box; font-weight: bolder;"><span class="text-danger" style="box-sizing: border-box; color: #dc3545 !important;">unresolved issues</span></strong> that are keeping us from delivering your request. Please review the information below and take appropriate action.</p>
+    <p style="box-sizing: border-box; margin-bottom: 1rem; margin-top: 0;">There are <strong style="box-sizing: border-box; font-weight: bolder;"><span class="text-danger" style="box-sizing: border-box; color: #dc3545 !important;">unresolved issues</span></strong> that are keeping us from delivering your request. Please review the information below and take appropriate action.</p>
 <? } ?>
 
 
@@ -77,12 +83,15 @@
 
 <? if (d.statusCode == 'ONH') {
     if (d.waitfor) { ?>
-        <p style="box-sizing: border-box; margin-bottom: 1rem; margin-top: 0; white-space: pre-wrap;">Your request was placed <strong style="box-sizing: border-box; font-weight: bolder;"><span class="text-warning" style="box-sizing: border-box; color: #ffc107 !important;">on-hold</span></strong> because it cannot continue until the following is resolved:<br style="box-sizing: border-box;"><?= d.waitfor.trim() ?></p>
+        <p style="box-sizing: border-box; margin-bottom: 1rem; margin-top: 0;">Your request was placed <strong style="box-sizing: border-box; font-weight: bolder;"><span class="text-warning" style="box-sizing: border-box; color: #ffc107 !important;">on-hold</span></strong> because it cannot continue until the following is resolved:</p>
+        <p class="ml-4" style="box-sizing: border-box; margin-bottom: 1rem; margin-left: 1.5rem !important; margin-top: 0; white-space: pre-wrap;"><i style="box-sizing: border-box;"><?= d.waitfor.trim() ?></i></p>
         <? if (d.jira) { ?>
-            <p style="box-sizing: border-box; margin-bottom: 1rem; margin-top: 0; white-space: pre-wrap;">There are associated JIRA defects:<br style="box-sizing: border-box;"><?= d.jira.trim() ?></p>
+            <p style="box-sizing: border-box; margin-bottom: 1rem; margin-top: 0;">There are associated JIRA defects:</p>
+            <p class="ml-4" style="box-sizing: border-box; margin-bottom: 1rem; margin-left: 1.5rem !important; margin-top: 0; white-space: pre-wrap;"><?= d.jira.trim() ?></p>
         <? } ?>
     <? } else if (d.jira) { ?>
-        <p style="box-sizing: border-box; margin-bottom: 1rem; margin-top: 0; white-space: pre-wrap;">Your request was placed <strong style="box-sizing: border-box; font-weight: bolder;"><span class="text-warning" style="box-sizing: border-box; color: #ffc107 !important;">on-hold</span></strong> because it cannot continue until the following defect(s) are resolved:<br style="box-sizing: border-box;"><?= d.jira.trim() ?></p>
+        <p style="box-sizing: border-box; margin-bottom: 1rem; margin-top: 0;">Your request was placed <strong style="box-sizing: border-box; font-weight: bolder;"><span class="text-warning" style="box-sizing: border-box; color: #ffc107 !important;">on-hold</span></strong> because it cannot continue until the following defect(s) are resolved:</p>
+        <p class="ml-4" style="box-sizing: border-box; margin-bottom: 1rem; margin-left: 1.5rem !important; margin-top: 0; white-space: pre-wrap;"><?= d.jira.trim() ?></p>
     <? } else { ?>
         <p style="box-sizing: border-box; margin-bottom: 1rem; margin-top: 0;">Your request was placed <strong style="box-sizing: border-box; font-weight: bolder;"><span class="text-warning" style="box-sizing: border-box; color: #ffc107 !important;">on-hold</span></strong> because there is an unresolved issue that is currently being resolved.
             <? if (d.asst) { ?>
@@ -253,6 +262,30 @@
       <td style="border-top: 1px solid #dee2e6; box-sizing: border-box; padding: .3rem; vertical-align: top;"><?= d.prefDueDate.format(ldf) ?></td>
     </tr>
 
+<? } if (d.dPND) { ?>
+    <tr style="background-color: rgba(0,0,0,.05); box-sizing: border-box;">
+      <th scope="row" style="border-top: 1px solid #dee2e6; box-sizing: border-box; padding: .3rem; text-align: inherit; vertical-align: top;">Returned Pending Confirmation</th>
+      <td style="border-top: 1px solid #dee2e6; box-sizing: border-box; padding: .3rem; vertical-align: top;"><?= d.dPND.format(ldtf) ?></td>
+    </tr>
+
+<? } if (d.dUNR) { ?>
+    <tr style="box-sizing: border-box;">
+      <th scope="row" style="border-top: 1px solid #dee2e6; box-sizing: border-box; padding: .3rem; text-align: inherit; vertical-align: top;">Returned w/ Unresolved Issues</th>
+      <td style="border-top: 1px solid #dee2e6; box-sizing: border-box; padding: .3rem; vertical-align: top;"><?= d.dUNR.format(ldtf) ?></td>
+    </tr>
+
+<? } if (d.dONHend) { ?>
+    <tr style="background-color: rgba(0,0,0,.05); box-sizing: border-box;">
+      <th scope="row" style="border-top: 1px solid #dee2e6; box-sizing: border-box; padding: .3rem; text-align: inherit; vertical-align: top;">On-hold Ended</th>
+      <td style="border-top: 1px solid #dee2e6; box-sizing: border-box; padding: .3rem; vertical-align: top;"><?= d.dONHend.format(ldtf) ?></td>
+    </tr>
+
+<? } if (d.dONH) { ?>
+    <tr style="box-sizing: border-box;">
+      <th scope="row" style="border-top: 1px solid #dee2e6; box-sizing: border-box; padding: .3rem; text-align: inherit; vertical-align: top;">Placed On-hold</th>
+      <td style="border-top: 1px solid #dee2e6; box-sizing: border-box; padding: .3rem; vertical-align: top;"><?= d.dONH.format(ldtf) ?></td>
+    </tr>
+
 <? } if (d.dRet) { ?>
     <tr style="background-color: rgba(0,0,0,.05); box-sizing: border-box;">
       <th scope="row" style="border-top: 1px solid #dee2e6; box-sizing: border-box; padding: .3rem; text-align: inherit; vertical-align: top;">Request First Returned</th>
@@ -261,8 +294,20 @@
 
 <? } if (d.dINP) { ?>
     <tr style="box-sizing: border-box;">
-      <th scope="row" style="border-top: 1px solid #dee2e6; box-sizing: border-box; padding: .3rem; text-align: inherit; vertical-align: top;">Request Started</th>
+      <th scope="row" style="border-top: 1px solid #dee2e6; box-sizing: border-box; padding: .3rem; text-align: inherit; vertical-align: top;">Screenshots Started</th>
       <td style="border-top: 1px solid #dee2e6; box-sizing: border-box; padding: .3rem; vertical-align: top;"><?= d.dINP.format(ldtf) ?></td>
+    </tr>
+
+<? } if (d.dREV) { ?>
+    <tr style="background-color: rgba(0,0,0,.05); box-sizing: border-box;">
+      <th scope="row" style="border-top: 1px solid #dee2e6; box-sizing: border-box; padding: .3rem; text-align: inherit; vertical-align: top;">Reviewed &amp; Ready</th>
+      <td style="border-top: 1px solid #dee2e6; box-sizing: border-box; padding: .3rem; vertical-align: top;"><?= d.dREV.format(ldtf) ?></td>
+    </tr>
+
+<? } if (d.dNIF) { ?>
+    <tr style="box-sizing: border-box;">
+      <th scope="row" style="border-top: 1px solid #dee2e6; box-sizing: border-box; padding: .3rem; text-align: inherit; vertical-align: top;">Needed Information</th>
+      <td style="border-top: 1px solid #dee2e6; box-sizing: border-box; padding: .3rem; vertical-align: top;"><?= d.dNIF.format(ldtf) ?></td>
     </tr>
 
 <? } if (d.dFiles) { ?>
@@ -271,7 +316,7 @@
       <td style="border-top: 1px solid #dee2e6; box-sizing: border-box; padding: .3rem; vertical-align: top;"><?= d.dFiles.format(ldtf) ?></td>
     </tr>
 
-<? } if (d.startDate) { ?>
+<? } if (d.startDate && d.dWFS) { ?>
     <tr style="box-sizing: border-box;">
       <th scope="row" style="border-top: 1px solid #dee2e6; box-sizing: border-box; padding: .3rem; text-align: inherit; vertical-align: top;">Files Expected</th>
       <td style="border-top: 1px solid #dee2e6; box-sizing: border-box; padding: .3rem; vertical-align: top;"><?= d.startDate.format(ldf) ?></td>
@@ -298,7 +343,7 @@
       <td style="border-top: 1px solid #dee2e6; box-sizing: border-box; padding: .3rem; vertical-align: top;"><?= d.requestor ?></td>
     </tr>
 
-<? if (d.reqType) { ?>
+<? } if (d.reqType) { ?>
     <tr style="box-sizing: border-box;">
       <th scope="row" style="border-top: 1px solid #dee2e6; box-sizing: border-box; padding: .3rem; text-align: inherit; vertical-align: top;">Type</th>
       <td style="border-top: 1px solid #dee2e6; box-sizing: border-box; padding: .3rem; vertical-align: top;"><?= d.reqType ?></td>

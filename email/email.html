@@ -95,7 +95,13 @@
 
 <!-- NEEDS INFORMATION message -->
 
-
+<? if (d.statusCode == 'NIF') { ?>
+  <p>We <strong><span class="text-danger">need information</span></strong> in order to proceed with your request.</p>
+  <? if (d.gennotes) { ?>
+    <p style="white-space: pre-wrap;" class="ml-4"><i><?= d.gennotes ?><i></p>
+  <? } ?>
+  <p>Please provide this information by <a href="<?=url?>?page=Edit&row=<?= d.row ?>" style="text-decoration: underline;">editing</a> your request.</p>
+<? } ?>
 
 
 <!-- UN-RESOLVED ISSUES message -->
@@ -125,12 +131,15 @@
 
 <? if (d.statusCode == 'ONH') {
     if (d.waitfor) { ?>
-        <p style="white-space: pre-wrap">Your request was placed <strong><span class="text-warning">on-hold</span></strong> because it cannot continue until the following is resolved:<br><?= d.waitfor.trim() ?></p>
+        <p>Your request was placed <strong><span class="text-warning">on-hold</span></strong> because it cannot continue until the following is resolved:</p>
+        <p class="ml-4" style="white-space: pre-wrap"><i><?= d.waitfor.trim() ?></i></p>
         <? if (d.jira) { ?>
-            <p style="white-space: pre-wrap">There are associated JIRA defects:<br><?= d.jira.trim() ?></p>
+            <p>There are associated JIRA defects:</p>
+            <p class="ml-4" style="white-space: pre-wrap"><?= d.jira.trim() ?></p>
         <? } ?>
     <? } else if (d.jira) { ?>
-        <p style="white-space: pre-wrap">Your request was placed <strong><span class="text-warning">on-hold</span></strong> because it cannot continue until the following defect(s) are resolved:<br><?= d.jira.trim() ?></p>
+        <p>Your request was placed <strong><span class="text-warning">on-hold</span></strong> because it cannot continue until the following defect(s) are resolved:</p>
+        <p class="ml-4" style="white-space: pre-wrap"><?= d.jira.trim() ?></p>
     <? } else { ?>
         <p>Your request was placed <strong><span class="text-warning">on-hold</span></strong> because there is an unresolved issue that is currently being resolved.
             <? if (d.asst) { ?>
@@ -301,6 +310,30 @@
       <td><?= d.prefDueDate.format(ldf) ?></td>
     </tr>
 
+<? } if (d.dPND) { ?>
+    <tr>
+      <th scope="row">Returned Pending Confirmation</th>
+      <td><?= d.dPND.format(ldtf) ?></td>
+    </tr>
+
+<? } if (d.dUNR) { ?>
+    <tr>
+      <th scope="row">Returned w/ Unresolved Issues</th>
+      <td><?= d.dUNR.format(ldtf) ?></td>
+    </tr>
+
+<? } if (d.dONHend) { ?>
+    <tr>
+      <th scope="row">On-hold Ended</th>
+      <td><?= d.dONHend.format(ldtf) ?></td>
+    </tr>
+
+<? } if (d.dONH) { ?>
+    <tr>
+      <th scope="row">Placed On-hold</th>
+      <td><?= d.dONH.format(ldtf) ?></td>
+    </tr>
+
 <? } if (d.dRet) { ?>
     <tr>
       <th scope="row">Request First Returned</th>
@@ -309,8 +342,20 @@
 
 <? } if (d.dINP) { ?>
     <tr>
-      <th scope="row">Request Started</th>
+      <th scope="row">Screenshots Started</th>
       <td><?= d.dINP.format(ldtf) ?></td>
+    </tr>
+
+<? } if (d.dREV) { ?>
+    <tr>
+      <th scope="row">Reviewed &amp; Ready</th>
+      <td><?= d.dREV.format(ldtf) ?></td>
+    </tr>
+
+<? } if (d.dNIF) { ?>
+    <tr>
+      <th scope="row">Needed Information</th>
+      <td><?= d.dNIF.format(ldtf) ?></td>
     </tr>
 
 <? } if (d.dFiles) { ?>
@@ -319,7 +364,7 @@
       <td><?= d.dFiles.format(ldtf) ?></td>
     </tr>
 
-<? } if (d.startDate) { ?>
+<? } if (d.startDate && d.dWFS) { ?>
     <tr>
       <th scope="row">Files Expected</th>
       <td><?= d.startDate.format(ldf) ?></td>
@@ -346,7 +391,7 @@
       <td><?= d.requestor ?></td>
     </tr>
 
-<? if (d.reqType) { ?>
+<? } if (d.reqType) { ?>
     <tr>
       <th scope="row">Type</th>
       <td><?= d.reqType ?></td>

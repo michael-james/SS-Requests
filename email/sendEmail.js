@@ -11,6 +11,7 @@ function sendEmail(d, ev) {
   htmlServ.ev = ev;
   htmlOut = htmlServ.evaluate();
 
+  // determine who to cc
   var asstEmail = "";
     
   switch (d.asst) {
@@ -32,10 +33,17 @@ function sendEmail(d, ev) {
     asstEmail = 'michael.james@ert.com';
   }
 
+  // set email subject and PDF title
   var title = (ev == 0 ? 'New SS Request / ' : 'SS Request Update / ') + d.id + ' / ' + d.status;
   
+  // store first date returned if applicable
+  var today = new Date();
+  var c = d.sh.getRange(d.row, getColNumByName(d.sh, "Date Ret"));
+  if (!c.getValue() && (d.statusCode == 'UNR' || d.statusCode == 'PND' || d.statusCode == 'ONH' || d.statusCode == 'CPL')) {
+    c.setValue(today);
+  } 
 
-
+  // send email
   MailApp.sendEmail({
     to: 'michael.james@ert.com', //((['michael.james@ert.com', 'affoua.jasnault@ert.com', 'alexandre.cortez@ert.com'].indexOf(u.email) > -1) ? 'michael.james@ert.com, affoua.jasnault@ert.com, alexandre.cortez@ert.com' : d.email),
     cc: ((ev == 0 && u.email !== 'michael.james@ert.com') ? 'michael.james@ert.com, affoua.jasnault@ert.com, alexandre.cortez@ert.com' : asstEmail),
