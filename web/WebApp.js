@@ -90,7 +90,16 @@ function testGetPrevReq() {
   Logger.log(getPrevReq("DCC-2618-03-002"));
 }
 
-function processForm(arr, send, update, source) {
+var sources = {
+  0: 'Edit',
+  1: 'Perform',
+  2: 'Files Ready',
+  3: 'Review',
+  4: 'Feedback'
+}
+
+function processForm(arr, source) {
+  var source = source || null;
 // try {
   var t0 = new Date();
   var send = send || false;
@@ -109,10 +118,6 @@ function processForm(arr, send, update, source) {
     obj['Timestamp'] = new Date();
   }
 
-  // console.log(obj);
-  
-  
-  // console.log('...processing form... get headers worked!');
   var newRow = headers.map(function(header, index) {
     var base;
     if (obj.row) {
@@ -127,7 +132,6 @@ function processForm(arr, send, update, source) {
   var rowIdx = getColNumByNameData(headers, "row") - 1;
   if (!newRow[rowIdx]) { 
     newRow[rowIdx] = SpreadsheetApp.openById(ssID).getSheetByName('Queue').getLastRow() + 1;
-    // console.log('...processing form... get new row # worked!');
   }
   
   var uR = updateReq(newRow[getColNumByNameData(headers, "row") - 1],
@@ -164,8 +168,19 @@ function processForm(arr, send, update, source) {
 
     if (typeof obj['Status'] !== 'undefined') {
       chgStatus(obj.row, obj['Status'], d);
-    } else if (send) {
+    } else if (source == 1 || source == 3) {
       sendEmail(d, 1);
+    } else if (source == 0) {
+      if (data !== updRow) {
+        var chgdCols = {};
+        for (var h in headers) {
+          if (data[h] !== updRow[h]) {
+            chgdCols[(h + 1)] = headers[h];
+          }
+        }
+        console.log(chgdCols);
+        sendEmail(d, 2, chgdCols);
+      }
     }
   } else {
     console.log('...appending new row %s', updRow[0]);

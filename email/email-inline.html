@@ -45,10 +45,14 @@
 <? } ?>
 
 
-<!-- UPDATAE FROM ASST -->
+<!-- UPDATE FROM ASST -->
 
-<? if (ev == 1) { ?>
-  </p><p style="box-sizing: border-box; margin-bottom: 1rem; margin-top: 0;">We are working on your request and wanted to send an update.</p>
+<? if (ev == 1) {
+  if (d.dINP) { ?>
+    </p><p style="box-sizing: border-box; margin-bottom: 1rem; margin-top: 0;">We are working on your request and wanted to send an update.</p>
+  <? } else { ?>
+    <p style="box-sizing: border-box; margin-bottom: 1rem; margin-top: 0;">We are reviewing open requests and wanted to send an update.</p>
+  <? } ?>
   <? if (d.gennotes) { ?>
     <p style="box-sizing: border-box; margin-bottom: 1rem; margin-left: 1.5rem !important; margin-top: 0; white-space: pre-wrap;" class="ml-4"><i style="box-sizing: border-box;"><?= d.gennotes ?><i style="box-sizing: border-box;"></i></i></p>
   <? } ?>

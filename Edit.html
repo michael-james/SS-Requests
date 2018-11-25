@@ -441,7 +441,7 @@
             if ($form.get(0).reportValidity()) {
               $('#go, #go-view, #go-submit').prop("disabled", true);
               var val = $form.serializeArray();
-              google.script.run.withSuccessHandler(onEditSuccess).withFailureHandler(onEditFailure).processForm(val, null, true, "EditSave");
+              google.script.run.withSuccessHandler(onEditSuccess).withFailureHandler(onEditFailure).processForm(val, 0);
             }
           });
           
@@ -453,15 +453,9 @@
             if ($form.get(0).reportValidity()) {
               $('#go, #go-view, #go-submit').prop("disabled",true);
               var val = $form.serializeArray();
-              google.script.run.withSuccessHandler(onEditSuccessView).withFailureHandler(onEditFailure).processForm(val, true, true, "EditSaveView");
+              google.script.run.withSuccessHandler(onEditSuccessView).withFailureHandler(onEditFailure).processForm(val, 0);
             }
           });
-          
-          // $('#go-send').click(function() {
-          //   $(this).prop("disabled",true);
-          //   var val = $('form').serializeArray();
-          //   google.script.run.withSuccessHandler(onPerfSuccessView).withFailureHandler(onPerfFailure).processForm(val, true, null, "PerformSaveSend");
-          // });
                     
           $('input, textarea, select').change(function() {
             $('#go, #go-submit').addClass("btn-warning");

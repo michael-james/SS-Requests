@@ -123,7 +123,7 @@
                $(this).prop("disabled",true);
                $('#ready-modal-btn-save').prop("disabled",true);
                var val = $form.serializeArray();
-               google.script.run.withSuccessHandler(onReadySuccess).withFailureHandler(onReadyFailure).withUserObject($(this)).processForm(val, null, true, "readyModalUpdate");
+               google.script.run.withSuccessHandler(onReadySuccess).withFailureHandler(onReadyFailure).withUserObject($(this)).processForm(val, 2);
             }
           });
           
@@ -140,7 +140,7 @@
                $(this).prop("disabled",true);
                $('#ready-modal-btn-update').prop("disabled",true);
                var val = $form.serializeArray();
-               google.script.run.withSuccessHandler(onReadySuccess).withFailureHandler(onReadyFailure).withUserObject($(this)).processForm(val, null, true, "readyModalSave");
+               google.script.run.withSuccessHandler(onReadySuccess).withFailureHandler(onReadyFailure).withUserObject($(this)).processForm(val, 2);
             }
             
             $('input#status').attr('name', 'Status');

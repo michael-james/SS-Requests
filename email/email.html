@@ -93,10 +93,14 @@
 <? } ?>
 
 
-<!-- UPDATAE FROM ASST -->
+<!-- UPDATE FROM ASST -->
 
-<? if (ev == 1) { ?>
-  <p>We are working on your request and wanted to send an update.</p>
+<? if (ev == 1) {
+  if (d.dINP) { ?>
+    <p>We are working on your request and wanted to send an update.</p>
+  <? } else { ?>
+    <p>We are reviewing open requests and wanted to send an update.</p>
+  <? } ?>
   <? if (d.gennotes) { ?>
     <p style="white-space: pre-wrap;" class="ml-4"><i><?= d.gennotes ?><i></p>
   <? } ?>

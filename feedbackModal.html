@@ -92,7 +92,7 @@
             var val = $('#feedbackModal form').serializeArray();
             console.log("updating from review...");
             
-            google.script.run.withSuccessHandler(onFeedbackSuccess).withFailureHandler(onFailure).withUserObject($(this)).processForm(val, null, null, "feedbackModal");
+            google.script.run.withSuccessHandler(onFeedbackSuccess).withFailureHandler(onFailure).withUserObject($(this)).processForm(val, 4);
           });
           
           $('#feedbackModal').on('show.bs.modal', function (event) {

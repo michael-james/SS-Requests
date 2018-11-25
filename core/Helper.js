@@ -12,7 +12,6 @@ function getColNumByName(sh, colName) {
 }
 
 function getColNumByNameData(data, colName) {
-  console.log(data);
   if (typeof colName == "string") {
     return col = data.indexOf(colName) + 1;
   } else if (typeof colName == "object") {

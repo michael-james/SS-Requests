@@ -262,19 +262,19 @@
           $('#go').click(function() {
             $('#go, #go-view, #go-send').prop("disabled",true);
             var val = $('form').serializeArray();
-            google.script.run.withSuccessHandler(onPerfSuccess).withFailureHandler(onPerfFailure).processForm(val, null, null, "PerformSave");
+            google.script.run.withSuccessHandler(onPerfSuccess).withFailureHandler(onPerfFailure).processForm(val);
           });
           
           $('#go-view').click(function() {
             $('#go, #go-view, #go-send').prop("disabled",true);
             var val = $('form').serializeArray();
-            google.script.run.withSuccessHandler(onPerfSuccessView).withFailureHandler(onPerfFailure).processForm(val, null, null, "PerformSaveView");
+            google.script.run.withSuccessHandler(onPerfSuccessView).withFailureHandler(onPerfFailure).processForm(val);
           });
           
           $('#go-send').click(function() {
             $('#go, #go-view, #go-send').prop("disabled",true);
             var val = $('form').serializeArray();
-            google.script.run.withSuccessHandler(onPerfSuccessView).withFailureHandler(onPerfFailure).processForm(val, true, null, "PerformSaveSend");
+            google.script.run.withSuccessHandler(onPerfSuccessView).withFailureHandler(onPerfFailure).processForm(val, 1);
           });
                     
           $('input, textarea').change(function() {
