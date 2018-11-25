@@ -34,8 +34,7 @@
                 <th scope="col" class=tb-bl>Type</th>
                 <th scope="col"># A</th>
                 <th scope="col"># L</th>
-                <th scope="col">Pred</th>
-                <th scope="col">Act</th>
+                <th scope="col">Wkbks</th>
                 <th scope="col" class=tb-bl>Requestor</th>
                 <th scope="col">Client</th>
                 <th scope="col">Protocol</th>
@@ -83,10 +82,8 @@
                 <td><a data-toggle="tooltip" data-html="true" data-placement="right" title="<?= (d.langsV001 && ("<strong>v0.01:</strong> " + d.langsV001 + (d.langsCR && "\n\n"))) + (d.langsCR && ("<strong>CR:</strong> " + d.langsCR)) ?>"><?= d.langCnt ?></a></td>
 
                 <td><a data-toggle="tooltip" data-html="true" data-placement="right" title="<?= (d.cpyast && ("<strong>CPY:</strong> " + d.cpyast + (d.nonast && "\n\n"))) + (d.nonast && ("<strong>NON:</strong> " + d.nonast)) ?>"><?= d.astCnt ?></a></td>
-                
-                <td><?= (d.predwkbks && d.predwkbks) && d.estwkbks ?></td>
-                
-                <td><strong><?= d.actwkbks ?></strong></td>
+                                
+                <td><span style="<?= d.actwkbks && "font-weight: bolder" ?>"><?= d.bestwkbks ?></strong></td>
                 
                 <td class=tb-bl><?= d.requestorNames[0] + " " + d.requestorNames[1][0] + "." ?></td>
                 <!--<td><a data-toggle="tooltip" data-html="true" data-placement="right" title="<?= Utilities.formatString("<b>Request # %s</b>\nRec'd %s\n%s\n%s%s", d.row, d.timestamp && d.timestamp.format(sdf), d.client, d.protocol, d.batch && "\nBatch " + d.batch) ?>"><?= d.id ?></a></td>-->

@@ -41,8 +41,7 @@
                   <th scope="col">Batch</th>
                   <th scope="col"># A</th>
                   <th scope="col"># L</th>
-                  <th scope="col">Pred.</th>
-                  <th scope="col">Act.</th>
+                  <th scope="col">Wkbks.</th>
                   <th scope="col"></th>
                 </tr>
               </thead>
@@ -100,10 +99,8 @@
                   <td><a data-toggle="tooltip" data-html="true" data-placement="right" title="<?= (d.langsV001 && ("<strong>v0.01:</strong> " + d.langsV001 + (d.langsCR && "\n\n"))) + (d.langsCR && ("<strong>CR:</strong> " + d.langsCR)) ?>"><?= d.langCnt ?></a></td>
 
                   <td><a data-toggle="tooltip" data-html="true" data-placement="right" title="<?= (d.cpyast && ("<strong>CPY:</strong> " + d.cpyast + (d.nonast && "\n\n"))) + (d.nonast && ("<strong>NON:</strong> " + d.nonast)) ?>"><?= d.astCnt ?></a></td>
-                  
-                  <td><?= (d.predwkbks && d.predwkbks) && d.estwkbks ?></td>
-                  
-                  <td><strong><?= d.actwkbks ?></strong></td>
+                                    
+                  <td><span style="<?= d.actwkbks && "font-weight: bolder" ?>"><?= d.bestwkbks ?></strong></td>
                   
                   <td>
                     <div class="btn-group btn-group-sm" role="group">
