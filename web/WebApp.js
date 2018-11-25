@@ -183,7 +183,12 @@ function processForm(arr, source) {
       if (data[index].toString() !== val.toString()) {
         chgdCols[index] = {old: data[index], upd: val, header: header};  
       }
+    } else if (typeof data[index] == 'number' && typeof val !== 'number') {
+      if (data[index] !== parseInt(val)) {
+        chgdCols[index] = {old: data[index], upd: val, header: header};  
+      }
     } else if (data[index] !== val) {
+      console.log("%s: %s (type %s), %s (type %s)", header, data[index], typeof data[index], val, typeof val);
       chgdCols[index] = {old: data[index], upd: val, header: header};  
     }
 
@@ -215,12 +220,12 @@ function processForm(arr, source) {
       sendEmail(d, 1);
     
     // request was edited with form
-    } else if (source == 0) {
+    } else if (source == 0 && !user().asst) {
       console.log("...source is edit...checking if something changed")
 
       // something was changed during the edit
       if (Object.keys(chgdCols).length) {
-        console.log("...something changed...")
+        console.log("...something changed...sending email")
         // var chgdCols = {};
         // for (var h = 0; h < headers.length; h++) {
         //   console.log("header idx %s, header %s, old %s, new %s, same? %s", h, headers[h], data[h], updRow[h], data[h] == updRow[h])
@@ -231,6 +236,7 @@ function processForm(arr, source) {
         //   }
         // }
         console.log(chgdCols);
+        // var old = getRequestData([headers, data]);
         sendEmail(d, 2, chgdCols);
       }
     }

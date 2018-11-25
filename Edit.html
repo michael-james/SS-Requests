@@ -7,12 +7,12 @@
 <div class="container" style="padding-top:20px">
   <? if (data.action !== 'submit') { ?>
     <h1><span class="badge badge-primary">Edit</span> <span class="badge <?= typClass(d.reqCode) ?>"><?= d.reqCode ?></span> <?= d.client + ' ' + d.protocol + (d.batch && (' Batch ' + d.batch)) ?></h1>
-    <div class="py-3">
-      <a id="view-link" class="btn btn-outline-secondary" href="<?=url?>?page=View<?= (data.asst || data.lead || data.admin) ? 'Admin' : '' ?>&row=<?= d.row ?>">View</a>
-    </div>
    <? } else { ?> 
     <h1><span class="badge badge-primary">Submit</span> New Request</h1>
    <? } ?>
+   <div class="py-3" <?= (data.action == 'submit') ? 'hidden' : '' ?>>
+      <a id="view-link" class="btn btn-outline-secondary" href="<?=url?>?page=View<?= (data.asst || data.lead || data.admin) ? 'Admin' : '' ?>&row=<?= (data.action !== 'submit') ? d.row : null ?>">View</a>
+    </div>
  
     <form id="edit">
       <input type="hidden" id="row" name="row">
@@ -58,7 +58,7 @@
         <div class="form-group col-md">
           <label for="reqCode">Type</label>
           <select name="Req Code" id="reqCode" class="form-control" required>
-            <option selected disabled>(select a type)</option>
+            <option selected disabled value="false">(select a type)</option>
             <option value="enV1">enUS v1.00</option>
             <option value="enCR">enUS corrections</option>
             <option value="FLv1">foreign language v0.01</option>
@@ -135,14 +135,14 @@
       <div class="row">
         <div class="form-group col-sm-3">
           <label for="tbbuild">TB-syn/SP Build #</label>
-          <input name="TB-syn Build #" type="text" class="form-control" id="tbbuild" placeholder="latest">
+          <input name="TB-syn Build #" type="number" class="form-control" id="tbbuild" placeholder="latest">
           <small class="form-text text-muted">
             We will use the latest build if none is specified.
           </small>
         </div>
         <div class="form-group col-sm-3">
           <label for="hhbuild">HH-syn/LP Build #</label>
-          <input name="HH-syn Build #" type="text" class="form-control" id="hhbuild" placeholder="latest">
+          <input name="HH-syn Build #" type="number" class="form-control" id="hhbuild" placeholder="latest">
           <small class="form-text text-muted">
             We will use the latest build if none is specified.
           </small>
@@ -283,7 +283,7 @@
         </div>
 
       <? if (data.action !== 'submit') { ?>
-        <h3 class="mt-3">Request Updates</h3>
+        <h3 class="mt-5">Request Updates</h3>
 
         <div class="row">
           <div class="form-group col-sm-6">
@@ -323,26 +323,24 @@
 
     </div> <!-- container -->
 
-<a href="<?=url?>?page=ViewAdmin&row=" id="this-link" hidden></a>
-
   <script>
       function onEditSuccess(msg) {
         $('#go, #go-view, #go-submit').prop("disabled",false).removeClass('btn-warning');
         $('#perfoutput').removeClass("text-danger").addClass("text-success").text("Saved!").show();
         
+        window.removeEventListener("beforeunload", unload);
+        
         setTimeout(function(){
           $('#perfoutput').hide()
         }, 3000);
-        
-        window.removeEventListener("beforeunload", unload);
       }
       
-      function onEditSuccessView(msg) {
+      function onEditSuccessView(row) {
         $('#go, #go-view, #go-submit').removeClass('btn-warning');
         window.removeEventListener("beforeunload", unload);
       
-        var href = $('#this-link').attr('href');
-        $('#this-link').attr('href', href + msg).click();
+        document.getElementById('view-link').href = "<?=url?>?page=View<?= (data.asst || data.lead || data.admin) ? 'Admin' : '' ?>&row=" + row;
+        document.getElementById('view-link').click();
       }
       
       function onEditFailure(error) {
@@ -480,10 +478,7 @@
 
           function setDateMin() {
             // console.log(priveleges);
-            if (priveleges) {
-              // console.log('...exiting setDateMin() because of priveleges');
-              return
-            }
+            
             /////////////////////////////////////////////////
             // earliest available date (set start min)
             /////////////////////////////////////////////////
@@ -534,6 +529,12 @@
             var filesAvailForm = y + '-'+ pad(mm) + '-'+ pad(dd);
             if (dFilesFormTime) {
               $('#start').prop('disabled', true).val(filesAvailForm);
+            }
+
+            if (priveleges) {
+              $('#prefDue').attr('min', filesAvailForm);
+              $('#hardDue').attr('min', filesAvailForm);
+              return
             }
 
             /////////////////////////////////////////////////
@@ -683,8 +684,10 @@
 
             var reqCode = $('#reqCode').val();
 
+            console.log("reqCode is... %s", reqCode);
+
             // assessments validation
-            if (reqCode !== 'OTH') {
+            if (reqCode && reqCode !== 'OTH') {
               if ($('#cpyast').val().length || $('#nonast').val().length) {
                 $('#cpyast')[0].setCustomValidity("");
               } else {

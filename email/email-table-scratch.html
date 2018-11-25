@@ -10,3 +10,19 @@
   <? } ?>
   <p>Please provide this information by <a href="<?=url?>?page=Edit&row=<?= d.row ?>" style="text-decoration: underline;">editing</a> your request then respond to this email to let us know that it is done.</p>
 <? } ?>
+
+
+
+
+<? if (ev == 2) { ?>
+  <p><?= u.fname ?> edited this request.</p>
+
+  <? if (chg) { ?>
+    <p>The following information was changed:</p>
+    <p style="white-space: pre-wrap;" class="ml-4"><i><?
+
+    for (var c in chg) { ?>
+      <?= c.header ?><br>
+    <? } ?><i></p>
+  <? } ?>
+<? } ?>

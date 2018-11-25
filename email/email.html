@@ -64,7 +64,9 @@
                         <tr>
                             <td align="left" valign="top">
                             
-<? var info = position(d.row); ?>
+<? var info = position(d.row);
+   var u = user();
+   var isRequestor = (u.email == d.email); ?>
 
 
 <h3><strong>SS Request Update</strong> / <?= d.id ?></h3>
@@ -73,9 +75,11 @@
 <h3 class="mt-3"><?= d.status ?></h3>
 <h5 class="mb-5 text-secondary"><?= moment().format(ERTdf) ?></h5>
 
-<p>
-    Hello<?= d.requestorNames && (" " + d.requestorNames[0]) ?>,
-</p>
+<? if ((!isRequestor) || d.statusCode == 'CPL' || d.statusCode == 'CAN') { ?>
+  <p>
+      Hello<?= d.requestorNames && (" " + d.requestorNames[0]) ?>,
+  </p>
+<? } ?>
 
 <!-- START OF DYNAMIC MESSAGE -->
 
@@ -103,6 +107,22 @@
   <? } ?>
   <? if (d.gennotes) { ?>
     <p style="white-space: pre-wrap;" class="ml-4"><i><?= d.gennotes ?><i></p>
+  <? } ?>
+<? } ?>
+
+
+<!-- REQUEST EDITED -->
+
+<? if (ev == 2) { ?>
+  <p><?= u.fname ?> edited this request.</p>
+
+  <? if (chg) { ?>
+    <p>The following information was changed:</p>
+    <ul><?
+
+      for (var c in chg) { ?><li><?=
+        chg[c].header ?> <i>(from <?= chg[c].old.length > 30 ? chg[c].old.substring(0, 30) + "..." : chg[c].old ?> to <?= chg[c].upd.length > 30 ? chg[c].upd.substring(0, 30) + "..." : chg[c].upd ?>)</i></li><?
+      } ?></ul>
   <? } ?>
 <? } ?>
 
@@ -174,8 +194,8 @@
 <!-- CANCELLED message -->
 
 <? if (d.statusCode == 'CAN') { 
-  var u = user()
-  if (u.fname == (d.requestorNames && (d.requestorNames[0]))) { ?>
+  
+  if (isRequestor) { ?>
     <p>You marked this request as <strong><span class="text-secondary">cancelled</span></strong>.</p>
   <? } else { ?>
     <p>This request was marked <strong><span class="text-secondary">cancelled</span></strong> by <?= u.fname ?>.</p>
@@ -187,11 +207,11 @@
 <!-- placing files on server -->
 
 <!-- files not received -->
-<? if (!d.dFiles && d.startDate && d.statusCode !== 'CAN') { ?>
+<? if (!d.dFiles && d.startDate && d.statusCode !== 'CAN' && ev !== 2) { ?>
 	<p>We <?= d.daysStart < 0 ? 'were' : 'are' ?> expecting your <strong>files</strong> <span class="text-info"><?= bdText(d.startDate && d.startDate.format(dfo), d.daysStart, 0) ?></span>. When they arrive, please place them on <strong><?= d.server.slice(4) ?></strong> at the file path* <u><?= d.server[0] ?>:/<?= d.client ?>/<?= d.protocol ?>/z - To Assistant/<strong><?= d.timestamp && d.timestamp.format("YYYY.MM.DD") ?> -- <?= d.id ?></strong></u> and <a href="<?=url?>?page=View&row=<?= d.row ?>" class='text-success' target="_blank" style="text-decoration: underline;">mark them as ready</a>.</p>
 
 <!-- files not reviewed -->
-<? } else if (!(d.dREV || d.dINP || d.dRet || d.dONH) && (d.statusCode !== 'CAN') && (d.statusCode !== 'CPL')) { ?>
+<? } else if (!(d.dREV || d.dINP || d.dRet || d.dONH) && (d.statusCode !== 'CAN') && (d.statusCode !== 'CPL') && ev !== 2) { ?>
 	<p>Please make sure your files are on <strong><?= d.server.slice(4) ?></strong> at the file path* <u><?= d.server[0] ?>:/<?= d.client ?>/<?= d.protocol ?>/z - To Assistant/<strong><?= d.timestamp && d.timestamp.format("YYYY.MM.DD") ?> -- <?= d.id ?></strong></u>.</p>
 <? } ?>
 
@@ -199,7 +219,7 @@
 <!-- estimated return -->
 
 
-<? if (d.expRetDate && d.daysExp >= 0 && (d.statusCode !== 'ONH') && (d.statusCode !== 'UNR') && (d.statusCode !== 'CPL') && (d.statusCode !== 'PND') && (d.statusCode !== 'CAN')) { ?>
+<? if (d.expRetDate && d.daysExp >= 0 && (d.statusCode !== 'ONH') && (d.statusCode !== 'UNR') && (d.statusCode !== 'CPL') && (d.statusCode !== 'PND') && (d.statusCode !== 'CAN') && ev !== 2) { ?>
 	<p>We currently <strong>estimate</strong> that we will return screenshots for your review <span class="text-info"><?= bdText(d.expRetDate && d.expRetDate.format(dfo), d.daysExp, 0) ?></span>.</p>
 <? } ?>
 

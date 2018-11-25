@@ -1,4 +1,4 @@
-function sendEmail(d, ev) {
+function sendEmail(d, ev, chg, old) {
   var t0 = new Date();
 
   var eventID = eventID || null;
@@ -8,7 +8,9 @@ function sendEmail(d, ev) {
 
   var htmlServ = HtmlService.createTemplateFromFile('email/email-inline');
   htmlServ.d = d;
-  htmlServ.ev = ev;
+  htmlServ.ev = ev || null;
+  htmlServ.chg = chg || null;
+  htmlServ.old = old || null;
   htmlOut = htmlServ.evaluate();
 
   // determine who to cc
@@ -57,6 +59,7 @@ function sendEmail(d, ev) {
     // attachments: [htmlOut.getAs(MimeType.PDF),
                   // queue.evaluate().setTitle('SS Requests Queue as of ' + moment().format(ERTdf)).getAs(MimeType.PDF)]
   });
+  console.log({message: Utilities.formatString('email "%s" sent to %s', title, d.email), subject: title, to: d.email, type: "email"});
   
   
   var dur = new Date().getTime() - t0.getTime(); console.info({ type: 'perf', message: Utilities.formatString('perf: %s %s %sms', arguments.callee.name, (typeof page !== 'undefined') ? page : '', dur), func: "doGet", row: (typeof d.row !== 'undefined') ? d.row : '', page: (typeof page !== 'undefined') ? page : '', source: (typeof source !== 'undefined') ? source : '', dur: dur, user: user().email});

@@ -16,7 +16,9 @@
                         <tr style="box-sizing: border-box;">
                             <td align="left" valign="top" style="box-sizing: border-box;">
                             
-<? var info = position(d.row); ?>
+<? var info = position(d.row);
+   var u = user();
+   var isRequestor = (u.email == d.email); ?>
 
 
 <h3 style="box-sizing: border-box; color: inherit; font-family: inherit; font-size: 1.75rem; font-weight: 500; line-height: 1.2; margin-bottom: .5rem; margin-top: 0;"><strong style="box-sizing: border-box; font-weight: bolder;">SS Request Update</strong> / <?= d.id ?></h3>
@@ -25,9 +27,11 @@
 <h3 class="mt-3" style="box-sizing: border-box; color: inherit; font-family: inherit; font-size: 1.75rem; font-weight: 500; line-height: 1.2; margin-bottom: .5rem; margin-top: 1rem !important;"><?= d.status ?></h3>
 <h5 class="mb-5 text-secondary" style="box-sizing: border-box; color: #6c757d !important; font-family: inherit; font-size: 1.25rem; font-weight: 500; line-height: 1.2; margin-bottom: 3rem !important; margin-top: 0;"><?= moment().format(ERTdf) ?></h5>
 
-<p style="box-sizing: border-box; margin-bottom: 1rem; margin-top: 0;">
-    Hello<?= d.requestorNames && (" " + d.requestorNames[0]) ?>,
-</p>
+<? if ((!isRequestor) || d.statusCode == 'CPL' || d.statusCode == 'CAN') { ?>
+  <p style="box-sizing: border-box; margin-bottom: 1rem; margin-top: 0;">
+      Hello<?= d.requestorNames && (" " + d.requestorNames[0]) ?>,
+  </p>
+<? } ?>
 
 <!-- START OF DYNAMIC MESSAGE -->
 
@@ -55,6 +59,22 @@
   <? } ?>
   <? if (d.gennotes) { ?>
     <p style="box-sizing: border-box; margin-bottom: 1rem; margin-left: 1.5rem !important; margin-top: 0; white-space: pre-wrap;" class="ml-4"><i style="box-sizing: border-box;"><?= d.gennotes ?><i style="box-sizing: border-box;"></i></i></p>
+  <? } ?>
+<? } ?>
+
+
+<!-- REQUEST EDITED -->
+
+<? if (ev == 2) { ?>
+  <p style="box-sizing: border-box; margin-bottom: 1rem; margin-top: 0;"><?= u.fname ?> edited this request.</p>
+
+  <? if (chg) { ?>
+    <p style="box-sizing: border-box; margin-bottom: 1rem; margin-top: 0;">The following information was changed:</p>
+    <ul style="box-sizing: border-box; margin-bottom: 1rem; margin-top: 0;"><?
+
+      for (var c in chg) { ?><li style="box-sizing: border-box;"><?=
+        chg[c].header ?> <i style="box-sizing: border-box;">(from <?= chg[c].old.length > 30 ? chg[c].old.substring(0, 30) + "..." : chg[c].old ?> to <?= chg[c].upd.length > 30 ? chg[c].upd.substring(0, 30) + "..." : chg[c].upd ?>)</i></li><?
+      } ?></ul>
   <? } ?>
 <? } ?>
 
@@ -126,8 +146,8 @@
 <!-- CANCELLED message -->
 
 <? if (d.statusCode == 'CAN') { 
-  var u = user()
-  if (u.fname == (d.requestorNames && (d.requestorNames[0]))) { ?>
+  
+  if (isRequestor) { ?>
     <p style="box-sizing: border-box; margin-bottom: 1rem; margin-top: 0;">You marked this request as <strong style="box-sizing: border-box; font-weight: bolder;"><span class="text-secondary" style="box-sizing: border-box; color: #6c757d !important;">cancelled</span></strong>.</p>
   <? } else { ?>
     <p style="box-sizing: border-box; margin-bottom: 1rem; margin-top: 0;">This request was marked <strong style="box-sizing: border-box; font-weight: bolder;"><span class="text-secondary" style="box-sizing: border-box; color: #6c757d !important;">cancelled</span></strong> by <?= u.fname ?>.</p>
@@ -139,11 +159,11 @@
 <!-- placing files on server -->
 
 <!-- files not received -->
-<? if (!d.dFiles && d.startDate && d.statusCode !== 'CAN') { ?>
+<? if (!d.dFiles && d.startDate && d.statusCode !== 'CAN' && ev !== 2) { ?>
 	<p style="box-sizing: border-box; margin-bottom: 1rem; margin-top: 0;">We <?= d.daysStart < 0 ? 'were' : 'are' ?> expecting your <strong style="box-sizing: border-box; font-weight: bolder;">files</strong> <span class="text-info" style="box-sizing: border-box; color: #17a2b8 !important;"><?= bdText(d.startDate && d.startDate.format(dfo), d.daysStart, 0) ?></span>. When they arrive, please place them on <strong style="box-sizing: border-box; font-weight: bolder;"><?= d.server.slice(4) ?></strong> at the file path* <u style="box-sizing: border-box;"><?= d.server[0] ?>:/<?= d.client ?>/<?= d.protocol ?>/z - To Assistant/<strong style="box-sizing: border-box; font-weight: bolder;"><?= d.timestamp && d.timestamp.format("YYYY.MM.DD") ?> -- <?= d.id ?></strong></u> and <a href="<?=url?>?page=View&row=<?= d.row ?>" class="text-success" target="_blank" style="-webkit-text-decoration-skip: objects; background-color: transparent; box-sizing: border-box; color: #28a745 !important; text-decoration: underline;">mark them as ready</a>.</p>
 
 <!-- files not reviewed -->
-<? } else if (!(d.dREV || d.dINP || d.dRet || d.dONH) && (d.statusCode !== 'CAN') && (d.statusCode !== 'CPL')) { ?>
+<? } else if (!(d.dREV || d.dINP || d.dRet || d.dONH) && (d.statusCode !== 'CAN') && (d.statusCode !== 'CPL') && ev !== 2) { ?>
 	<p style="box-sizing: border-box; margin-bottom: 1rem; margin-top: 0;">Please make sure your files are on <strong style="box-sizing: border-box; font-weight: bolder;"><?= d.server.slice(4) ?></strong> at the file path* <u style="box-sizing: border-box;"><?= d.server[0] ?>:/<?= d.client ?>/<?= d.protocol ?>/z - To Assistant/<strong style="box-sizing: border-box; font-weight: bolder;"><?= d.timestamp && d.timestamp.format("YYYY.MM.DD") ?> -- <?= d.id ?></strong></u>.</p>
 <? } ?>
 
@@ -151,7 +171,7 @@
 <!-- estimated return -->
 
 
-<? if (d.expRetDate && d.daysExp >= 0 && (d.statusCode !== 'ONH') && (d.statusCode !== 'UNR') && (d.statusCode !== 'CPL') && (d.statusCode !== 'PND') && (d.statusCode !== 'CAN')) { ?>
+<? if (d.expRetDate && d.daysExp >= 0 && (d.statusCode !== 'ONH') && (d.statusCode !== 'UNR') && (d.statusCode !== 'CPL') && (d.statusCode !== 'PND') && (d.statusCode !== 'CAN') && ev !== 2) { ?>
 	<p style="box-sizing: border-box; margin-bottom: 1rem; margin-top: 0;">We currently <strong style="box-sizing: border-box; font-weight: bolder;">estimate</strong> that we will return screenshots for your review <span class="text-info" style="box-sizing: border-box; color: #17a2b8 !important;"><?= bdText(d.expRetDate && d.expRetDate.format(dfo), d.daysExp, 0) ?></span>.</p>
 <? } ?>
 
@@ -185,7 +205,7 @@
 
 <? if (info.pos) { ?>
   <p class="text-muted" style="box-sizing: border-box; color: #6c757d !important; margin-bottom: 1rem; margin-top: 0;">
-      This is the <strong style="box-sizing: border-box; font-weight: bolder;"><?= ord(info.pos) ?></strong> request in our queue.
+      This is the <strong style="box-sizing: border-box; font-weight: bolder;"><?= ord(info.pos) ?></strong> request in our <a href="<?= url ?>" style="-webkit-text-decoration-skip: objects; background-color: transparent; box-sizing: border-box; color: #007bff; text-decoration: underline;">queue</a>.
 
   <? if (info.posNotStart) { ?>
       It is the <strong style="box-sizing: border-box; font-weight: bolder;"><?= ord(info.posNotStart) ?></strong> request out of those we have not yet started.
