@@ -130,7 +130,8 @@ function processForm(arr, source) {
       return base
     } else {
 
-      if (typeof data[index] == 'object' && typeof obj[header] == 'string') {
+      if (obj[header] && ((obj.row && typeof data[index] == 'object' && typeof obj[header] == 'string') || (header == "Expected Date Files Will Be Available" || header == "Preferred Deadline" || header == "Exp First Rtrn Date"))) {
+        console.log("%s: %s", header, obj[header], typeof obj[header], obj[header].length)
         // console.log("header: %s, orig: %s (type %s), upd: %s (type %s)", header, data[index], typeof data[index], obj[header], typeof obj[header]);
         // (header == "Expected Date Files Will Be Available" || header == "Preferred Deadline" || header == "Exp First Rtrn Date"))
         // console.log("%s was changed but SHOULD be a DATE", header);
@@ -178,18 +179,20 @@ function processForm(arr, source) {
 
   var updRow = headers.map(function(header, index) {
     var val = (typeof uRTransposed[header] !== 'undefined') ? uRTransposed[header] : newRow[index]
-    
-    if (typeof data[index] == 'object' && typeof val == 'object') {
-      if (data[index].toString() !== val.toString()) {
+
+    if (obj.row) {
+      if (typeof data[index] == 'object' && typeof val == 'object') {
+        if (data[index].toString() !== val.toString()) {
+          chgdCols[index] = {old: data[index], upd: val, header: header};  
+        }
+      } else if (typeof data[index] == 'number' && typeof val !== 'number') {
+        if (data[index] !== parseInt(val)) {
+          chgdCols[index] = {old: data[index], upd: val, header: header};  
+        }
+      } else if (data[index] !== val) {
+        console.log("%s: %s (type %s), %s (type %s)", header, data[index], typeof data[index], val, typeof val);
         chgdCols[index] = {old: data[index], upd: val, header: header};  
       }
-    } else if (typeof data[index] == 'number' && typeof val !== 'number') {
-      if (data[index] !== parseInt(val)) {
-        chgdCols[index] = {old: data[index], upd: val, header: header};  
-      }
-    } else if (data[index] !== val) {
-      console.log("%s: %s (type %s), %s (type %s)", header, data[index], typeof data[index], val, typeof val);
-      chgdCols[index] = {old: data[index], upd: val, header: header};  
     }
 
     return val

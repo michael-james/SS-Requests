@@ -779,13 +779,13 @@ function testWFS() {
       if (pre) {
         return "of " + date + " was " + (days * -1) + " business day ago"
       } else {
-        return "on <span class='text-info'" + date + "</span>, which was <span class='text-info'" + (days * -1) + " business day</span> ago"
+        return "on " + date + ", which was " + (days * -1) + " business day ago"
       }
     } else {
       if (pre) {
         return "of " + date + " is " + days + " business days away"
       } else {
-        return "on <span class='text-info'" + date + "</span>, which is <span class='text-info'" + days + " business days</span> away"
+        return "on " + date + ", which is " + days + " business days away"
       }
     }
   }

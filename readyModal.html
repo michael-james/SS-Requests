@@ -169,7 +169,9 @@
             modal.find('.modal-body textarea#nonast').val(d.nonast)
             modal.find('.modal-body textarea#addlnotes').val(d.addlnotes)
             modal.find('.modal-body input#hardDue').val(d.hardDueDateForm)
-            modal.find('.modal-body input#prefDue').val(d.prefDueDateForm)
+            if (<?= d.prefDueDateForm ?>) {
+              modal.find('.modal-body input#prefDue').val(d.prefDueDateForm)
+            }
             modal.find('.modal-body select#hardtime').val(d.hardtime)
             modal.find('.modal-body input#tbbuild').val(d.TBbld || "latest")
             modal.find('.modal-body input#hhbuild').val(d.HHbld || "latest")
