@@ -126,7 +126,24 @@ function processForm(arr, source) {
       base = "";
     }
 
-    return typeof obj[header] !== 'undefined' ? obj[header] : base;
+    if (typeof obj[header] == 'undefined') {
+      return base
+    } else {
+
+      if (typeof data[index] == 'object' && typeof obj[header] == 'string') {
+        // console.log("header: %s, orig: %s (type %s), upd: %s (type %s)", header, data[index], typeof data[index], obj[header], typeof obj[header]);
+        // (header == "Expected Date Files Will Be Available" || header == "Preferred Deadline" || header == "Exp First Rtrn Date"))
+        // console.log("%s was changed but SHOULD be a DATE", header);
+        var badDate = obj[header];
+        var newDate = new Date(badDate.substring(0, 4), badDate.substring(5, 7) - 1, badDate.substring(8, 10));
+        // console.log("%s new date: %s", header, newDate);
+        return newDate
+
+      } else {
+        // console.log("%s was submitted", header);
+        return obj[header]
+      }
+    }
   });
 
   var rowIdx = getColNumByNameData(headers, "row") - 1;
@@ -160,35 +177,24 @@ function processForm(arr, source) {
   var chgdCols = {};
 
   var updRow = headers.map(function(header, index) {
-    // console.log("%s is now '%s' which is %s", header, uRTransposed[header], typeof uRTransposed[header]);
-    var val;
-
-    if (typeof uRTransposed[header] == 'undefined') {
-      val = newRow[index]
-    } else {
-      console.log("header: %s, orig: %s (type %s), new: %s (type %s), upd: %s (type %s)", header, data[index], typeof data[index], newRow[index], typeof newRow[index], uRTransposed[header], typeof uRTransposed[header]);
-      if (typeof data[index] == 'object' && typeof data[index] (header == "Expected Date Files Will Be Available" || header == "Preferred Deadline" || header == "Exp First Rtrn Date")) {
-        console.log("%s was changed but SHOULD be a DATE", header);
-        var newDate = uRTransposed[header];
-        val = new Date(newDate.substring(0, 4), newDate.substring(5, 7) - 1, newDate.substring(8, 10));
-      } else {
-        console.log("%s was changed", header);
-        val = uRTransposed[header]
+    var val = (typeof uRTransposed[header] !== 'undefined') ? uRTransposed[header] : newRow[index]
+    
+    if (typeof data[index] == 'object' && typeof val == 'object') {
+      if (data[index].toString() !== val.toString()) {
+        chgdCols[index] = {old: data[index], upd: val, header: header};  
       }
-    }
-
-    if (data[index] !== val) {
-      chgdCols[index] = {old: data[index], upd: val, header: header};
+    } else if (data[index] !== val) {
+      chgdCols[index] = {old: data[index], upd: val, header: header};  
     }
 
     return val
   });
 
-  console.log(data);
-  console.log(newRow);
-  console.log(updRow);
-  console.log(chgdCols);
-  console.log(Object.keys(chgdCols).length);
+  // console.log(data);
+  // console.log(newRow);
+  // console.log(updRow);
+  // console.log(chgdCols);
+  // console.log(Object.keys(chgdCols).length);
 
   var row = updRow[getColNumByName(sh, "row") - 1];
   var d = getRequestData([headers, updRow]);
