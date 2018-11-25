@@ -131,7 +131,9 @@ function processForm(arr, source) {
 
   var rowIdx = getColNumByNameData(headers, "row") - 1;
   if (!newRow[rowIdx]) { 
-    newRow[rowIdx] = SpreadsheetApp.openById(ssID).getSheetByName('Queue').getLastRow() + 1;
+    newRow[rowIdx] = parseInt(SpreadsheetApp.openById(ssID).getSheetByName('Queue').getLastRow()) + 1;
+  } else {
+    newRow[rowIdx] = parseInt(newRow[rowIdx]);
   }
   
   var uR = updateReq(newRow[getColNumByNameData(headers, "row") - 1],
@@ -155,9 +157,38 @@ function processForm(arr, source) {
                       'Hard Deadline': uR.hardDueDate && uR.hardDueDate.toDate()};
   // console.log(uRTransposed);
 
+  var chgdCols = {};
+
   var updRow = headers.map(function(header, index) {
-    return typeof uRTransposed[header] !== 'undefined' ? uRTransposed[header] : newRow[index]
-  })
+    // console.log("%s is now '%s' which is %s", header, uRTransposed[header], typeof uRTransposed[header]);
+    var val;
+
+    if (typeof uRTransposed[header] == 'undefined') {
+      val = newRow[index]
+    } else {
+      console.log("header: %s, orig: %s (type %s), new: %s (type %s), upd: %s (type %s)", header, data[index], typeof data[index], newRow[index], typeof newRow[index], uRTransposed[header], typeof uRTransposed[header]);
+      if (typeof data[index] == 'object' && typeof data[index] (header == "Expected Date Files Will Be Available" || header == "Preferred Deadline" || header == "Exp First Rtrn Date")) {
+        console.log("%s was changed but SHOULD be a DATE", header);
+        var newDate = uRTransposed[header];
+        val = new Date(newDate.substring(0, 4), newDate.substring(5, 7) - 1, newDate.substring(8, 10));
+      } else {
+        console.log("%s was changed", header);
+        val = uRTransposed[header]
+      }
+    }
+
+    if (data[index] !== val) {
+      chgdCols[index] = {old: data[index], upd: val, header: header};
+    }
+
+    return val
+  });
+
+  console.log(data);
+  console.log(newRow);
+  console.log(updRow);
+  console.log(chgdCols);
+  console.log(Object.keys(chgdCols).length);
 
   var row = updRow[getColNumByName(sh, "row") - 1];
   var d = getRequestData([headers, updRow]);
@@ -166,24 +197,33 @@ function processForm(arr, source) {
     console.log('...updating existing row %s', obj.row);
     sh.getRange(obj.row, 1, 1, newRow.length).setValues([updRow])
 
+    // status changed
     console.log("source is #%s %s", source, sources[source]);
     if (typeof obj['Status'] !== 'undefined') {
       console.log("...status is different...going to chgStatus")
       chgStatus(obj.row, obj['Status'], d);
+    
+    // assistant wanted to send an update
     } else if (source == 1 || source == 3) {
       console.log("...status is different...sending asst update")
       sendEmail(d, 1);
+    
+    // request was edited with form
     } else if (source == 0) {
       console.log("...source is edit...checking if something changed")
-      if (data !== updRow) {
-        console.log("...something changed...figuring out what")
-        var chgdCols = {};
-        for (var h in headers) {
-          if (data[h] !== updRow[h]) {
-            chgdCols[parseInt(h)] = {old: data[h], new: updRow[h], same: data[h] == updRow[h]};
-          }
-        }
-        console.log("...here's what changed...sending email")
+
+      // something was changed during the edit
+      if (Object.keys(chgdCols).length) {
+        console.log("...something changed...")
+        // var chgdCols = {};
+        // for (var h = 0; h < headers.length; h++) {
+        //   console.log("header idx %s, header %s, old %s, new %s, same? %s", h, headers[h], data[h], updRow[h], data[h] == updRow[h])
+        //   if (data[h] !== updRow[h]) {
+        //     console.log("updated %s property: %s (type %s)", headers[h], updRow[h], typeof updRow[h]);
+        //     chgdCols[parseInt(h)] = {old: data[h]};
+        //   //   chgdCols[parseInt(h)] = {old: data[h], new: updRow[h], same: data[h] == updRow[h]};
+        //   }
+        // }
         console.log(chgdCols);
         sendEmail(d, 2, chgdCols);
       }

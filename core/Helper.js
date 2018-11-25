@@ -260,7 +260,10 @@ function updateReq(row, id, oldStatus, client, protocol, batch, reqCode, startDa
   // determine request ID (id)
   //////////////////////////////////////////////////////////
 
-  obj.id = setReqID(row, client, protocol, batch, reqCode);
+  var updatedId = setReqID(row, client, protocol, batch, reqCode);
+  if (id !== updatedId) {
+    obj.id = updatedId;
+  }
 
   //////////////////////////////////////////////////////////
   // determine whether request is ready to start (status)
@@ -291,32 +294,35 @@ function updateReq(row, id, oldStatus, client, protocol, batch, reqCode, startDa
 
   if (hardDueDate) {
     if (hardDueDate.constructor.name !== 'Moment') {
-      hardDueDate = moment(hardDueDate);
+      hardDueDateUpd = moment(hardDueDate);
     }
     if (office == "Geneva") {
       switch (hardtime) {
         case "Open of Business":
-          hardDueDate.hour(3);
+          hardDueDateUpd.hour(3);
           break;
         case "Early afternoon":
-          hardDueDate.hour(7);
+          hardDueDateUpd.hour(7);
           break;
         default:
-          hardDueDate.hour(11);
+          hardDueDateUpd.hour(11);
       }
     } else {
       switch (hardtime) {
         case "Open of Business":
-          hardDueDate.hour(9);
+          hardDueDateUpd.hour(9);
           break;
         case "Early afternoon":
-          hardDueDate.hour(1);
+          hardDueDateUpd.hour(1);
           break;
         default:
-          hardDueDate.hour(17);
+          hardDueDateUpd.hour(17);
       }
     }
-    obj.hardDueDate = hardDueDate;
+
+    if (hardDueDate !== hardDueDateUpd) {
+      obj.hardDueDate = hardDueDateUpd;
+    }
   }
   
   // logging only

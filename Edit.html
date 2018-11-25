@@ -359,7 +359,6 @@
       $( document ).ready(function() {
           console.log( "ready!" );
           var dFilesFormTime, timestampForm, status;
-          <? console.log(!(parseInt(data.role) === 0)); ?>
           var priveleges = parseInt(<?= (!(parseInt(data.role) === 0) && (data.asst || data.lead || data.admin)) ? 1 : 0 ?>);
 
         <? if (data.action !== 'submit') { ?>
@@ -757,7 +756,7 @@
             var val = $textarea.val();
             if (val.length) {
               var count = $textarea.val().split(",").length;
-              console.log(count);
+              // console.log(count);
               if (count) {
                 $textarea.prev('span').show().find('#count').text(count);  
               }
