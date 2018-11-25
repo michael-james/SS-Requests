@@ -7,11 +7,12 @@ function getByName(colName, row, data) {
 }
 
 function getColNumByName(sh, colName) {
-  var data = sh.getRange(headerRows, 1, 1, sh.getLastColumn()).getValues();
-  getColNumByNameData(data, colName)
+  var headers = sh.getRange(headerRows, 1, 1, sh.getLastColumn()).getValues()[0];
+  return getColNumByNameData(headers, colName)
 }
 
 function getColNumByNameData(data, colName) {
+  console.log(data);
   if (typeof colName == "string") {
     return col = data.indexOf(colName) + 1;
   } else if (typeof colName == "object") {
@@ -50,7 +51,7 @@ function getRequestData(data, i) {
   var t0 = new Date();
   var ss = SpreadsheetApp.openById(ssID);
   var sh = ss.getSheetByName("Queue");
-  var row = data[i - rowOffset][getColNumByNameData(data[0], "row") - 1];
+  var row = data[i][getColNumByNameData(data[0], "row") - 1];
 
   d = {
     ss:    ss,
