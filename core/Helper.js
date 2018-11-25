@@ -39,7 +39,7 @@ function getRequest(row) {
   var headers = sh.getRange(headerRows, 1, 1, sh.getLastColumn()).getValues()[0];
   var rowData = sh.getRange(row, 1, 1, sh.getLastColumn()).getValues()[0];
   var data = [headers, rowData];
-  return getRequestData(data, row);
+  return getRequestData(data);
 }
 
 function testGetRequest() {
