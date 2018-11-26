@@ -134,7 +134,7 @@
   <? if (d.gennotes) { ?>
     <p style="white-space: pre-wrap;" class="ml-4"><i><?= d.gennotes ?><i></p>
   <? } ?>
-  <p>Please provide this information by <a href="<?=url?>?page=Edit&row=<?= d.row ?>" style="text-decoration: underline;">editing</a> your request.</p>
+  <p>Please provide this information by <a href="<?= constURL ?>?page=Edit&row=<?= d.row ?>" style="text-decoration: underline;">editing</a> your request.</p>
 <? } ?>
 
 
@@ -143,9 +143,9 @@
 <? if (d.statusCode == 'UNR') { ?>
     <p>There are <strong><span class="text-danger">unresolved issues</span></strong> that are keeping us from delivering your request. Please review the information below, take appropriate action, then select one of the following options.</p>
     <div class="btn-group btn-group-sm mb-3" role="group">
-      <a class="btn btn-inprogress" href="<?=url?>?page=View&row=<?= d.row ?>&status=INP">Ready to Continue</a>
-      <a class="btn btn-warning" href="<?=url?>?page=View&row=<?= d.row ?>&status=ONH">Place On-hold</a>
-      <a class="btn btn-completed" href="<?=url?>?page=View&row=<?= d.row ?>&status=CPL">Completed</a>
+      <a class="btn btn-inprogress" href="<?= constURL ?>?page=View&row=<?= d.row ?>&status=INP">Ready to Continue</a>
+      <a class="btn btn-warning" href="<?= constURL ?>?page=View&row=<?= d.row ?>&status=ONH">Place On-hold</a>
+      <a class="btn btn-completed" href="<?= constURL ?>?page=View&row=<?= d.row ?>&status=CPL">Completed</a>
     </div>
 <? } ?>
 
@@ -159,9 +159,9 @@
         <p>Your request is ready for delivery <strong><span class='text-success'>pending confirmation</span></strong>. Please review the notes below and the associated files then one of the following options.</p>
     <? } ?>
     <div class="btn-group btn-group-sm mb-3" role="group">
-      <a class="btn btn-inprogress" href="<?=url?>?page=View&row=<?= d.row ?>&status=INP">Needs Corrections</a>
-      <a class="btn btn-warning" href="<?=url?>?page=View&row=<?= d.row ?>&status=ONH">Place On-hold</a>
-      <a class="btn btn-completed" href="<?=url?>?page=View&row=<?= d.row ?>&status=CPL">Completed</a>
+      <a class="btn btn-inprogress" href="<?= constURL ?>?page=View&row=<?= d.row ?>&status=INP">Needs Corrections</a>
+      <a class="btn btn-warning" href="<?= constURL ?>?page=View&row=<?= d.row ?>&status=ONH">Place On-hold</a>
+      <a class="btn btn-completed" href="<?= constURL ?>?page=View&row=<?= d.row ?>&status=CPL">Completed</a>
     </div>
 <? } ?>
 
@@ -186,9 +186,9 @@
             <? } ?></p>
     <? } ?>
     <div class="btn-group btn-group-sm mb-3" role="group">
-      <a class="btn btn-warning" href="<?=url?>?page=View&row=<?= d.row ?>&status=ONH">Add a Note/Defect</a>
-      <a class="btn btn-inprogress" href="<?=url?>?page=View&row=<?= d.row ?>&status=INP">Ready to Continue</a>
-      <a class="btn btn-completed" href="<?=url?>?page=View&row=<?= d.row ?>&status=CPL">Completed</a>
+      <a class="btn btn-warning" href="<?= constURL ?>?page=View&row=<?= d.row ?>&status=ONH">Add a Note/Defect</a>
+      <a class="btn btn-inprogress" href="<?= constURL ?>?page=View&row=<?= d.row ?>&status=INP">Ready to Continue</a>
+      <a class="btn btn-completed" href="<?= constURL ?>?page=View&row=<?= d.row ?>&status=CPL">Completed</a>
     </div>
 <? } ?>
 
@@ -198,7 +198,7 @@
 <? if (d.statusCode == 'CPL') { ?>
   <p>This request is now <strong>complete</strong>. Thank you for working with us!</p>
   
-  <a class="btn btn-inprogress" href="<?=url?>?page=View&row=<?= d.row ?>&status=INP">Re-open</a>
+  <a class="btn btn-inprogress" href="<?= constURL ?>?page=View&row=<?= d.row ?>&status=INP">Re-open</a>
 <? } ?>
 
 
@@ -219,7 +219,7 @@
 
 <!-- files not received -->
 <? if ((d.statusCode == 'WFS' || !d.dFiles) && d.startDate && d.statusCode !== 'CAN' && ev !== 2) { ?>
-	<p>We <?= d.daysStart < 0 ? 'were' : 'are' ?> expecting your <strong>files</strong> <span class="text-info"><?= bdText(d.startDate && d.startDate.format(dfo), d.daysStart, 0) ?></span>. When they arrive, please place them on <strong><?= d.server.slice(4) ?></strong> at the file path* <u><?= d.server[0] ?>:/<?= d.client ?>/<?= d.protocol ?>/z - To Assistant/<strong><?= d.timestamp && d.timestamp.format("YYYY.MM.DD") ?> -- <?= d.id ?></strong></u> and <a href="<?=url?>?page=View&row=<?= d.row ?>" class='text-success' target="_blank" style="text-decoration: underline;">mark them as ready</a>.</p>
+	<p>We <?= d.daysStart < 0 ? 'were' : 'are' ?> expecting your <strong>files</strong> <span class="text-info"><?= bdText(d.startDate && d.startDate.format(dfo), d.daysStart, 0) ?></span>. When they arrive, please place them on <strong><?= d.server.slice(4) ?></strong> at the file path* <u><?= d.server[0] ?>:/<?= d.client ?>/<?= d.protocol ?>/z - To Assistant/<strong><?= d.timestamp && d.timestamp.format("YYYY.MM.DD") ?> -- <?= d.id ?></strong></u> and <a href="<?= constURL ?>?page=View&row=<?= d.row ?>" class='text-success' target="_blank" style="text-decoration: underline;">mark them as ready</a>.</p>
 
 <!-- files not reviewed -->
 <? } else if (!(d.dREV || d.dINP || d.dRet || d.dONH) && (d.statusCode !== 'CAN') && (d.statusCode !== 'CPL') && ev !== 2) { ?>
@@ -266,9 +266,9 @@
 
 <!-- Actions -->
 <div class="btn-group pb-3 mt-5" role="group">
-  <a class="btn btn-sm btn-outline-secondary" href="<?=url?>?page=View&row=<?= d.row ?>">View</a>
-  <a class="btn btn-sm btn-outline-secondary" href="<?=url?>?page=Edit&row=<?= d.row ?>">Edit</a>
-  <a class="btn btn-sm btn-outline-secondary" href="<?=url?>?page=View&row=<?= d.row ?>&status=CAN">Cancel</a>
+  <a class="btn btn-sm btn-outline-secondary" href="<?= constURL ?>?page=View&row=<?= d.row ?>">View</a>
+  <a class="btn btn-sm btn-outline-secondary" href="<?= constURL ?>?page=Edit&row=<?= d.row ?>">Edit</a>
+  <a class="btn btn-sm btn-outline-secondary" href="<?= constURL ?>?page=View&row=<?= d.row ?>&status=CAN">Cancel</a>
 </div>
 
 <!-- Status Info -->
@@ -285,7 +285,7 @@
 
 <? if (info.pos) { ?>
   <p class="text-muted">
-      This is the <strong><?= ord(info.pos) ?></strong> request in our <a href="<?= url ?>" style="text-decoration: underline;">queue</a>.
+      This is the <strong><?= ord(info.pos) ?></strong> request in our <a href="<?= constURL ?>" style="text-decoration: underline;">queue</a>.
 
   <? if (info.posNotStart) { ?>
       It is the <strong><?= ord(info.posNotStart) ?></strong> request out of those we have not yet started.

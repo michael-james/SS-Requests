@@ -1,16 +1,5 @@
 {
   "timeZone": "America/New_York",
-  "oauthScopes": [
-    "https://www.googleapis.com/auth/calendar",
-    "https://www.googleapis.com/auth/documents",
-    "https://www.googleapis.com/auth/drive",
-    "https://www.googleapis.com/auth/script.external_request",
-    "https://www.googleapis.com/auth/script.scriptapp",
-    "https://www.googleapis.com/auth/script.send_mail",
-    "https://www.googleapis.com/auth/spreadsheets",
-    "https://www.googleapis.com/auth/tasks",
-    "https://www.googleapis.com/auth/cloud-platform"
-  ],
   "dependencies": {
     "enabledAdvancedServices": [{
       "userSymbol": "Drive",
@@ -31,6 +20,10 @@
     "executeAs": "USER_DEPLOYING"
   },
   "exceptionLogging": "STACKDRIVER",
+  "oauthScopes": ["https://www.googleapis.com/auth/calendar", "https://www.googleapis.com/auth/documents", "https://www.googleapis.com/auth/drive", "https://www.googleapis.com/auth/script.external_request", "https://www.googleapis.com/auth/script.scriptapp", "https://www.googleapis.com/auth/script.send_mail", "https://www.googleapis.com/auth/spreadsheets", "https://www.googleapis.com/auth/tasks", "https://www.googleapis.com/auth/cloud-platform"],
+  "executionApi": {
+    "access": "MYSELF"
+  },
   "sheets": {
   }
 }

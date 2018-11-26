@@ -147,6 +147,8 @@ function getPageDisplayName(page, view, action) {
 
 var url = ScriptApp.getService().getUrl();
 
+var constURL = "https://script.google.com/a/macros/ert.com/s/AKfycbxhBM6eBwsmO66MT0On_K9MPtupzF_YzWxJGRL4CSqKFNsIEn4/exec";
+
 function chgStatus(row, newStatus, oldStatus, d) {
   try {
     var t0 = new Date();
