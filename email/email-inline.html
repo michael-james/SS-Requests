@@ -80,7 +80,7 @@
 <!-- UN-RESOLVED ISSUES message -->
 
 <? if (d.statusCode == 'UNR') { ?>
-    <p style="box-sizing: border-box; margin-bottom: 1rem; margin-top: 0;">There are <strong style="box-sizing: border-box; font-weight: bolder;"><span class="text-danger" style="box-sizing: border-box; color: #dc3545 !important;">unresolved issues</span></strong> that are keeping us from delivering your request. Please review the information below and take appropriate action.</p>
+    <p style="box-sizing: border-box; margin-bottom: 1rem; margin-top: 0;">There are <strong style="box-sizing: border-box; font-weight: bolder;"><span class="text-danger" style="box-sizing: border-box; color: #dc3545 !important;">unresolved issues</span></strong> that are keeping us from delivering your request. Please review the information below, take appropriate action, then select one of the following options.</p>
     <div class="btn-group btn-group-sm mb-3" role="group" style="box-sizing: border-box; display: inline-flex; margin-bottom: 1rem !important; position: relative; vertical-align: middle;">
       <a class="btn btn-inprogress" href="<?=url?>?page=View&row=<?= d.row ?>&status=INP" style="-moz-user-select: none; -ms-flex: 0 1 auto; -ms-user-select: none; -webkit-text-decoration-skip: objects; -webkit-user-select: none; background-color: rgb(252, 229, 205); border: 1px solid transparent; border-bottom-right-radius: 0 !important; border-radius: .2rem; border-top-right-radius: 0 !important; box-sizing: border-box; color: #212529; cursor: pointer; display: inline-block; flex: 0 1 auto; font-size: .875rem; font-weight: 400; line-height: 1.5; margin-left: 0; padding: .25rem .5rem; position: relative; text-align: center; text-decoration: none; transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out; user-select: none; vertical-align: middle; white-space: nowrap;">Ready to Continue</a>
       <a class="btn btn-warning" href="<?=url?>?page=View&row=<?= d.row ?>&status=ONH" style="-moz-user-select: none; -ms-flex: 0 1 auto; -ms-user-select: none; -webkit-text-decoration-skip: objects; -webkit-user-select: none; background-color: #ffc107; border: 1px solid transparent; border-bottom-left-radius: 0 !important; border-bottom-right-radius: 0 !important; border-color: #ffc107; border-radius: .2rem; border-top-left-radius: 0 !important; border-top-right-radius: 0 !important; box-sizing: border-box; color: #212529; cursor: pointer; display: inline-block; flex: 0 1 auto; font-size: .875rem; font-weight: 400; line-height: 1.5; margin-left: -1px; padding: .25rem .5rem; position: relative; text-align: center; text-decoration: none; transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out; user-select: none; vertical-align: middle; white-space: nowrap;">Place On-hold</a>
@@ -93,7 +93,7 @@
 
 <? if (d.statusCode == 'PND') {
     if (d.fileloc) { ?>
-        <p style="box-sizing: border-box; margin-bottom: 1rem; margin-top: 0;">Your request is ready for delivery <strong style="box-sizing: border-box; font-weight: bolder;"><span class="text-success" style="box-sizing: border-box; color: #28a745 !important;">pending confirmation</span></strong>. Please review the notes below and the associated files at <u style="box-sizing: border-box;"><?= d.fileloc ?></u> then one of the following options.</p>
+        <p style="box-sizing: border-box; margin-bottom: 1rem; margin-top: 0;">Your request is ready for delivery <strong style="box-sizing: border-box; font-weight: bolder;"><span class="text-success" style="box-sizing: border-box; color: #28a745 !important;">pending confirmation</span></strong>. Please review the notes below and the associated files at <u style="box-sizing: border-box;"><?= d.fileloc ?></u> then select one of the following options.</p>
     <? } else { ?>
         <p style="box-sizing: border-box; margin-bottom: 1rem; margin-top: 0;">Your request is ready for delivery <strong style="box-sizing: border-box; font-weight: bolder;"><span class="text-success" style="box-sizing: border-box; color: #28a745 !important;">pending confirmation</span></strong>. Please review the notes below and the associated files then one of the following options.</p>
     <? } ?>
@@ -135,7 +135,7 @@
 <!-- COMPLETED message -->
 
 <? if (d.statusCode == 'CPL') { ?>
-  <p style="box-sizing: border-box; margin-bottom: 1rem; margin-top: 0;">This request is now <strong style="box-sizing: border-box; font-weight: bolder;">completed</strong>. Thank you for working with us!</p>
+  <p style="box-sizing: border-box; margin-bottom: 1rem; margin-top: 0;">This request is now <strong style="box-sizing: border-box; font-weight: bolder;">complete</strong>. Thank you for working with us!</p>
   
   <a class="btn btn-inprogress" href="<?=url?>?page=View&row=<?= d.row ?>&status=INP" style="-moz-user-select: none; -ms-user-select: none; -webkit-text-decoration-skip: objects; -webkit-user-select: none; background-color: rgb(252, 229, 205); border: 1px solid transparent; border-radius: .25rem; box-sizing: border-box; color: #212529; cursor: pointer; display: inline-block; font-size: 1rem; font-weight: 400; line-height: 1.5; padding: .375rem .75rem; text-align: center; text-decoration: none; transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out; user-select: none; vertical-align: middle; white-space: nowrap;">Re-open</a>
 <? } ?>
@@ -173,11 +173,20 @@
 	<p style="box-sizing: border-box; margin-bottom: 1rem; margin-top: 0;">We currently <strong style="box-sizing: border-box; font-weight: bolder;">estimate</strong> that we will return screenshots for your review <span class="text-info" style="box-sizing: border-box; color: #17a2b8 !important;"><?= bdText(d.expRetDate && d.expRetDate.format(dfo), d.daysExp, 0) ?></span>.</p>
 <? } ?>
 
+<!-- END OF DYNAMIC MESSAGE -->
+
+<? if (disHiBye) { ?>
+<p class="mt-3" style="box-sizing: border-box; margin-bottom: 1rem; margin-top: 1rem !important;">
+    Thank you,<br style="box-sizing: border-box;">
+    The Assistants&trade;
+</p>
+<? } ?>
+
 
 <!-- REQUEST EDITED -->
 
 <? if (chg && Object.keys(chg).length) { ?>
-  <p class="mt-3" style="box-sizing: border-box; margin-bottom: 1rem; margin-top: 1rem !important;"><?= u.fname ?> edited this request.</p>
+  <p class="mt-5" style="box-sizing: border-box; margin-bottom: 1rem; margin-top: 3rem !important;"><?= u.fname ?> edited this request.</p>
   <p style="box-sizing: border-box; margin-bottom: 1rem; margin-top: 0;">The following information was changed:</p>
   <ul style="box-sizing: border-box; margin-bottom: 1rem; margin-top: 0;"><?
 
@@ -189,23 +198,13 @@
         chg[c].upd = moment(chg[c].upd).format(df);
       }
 
-      ?><?= chg[c].header ?> <i style="box-sizing: border-box;">(from <?= chg[c].old ? '\"' + (chg[c].old.length > 30 ? chg[c].old.substring(0, 30) + '...' : chg[c].old) + '\"' : '\"\"' ?> to <?= !chg[c].upd ? '\"\"' : '\"' + (chg[c].upd.length > 30 ? chg[c].upd.substring(0, 30) + "..." : chg[c].upd) + '\"' ?>)</i></li><?
+      ?><?= chg[c].header ?> <i style="box-sizing: border-box;">(<?= chg[c].old ? 'from \"' + (chg[c].old.length > 30 ? chg[c].old.substring(0, 30) + '...' : chg[c].old) + '\"' : '' ?> to <?= !chg[c].upd ? '\"\"' : '\"' + (chg[c].upd.length > 30 ? chg[c].upd.substring(0, 30) + "..." : chg[c].upd) + '\"' ?>)</i></li><?
     } ?></ul>
 <? } ?>
 
 
-<!-- END OF DYNAMIC MESSAGE -->
-
-<? if (disHiBye) { ?>
-<p class="mt-3" style="box-sizing: border-box; margin-bottom: 1rem; margin-top: 1rem !important;">
-    Thank you,<br style="box-sizing: border-box;">
-    The Assistants&trade;
-</p>
-<? } ?>
-
-
 <!-- Actions -->
-<div class="btn-group pb-3 mt-5" role="group" style="box-sizing: border-box; display: inline-flex; margin-top: 3rem !important; padding-bottom: 1rem !important; position: relative; vertical-align: middle;">
+<div class="btn-group pb-3 mt-3" role="group" style="box-sizing: border-box; display: inline-flex; margin-top: 1rem !important; padding-bottom: 1rem !important; position: relative; vertical-align: middle;">
   <a class="btn btn-sm btn-outline-secondary" href="<?=url?>?page=View&row=<?= d.row ?>" style="-moz-user-select: none; -ms-flex: 0 1 auto; -ms-user-select: none; -webkit-text-decoration-skip: objects; -webkit-user-select: none; background-color: transparent; background-image: none; border: 1px solid transparent; border-bottom-right-radius: 0 !important; border-color: #6c757d; border-radius: .2rem; border-top-right-radius: 0 !important; box-sizing: border-box; color: #6c757d; cursor: pointer; display: inline-block; flex: 0 1 auto; font-size: .875rem; font-weight: 400; line-height: 1.5; margin-left: 0; padding: .25rem .5rem; position: relative; text-align: center; text-decoration: none; transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out; user-select: none; vertical-align: middle; white-space: nowrap;">View</a>
   <a class="btn btn-sm btn-outline-secondary" href="<?=url?>?page=Edit&row=<?= d.row ?>" style="-moz-user-select: none; -ms-flex: 0 1 auto; -ms-user-select: none; -webkit-text-decoration-skip: objects; -webkit-user-select: none; background-color: transparent; background-image: none; border: 1px solid transparent; border-bottom-left-radius: 0 !important; border-bottom-right-radius: 0 !important; border-color: #6c757d; border-radius: .2rem; border-top-left-radius: 0 !important; border-top-right-radius: 0 !important; box-sizing: border-box; color: #6c757d; cursor: pointer; display: inline-block; flex: 0 1 auto; font-size: .875rem; font-weight: 400; line-height: 1.5; margin-left: -1px; padding: .25rem .5rem; position: relative; text-align: center; text-decoration: none; transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out; user-select: none; vertical-align: middle; white-space: nowrap;">Edit</a>
   <a class="btn btn-sm btn-outline-secondary" href="<?=url?>?page=View&row=<?= d.row ?>&status=CAN" style="-moz-user-select: none; -ms-flex: 0 1 auto; -ms-user-select: none; -webkit-text-decoration-skip: objects; -webkit-user-select: none; background-color: transparent; background-image: none; border: 1px solid transparent; border-bottom-left-radius: 0 !important; border-color: #6c757d; border-radius: .2rem; border-top-left-radius: 0 !important; box-sizing: border-box; color: #6c757d; cursor: pointer; display: inline-block; flex: 0 1 auto; font-size: .875rem; font-weight: 400; line-height: 1.5; margin-left: -1px; padding: .25rem .5rem; position: relative; text-align: center; text-decoration: none; transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out; user-select: none; vertical-align: middle; white-space: nowrap;">Cancel</a>

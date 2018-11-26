@@ -220,14 +220,13 @@ function processForm(arr, source) {
       chgStatus(obj.row, obj['Status'], data[statusIdx], d);
     }
 
-
-    // var expRetDateIdx = getColNumByNameData(headers, "Exp First Rtrn Date") - 1;
     // console.log(expRetDateIdx);
     // console.log(Object.keys(chgdCols));
     // console.log(Object.keys(chgdCols).indexOf(expRetDateIdx + ""));
     // console.log(Object.keys(chgdCols).indexOf(expRetDateIdx + "") > -1);
 
     // assistant wanted to send an update
+    var expRetDateIdx = getColNumByNameData(headers, "Exp First Rtrn Date") - 1;
     if (source == 1 || (source == 3 && (Object.keys(chgdCols).indexOf(expRetDateIdx + "") > -1))) {
       console.log("...source is Review or Perform...sending asst update")
       sendEmail(d, 1, chgdCols);

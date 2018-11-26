@@ -128,7 +128,7 @@
 <!-- UN-RESOLVED ISSUES message -->
 
 <? if (d.statusCode == 'UNR') { ?>
-    <p>There are <strong><span class="text-danger">unresolved issues</span></strong> that are keeping us from delivering your request. Please review the information below and take appropriate action.</p>
+    <p>There are <strong><span class="text-danger">unresolved issues</span></strong> that are keeping us from delivering your request. Please review the information below, take appropriate action, then select one of the following options.</p>
     <div class="btn-group btn-group-sm mb-3" role="group">
       <a class="btn btn-inprogress" href="<?=url?>?page=View&row=<?= d.row ?>&status=INP">Ready to Continue</a>
       <a class="btn btn-warning" href="<?=url?>?page=View&row=<?= d.row ?>&status=ONH">Place On-hold</a>
@@ -141,7 +141,7 @@
 
 <? if (d.statusCode == 'PND') {
     if (d.fileloc) { ?>
-        <p>Your request is ready for delivery <strong><span class='text-success'>pending confirmation</span></strong>. Please review the notes below and the associated files at <u><?= d.fileloc ?></u> then one of the following options.</p>
+        <p>Your request is ready for delivery <strong><span class='text-success'>pending confirmation</span></strong>. Please review the notes below and the associated files at <u><?= d.fileloc ?></u> then select one of the following options.</p>
     <? } else { ?>
         <p>Your request is ready for delivery <strong><span class='text-success'>pending confirmation</span></strong>. Please review the notes below and the associated files then one of the following options.</p>
     <? } ?>
@@ -183,7 +183,7 @@
 <!-- COMPLETED message -->
 
 <? if (d.statusCode == 'CPL') { ?>
-  <p>This request is now <strong>completed</strong>. Thank you for working with us!</p>
+  <p>This request is now <strong>complete</strong>. Thank you for working with us!</p>
   
   <a class="btn btn-inprogress" href="<?=url?>?page=View&row=<?= d.row ?>&status=INP">Re-open</a>
 <? } ?>
@@ -221,11 +221,20 @@
 	<p>We currently <strong>estimate</strong> that we will return screenshots for your review <span class="text-info"><?= bdText(d.expRetDate && d.expRetDate.format(dfo), d.daysExp, 0) ?></span>.</p>
 <? } ?>
 
+<!-- END OF DYNAMIC MESSAGE -->
+
+<? if (disHiBye) { ?>
+<p class="mt-3">
+    Thank you,<br>
+    The Assistants&trade;
+</p>
+<? } ?>
+
 
 <!-- REQUEST EDITED -->
 
 <? if (chg && Object.keys(chg).length) { ?>
-  <p class="mt-3"><?= u.fname ?> edited this request.</p>
+  <p class="mt-5"><?= u.fname ?> edited this request.</p>
   <p>The following information was changed:</p>
   <ul><?
 
@@ -237,23 +246,13 @@
         chg[c].upd = moment(chg[c].upd).format(df);
       }
 
-      ?><?= chg[c].header ?> <i>(from <?= chg[c].old ? '\"' + (chg[c].old.length > 30 ? chg[c].old.substring(0, 30) + '...' : chg[c].old) + '\"' : '\"\"' ?> to <?= !chg[c].upd ? '\"\"' : '\"' + (chg[c].upd.length > 30 ? chg[c].upd.substring(0, 30) + "..." : chg[c].upd) + '\"' ?>)</i></li><?
+      ?><?= chg[c].header ?> <i>(<?= chg[c].old ? 'from \"' + (chg[c].old.length > 30 ? chg[c].old.substring(0, 30) + '...' : chg[c].old) + '\"' : '' ?> to <?= !chg[c].upd ? '\"\"' : '\"' + (chg[c].upd.length > 30 ? chg[c].upd.substring(0, 30) + "..." : chg[c].upd) + '\"' ?>)</i></li><?
     } ?></ul>
 <? } ?>
 
 
-<!-- END OF DYNAMIC MESSAGE -->
-
-<? if (disHiBye) { ?>
-<p class="mt-3">
-    Thank you,<br>
-    The Assistants&trade;
-</p>
-<? } ?>
-
-
 <!-- Actions -->
-<div class="btn-group pb-3 mt-5" role="group">
+<div class="btn-group pb-3 mt-3" role="group">
   <a class="btn btn-sm btn-outline-secondary" href="<?=url?>?page=View&row=<?= d.row ?>">View</a>
   <a class="btn btn-sm btn-outline-secondary" href="<?=url?>?page=Edit&row=<?= d.row ?>">Edit</a>
   <a class="btn btn-sm btn-outline-secondary" href="<?=url?>?page=View&row=<?= d.row ?>&status=CAN">Cancel</a>

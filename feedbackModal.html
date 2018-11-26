@@ -97,7 +97,7 @@
           
           $('#feedbackModal').on('show.bs.modal', function (event) {
             console.log("feedback modal shown");
-            var info = <?= "<strong>ID:</strong> " + data.id + "\n" +
+            var info = <?= "<strong>ID:</strong> <span class='text-info'>" + data.id + "</span>\n" +
                      "<strong>Batch:</strong> " + (data.batch || "") + "\n" +
                      "<strong>Assessments:</strong> " + (data.cpyast || "") + " " + (data.nonast || "") + "\n" + 
                      "<strong>Languages v0.01:</strong> " + (data.langsV001 || "") + "\n" +
