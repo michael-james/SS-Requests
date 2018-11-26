@@ -66,6 +66,19 @@
 <? } ?>
 
 
+<!-- WAITING REMINDER -->
+
+<? if (ev == 3) {
+  if (d.statusCode == 'PND') { ?>
+    <p style="box-sizing: border-box; margin-bottom: 1rem; margin-top: 0;">Are you satisfied with the screenshots we returned to you? If so, please select complete and close out this request. Otherwise, let us know how we can help!</p>
+  <? } else if (d.statusCode == 'ONH') { ?>
+    <p style="box-sizing: border-box; margin-bottom: 1rem; margin-top: 0;">We are waiting to complete your request because there are outstanding issues. If there's anything you can do to resolve these blockers, it will help us move forward.</p>
+  <? } else if (d.statusCode !== 'WFS') { ?>
+    <p style="box-sizing: border-box; margin-bottom: 1rem; margin-top: 0;">We are waiting to hear from you before we can move forward with your request.</p>
+  <? }
+} ?>
+
+
 <!-- NEEDS INFORMATION message -->
 
 <? if (d.statusCode == 'NIF') { ?>
@@ -204,7 +217,7 @@
 
 
 <!-- Actions -->
-<div class="btn-group pb-3 mt-3" role="group" style="box-sizing: border-box; display: inline-flex; margin-top: 1rem !important; padding-bottom: 1rem !important; position: relative; vertical-align: middle;">
+<div class="btn-group pb-3 mt-5" role="group" style="box-sizing: border-box; display: inline-flex; margin-top: 3rem !important; padding-bottom: 1rem !important; position: relative; vertical-align: middle;">
   <a class="btn btn-sm btn-outline-secondary" href="<?=url?>?page=View&row=<?= d.row ?>" style="-moz-user-select: none; -ms-flex: 0 1 auto; -ms-user-select: none; -webkit-text-decoration-skip: objects; -webkit-user-select: none; background-color: transparent; background-image: none; border: 1px solid transparent; border-bottom-right-radius: 0 !important; border-color: #6c757d; border-radius: .2rem; border-top-right-radius: 0 !important; box-sizing: border-box; color: #6c757d; cursor: pointer; display: inline-block; flex: 0 1 auto; font-size: .875rem; font-weight: 400; line-height: 1.5; margin-left: 0; padding: .25rem .5rem; position: relative; text-align: center; text-decoration: none; transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out; user-select: none; vertical-align: middle; white-space: nowrap;">View</a>
   <a class="btn btn-sm btn-outline-secondary" href="<?=url?>?page=Edit&row=<?= d.row ?>" style="-moz-user-select: none; -ms-flex: 0 1 auto; -ms-user-select: none; -webkit-text-decoration-skip: objects; -webkit-user-select: none; background-color: transparent; background-image: none; border: 1px solid transparent; border-bottom-left-radius: 0 !important; border-bottom-right-radius: 0 !important; border-color: #6c757d; border-radius: .2rem; border-top-left-radius: 0 !important; border-top-right-radius: 0 !important; box-sizing: border-box; color: #6c757d; cursor: pointer; display: inline-block; flex: 0 1 auto; font-size: .875rem; font-weight: 400; line-height: 1.5; margin-left: -1px; padding: .25rem .5rem; position: relative; text-align: center; text-decoration: none; transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out; user-select: none; vertical-align: middle; white-space: nowrap;">Edit</a>
   <a class="btn btn-sm btn-outline-secondary" href="<?=url?>?page=View&row=<?= d.row ?>&status=CAN" style="-moz-user-select: none; -ms-flex: 0 1 auto; -ms-user-select: none; -webkit-text-decoration-skip: objects; -webkit-user-select: none; background-color: transparent; background-image: none; border: 1px solid transparent; border-bottom-left-radius: 0 !important; border-color: #6c757d; border-radius: .2rem; border-top-left-radius: 0 !important; box-sizing: border-box; color: #6c757d; cursor: pointer; display: inline-block; flex: 0 1 auto; font-size: .875rem; font-weight: 400; line-height: 1.5; margin-left: -1px; padding: .25rem .5rem; position: relative; text-align: center; text-decoration: none; transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out; user-select: none; vertical-align: middle; white-space: nowrap;">Cancel</a>
@@ -524,7 +537,7 @@
 
 <!-- Request Details -->
 
-<? if (d.dvcbld || d.msgbx || d.manscr || d.temp || d.naming || d.server || d.addnotes) { ?>
+<? if (d.dvcbld || d.msgbx || d.manscr || d.temp || d.naming || d.server || d.addlnotes) { ?>
     <tr class="table-dark" style="background-color: #212529; box-sizing: border-box; color: #fff;">
       <th scope="col" colspan="2" style="background-color: #c6c8ca; border-color: #32383e; border-top: 1px solid #dee2e6; box-sizing: border-box; padding: .3rem; text-align: inherit; vertical-align: top;">Request Details</th>
     </tr>
@@ -565,10 +578,10 @@
       <td style="border-top: 1px solid #dee2e6; box-sizing: border-box; padding: .3rem; vertical-align: top;"><?= d.server ?></td>
     </tr>
 
-<? } if (d.addnotes) { ?>
+<? } if (d.addlnotes) { ?>
     <tr style="background-color: rgba(0,0,0,.05); box-sizing: border-box;">
       <th scope="row" style="border-top: 1px solid #dee2e6; box-sizing: border-box; padding: .3rem; text-align: inherit; vertical-align: top;">Additional Notes</th>
-      <td style="border-top: 1px solid #dee2e6; box-sizing: border-box; padding: .3rem; vertical-align: top;"><?= d.addnotes ?></td>
+      <td style="border-top: 1px solid #dee2e6; box-sizing: border-box; padding: .3rem; vertical-align: top;"><?= d.addlnotes ?></td>
     </tr>
 <? } } ?>
 

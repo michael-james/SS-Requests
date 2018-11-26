@@ -114,6 +114,19 @@
 <? } ?>
 
 
+<!-- WAITING REMINDER -->
+
+<? if (ev == 3) {
+  if (d.statusCode == 'PND') { ?>
+    <p>Are you satisfied with the screenshots we returned to you? If so, please select complete and close out this request. Otherwise, let us know how we can help!</p>
+  <? } else if (d.statusCode == 'ONH') { ?>
+    <p>We are waiting to complete your request because there are outstanding issues. If there's anything you can do to resolve these blockers, it will help us move forward.</p>
+  <? } else if (d.statusCode !== 'WFS') { ?>
+    <p>We are waiting to hear from you before we can move forward with your request.</p>
+  <? }
+} ?>
+
+
 <!-- NEEDS INFORMATION message -->
 
 <? if (d.statusCode == 'NIF') { ?>
@@ -252,7 +265,7 @@
 
 
 <!-- Actions -->
-<div class="btn-group pb-3 mt-3" role="group">
+<div class="btn-group pb-3 mt-5" role="group">
   <a class="btn btn-sm btn-outline-secondary" href="<?=url?>?page=View&row=<?= d.row ?>">View</a>
   <a class="btn btn-sm btn-outline-secondary" href="<?=url?>?page=Edit&row=<?= d.row ?>">Edit</a>
   <a class="btn btn-sm btn-outline-secondary" href="<?=url?>?page=View&row=<?= d.row ?>&status=CAN">Cancel</a>
@@ -572,7 +585,7 @@
 
 <!-- Request Details -->
 
-<? if (d.dvcbld || d.msgbx || d.manscr || d.temp || d.naming || d.server || d.addnotes) { ?>
+<? if (d.dvcbld || d.msgbx || d.manscr || d.temp || d.naming || d.server || d.addlnotes) { ?>
     <tr class="table-dark">
       <th scope="col" colspan="2">Request Details</th>
     </tr>
@@ -613,10 +626,10 @@
       <td><?= d.server ?></td>
     </tr>
 
-<? } if (d.addnotes) { ?>
+<? } if (d.addlnotes) { ?>
     <tr>
       <th scope="row">Additional Notes</th>
-      <td><?= d.addnotes ?></td>
+      <td><?= d.addlnotes ?></td>
     </tr>
 <? } } ?>
 

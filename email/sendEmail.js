@@ -1,18 +1,25 @@
+var emailEvents = {
+  0: 'new request',
+  1: 'asst update',
+  2: 'TC change',
+  3: 'waiting reminder'
+}
+
 function sendEmail(d, ev, chg, old) {
   var t0 = new Date();
 
   var eventID = eventID || null;
   var u = user();
-  var testing = true;
+  var testing = false;
   var isRequestor = ((u.email == d.email) && !testing);
   // var queue = HtmlService.createTemplateFromFile('Queue');
   // queue.data = {view: null, email: null, send: true};
 
   var htmlServ = HtmlService.createTemplateFromFile('email/email-inline');
   htmlServ.d = d;
-  htmlServ.ev = ev || null;
-  htmlServ.chg = chg || null;
-  htmlServ.old = old || null;
+  htmlServ.ev = (typeof ev == 'undefined' ? null : ev);
+  htmlServ.chg = (typeof chg == 'undefined' ? null : chg);
+  htmlServ.old = (typeof old == 'undefined' ? null : old);
   htmlOut = htmlServ.evaluate();
 
   // determine who to cc
@@ -59,6 +66,8 @@ function sendEmail(d, ev, chg, old) {
     cc = asstEmail;
   }
 
+  var replyTo = (isRequestor ? d.email : asstEmail);
+
   // set email subject and PDF title
   var title;
   if (ev == 0) {
@@ -87,7 +96,7 @@ function sendEmail(d, ev, chg, old) {
     to: to,
     cc: cc,
     bcc: 'michael.james@ert.com',
-    replyTo: "",//(isRequestor ? d.email : asstEmail),
+    replyTo: replyTo,
     name: "SS Requests",
     
     subject: title,
@@ -96,7 +105,7 @@ function sendEmail(d, ev, chg, old) {
     // attachments: [htmlOut.getAs(MimeType.PDF),
                   // queue.evaluate().setTitle('SS Requests Queue as of ' + moment().format(ERTdf)).getAs(MimeType.PDF)]
   });
-  console.log({message: Utilities.formatString('email "%s" sent to %s', title, d.email), subject: title, to: d.email, type: "email"});
+  console.log({message: Utilities.formatString('EMAIL "%s" sent to %s', title, d.email), subject: title, to: to, cc: cc, replyTo: replyTo, type: "email"});
   
   
   var dur = new Date().getTime() - t0.getTime(); console.info({ type: 'perf', message: Utilities.formatString('perf: %s %s %sms', arguments.callee.name, (typeof page !== 'undefined') ? page : '', dur), func: "doGet", row: (typeof d.row !== 'undefined') ? d.row : '', page: (typeof page !== 'undefined') ? page : '', source: (typeof source !== 'undefined') ? source : '', dur: dur, user: user().email});
@@ -147,27 +156,81 @@ var zones = {
   1: 'US EST'
 }
 
+var officeZones = {
+  'GNV': 0,
+  'PGH': 1,
+  'PHL': 1,
+  'BOS': 1
+}
+
 function sendDailyUpdates(zone) {
   var reqsWaiting = getSortedReqs(null, null, ['Received', 'Reviewed', 'In-progress', 'Completed', 'Cancelled']);
-  // Logger.log(reqsWaiting);
+  var emailsSent = 0;
+  var emailsSentTo = "";
+  var log = "";
+  
+  log += "zone: " + zones[zone] + "\n\n<strong>All Emails We Are Waiting On:</strong>\n";
 
-  var officeIdx = getColNumByName("")
-  for (var r in reqsWaiting) {
-    Logger.log(reqsWaiting[r][1] + '&#9; ' + reqsWaiting[r][2] + '&#9;' + reqsWaiting[r][7]);
-    sendEmailUpdate();
+  var rowIdx = getColNumByName("row") - 1;
+  var officeIdx = getColNumByName("office") - 1;
+  var startIdx = getColNumByName("Expected Date Files Will Be Available") - 1;
+  var statusIdx = getColNumByName("Status") - 1;
+  for (var r = 1; r < reqsWaiting.length; r++) {
+    var thisLog = "";
+
+    var info = "<u>" + reqsWaiting[r][7] + "</u> (" + reqsWaiting[r][officeIdx] + ") &mdash; " + reqsWaiting[r][1] + ' / ' + reqsWaiting[r][2];
+    thisLog += info;
+
+    if (officeZones[reqsWaiting[r][officeIdx]] == zone) {
+
+      if (reqsWaiting[r][statusIdx] == 'Waiting for Start') {
+        var today = new Date();
+        today.setHours(0, 0, 0, 0);
+        var startDate = new Date(reqsWaiting[r][startIdx]);
+        startDate.setHours(0, 0, 0, 0);
+        thisLog += " / expected " + (startDate.getMonth() + 1) + "/" + startDate.getDate() + ((startDate.getTime() == today.getTime()) ? " (today)" : "") + "\n"
+
+        if (startDate.getTime() !== today.getTime()) {
+          log += thisLog;
+          continue;
+        }
+      } else {
+        thisLog += "\n"
+      }
+
+      var d = getRequest(reqsWaiting[r][rowIdx]);
+      sendEmail(d, 3);
+
+      emailsSent += 1;
+      emailsSentTo += info + "\n";
+      log += '\n' + thisLog + '<strong>...sent email to <u>' + reqsWaiting[r][7] + '</u> on ' + new Date() + '</strong>\n\n';
+    } else {
+      log += thisLog + "\n"
+    }
   }
 
-  return Logger.getLog();
+  MailApp.sendEmail({
+    to: 'michael.james@ert.com',
+    subject: 'SS Requests: Daily Updates Sent to ' + zones[zone] + " at " + moment().format(dtf),
+    htmlBody: "<div style='white-space: pre-wrap'><strong>Emails Sent:</strong> " + emailsSent + "\n" + emailsSentTo + "\n<strong>Log:</strong>\n" + log + "</div>",
+    name: "SS Requests"
+  });
+
+  return "<div style='white-space: pre-wrap'><strong>Emails Sent:</strong> " + emailsSent + "\n" + emailsSentTo + "\n<strong>Log:</strong>\n" + log + "</div>"
+}
+
+function testSendDailyUpdates() {
+  return sendDailyUpdates(1);
 }
 
 function sendDailyUpdatesGeneva() {
-  console.log('... pretending to send daily updates for Geneva folks');
-  sendTestEmail(arguments.callee.name);
+  sendDailyUpdates(0);
+  console.log('...sent daily updates to Geneva folks');
 }
 
 function sendDailyUpdatesUS() {
-  console.log('... pretending to send daily updates for US folks');
-  sendTestEmail(arguments.callee.name);
+  sendDailyUpdates(1);
+  console.log('...sent daily updates to US folks');
 }
 
 function sendWeeklyUpdatesGeneva() {

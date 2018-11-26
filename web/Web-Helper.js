@@ -60,16 +60,21 @@ function doGet(e) {
 
   var title;
   if (dev == "send") {
+    if (!row) {throw "I need a row!"}
     var d = getRequest(row);
-    sendEmail(d, ev);
+    // sendEmail(d, ev, null, null);
     var html = HtmlService.createTemplateFromFile('email/email-inline');
     html.d = d;
     html.ev = ev;
+    html.chg = null;
+    html.old = null;
     title = "Email Test " + row;
-  } else if (dev == "preview") {
-    html = HtmlService.createTemplate("<div style='white-space: pre-wrap'>" + sendDailyUpdates() + "</div>");
-    title = "Testing";
-  } else {
+  }
+  // else if (dev == "preview") {
+  //   html = HtmlService.createTemplate(testSendDailyUpdates());
+  //   title = "Testing";
+  // }
+  else {
     var html = HtmlService.createTemplateFromFile('Default');
     title = getPageDisplayName(page, view, action) + rowTitle + " - SS Requests";
   }

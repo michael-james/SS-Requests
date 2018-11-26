@@ -72,9 +72,9 @@ function onEditAdv(e) {
     var d = getRequest(row);
         
     switch (e.value) {
-      case "Assigned":
-        addTask(d);
-        break;
+      // case "Assigned":
+      //   addTask(d);
+      //   break;
       case "Unresolved Issues":
         sendSummaryAlert(d);
         break;
@@ -86,7 +86,7 @@ function onEditAdv(e) {
         break;
     }
     
-    updateEvent(d);
+    // updateEvent(d);
   }
 }
 

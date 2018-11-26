@@ -72,7 +72,6 @@ function tesetGetSortedReqsHelper() {
 }
 
 function position(thisRow) {
-  console.log('...getting position');
   var t0 = new Date();
   thisRow = parseInt(thisRow);
   var reqs = getSortedReqs();

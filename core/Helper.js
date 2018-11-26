@@ -7,10 +7,21 @@ function getByName(colName, row, data) {
 }
 
 function getColNumByName(colName) {
-  var ss = SpreadsheetApp.openById(ssID);
-  var sh = ss.getSheetByName("Queue");
-  var headers = sh.getRange(headerRows, 1, 1, sh.getLastColumn()).getValues()[0];
-  return getColNumByNameData(headers, colName)
+  try {
+    var ss = SpreadsheetApp.openById(ssID);
+    var sh = ss.getSheetByName("Queue");
+    var headers = sh.getRange(headerRows, 1, 1, sh.getLastColumn()).getValues()[0];
+    return getColNumByNameData(headers, colName)
+  } catch (e) {
+    try {
+      var ss = SpreadsheetApp.getActiveSpreadsheet();
+      var sh = ss.getSheetByName("Queue");
+      var headers = sh.getRange(headerRows, 1, 1, sh.getLastColumn()).getValues()[0];
+      return getColNumByNameData(headers, colName)
+    } catch (e) {
+      throw e
+    }
+  }
 }
 
 function getColNumByNameData(data, colName) {
