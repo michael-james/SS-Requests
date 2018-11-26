@@ -67,8 +67,8 @@
 <? var info = position(d.row);
    var u = user();
    var isRequestor = (u.email == d.email);
-   var pretendTC = true;
-   var disHiBye = ((!isRequestor) || (u.admin && pretendTC) || d.statusCode == 'CPL' || d.statusCode == 'CAN');
+   var testing = true;
+   var disHiBye = ((!isRequestor) || testing || d.statusCode == 'CPL' || d.statusCode == 'CAN');
    var showEstRet = (d.expRetDate && d.daysExp >= 0 && (d.statusCode !== 'ONH') && (d.statusCode !== 'UNR') && (d.statusCode !== 'CPL') && (d.statusCode !== 'PND') && (d.statusCode !== 'CAN') && ev !== 2); ?>
 
 
@@ -129,6 +129,11 @@
 
 <? if (d.statusCode == 'UNR') { ?>
     <p>There are <strong><span class="text-danger">unresolved issues</span></strong> that are keeping us from delivering your request. Please review the information below and take appropriate action.</p>
+    <div class="btn-group btn-group-sm mb-3" role="group">
+      <a class="btn btn-inprogress" href="<?=url?>?page=View&row=<?= d.row ?>&status=INP">Ready to Continue</a>
+      <a class="btn btn-warning" href="<?=url?>?page=View&row=<?= d.row ?>&status=ONH">Place On-hold</a>
+      <a class="btn btn-completed" href="<?=url?>?page=View&row=<?= d.row ?>&status=CPL">Completed</a>
+    </div>
 <? } ?>
 
 
@@ -142,7 +147,7 @@
     <? } ?>
     <div class="btn-group btn-group-sm mb-3" role="group">
       <a class="btn btn-inprogress" href="<?=url?>?page=View&row=<?= d.row ?>&status=INP">Needs Corrections</a>
-      <a class="btn btn-warning" href="<?=url?>?page=View&row=<?= d.row ?>&status=ONH">On-hold</a>
+      <a class="btn btn-warning" href="<?=url?>?page=View&row=<?= d.row ?>&status=ONH">Place On-hold</a>
       <a class="btn btn-completed" href="<?=url?>?page=View&row=<?= d.row ?>&status=CPL">Completed</a>
     </div>
 <? } ?>
@@ -167,6 +172,11 @@
                 <?= d.asst ?> will get in touch if your assistance is required.<? } else { ?>We will get in touch if your assistance is required.
             <? } ?></p>
     <? } ?>
+    <div class="btn-group btn-group-sm mb-3" role="group">
+      <a class="btn btn-warning" href="<?=url?>?page=View&row=<?= d.row ?>&status=ONH">Add a Note/Defect</a>
+      <a class="btn btn-inprogress" href="<?=url?>?page=View&row=<?= d.row ?>&status=INP">Ready to Continue</a>
+      <a class="btn btn-completed" href="<?=url?>?page=View&row=<?= d.row ?>&status=CPL">Completed</a>
+    </div>
 <? } ?>
 
 
@@ -174,7 +184,8 @@
 
 <? if (d.statusCode == 'CPL') { ?>
   <p>This request is now <strong>completed</strong>. Thank you for working with us!</p>
-  <p>If you require any revisions to this request, you can <a href="<?=url?>?page=View&row=<?= d.row ?>&status=INP" style="text-decoration: underline;">re-open it</a>.</p>
+  
+  <a class="btn btn-inprogress" href="<?=url?>?page=View&row=<?= d.row ?>&status=INP">Re-open</a>
 <? } ?>
 
 
@@ -213,8 +224,8 @@
 
 <!-- REQUEST EDITED -->
 
-<? if (chg) { ?>
-  <p><?= u.fname ?> edited this request.</p>
+<? if (chg && Object.keys(chg).length) { ?>
+  <p class="mt-3"><?= u.fname ?> edited this request.</p>
   <p>The following information was changed:</p>
   <ul><?
 
@@ -226,7 +237,7 @@
         chg[c].upd = moment(chg[c].upd).format(df);
       }
 
-      ?><?= chg[c].header ?> <i>(<?= chg[c].old ? "from " + (chg[c].old.length > 30 ? chg[c].old.substring(0, 30) + "..." : chg[c].old) + " " : "" ?>to <?= !chg[c].upd ? "[blank]" : "" ?><?= chg[c].upd.length > 30 ? chg[c].upd.substring(0, 30) + "..." : chg[c].upd ?>)</i></li><?
+      ?><?= chg[c].header ?> <i>(from <?= chg[c].old ? '\"' + (chg[c].old.length > 30 ? chg[c].old.substring(0, 30) + '...' : chg[c].old) + '\"' : '\"\"' ?> to <?= !chg[c].upd ? '\"\"' : '\"' + (chg[c].upd.length > 30 ? chg[c].upd.substring(0, 30) + "..." : chg[c].upd) + '\"' ?>)</i></li><?
     } ?></ul>
 <? } ?>
 
@@ -234,7 +245,7 @@
 <!-- END OF DYNAMIC MESSAGE -->
 
 <? if (disHiBye) { ?>
-<p>
+<p class="mt-3">
     Thank you,<br>
     The Assistants&trade;
 </p>
@@ -245,6 +256,7 @@
 <div class="btn-group pb-3 mt-5" role="group">
   <a class="btn btn-sm btn-outline-secondary" href="<?=url?>?page=View&row=<?= d.row ?>">View</a>
   <a class="btn btn-sm btn-outline-secondary" href="<?=url?>?page=Edit&row=<?= d.row ?>">Edit</a>
+  <a class="btn btn-sm btn-outline-secondary" href="<?=url?>?page=View&row=<?= d.row ?>&status=CAN">Cancel</a>
 </div>
 
 <!-- Status Info -->
@@ -336,6 +348,66 @@
       <th scope="row">Assignee</th>
       <td><?= d.asst || "(not assigned)" ?></td>
     </tr>
+
+
+<!-- Performance Notes -->
+
+<? if (d.majIssues || d.minIssues || d.gennotes || d.vendiss) { ?>
+    <tr class="table-dark">
+      <th scope="col" colspan="2">Performance Notes</th>
+    </tr>
+
+<? if (d.majIssues) { ?>
+    <tr>
+      <th scope="row">Major Issues (Blockers)</th>
+      <td><?= d.majIssues ?></td>
+    </tr>
+
+<? } if (d.minIssues) { ?>
+    <tr>
+      <th scope="row">Minor Issues</th>
+      <td><?= d.minIssues ?></td>
+    </tr>
+
+<? } if (d.gennotes) { ?>
+    <tr>
+      <th scope="row">General Notes</th>
+      <td><?= d.gennotes ?></td>
+    </tr>
+
+<? } if (d.vendiss) { ?>
+    <tr>
+      <th scope="row">Vendor Mistakes</th>
+      <td><?= d.vendiss ?></td>
+    </tr>
+<? } } ?>
+
+
+<!-- Follow-up -->
+
+<? if (d.tcfdbk || d.waitfor || d.jira) { ?>
+    <tr class="table-dark">
+      <th scope="col" colspan="2">Follow-up</th>
+    </tr>
+
+<? if (d.tcfdbk) { ?>
+    <tr>
+      <th scope="row">Requestor Feedback</th>
+      <td><?= d.tcfdbk ?></td>
+    </tr>
+
+<? } if (d.waitfor) { ?>
+    <tr>
+      <th scope="row">On-hold: Waiting For</th>
+      <td><?= d.waitfor ?></td>
+    </tr>
+
+<? } if (d.jira) { ?>
+    <tr>
+      <th scope="row">Associated JIRA Defects</th>
+      <td><?= d.jira ?></td>
+    </tr>
+<? } } ?>
 
 
 <!-- Timeline -->
@@ -497,66 +569,6 @@
       <td><?= d.bestwkbks + (!d.actwkbks ? " (predicted)" : '') ?></td>
     </tr>
 <? } ?>
-
-
-<!-- Performance Notes -->
-
-<? if (d.majIssues || d.minIssues || d.gennotes || d.vendiss) { ?>
-    <tr class="table-dark">
-      <th scope="col" colspan="2">Performance Notes</th>
-    </tr>
-
-<? if (d.majIssues) { ?>
-    <tr>
-      <th scope="row">Major Issues (Blockers)</th>
-      <td><?= d.majIssues ?></td>
-    </tr>
-
-<? } if (d.minIssues) { ?>
-    <tr>
-      <th scope="row">Minor Issues</th>
-      <td><?= d.minIssues ?></td>
-    </tr>
-
-<? } if (d.gennotes) { ?>
-    <tr>
-      <th scope="row">General Notes</th>
-      <td><?= d.gennotes ?></td>
-    </tr>
-
-<? } if (d.vendiss) { ?>
-    <tr>
-      <th scope="row">Vendor Mistakes</th>
-      <td><?= d.vendiss ?></td>
-    </tr>
-<? } } ?>
-
-
-<!-- Follow-up -->
-
-<? if (d.tcfdbk || d.waitfor || d.jira) { ?>
-    <tr class="table-dark">
-      <th scope="col" colspan="2">Follow-up</th>
-    </tr>
-
-<? if (d.tcfdbk) { ?>
-    <tr>
-      <th scope="row">Requestor Feedback</th>
-      <td><?= d.tcfdbk ?></td>
-    </tr>
-
-<? } if (d.waitfor) { ?>
-    <tr>
-      <th scope="row">On-hold: Waiting For</th>
-      <td><?= d.waitfor ?></td>
-    </tr>
-
-<? } if (d.jira) { ?>
-    <tr>
-      <th scope="row">Associated JIRA Defects</th>
-      <td><?= d.jira ?></td>
-    </tr>
-<? } } ?>
 
 
 <!-- Request Details -->

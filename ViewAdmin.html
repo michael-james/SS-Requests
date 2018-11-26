@@ -16,15 +16,23 @@
     <div class="d-flex justify-content-between py-3">
       <div>
         <div class="btn-group" role="group">
+
+          <!-- Edit -->
           <a class="btn btn-secondary" href="<?=url?>?page=Edit&row=<?= d.row ?>">Edit</a>
-          <? d.typClass = typClass(d.reqCode) ?>
-          <button class="btn btn-success" <?= (d.statusCode !== "WFS") && "disabled" ?> id="ready" data-row="<?= d.row ?>" data-toggle="modal" data-target="#readyModal">Files Ready</button>
-          <script>
+          <!-- <? // d.typClass = typClass(d.reqCode) ?> -->
+          <!-- <button class="btn btn-success" <?= (d.statusCode !== "WFS") && "disabled" ?> id="ready" data-row="<?= d.row ?>" data-toggle="modal" data-target="#readyModal">Files Ready</button> -->
+          <!-- <script>
           $("button[data-row='<?= d.row ?>']").data('key', <?= JSON.stringify(d) ?>);
-          </script>
+          </script> -->
+
+          <!-- Review -->
           <a class="btn btn-warning" data-toggle="modal" data-target="#exampleModal" data-name="<?= d.client + " " + d.protocol ?>" data-type="<span class='badge <?= typClass(d.reqCode) ?>'><?= d.reqCode ?></span>" data-status="<?= d.status ?>" data-asgd="<?= d.asst ?>" data-expdate="<?= d.expRetDate && d.expRetDate.format("YYYY-MM-DD") ?>" data-row="<?= d.row ?>" data-actwkbks="<?= d.actwkbks ?>" data-info="<?= info ?>" data-notes="<?= d.getByName("General Notes") ?>">Review</a>
+          
+          <!-- Perform -->
           <a class="btn btn-primary" href="<?=url?>?page=Perform&row=<?= d.row ?>">Perform</a>
         </div>
+
+        <!-- Send Update -->
         <button id="sendSummary" class="btn btn-dark ml-2">Send Update</button>
         <span class="text-success" id="viewoutput" style="padding-left: 15px;"></span>
       </div>

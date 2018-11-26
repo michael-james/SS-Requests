@@ -19,8 +19,8 @@
 <? var info = position(d.row);
    var u = user();
    var isRequestor = (u.email == d.email);
-   var pretendTC = true;
-   var disHiBye = ((!isRequestor) || (u.admin && pretendTC) || d.statusCode == 'CPL' || d.statusCode == 'CAN');
+   var testing = true;
+   var disHiBye = ((!isRequestor) || testing || d.statusCode == 'CPL' || d.statusCode == 'CAN');
    var showEstRet = (d.expRetDate && d.daysExp >= 0 && (d.statusCode !== 'ONH') && (d.statusCode !== 'UNR') && (d.statusCode !== 'CPL') && (d.statusCode !== 'PND') && (d.statusCode !== 'CAN') && ev !== 2); ?>
 
 
@@ -81,6 +81,11 @@
 
 <? if (d.statusCode == 'UNR') { ?>
     <p style="box-sizing: border-box; margin-bottom: 1rem; margin-top: 0;">There are <strong style="box-sizing: border-box; font-weight: bolder;"><span class="text-danger" style="box-sizing: border-box; color: #dc3545 !important;">unresolved issues</span></strong> that are keeping us from delivering your request. Please review the information below and take appropriate action.</p>
+    <div class="btn-group btn-group-sm mb-3" role="group" style="box-sizing: border-box; display: inline-flex; margin-bottom: 1rem !important; position: relative; vertical-align: middle;">
+      <a class="btn btn-inprogress" href="<?=url?>?page=View&row=<?= d.row ?>&status=INP" style="-moz-user-select: none; -ms-flex: 0 1 auto; -ms-user-select: none; -webkit-text-decoration-skip: objects; -webkit-user-select: none; background-color: rgb(252, 229, 205); border: 1px solid transparent; border-bottom-right-radius: 0 !important; border-radius: .2rem; border-top-right-radius: 0 !important; box-sizing: border-box; color: #212529; cursor: pointer; display: inline-block; flex: 0 1 auto; font-size: .875rem; font-weight: 400; line-height: 1.5; margin-left: 0; padding: .25rem .5rem; position: relative; text-align: center; text-decoration: none; transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out; user-select: none; vertical-align: middle; white-space: nowrap;">Ready to Continue</a>
+      <a class="btn btn-warning" href="<?=url?>?page=View&row=<?= d.row ?>&status=ONH" style="-moz-user-select: none; -ms-flex: 0 1 auto; -ms-user-select: none; -webkit-text-decoration-skip: objects; -webkit-user-select: none; background-color: #ffc107; border: 1px solid transparent; border-bottom-left-radius: 0 !important; border-bottom-right-radius: 0 !important; border-color: #ffc107; border-radius: .2rem; border-top-left-radius: 0 !important; border-top-right-radius: 0 !important; box-sizing: border-box; color: #212529; cursor: pointer; display: inline-block; flex: 0 1 auto; font-size: .875rem; font-weight: 400; line-height: 1.5; margin-left: -1px; padding: .25rem .5rem; position: relative; text-align: center; text-decoration: none; transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out; user-select: none; vertical-align: middle; white-space: nowrap;">Place On-hold</a>
+      <a class="btn btn-completed" href="<?=url?>?page=View&row=<?= d.row ?>&status=CPL" style="-moz-user-select: none; -ms-flex: 0 1 auto; -ms-user-select: none; -webkit-text-decoration-skip: objects; -webkit-user-select: none; background-color: #6aa84f; background-image: none; border: 1px solid transparent; border-bottom-left-radius: 0 !important; border-color: #6aa84f; border-radius: .2rem; border-top-left-radius: 0 !important; box-sizing: border-box; color: #fff; cursor: pointer; display: inline-block; flex: 0 1 auto; font-size: .875rem; font-weight: 400; line-height: 1.5; margin-left: -1px; padding: .25rem .5rem; position: relative; text-align: center; text-decoration: none; transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out; user-select: none; vertical-align: middle; white-space: nowrap;">Completed</a>
+    </div>
 <? } ?>
 
 
@@ -94,7 +99,7 @@
     <? } ?>
     <div class="btn-group btn-group-sm mb-3" role="group" style="box-sizing: border-box; display: inline-flex; margin-bottom: 1rem !important; position: relative; vertical-align: middle;">
       <a class="btn btn-inprogress" href="<?=url?>?page=View&row=<?= d.row ?>&status=INP" style="-moz-user-select: none; -ms-flex: 0 1 auto; -ms-user-select: none; -webkit-text-decoration-skip: objects; -webkit-user-select: none; background-color: rgb(252, 229, 205); border: 1px solid transparent; border-bottom-right-radius: 0 !important; border-radius: .2rem; border-top-right-radius: 0 !important; box-sizing: border-box; color: #212529; cursor: pointer; display: inline-block; flex: 0 1 auto; font-size: .875rem; font-weight: 400; line-height: 1.5; margin-left: 0; padding: .25rem .5rem; position: relative; text-align: center; text-decoration: none; transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out; user-select: none; vertical-align: middle; white-space: nowrap;">Needs Corrections</a>
-      <a class="btn btn-warning" href="<?=url?>?page=View&row=<?= d.row ?>&status=ONH" style="-moz-user-select: none; -ms-flex: 0 1 auto; -ms-user-select: none; -webkit-text-decoration-skip: objects; -webkit-user-select: none; background-color: #ffc107; border: 1px solid transparent; border-bottom-left-radius: 0 !important; border-bottom-right-radius: 0 !important; border-color: #ffc107; border-radius: .2rem; border-top-left-radius: 0 !important; border-top-right-radius: 0 !important; box-sizing: border-box; color: #212529; cursor: pointer; display: inline-block; flex: 0 1 auto; font-size: .875rem; font-weight: 400; line-height: 1.5; margin-left: -1px; padding: .25rem .5rem; position: relative; text-align: center; text-decoration: none; transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out; user-select: none; vertical-align: middle; white-space: nowrap;">On-hold</a>
+      <a class="btn btn-warning" href="<?=url?>?page=View&row=<?= d.row ?>&status=ONH" style="-moz-user-select: none; -ms-flex: 0 1 auto; -ms-user-select: none; -webkit-text-decoration-skip: objects; -webkit-user-select: none; background-color: #ffc107; border: 1px solid transparent; border-bottom-left-radius: 0 !important; border-bottom-right-radius: 0 !important; border-color: #ffc107; border-radius: .2rem; border-top-left-radius: 0 !important; border-top-right-radius: 0 !important; box-sizing: border-box; color: #212529; cursor: pointer; display: inline-block; flex: 0 1 auto; font-size: .875rem; font-weight: 400; line-height: 1.5; margin-left: -1px; padding: .25rem .5rem; position: relative; text-align: center; text-decoration: none; transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out; user-select: none; vertical-align: middle; white-space: nowrap;">Place On-hold</a>
       <a class="btn btn-completed" href="<?=url?>?page=View&row=<?= d.row ?>&status=CPL" style="-moz-user-select: none; -ms-flex: 0 1 auto; -ms-user-select: none; -webkit-text-decoration-skip: objects; -webkit-user-select: none; background-color: #6aa84f; background-image: none; border: 1px solid transparent; border-bottom-left-radius: 0 !important; border-color: #6aa84f; border-radius: .2rem; border-top-left-radius: 0 !important; box-sizing: border-box; color: #fff; cursor: pointer; display: inline-block; flex: 0 1 auto; font-size: .875rem; font-weight: 400; line-height: 1.5; margin-left: -1px; padding: .25rem .5rem; position: relative; text-align: center; text-decoration: none; transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out; user-select: none; vertical-align: middle; white-space: nowrap;">Completed</a>
     </div>
 <? } ?>
@@ -119,6 +124,11 @@
                 <?= d.asst ?> will get in touch if your assistance is required.<? } else { ?>We will get in touch if your assistance is required.
             <? } ?></p>
     <? } ?>
+    <div class="btn-group btn-group-sm mb-3" role="group" style="box-sizing: border-box; display: inline-flex; margin-bottom: 1rem !important; position: relative; vertical-align: middle;">
+      <a class="btn btn-warning" href="<?=url?>?page=View&row=<?= d.row ?>&status=ONH" style="-moz-user-select: none; -ms-flex: 0 1 auto; -ms-user-select: none; -webkit-text-decoration-skip: objects; -webkit-user-select: none; background-color: #ffc107; border: 1px solid transparent; border-bottom-right-radius: 0 !important; border-color: #ffc107; border-radius: .2rem; border-top-right-radius: 0 !important; box-sizing: border-box; color: #212529; cursor: pointer; display: inline-block; flex: 0 1 auto; font-size: .875rem; font-weight: 400; line-height: 1.5; margin-left: 0; padding: .25rem .5rem; position: relative; text-align: center; text-decoration: none; transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out; user-select: none; vertical-align: middle; white-space: nowrap;">Add a Note/Defect</a>
+      <a class="btn btn-inprogress" href="<?=url?>?page=View&row=<?= d.row ?>&status=INP" style="-moz-user-select: none; -ms-flex: 0 1 auto; -ms-user-select: none; -webkit-text-decoration-skip: objects; -webkit-user-select: none; background-color: rgb(252, 229, 205); border: 1px solid transparent; border-bottom-left-radius: 0 !important; border-bottom-right-radius: 0 !important; border-radius: .2rem; border-top-left-radius: 0 !important; border-top-right-radius: 0 !important; box-sizing: border-box; color: #212529; cursor: pointer; display: inline-block; flex: 0 1 auto; font-size: .875rem; font-weight: 400; line-height: 1.5; margin-left: -1px; padding: .25rem .5rem; position: relative; text-align: center; text-decoration: none; transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out; user-select: none; vertical-align: middle; white-space: nowrap;">Ready to Continue</a>
+      <a class="btn btn-completed" href="<?=url?>?page=View&row=<?= d.row ?>&status=CPL" style="-moz-user-select: none; -ms-flex: 0 1 auto; -ms-user-select: none; -webkit-text-decoration-skip: objects; -webkit-user-select: none; background-color: #6aa84f; background-image: none; border: 1px solid transparent; border-bottom-left-radius: 0 !important; border-color: #6aa84f; border-radius: .2rem; border-top-left-radius: 0 !important; box-sizing: border-box; color: #fff; cursor: pointer; display: inline-block; flex: 0 1 auto; font-size: .875rem; font-weight: 400; line-height: 1.5; margin-left: -1px; padding: .25rem .5rem; position: relative; text-align: center; text-decoration: none; transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out; user-select: none; vertical-align: middle; white-space: nowrap;">Completed</a>
+    </div>
 <? } ?>
 
 
@@ -126,7 +136,8 @@
 
 <? if (d.statusCode == 'CPL') { ?>
   <p style="box-sizing: border-box; margin-bottom: 1rem; margin-top: 0;">This request is now <strong style="box-sizing: border-box; font-weight: bolder;">completed</strong>. Thank you for working with us!</p>
-  <p style="box-sizing: border-box; margin-bottom: 1rem; margin-top: 0;">If you require any revisions to this request, you can <a href="<?=url?>?page=View&row=<?= d.row ?>&status=INP" style="-webkit-text-decoration-skip: objects; background-color: transparent; box-sizing: border-box; color: #007bff; text-decoration: underline;">re-open it</a>.</p>
+  
+  <a class="btn btn-inprogress" href="<?=url?>?page=View&row=<?= d.row ?>&status=INP" style="-moz-user-select: none; -ms-user-select: none; -webkit-text-decoration-skip: objects; -webkit-user-select: none; background-color: rgb(252, 229, 205); border: 1px solid transparent; border-radius: .25rem; box-sizing: border-box; color: #212529; cursor: pointer; display: inline-block; font-size: 1rem; font-weight: 400; line-height: 1.5; padding: .375rem .75rem; text-align: center; text-decoration: none; transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out; user-select: none; vertical-align: middle; white-space: nowrap;">Re-open</a>
 <? } ?>
 
 
@@ -165,8 +176,8 @@
 
 <!-- REQUEST EDITED -->
 
-<? if (chg) { ?>
-  <p style="box-sizing: border-box; margin-bottom: 1rem; margin-top: 0;"><?= u.fname ?> edited this request.</p>
+<? if (chg && Object.keys(chg).length) { ?>
+  <p class="mt-3" style="box-sizing: border-box; margin-bottom: 1rem; margin-top: 1rem !important;"><?= u.fname ?> edited this request.</p>
   <p style="box-sizing: border-box; margin-bottom: 1rem; margin-top: 0;">The following information was changed:</p>
   <ul style="box-sizing: border-box; margin-bottom: 1rem; margin-top: 0;"><?
 
@@ -178,7 +189,7 @@
         chg[c].upd = moment(chg[c].upd).format(df);
       }
 
-      ?><?= chg[c].header ?> <i style="box-sizing: border-box;">(<?= chg[c].old ? "from " + (chg[c].old.length > 30 ? chg[c].old.substring(0, 30) + "..." : chg[c].old) + " " : "" ?>to <?= !chg[c].upd ? "[blank]" : "" ?><?= chg[c].upd.length > 30 ? chg[c].upd.substring(0, 30) + "..." : chg[c].upd ?>)</i></li><?
+      ?><?= chg[c].header ?> <i style="box-sizing: border-box;">(from <?= chg[c].old ? '\"' + (chg[c].old.length > 30 ? chg[c].old.substring(0, 30) + '...' : chg[c].old) + '\"' : '\"\"' ?> to <?= !chg[c].upd ? '\"\"' : '\"' + (chg[c].upd.length > 30 ? chg[c].upd.substring(0, 30) + "..." : chg[c].upd) + '\"' ?>)</i></li><?
     } ?></ul>
 <? } ?>
 
@@ -186,7 +197,7 @@
 <!-- END OF DYNAMIC MESSAGE -->
 
 <? if (disHiBye) { ?>
-<p style="box-sizing: border-box; margin-bottom: 1rem; margin-top: 0;">
+<p class="mt-3" style="box-sizing: border-box; margin-bottom: 1rem; margin-top: 1rem !important;">
     Thank you,<br style="box-sizing: border-box;">
     The Assistants&trade;
 </p>
@@ -196,7 +207,8 @@
 <!-- Actions -->
 <div class="btn-group pb-3 mt-5" role="group" style="box-sizing: border-box; display: inline-flex; margin-top: 3rem !important; padding-bottom: 1rem !important; position: relative; vertical-align: middle;">
   <a class="btn btn-sm btn-outline-secondary" href="<?=url?>?page=View&row=<?= d.row ?>" style="-moz-user-select: none; -ms-flex: 0 1 auto; -ms-user-select: none; -webkit-text-decoration-skip: objects; -webkit-user-select: none; background-color: transparent; background-image: none; border: 1px solid transparent; border-bottom-right-radius: 0 !important; border-color: #6c757d; border-radius: .2rem; border-top-right-radius: 0 !important; box-sizing: border-box; color: #6c757d; cursor: pointer; display: inline-block; flex: 0 1 auto; font-size: .875rem; font-weight: 400; line-height: 1.5; margin-left: 0; padding: .25rem .5rem; position: relative; text-align: center; text-decoration: none; transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out; user-select: none; vertical-align: middle; white-space: nowrap;">View</a>
-  <a class="btn btn-sm btn-outline-secondary" href="<?=url?>?page=Edit&row=<?= d.row ?>" style="-moz-user-select: none; -ms-flex: 0 1 auto; -ms-user-select: none; -webkit-text-decoration-skip: objects; -webkit-user-select: none; background-color: transparent; background-image: none; border: 1px solid transparent; border-bottom-left-radius: 0 !important; border-color: #6c757d; border-radius: .2rem; border-top-left-radius: 0 !important; box-sizing: border-box; color: #6c757d; cursor: pointer; display: inline-block; flex: 0 1 auto; font-size: .875rem; font-weight: 400; line-height: 1.5; margin-left: -1px; padding: .25rem .5rem; position: relative; text-align: center; text-decoration: none; transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out; user-select: none; vertical-align: middle; white-space: nowrap;">Edit</a>
+  <a class="btn btn-sm btn-outline-secondary" href="<?=url?>?page=Edit&row=<?= d.row ?>" style="-moz-user-select: none; -ms-flex: 0 1 auto; -ms-user-select: none; -webkit-text-decoration-skip: objects; -webkit-user-select: none; background-color: transparent; background-image: none; border: 1px solid transparent; border-bottom-left-radius: 0 !important; border-bottom-right-radius: 0 !important; border-color: #6c757d; border-radius: .2rem; border-top-left-radius: 0 !important; border-top-right-radius: 0 !important; box-sizing: border-box; color: #6c757d; cursor: pointer; display: inline-block; flex: 0 1 auto; font-size: .875rem; font-weight: 400; line-height: 1.5; margin-left: -1px; padding: .25rem .5rem; position: relative; text-align: center; text-decoration: none; transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out; user-select: none; vertical-align: middle; white-space: nowrap;">Edit</a>
+  <a class="btn btn-sm btn-outline-secondary" href="<?=url?>?page=View&row=<?= d.row ?>&status=CAN" style="-moz-user-select: none; -ms-flex: 0 1 auto; -ms-user-select: none; -webkit-text-decoration-skip: objects; -webkit-user-select: none; background-color: transparent; background-image: none; border: 1px solid transparent; border-bottom-left-radius: 0 !important; border-color: #6c757d; border-radius: .2rem; border-top-left-radius: 0 !important; box-sizing: border-box; color: #6c757d; cursor: pointer; display: inline-block; flex: 0 1 auto; font-size: .875rem; font-weight: 400; line-height: 1.5; margin-left: -1px; padding: .25rem .5rem; position: relative; text-align: center; text-decoration: none; transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out; user-select: none; vertical-align: middle; white-space: nowrap;">Cancel</a>
 </div>
 
 <!-- Status Info -->
@@ -290,167 +302,6 @@
     </tr>
 
 
-<!-- Timeline -->
-
-    <tr class="table-dark" style="background-color: rgba(0,0,0,.05); box-sizing: border-box; color: #fff;">
-      <th scope="col" colspan="2" style="background-color: #c6c8ca; border-color: #32383e; border-top: 1px solid #dee2e6; box-sizing: border-box; padding: .3rem; text-align: inherit; vertical-align: top;">Timeline</th>
-    </tr>
-
-<? if (d.dCPL) { ?>
-    <tr style="box-sizing: border-box;">
-      <th scope="row" style="border-top: 1px solid #dee2e6; box-sizing: border-box; padding: .3rem; text-align: inherit; vertical-align: top;">Date Completed</th>
-      <td style="border-top: 1px solid #dee2e6; box-sizing: border-box; padding: .3rem; vertical-align: top;"><?= d.dCPL.format(ldtf) ?></td>
-    </tr>
-
-<? } if (d.hardDueDate) { ?>
-    <tr style="background-color: rgba(0,0,0,.05); box-sizing: border-box;">
-      <th scope="row" style="border-top: 1px solid #dee2e6; box-sizing: border-box; padding: .3rem; text-align: inherit; vertical-align: top;">Hard Deadline</th>
-      <td style="border-top: 1px solid #dee2e6; box-sizing: border-box; padding: .3rem; vertical-align: top;"><?= d.hardDueDate.format(ldtf) ?></td>
-    </tr>
-
-<? } if (d.prefDueDate) { ?>
-    <tr style="box-sizing: border-box;">
-      <th scope="row" style="border-top: 1px solid #dee2e6; box-sizing: border-box; padding: .3rem; text-align: inherit; vertical-align: top;">Preferred Deadline</th>
-      <td style="border-top: 1px solid #dee2e6; box-sizing: border-box; padding: .3rem; vertical-align: top;"><?= d.prefDueDate.format(ldf) ?></td>
-    </tr>
-
-<? } if (d.dPND) { ?>
-    <tr style="background-color: rgba(0,0,0,.05); box-sizing: border-box;">
-      <th scope="row" style="border-top: 1px solid #dee2e6; box-sizing: border-box; padding: .3rem; text-align: inherit; vertical-align: top;">Returned Pending Confirmation</th>
-      <td style="border-top: 1px solid #dee2e6; box-sizing: border-box; padding: .3rem; vertical-align: top;"><?= d.dPND.format(ldtf) ?></td>
-    </tr>
-
-<? } if (d.dUNR) { ?>
-    <tr style="box-sizing: border-box;">
-      <th scope="row" style="border-top: 1px solid #dee2e6; box-sizing: border-box; padding: .3rem; text-align: inherit; vertical-align: top;">Returned w/ Unresolved Issues</th>
-      <td style="border-top: 1px solid #dee2e6; box-sizing: border-box; padding: .3rem; vertical-align: top;"><?= d.dUNR.format(ldtf) ?></td>
-    </tr>
-
-<? } if (d.dONHend) { ?>
-    <tr style="background-color: rgba(0,0,0,.05); box-sizing: border-box;">
-      <th scope="row" style="border-top: 1px solid #dee2e6; box-sizing: border-box; padding: .3rem; text-align: inherit; vertical-align: top;">On-hold Ended</th>
-      <td style="border-top: 1px solid #dee2e6; box-sizing: border-box; padding: .3rem; vertical-align: top;"><?= d.dONHend.format(ldtf) ?></td>
-    </tr>
-
-<? } if (d.dONH) { ?>
-    <tr style="box-sizing: border-box;">
-      <th scope="row" style="border-top: 1px solid #dee2e6; box-sizing: border-box; padding: .3rem; text-align: inherit; vertical-align: top;">Placed On-hold</th>
-      <td style="border-top: 1px solid #dee2e6; box-sizing: border-box; padding: .3rem; vertical-align: top;"><?= d.dONH.format(ldtf) ?></td>
-    </tr>
-
-<? } if (d.dRet) { ?>
-    <tr style="background-color: rgba(0,0,0,.05); box-sizing: border-box;">
-      <th scope="row" style="border-top: 1px solid #dee2e6; box-sizing: border-box; padding: .3rem; text-align: inherit; vertical-align: top;">Request First Returned</th>
-      <td style="border-top: 1px solid #dee2e6; box-sizing: border-box; padding: .3rem; vertical-align: top;"><?= d.dRet.format(ldtf) ?></td>
-    </tr>
-
-<? } if (d.dINP) { ?>
-    <tr style="box-sizing: border-box;">
-      <th scope="row" style="border-top: 1px solid #dee2e6; box-sizing: border-box; padding: .3rem; text-align: inherit; vertical-align: top;">Screenshots Started</th>
-      <td style="border-top: 1px solid #dee2e6; box-sizing: border-box; padding: .3rem; vertical-align: top;"><?= d.dINP.format(ldtf) ?></td>
-    </tr>
-
-<? } if (d.dREV) { ?>
-    <tr style="background-color: rgba(0,0,0,.05); box-sizing: border-box;">
-      <th scope="row" style="border-top: 1px solid #dee2e6; box-sizing: border-box; padding: .3rem; text-align: inherit; vertical-align: top;">Reviewed &amp; Ready</th>
-      <td style="border-top: 1px solid #dee2e6; box-sizing: border-box; padding: .3rem; vertical-align: top;"><?= d.dREV.format(ldtf) ?></td>
-    </tr>
-
-<? } if (d.dNIF) { ?>
-    <tr style="box-sizing: border-box;">
-      <th scope="row" style="border-top: 1px solid #dee2e6; box-sizing: border-box; padding: .3rem; text-align: inherit; vertical-align: top;">Needed Information</th>
-      <td style="border-top: 1px solid #dee2e6; box-sizing: border-box; padding: .3rem; vertical-align: top;"><?= d.dNIF.format(ldtf) ?></td>
-    </tr>
-
-<? } if (d.dFiles) { ?>
-    <tr style="background-color: rgba(0,0,0,.05); box-sizing: border-box;">
-      <th scope="row" style="border-top: 1px solid #dee2e6; box-sizing: border-box; padding: .3rem; text-align: inherit; vertical-align: top;">Files Received</th>
-      <td style="border-top: 1px solid #dee2e6; box-sizing: border-box; padding: .3rem; vertical-align: top;"><?= d.dFiles.format(ldtf) ?></td>
-    </tr>
-
-<? } if (d.startDate && d.dWFS) { ?>
-    <tr style="box-sizing: border-box;">
-      <th scope="row" style="border-top: 1px solid #dee2e6; box-sizing: border-box; padding: .3rem; text-align: inherit; vertical-align: top;">Files Expected</th>
-      <td style="border-top: 1px solid #dee2e6; box-sizing: border-box; padding: .3rem; vertical-align: top;"><?= d.startDate.format(ldf) ?></td>
-    </tr>
-
-<? } if (d.timestamp) { ?>
-    <tr style="background-color: rgba(0,0,0,.05); box-sizing: border-box;">
-      <th scope="row" style="border-top: 1px solid #dee2e6; box-sizing: border-box; padding: .3rem; text-align: inherit; vertical-align: top;">Request Received</th>
-      <td style="border-top: 1px solid #dee2e6; box-sizing: border-box; padding: .3rem; vertical-align: top;"><?= d.timestamp.format(ldtf) ?></td>
-    </tr>
-
-<? } ?>
-
-
-<!-- Request Basics -->
-
-<tr class="table-dark" style="background-color: #212529; box-sizing: border-box; color: #fff;">
-      <th scope="col" colspan="2" style="background-color: #c6c8ca; border-color: #32383e; border-top: 1px solid #dee2e6; box-sizing: border-box; padding: .3rem; text-align: inherit; vertical-align: top;">Request Basics</th>
-    </tr>
-
-<? if (d.requestor) { ?>
-    <tr style="background-color: rgba(0,0,0,.05); box-sizing: border-box;">
-      <th scope="row" style="border-top: 1px solid #dee2e6; box-sizing: border-box; padding: .3rem; text-align: inherit; vertical-align: top;">Requested By</th>
-      <td style="border-top: 1px solid #dee2e6; box-sizing: border-box; padding: .3rem; vertical-align: top;"><?= d.requestor ?></td>
-    </tr>
-
-<? } if (d.reqType) { ?>
-    <tr style="box-sizing: border-box;">
-      <th scope="row" style="border-top: 1px solid #dee2e6; box-sizing: border-box; padding: .3rem; text-align: inherit; vertical-align: top;">Type</th>
-      <td style="border-top: 1px solid #dee2e6; box-sizing: border-box; padding: .3rem; vertical-align: top;"><?= d.reqType ?></td>
-    </tr>
-
-<? } if (d.batch) { ?>
-    <tr style="background-color: rgba(0,0,0,.05); box-sizing: border-box;">
-      <th scope="row" style="border-top: 1px solid #dee2e6; box-sizing: border-box; padding: .3rem; text-align: inherit; vertical-align: top;">Batch</th>
-      <td style="border-top: 1px solid #dee2e6; box-sizing: border-box; padding: .3rem; vertical-align: top;"><?= d.batch ?></td>
-    </tr>
-
-<? } if (d.langsV001) { ?>
-    <tr style="box-sizing: border-box;">
-      <th scope="row" style="border-top: 1px solid #dee2e6; box-sizing: border-box; padding: .3rem; text-align: inherit; vertical-align: top;">Languages (v0.01)</th>
-      <td style="border-top: 1px solid #dee2e6; box-sizing: border-box; padding: .3rem; vertical-align: top;"><?= d.langsV001 ?></td>
-    </tr>
-
-<? } if (d.langsCR) { ?>
-    <tr style="background-color: rgba(0,0,0,.05); box-sizing: border-box;">
-      <th scope="row" style="border-top: 1px solid #dee2e6; box-sizing: border-box; padding: .3rem; text-align: inherit; vertical-align: top;">Languages (corrections)</th>
-      <td style="border-top: 1px solid #dee2e6; box-sizing: border-box; padding: .3rem; vertical-align: top;"><?= d.langsCR ?></td>
-    </tr>
-
-<? } if (d.cpyast) { ?>
-    <tr style="box-sizing: border-box;">
-      <th scope="row" style="border-top: 1px solid #dee2e6; box-sizing: border-box; padding: .3rem; text-align: inherit; vertical-align: top;">Copyrighted Assessments</th>
-      <td style="border-top: 1px solid #dee2e6; box-sizing: border-box; padding: .3rem; vertical-align: top;"><?= d.cpyast ?></td>
-    </tr>
-
-<? } if (d.nonast) { ?>
-    <tr style="background-color: rgba(0,0,0,.05); box-sizing: border-box;">
-      <th scope="row" style="border-top: 1px solid #dee2e6; box-sizing: border-box; padding: .3rem; text-align: inherit; vertical-align: top;">Non-Copyrighted Assessments</th>
-      <td style="border-top: 1px solid #dee2e6; box-sizing: border-box; padding: .3rem; vertical-align: top;"><?= d.nonast ?></td>
-    </tr>
-
-<? } if (d.langCnt) { ?>
-    <tr style="box-sizing: border-box;">
-      <th scope="row" style="border-top: 1px solid #dee2e6; box-sizing: border-box; padding: .3rem; text-align: inherit; vertical-align: top;"># Languages</th>
-      <td style="border-top: 1px solid #dee2e6; box-sizing: border-box; padding: .3rem; vertical-align: top;"><?= d.langCnt ?></td>
-    </tr>
-
-<? } if (d.astCnt) { ?>
-    <tr style="background-color: rgba(0,0,0,.05); box-sizing: border-box;">
-      <th scope="row" style="border-top: 1px solid #dee2e6; box-sizing: border-box; padding: .3rem; text-align: inherit; vertical-align: top;"># Assessments</th>
-      <td style="border-top: 1px solid #dee2e6; box-sizing: border-box; padding: .3rem; vertical-align: top;"><?= d.astCnt ?></td>
-    </tr>
-
-<? } if (d.bestwkbks && parseInt(d.bestwkbks)) { ?>
-    <tr style="box-sizing: border-box;">
-      <th scope="row" style="border-top: 1px solid #dee2e6; box-sizing: border-box; padding: .3rem; text-align: inherit; vertical-align: top;">Workbooks</th>
-      <td style="border-top: 1px solid #dee2e6; box-sizing: border-box; padding: .3rem; vertical-align: top;"><?= d.bestwkbks + (!d.actwkbks ? " (predicted)" : '') ?></td>
-    </tr>
-<? } ?>
-
-
 <!-- Performance Notes -->
 
 <? if (d.majIssues || d.minIssues || d.gennotes || d.vendiss) { ?>
@@ -509,6 +360,167 @@
       <td style="border-top: 1px solid #dee2e6; box-sizing: border-box; padding: .3rem; vertical-align: top;"><?= d.jira ?></td>
     </tr>
 <? } } ?>
+
+
+<!-- Timeline -->
+
+    <tr class="table-dark" style="background-color: #212529; box-sizing: border-box; color: #fff;">
+      <th scope="col" colspan="2" style="background-color: #c6c8ca; border-color: #32383e; border-top: 1px solid #dee2e6; box-sizing: border-box; padding: .3rem; text-align: inherit; vertical-align: top;">Timeline</th>
+    </tr>
+
+<? if (d.dCPL) { ?>
+    <tr style="background-color: rgba(0,0,0,.05); box-sizing: border-box;">
+      <th scope="row" style="border-top: 1px solid #dee2e6; box-sizing: border-box; padding: .3rem; text-align: inherit; vertical-align: top;">Date Completed</th>
+      <td style="border-top: 1px solid #dee2e6; box-sizing: border-box; padding: .3rem; vertical-align: top;"><?= d.dCPL.format(ldtf) ?></td>
+    </tr>
+
+<? } if (d.hardDueDate) { ?>
+    <tr style="box-sizing: border-box;">
+      <th scope="row" style="border-top: 1px solid #dee2e6; box-sizing: border-box; padding: .3rem; text-align: inherit; vertical-align: top;">Hard Deadline</th>
+      <td style="border-top: 1px solid #dee2e6; box-sizing: border-box; padding: .3rem; vertical-align: top;"><?= d.hardDueDate.format(ldtf) ?></td>
+    </tr>
+
+<? } if (d.prefDueDate) { ?>
+    <tr style="background-color: rgba(0,0,0,.05); box-sizing: border-box;">
+      <th scope="row" style="border-top: 1px solid #dee2e6; box-sizing: border-box; padding: .3rem; text-align: inherit; vertical-align: top;">Preferred Deadline</th>
+      <td style="border-top: 1px solid #dee2e6; box-sizing: border-box; padding: .3rem; vertical-align: top;"><?= d.prefDueDate.format(ldf) ?></td>
+    </tr>
+
+<? } if (d.dPND) { ?>
+    <tr style="box-sizing: border-box;">
+      <th scope="row" style="border-top: 1px solid #dee2e6; box-sizing: border-box; padding: .3rem; text-align: inherit; vertical-align: top;">Returned Pending Confirmation</th>
+      <td style="border-top: 1px solid #dee2e6; box-sizing: border-box; padding: .3rem; vertical-align: top;"><?= d.dPND.format(ldtf) ?></td>
+    </tr>
+
+<? } if (d.dUNR) { ?>
+    <tr style="background-color: rgba(0,0,0,.05); box-sizing: border-box;">
+      <th scope="row" style="border-top: 1px solid #dee2e6; box-sizing: border-box; padding: .3rem; text-align: inherit; vertical-align: top;">Returned w/ Unresolved Issues</th>
+      <td style="border-top: 1px solid #dee2e6; box-sizing: border-box; padding: .3rem; vertical-align: top;"><?= d.dUNR.format(ldtf) ?></td>
+    </tr>
+
+<? } if (d.dONHend) { ?>
+    <tr style="box-sizing: border-box;">
+      <th scope="row" style="border-top: 1px solid #dee2e6; box-sizing: border-box; padding: .3rem; text-align: inherit; vertical-align: top;">On-hold Ended</th>
+      <td style="border-top: 1px solid #dee2e6; box-sizing: border-box; padding: .3rem; vertical-align: top;"><?= d.dONHend.format(ldtf) ?></td>
+    </tr>
+
+<? } if (d.dONH) { ?>
+    <tr style="background-color: rgba(0,0,0,.05); box-sizing: border-box;">
+      <th scope="row" style="border-top: 1px solid #dee2e6; box-sizing: border-box; padding: .3rem; text-align: inherit; vertical-align: top;">Placed On-hold</th>
+      <td style="border-top: 1px solid #dee2e6; box-sizing: border-box; padding: .3rem; vertical-align: top;"><?= d.dONH.format(ldtf) ?></td>
+    </tr>
+
+<? } if (d.dRet) { ?>
+    <tr style="box-sizing: border-box;">
+      <th scope="row" style="border-top: 1px solid #dee2e6; box-sizing: border-box; padding: .3rem; text-align: inherit; vertical-align: top;">Request First Returned</th>
+      <td style="border-top: 1px solid #dee2e6; box-sizing: border-box; padding: .3rem; vertical-align: top;"><?= d.dRet.format(ldtf) ?></td>
+    </tr>
+
+<? } if (d.dINP) { ?>
+    <tr style="background-color: rgba(0,0,0,.05); box-sizing: border-box;">
+      <th scope="row" style="border-top: 1px solid #dee2e6; box-sizing: border-box; padding: .3rem; text-align: inherit; vertical-align: top;">Screenshots Started</th>
+      <td style="border-top: 1px solid #dee2e6; box-sizing: border-box; padding: .3rem; vertical-align: top;"><?= d.dINP.format(ldtf) ?></td>
+    </tr>
+
+<? } if (d.dREV) { ?>
+    <tr style="box-sizing: border-box;">
+      <th scope="row" style="border-top: 1px solid #dee2e6; box-sizing: border-box; padding: .3rem; text-align: inherit; vertical-align: top;">Reviewed &amp; Ready</th>
+      <td style="border-top: 1px solid #dee2e6; box-sizing: border-box; padding: .3rem; vertical-align: top;"><?= d.dREV.format(ldtf) ?></td>
+    </tr>
+
+<? } if (d.dNIF) { ?>
+    <tr style="background-color: rgba(0,0,0,.05); box-sizing: border-box;">
+      <th scope="row" style="border-top: 1px solid #dee2e6; box-sizing: border-box; padding: .3rem; text-align: inherit; vertical-align: top;">Needed Information</th>
+      <td style="border-top: 1px solid #dee2e6; box-sizing: border-box; padding: .3rem; vertical-align: top;"><?= d.dNIF.format(ldtf) ?></td>
+    </tr>
+
+<? } if (d.dFiles) { ?>
+    <tr style="box-sizing: border-box;">
+      <th scope="row" style="border-top: 1px solid #dee2e6; box-sizing: border-box; padding: .3rem; text-align: inherit; vertical-align: top;">Files Received</th>
+      <td style="border-top: 1px solid #dee2e6; box-sizing: border-box; padding: .3rem; vertical-align: top;"><?= d.dFiles.format(ldtf) ?></td>
+    </tr>
+
+<? } if (d.startDate && d.dWFS) { ?>
+    <tr style="background-color: rgba(0,0,0,.05); box-sizing: border-box;">
+      <th scope="row" style="border-top: 1px solid #dee2e6; box-sizing: border-box; padding: .3rem; text-align: inherit; vertical-align: top;">Files Expected</th>
+      <td style="border-top: 1px solid #dee2e6; box-sizing: border-box; padding: .3rem; vertical-align: top;"><?= d.startDate.format(ldf) ?></td>
+    </tr>
+
+<? } if (d.timestamp) { ?>
+    <tr style="box-sizing: border-box;">
+      <th scope="row" style="border-top: 1px solid #dee2e6; box-sizing: border-box; padding: .3rem; text-align: inherit; vertical-align: top;">Request Received</th>
+      <td style="border-top: 1px solid #dee2e6; box-sizing: border-box; padding: .3rem; vertical-align: top;"><?= d.timestamp.format(ldtf) ?></td>
+    </tr>
+
+<? } ?>
+
+
+<!-- Request Basics -->
+
+<tr class="table-dark" style="background-color: rgba(0,0,0,.05); box-sizing: border-box; color: #fff;">
+      <th scope="col" colspan="2" style="background-color: #c6c8ca; border-color: #32383e; border-top: 1px solid #dee2e6; box-sizing: border-box; padding: .3rem; text-align: inherit; vertical-align: top;">Request Basics</th>
+    </tr>
+
+<? if (d.requestor) { ?>
+    <tr style="box-sizing: border-box;">
+      <th scope="row" style="border-top: 1px solid #dee2e6; box-sizing: border-box; padding: .3rem; text-align: inherit; vertical-align: top;">Requested By</th>
+      <td style="border-top: 1px solid #dee2e6; box-sizing: border-box; padding: .3rem; vertical-align: top;"><?= d.requestor ?></td>
+    </tr>
+
+<? } if (d.reqType) { ?>
+    <tr style="background-color: rgba(0,0,0,.05); box-sizing: border-box;">
+      <th scope="row" style="border-top: 1px solid #dee2e6; box-sizing: border-box; padding: .3rem; text-align: inherit; vertical-align: top;">Type</th>
+      <td style="border-top: 1px solid #dee2e6; box-sizing: border-box; padding: .3rem; vertical-align: top;"><?= d.reqType ?></td>
+    </tr>
+
+<? } if (d.batch) { ?>
+    <tr style="box-sizing: border-box;">
+      <th scope="row" style="border-top: 1px solid #dee2e6; box-sizing: border-box; padding: .3rem; text-align: inherit; vertical-align: top;">Batch</th>
+      <td style="border-top: 1px solid #dee2e6; box-sizing: border-box; padding: .3rem; vertical-align: top;"><?= d.batch ?></td>
+    </tr>
+
+<? } if (d.langsV001) { ?>
+    <tr style="background-color: rgba(0,0,0,.05); box-sizing: border-box;">
+      <th scope="row" style="border-top: 1px solid #dee2e6; box-sizing: border-box; padding: .3rem; text-align: inherit; vertical-align: top;">Languages (v0.01)</th>
+      <td style="border-top: 1px solid #dee2e6; box-sizing: border-box; padding: .3rem; vertical-align: top;"><?= d.langsV001 ?></td>
+    </tr>
+
+<? } if (d.langsCR) { ?>
+    <tr style="box-sizing: border-box;">
+      <th scope="row" style="border-top: 1px solid #dee2e6; box-sizing: border-box; padding: .3rem; text-align: inherit; vertical-align: top;">Languages (corrections)</th>
+      <td style="border-top: 1px solid #dee2e6; box-sizing: border-box; padding: .3rem; vertical-align: top;"><?= d.langsCR ?></td>
+    </tr>
+
+<? } if (d.cpyast) { ?>
+    <tr style="background-color: rgba(0,0,0,.05); box-sizing: border-box;">
+      <th scope="row" style="border-top: 1px solid #dee2e6; box-sizing: border-box; padding: .3rem; text-align: inherit; vertical-align: top;">Copyrighted Assessments</th>
+      <td style="border-top: 1px solid #dee2e6; box-sizing: border-box; padding: .3rem; vertical-align: top;"><?= d.cpyast ?></td>
+    </tr>
+
+<? } if (d.nonast) { ?>
+    <tr style="box-sizing: border-box;">
+      <th scope="row" style="border-top: 1px solid #dee2e6; box-sizing: border-box; padding: .3rem; text-align: inherit; vertical-align: top;">Non-Copyrighted Assessments</th>
+      <td style="border-top: 1px solid #dee2e6; box-sizing: border-box; padding: .3rem; vertical-align: top;"><?= d.nonast ?></td>
+    </tr>
+
+<? } if (d.langCnt) { ?>
+    <tr style="background-color: rgba(0,0,0,.05); box-sizing: border-box;">
+      <th scope="row" style="border-top: 1px solid #dee2e6; box-sizing: border-box; padding: .3rem; text-align: inherit; vertical-align: top;"># Languages</th>
+      <td style="border-top: 1px solid #dee2e6; box-sizing: border-box; padding: .3rem; vertical-align: top;"><?= d.langCnt ?></td>
+    </tr>
+
+<? } if (d.astCnt) { ?>
+    <tr style="box-sizing: border-box;">
+      <th scope="row" style="border-top: 1px solid #dee2e6; box-sizing: border-box; padding: .3rem; text-align: inherit; vertical-align: top;"># Assessments</th>
+      <td style="border-top: 1px solid #dee2e6; box-sizing: border-box; padding: .3rem; vertical-align: top;"><?= d.astCnt ?></td>
+    </tr>
+
+<? } if (d.bestwkbks && parseInt(d.bestwkbks)) { ?>
+    <tr style="background-color: rgba(0,0,0,.05); box-sizing: border-box;">
+      <th scope="row" style="border-top: 1px solid #dee2e6; box-sizing: border-box; padding: .3rem; text-align: inherit; vertical-align: top;">Workbooks</th>
+      <td style="border-top: 1px solid #dee2e6; box-sizing: border-box; padding: .3rem; vertical-align: top;"><?= d.bestwkbks + (!d.actwkbks ? " (predicted)" : '') ?></td>
+    </tr>
+<? } ?>
 
 
 <!-- Request Details -->

@@ -34,7 +34,7 @@
                 </div>
                 <div class="form-row" id="ONHWF" style="display: none;">
                   <div class="form-group col">
-                    <label for="inputWaitingFor"><span class="badge badge-warning">On-hold</span> What are we waiting for?</label>
+                    <label for="inputWaitingFor"><!-- <span class="badge badge-warning">On-hold</span> -->What are we waiting for?</label>
                     <textarea class="form-control" name="On-Hold: Waiting For" id="inputWaitingFor" rows="3"></textarea>
                   </div>
                 </div>
@@ -135,8 +135,8 @@
       function onStatusSuccess(msg) {
           console.log("Status changed to " + msg.st + "!")
             
-          $("#status-dropdown").prev("a").text(msg.st).removeClass("disabled btn-success btn-danger btn-warning btn-outline-danger btn-outline-warning btn-outline-success btn-outline-dark btn-inprogress btn-assigned btn-completed").addClass(msg.cls.btn)
-          $("#status-text").text(msg.st).text(msg.st).removeClass("btn-success btn-danger btn-warning btn-outline-danger btn-outline-warning btn-outline-success btn-outline-dark btn-inprogress btn-assigned btn-completed").addClass(msg.cls.btn)
+          $("#status-dropdown").prev("a").text(msg.st).removeClass("disabled btn-success btn-danger btn-warning btn-outline-danger btn-outline-warning btn-outline-success btn-outline-dark btn-inprogress btn-assigned btn-completed btn-dark").addClass(msg.cls.btn)
+          $("#status-text").text(msg.st).text(msg.st).removeClass("btn-success btn-danger btn-warning btn-outline-danger btn-outline-warning btn-outline-success btn-outline-dark btn-inprogress btn-assigned btn-completed btn-dark").addClass(msg.cls.btn)
           
           updateEvent(msg.row);
         }

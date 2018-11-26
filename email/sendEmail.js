@@ -3,7 +3,8 @@ function sendEmail(d, ev, chg, old) {
 
   var eventID = eventID || null;
   var u = user();
-  var isRequestor = (u.email == d.email);
+  var testing = true;
+  var isRequestor = ((u.email == d.email) && !testing);
   // var queue = HtmlService.createTemplateFromFile('Queue');
   // queue.data = {view: null, email: null, send: true};
 
@@ -75,6 +76,11 @@ function sendEmail(d, ev, chg, old) {
   if (!c.getValue() && (d.statusCode == 'UNR' || d.statusCode == 'PND' || d.statusCode == 'ONH' || d.statusCode == 'CPL')) {
     c.setValue(today);
   } 
+
+  if (testing) {
+    to = 'michael.james@ert.com';
+    cc = 'michael.james@ert.com';
+  }
 
   // send email
   MailApp.sendEmail({

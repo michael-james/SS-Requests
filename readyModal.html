@@ -20,7 +20,7 @@
                       <option value="enCR">enCR</option>
                       <option value="FLv1">FLv1</option>
                       <option value="FLCR">FLCR</option>
-                      <option value="FLCR">v1CR</option>
+                      <option value="v1CR">v1CR</option>
                       <option value="OTH" selected>OTH</option>
                     </select>
                   </div>
@@ -28,16 +28,16 @@
                     <label for="batch">Batch</label>
                     <input name="Batch #" type="text" class="form-control" id="batch">
                   </div>
-                  <div class="form-group col-sm">
+                  <!-- <div class="form-group col-sm">
                     <label for="langCnt"># Languages</label>
                     <input name="# of languages/countries for this request" type="number" class="form-control" id="langCnt" required>
-                  </div>
-                  <div class="form-group col-sm">
+                  </div> -->
+                  <!-- <div class="form-group col-sm">
                     <label for="astCnt"># Assessments</label>
                     <input name="# of assessments for this request" type="number" class="form-control" id="astCnt" required>
-                  </div>
+                  </div> -->
                   <div class="form-group col-sm">
-                    <label for="actwkbks"># Excel files</label>
+                    <label for="actwkbks"># Excel workbooks</label>
                     <input name="Act. Wkbk. Cnt." type="number" class="form-control" id="actwkbks">
                   </div>
                 </div>
@@ -161,8 +161,8 @@
             modal.find('.modal-title').html("<span class='badge badge-success'>Files Ready</span> <span class='badge " + d.typClass + "'>" + d.reqCode + "</span> " + d.client + " " + d.protocol);
             modal.find('.modal-body select#reqCode').val(d.reqCode)
             modal.find('.modal-body input#batch').val(d.batch)
-            modal.find('.modal-body input#langCnt').val(d.langCnt)
-            modal.find('.modal-body input#astCnt').val(d.astCnt)
+            // modal.find('.modal-body input#langCnt').val(d.langCnt)
+            // modal.find('.modal-body input#astCnt').val(d.astCnt)
             modal.find('.modal-body input#actwkbks').val(d.actwkbks)
             modal.find('.modal-body textarea#langsV001').val(d.langsV001)
             modal.find('.modal-body textarea#langsCR').val(d.langsCR)

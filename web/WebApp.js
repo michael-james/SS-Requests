@@ -237,7 +237,7 @@ function processForm(arr, source) {
       console.log("...source is edit...checking if something changed")
 
       // something was changed during the edit
-      if (Object.keys(chgdCols).length) {
+      if (Object.keys(chgdCols).length || source == 4) {
         console.log("...something changed...sending email")
         // var chgdCols = {};
         // for (var h = 0; h < headers.length; h++) {
