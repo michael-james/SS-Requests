@@ -49,7 +49,7 @@ function sendEmail(d, ev, chg, old) {
 
   if (d.email == 'michael.james@ert.com') {
     to = 'michael.james@ert.com';
-  } else if (isRequestor) {
+  } else if (isRequestor && (ev !== 0)) {
     if (asstEmail) {
       to = asstEmail;
     } else {
@@ -64,6 +64,10 @@ function sendEmail(d, ev, chg, old) {
     cc = "";
   } else if (asstEmail) {
     cc = asstEmail;
+  } else if (!isRequestor) {
+    cc = u.email;
+  } else {
+    cc = 'michael.james@ert.com, affoua.jasnault@ert.com, alexandre.cortez@ert.com';
   }
 
   var replyTo = (isRequestor ? d.email : asstEmail);
