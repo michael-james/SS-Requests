@@ -313,7 +313,7 @@ function updateReq(row, id, oldStatus, client, protocol, batch, reqCode, startDa
           hardDueDateUpd.hour(9);
           break;
         case "Early afternoon":
-          hardDueDateUpd.hour(1);
+          hardDueDateUpd.hour(13);
           break;
         default:
           hardDueDateUpd.hour(17);

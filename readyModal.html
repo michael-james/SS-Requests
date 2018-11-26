@@ -81,17 +81,18 @@
                   <div class="form-group col-sm">
                     <label for="hardtime">Due Time</label>
                     <select name="Hard Deadline Time" id="hardtime" class="form-control" required>
-                      <option value="Open of Business">Open OB</option>
-                      <option value="Close of Business" selected>Close OB</option>
+                      <option value="Open of Business" id="oob">Open OB (9 am)</option>
+                      <option value="Early afternoon" id="aft">Early afternoon (1 pm)</option>
+                      <option value="Close of Business" id="cob" selected>Close OB (5 pm)</option>
                     </select>
                   </div>
                   <div class="form-group col-sm">
                     <label for="tbbuild">TB-syn Build</label>
-                    <input name="TB-syn Build #" type="text" class="form-control" id="tbbuild">
+                    <input name="TB-syn Build #" type="text" class="form-control" id="tbbuild" placeholder="latest">
                    </div>
                    <div class="form-group col-sm">
                      <label for="hhbuild">HH-syn Build</label>
-                     <input name="HH-syn Build #" type="text" class="form-control" id="hhbuild">
+                     <input name="HH-syn Build #" type="text" class="form-control" id="hhbuild" placeholder="latest">
                    </div>
                  </div>
                 
@@ -173,8 +174,8 @@
               modal.find('.modal-body input#prefDue').val(d.prefDueDateForm)
             }
             modal.find('.modal-body select#hardtime').val(d.hardtime)
-            modal.find('.modal-body input#tbbuild').val(d.TBbld || "latest")
-            modal.find('.modal-body input#hhbuild').val(d.HHbld || "latest")
+            modal.find('.modal-body input#tbbuild').val(d.TBbld)
+            modal.find('.modal-body input#hhbuild').val(d.HHbld)
             modal.find('.modal-body input#row').val(d.row)
           })
       });

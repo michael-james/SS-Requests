@@ -29,6 +29,7 @@
         <span class="text-success" id="viewoutput" style="padding-left: 15px;"></span>
       </div>
       
+      <!-- status dropdown -->
       <div>
         <div class="dropdown">
           <a class="btn <?= stCls(d.status).btn ?> dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -163,8 +164,8 @@
   function onStatusSuccess(msg) {
     console.log("Status changed to " + msg.st + "!")
     
-    $("#status-text").text(msg.st).text(msg.st).removeClass("btn-success btn-danger btn-warning btn-outline-danger btn-outline-warning btn-outline-success btn-outline-dark btn-inprogress btn-assigned btn-completed").addClass(msg.cls.btn)
-    $("#status-dropdown").prev("a").text(msg.st).removeClass("disabled btn-success btn-danger btn-warning btn-outline-danger btn-outline-warning btn-outline-success btn-outline-dark btn-inprogress btn-assigned btn-completed").addClass(msg.cls.btn)
+    $("#status-text").text(msg.st).text(msg.st).removeClass("btn-success btn-danger btn-warning btn-outline-danger btn-outline-warning btn-outline-success btn-outline-dark btn-inprogress btn-assigned btn-completed btn-dark").addClass(msg.cls.btn)
+    $("#status-dropdown").prev("a").text(msg.st).removeClass("disabled btn-success btn-danger btn-warning btn-outline-danger btn-outline-warning btn-outline-success btn-outline-dark btn-inprogress btn-assigned btn-completed btn-dark").addClass(msg.cls.btn)
     if (msg.code !== "WFS") {
       $('#ready').prop("disabled",true);
     } else {
@@ -186,7 +187,7 @@
       console.log("sending summary...");
       $(this).prop("disabled",true);
       //google.script.run.doSomething();
-      google.script.run.withSuccessHandler(onViewSendSuccess).withFailureHandler(onFailure).withUserObject($(this)).sendSummaryRow(<?= d.row ?>);
+      google.script.run.withSuccessHandler(onViewSendSuccess).withFailureHandler(onFailure).withUserObject($(this)).sendEmailUpdate(<?= d.row ?>);
     });
     
     $('#status-dropdown a').click(function() {

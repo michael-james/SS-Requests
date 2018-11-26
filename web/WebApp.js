@@ -214,22 +214,26 @@ function processForm(arr, source) {
     // status changed
     console.log("source is #%s %s", source, sources[source]);
     var statusIdx = getColNumByNameData(headers, "Status") - 1;
-    var expRetDateIdx = getColNumByNameData(headers, "Exp First Rtrn Date") - 1;
-    console.log(expRetDateIdx);
-    console.log(Object.keys(chgdCols));
-    console.log(Object.keys(chgdCols).indexOf(expRetDateIdx + ""));
-    console.log(Object.keys(chgdCols).indexOf(expRetDateIdx + "") > -1);
+    
     if (data[statusIdx] !== updRow[statusIdx]) {
       console.log("...status is different...going to chgStatus")
-      chgStatus(obj.row, obj['Status'], d);
-    
+      chgStatus(obj.row, obj['Status'], data[statusIdx], d);
+    }
+
+
+    // var expRetDateIdx = getColNumByNameData(headers, "Exp First Rtrn Date") - 1;
+    // console.log(expRetDateIdx);
+    // console.log(Object.keys(chgdCols));
+    // console.log(Object.keys(chgdCols).indexOf(expRetDateIdx + ""));
+    // console.log(Object.keys(chgdCols).indexOf(expRetDateIdx + "") > -1);
+
     // assistant wanted to send an update
-    } else if (source == 1 || (source == 3 && (Object.keys(chgdCols).indexOf(expRetDateIdx + "") > -1))) {
+    if (source == 1 || (source == 3 && (Object.keys(chgdCols).indexOf(expRetDateIdx + "") > -1))) {
       console.log("...source is Review or Perform...sending asst update")
-      sendEmail(d, 1);
+      sendEmail(d, 1, chgdCols);
     
-    // request was edited with form
-    } else if (source == 0 && !user().asst) {
+    // request was edited by TC with form
+    } else if ((source == 0 || source == 2 || source == 4) && !user().asst) {
       console.log("...source is edit...checking if something changed")
 
       // something was changed during the edit

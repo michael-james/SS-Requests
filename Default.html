@@ -107,6 +107,8 @@ var sh = ss.getSheetByName("Queue");
         //$alert.find('span#name').text(error.name);
         //$alert.find('span#info').html(error.message);
         if (button) {button.prop("disabled",false)};
+
+        console.log(error.message);
         
         var msg = error.message.replace("(", "<span class='text-muted'>(").replace(")", ")</span>");
         

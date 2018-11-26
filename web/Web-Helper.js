@@ -158,13 +158,6 @@ function chgStatus(row, newStatus, oldStatus, d) {
       var c = sh.getRange(row, getColNumByName(sh, "Date ONH End"));
       if (!c.getValue()) {c.setValue(today);}
     }
-
-    if (oldStatus !== newStatus) {
-    
-      if (oldStatus == "Waiting for Start" && newStatus == "Received") {
-        sendEmail(d, 0);
-      }
-    }
   
     switch (newStatus) {
         case "Received":
@@ -295,13 +288,13 @@ function stCls(st) {
   var btnClass = "btn-outline-dark";
   
   switch (st) {
-    case "Completed":
-      tblClass = "table-completed";
-      btnClass = "btn-completed";
-      break;
     case "Cancelled":
       tblClass = "table-dark";
       btnClass = "btn-dark";
+      break;
+    case "Completed":
+      tblClass = "table-completed";
+      btnClass = "btn-completed";
       break;
     case "Pending Confirmation":
       tblClass = "table-success";

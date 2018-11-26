@@ -3,6 +3,7 @@ function sendEmail(d, ev, chg, old) {
 
   var eventID = eventID || null;
   var u = user();
+  var isRequestor = (u.email == d.email);
   // var queue = HtmlService.createTemplateFromFile('Queue');
   // queue.data = {view: null, email: null, send: true};
 
@@ -35,8 +36,38 @@ function sendEmail(d, ev, chg, old) {
     asstEmail = 'michael.james@ert.com';
   }
 
+  // determine who to send to
+  var to;
+
+  if (d.email == 'michael.james@ert.com') {
+    to = 'michael.james@ert.com';
+  } else if (isRequestor) {
+    if (asstEmail) {
+      to = asstEmail;
+    } else {
+      to = 'michael.james@ert.com, affoua.jasnault@ert.com, alexandre.cortez@ert.com';
+    }
+  } else {
+    to = d.email;
+  }
+
+  var cc;
+  if (d.email == 'michael.james@ert.com') {
+    cc = "";
+  } else if (asstEmail) {
+    cc = asstEmail;
+  }
+
   // set email subject and PDF title
-  var title = (ev == 0 ? 'New SS Request / ' : 'SS Request Update / ') + d.id + ' / ' + d.status;
+  var title;
+  if (ev == 0) {
+    title = 'New SS Request';
+  } else if (isRequestor) {
+    title = 'SS Request Changed'
+  } else {
+    title = 'SS Request Update';
+  }
+  title += ' / ' + d.id + ' / ' + d.status;
   
   // store first date returned if applicable
   var today = new Date();
@@ -47,10 +78,10 @@ function sendEmail(d, ev, chg, old) {
 
   // send email
   MailApp.sendEmail({
-    to: 'michael.james@ert.com', //((['michael.james@ert.com', 'affoua.jasnault@ert.com', 'alexandre.cortez@ert.com'].indexOf(u.email) > -1) ? 'michael.james@ert.com, affoua.jasnault@ert.com, alexandre.cortez@ert.com' : d.email),
-    cc: ((ev == 0 && u.email !== 'michael.james@ert.com') ? 'michael.james@ert.com, affoua.jasnault@ert.com, alexandre.cortez@ert.com' : asstEmail),
+    to: to,
+    cc: cc,
     bcc: 'michael.james@ert.com',
-    replyTo: asstEmail,
+    replyTo: "",//(isRequestor ? d.email : asstEmail),
     name: "SS Requests",
     
     subject: title,
@@ -63,7 +94,7 @@ function sendEmail(d, ev, chg, old) {
   
   
   var dur = new Date().getTime() - t0.getTime(); console.info({ type: 'perf', message: Utilities.formatString('perf: %s %s %sms', arguments.callee.name, (typeof page !== 'undefined') ? page : '', dur), func: "doGet", row: (typeof d.row !== 'undefined') ? d.row : '', page: (typeof page !== 'undefined') ? page : '', source: (typeof source !== 'undefined') ? source : '', dur: dur, user: user().email});
-  return true;
+  return d
 }
 
 function testRun() {
@@ -94,6 +125,15 @@ function sendEmailHTML(HTMLOUT, d) {
   
   var dur = new Date().getTime() - t0.getTime(); console.info({ type: 'perf', message: Utilities.formatString('perf: %s %s %sms', arguments.callee.name, (typeof page !== 'undefined') ? page : '', dur), func: "doGet", row: (typeof d.row !== 'undefined') ? d.row : '', page: (typeof page !== 'undefined') ? page : '', source: (typeof source !== 'undefined') ? source : '', dur: dur, user: user().email});
   return true;
+}
+
+function sendEmailUpdate(row) {
+  var d = getRequest(row);
+  if (sendEmail(d, 1)) {
+    return d.requestor  
+  } else {
+    throw "Email not sent."
+  }
 }
 
 function sendDailyUpdatesGeneva() {
