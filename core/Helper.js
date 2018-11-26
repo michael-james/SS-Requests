@@ -6,7 +6,9 @@ function getByName(colName, row, data) {
   }
 }
 
-function getColNumByName(sh, colName) {
+function getColNumByName(colName) {
+  var ss = SpreadsheetApp.openById(ssID);
+  var sh = ss.getSheetByName("Queue");
   var headers = sh.getRange(headerRows, 1, 1, sh.getLastColumn()).getValues()[0];
   return getColNumByNameData(headers, colName)
 }
@@ -26,8 +28,8 @@ function getColNumByNameData(data, colName) {
 }
 
 function testGetColNumByName() {
-  Logger.log(getColNumByName(SpreadsheetApp.getActiveSpreadsheet().getSheetByName("Queue"), ["Status", "Requestor", "Asgd To", "Protocol Number"]));
-  Logger.log(getColNumByName(SpreadsheetApp.getActiveSpreadsheet().getSheetByName("Queue"), "Asgd To"));
+  Logger.log(getColNumByName(["Status", "Requestor", "Asgd To", "Protocol Number"]));
+  Logger.log(getColNumByName("Asgd To"));
 }
 
 function getRequest(row) {
@@ -626,14 +628,14 @@ function countReqs(fields, exc, inc) {
   
   var inds = [];
   for (var f in fields) {
-    inds.push(getColNumByName(sh, fields[f]) - 1);
+    inds.push(getColNumByName(fields[f]) - 1);
   }
   //Logger.log(inds);
       
   // filter out closed requests
-  var stIdx = getColNumByName(sh, "Status") - 1;
-  var excIdx = exc && getColNumByName(sh, exc[0]) - 1;
-  var incIdx = inc && getColNumByName(sh, inc[0]) - 1;
+  var stIdx = getColNumByName("Status") - 1;
+  var excIdx = exc && getColNumByName(exc[0]) - 1;
+  var incIdx = inc && getColNumByName(inc[0]) - 1;
   function isOpen(value) {
     return value[stIdx].length !== 0 && (exc ? exc[1].indexOf(value[excIdx]) < 0 : true) && (inc ? inc[1].indexOf(value[incIdx]) >= 0 : true);
   }

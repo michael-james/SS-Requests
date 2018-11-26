@@ -72,7 +72,7 @@ function sendEmail(d, ev, chg, old) {
   
   // store first date returned if applicable
   var today = new Date();
-  var c = d.sh.getRange(d.row, getColNumByName(d.sh, "Date Ret"));
+  var c = d.sh.getRange(d.row, getColNumByName("Date Ret"));
   if (!c.getValue() && (d.statusCode == 'UNR' || d.statusCode == 'PND' || d.statusCode == 'ONH' || d.statusCode == 'CPL')) {
     c.setValue(today);
   } 
@@ -140,6 +140,24 @@ function sendEmailUpdate(row) {
   } else {
     throw "Email not sent."
   }
+}
+
+var zones = {
+  0: 'Geneva',
+  1: 'US EST'
+}
+
+function sendDailyUpdates(zone) {
+  var reqsWaiting = getSortedReqs(null, null, ['Received', 'Reviewed', 'In-progress', 'Completed', 'Cancelled']);
+  // Logger.log(reqsWaiting);
+
+  var officeIdx = getColNumByName("")
+  for (var r in reqsWaiting) {
+    Logger.log(reqsWaiting[r][1] + '&#9; ' + reqsWaiting[r][2] + '&#9;' + reqsWaiting[r][7]);
+    sendEmailUpdate();
+  }
+
+  return Logger.getLog();
 }
 
 function sendDailyUpdatesGeneva() {

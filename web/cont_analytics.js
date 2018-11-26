@@ -38,7 +38,7 @@ function arrayTimeline() {
   var cols = ["ID", "Expected Date Files Will Be Available", "Date Files", "Hard Deadline", "Requestor", "Act. Wkbk. Cnt.", "Pred. Wkbk. Cnt."];
   var inds = [];
   for (var s in cols) {
-    inds.push(getColNumByName(sh, cols[s]) - 1);
+    inds.push(getColNumByName(cols[s]) - 1);
   }
   
   var arr = [];

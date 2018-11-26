@@ -16,11 +16,11 @@ function getSortedReqs(direction, sortBy, stExclude) {
   
   var inds = [];
   for (var s in sortBy) {
-    inds.push(getColNumByName(sh, sortBy[s]) - 1);
+    inds.push(getColNumByName(sortBy[s]) - 1);
   }
         
   // filter out closed requests
-  var stIdx = getColNumByName(sh, "Status") - 1;
+  var stIdx = getColNumByName("Status") - 1;
   function isOpen(value) {
     return value[stIdx].length !== 0 && (stExclude ? stExclude.indexOf(value[stIdx]) < 0 : true);
   }
@@ -30,8 +30,8 @@ function getSortedReqs(direction, sortBy, stExclude) {
   
   //Logger.log("sorting %s records...", reqs.length - 1);
   reqs.sort(function(a, b) {
-    //Logger.log("a row %s, %s, %s, %s, %s", a[0].toFixed(0), a[1], a[getColNumByName(sh, "Requestor") - 1], a[getColNumByName(sh, "Protocol Number") - 1], a[getColNumByName(sh, "Req Code") - 1]);
-    //Logger.log("b row %s, %s, %s, %s, %s", b[0].toFixed(0), b[1], b[getColNumByName(sh, "Requestor") - 1], b[getColNumByName(sh, "Protocol Number") - 1], b[getColNumByName(sh, "Req Code") - 1]);
+    //Logger.log("a row %s, %s, %s, %s, %s", a[0].toFixed(0), a[1], a[getColNumByName("Requestor") - 1], a[getColNumByName("Protocol Number") - 1], a[getColNumByName("Req Code") - 1]);
+    //Logger.log("b row %s, %s, %s, %s, %s", b[0].toFixed(0), b[1], b[getColNumByName("Requestor") - 1], b[getColNumByName("Protocol Number") - 1], b[getColNumByName("Req Code") - 1]);
   
     var sortVal;
     for (var i in inds) {
@@ -52,8 +52,8 @@ function getSortedReqs(direction, sortBy, stExclude) {
   
   var sorted = [];
   for (var r in reqs) {
-    //sorted.push(reqs[r].slice(0, getColNumByName(sh, "Request Overview")));
-    //Logger.log("%s > %s (%s, %s, %s)", moment(reqs[r][getColNumByName(sh, "Hard Deadline") - 1]).format(sdtf), moment(reqs[r][getColNumByName(sh, "Preferred Deadline") - 1]).format(sdtf), reqs[r][0], reqs[r][1], reqs[r][getColNumByName(sh, "Requestor") - 1])
+    //sorted.push(reqs[r].slice(0, getColNumByName("Request Overview")));
+    //Logger.log("%s > %s (%s, %s, %s)", moment(reqs[r][getColNumByName("Hard Deadline") - 1]).format(sdtf), moment(reqs[r][getColNumByName("Preferred Deadline") - 1]).format(sdtf), reqs[r][0], reqs[r][1], reqs[r][getColNumByName("Requestor") - 1])
   }
   
   reqs.unshift(headers);

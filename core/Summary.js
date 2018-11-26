@@ -60,7 +60,7 @@ function sendSummary(d) {
     d.ss.toast(d.client + ' ' + d.protocol + (d.batch && (' Batch ' + d.batch)) + ' - ' + d.reqCode, 'Request Update Sent');
     
     var today = new Date();
-    var c = d.sh.getRange(d.row, getColNumByName(d.sh, "Date Ret"));
+    var c = d.sh.getRange(d.row, getColNumByName("Date Ret"));
     if (!c.getValue() && (d.status == 'Unresolved Issues' || d.status == 'Pending Confirmation' || d.status == 'On-hold' || d.status == 'Completed')) {c.setValue(today);} 
     
     var dur = new Date().getTime() - t0.getTime(); console.info({ type: 'perf', message: Utilities.formatString('perf: %s %s %sms', arguments.callee.name, (typeof page !== 'undefined') ? page : '', dur), func: "doGet", row: (typeof d.row !== 'undefined') ? d.row : '', page: (typeof page !== 'undefined') ? page : '', source: (typeof source !== 'undefined') ? source : '', dur: dur, user: user().email});

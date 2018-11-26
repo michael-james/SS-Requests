@@ -7,7 +7,7 @@ function showMyLoggedTime() {
     throw "Not a known user.";
   }
   var fname = user().fname;
-  var asgInd = getColNumByName(sh, "Asgd To") - 1;
+  var asgInd = getColNumByName("Asgd To") - 1;
   data = data.filter(function(row) {
     return row[asgInd] == fname;
   });

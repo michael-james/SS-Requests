@@ -2,12 +2,12 @@ function getPrevReq(id, currRow) {
   var t0 = new Date();
   // Logger.log("getting prev requests...");
   var sh = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("Queue");
-  var stIdx = getColNumByName(sh, "Status") - 1;
-  var idIdx = getColNumByName(sh, "Protocol Number") - 1;
+  var stIdx = getColNumByName("Status") - 1;
+  var idIdx = getColNumByName("Protocol Number") - 1;
   
   // get and sort data
-  var sortColA = getColNumByName(sh, "Date CPL");
-  var sortColB = getColNumByName(sh, "Timestamp");
+  var sortColA = getColNumByName("Date CPL");
+  var sortColB = getColNumByName("Timestamp");
   var q = sh.getRange(headerRows + 1, 1, sh.getLastRow(), sh.getLastColumn()).getValues(); //.sort({column: idCol, ascending: false}).getValues();
     
   var prev = [];
@@ -48,7 +48,7 @@ function getPrevReq(id, currRow) {
   });
   
   var colNames = ["Status", "Date CPL", "Asgd To", "Req Code", "Batch #", "Act. Wkbk. Cnt.", "Internal Notes", "TB-syn Build # Used", "HH-syn Build # Used"];
-  var cols = getColNumByName(SpreadsheetApp.getActiveSpreadsheet().getSheetByName("Queue"), colNames);
+  var cols = getColNumByName(colNames);
   //Logger.log(cols);
   var properties = [];
   for (var c in colNames) {
@@ -204,7 +204,7 @@ function processForm(arr, source) {
   // console.log(chgdCols);
   // console.log(Object.keys(chgdCols).length);
 
-  var row = updRow[getColNumByName(sh, "row") - 1];
+  var row = updRow[getColNumByName("row") - 1];
   var d = getRequestData([headers, updRow]);
 
   if (obj.row) {
@@ -259,10 +259,10 @@ function processForm(arr, source) {
     sendEmail(d, 0);
 
     // // copy prediction formulas
-    // var predWkbksCol = getColNumByName(sh, "Pred. Wkbk. Cnt.");
+    // var predWkbksCol = getColNumByName("Pred. Wkbk. Cnt.");
     // var predWkbksFormula = sh.getRange(2, predWkbksCol).getFormula();
     // sh.getRange(sh.getLastRow(), predWkbksCol).setFormula(predWkbksFormula);
-    // var predHrsCol = getColNumByName(sh, "Pred. Wkbk. Cnt.");
+    // var predHrsCol = getColNumByName("Pred. Wkbk. Cnt.");
     // var predHrsFormula = sh.getRange(2, predHrsCol).getFormula();
     // sh.getRange(sh.getLastRow(), predHrsCol).setFormula(predHrsFormula);
   }

@@ -3,7 +3,7 @@ function onEdit(e) {
   var columnOfCellEdited = e.range.getColumn();
   //Logger.log(e.value);
   //Logger.log(e.range.getA1Notation());
-  var stCol = getColNumByName(sheet, "Status");
+  var stCol = getColNumByName("Status");
   
   if (columnOfCellEdited == stCol && sheet.getName() == "Queue") {// Column 1 is Column A
     var row = e.range.getRow();
@@ -15,29 +15,29 @@ function onEdit(e) {
         //addTask(getRequest(e.range.getRow()));
         break;
       case "In-progress":
-        var c = sheet.getRange(row, getColNumByName(sheet, "Date Strtd"));
+        var c = sheet.getRange(row, getColNumByName("Date Strtd"));
         if (!c.getValue()) {c.setValue(today);}
         break;
       case "Unresolved Issues":
-        var c = sheet.getRange(row, getColNumByName(sheet, "Date First Rtrnd"));
+        var c = sheet.getRange(row, getColNumByName("Date First Rtrnd"));
         if (!c.getValue()) {c.setValue(today);}
-        var c = sheet.getRange(row, getColNumByName(sheet, "Date Rtrnd w/ Issues"));
+        var c = sheet.getRange(row, getColNumByName("Date Rtrnd w/ Issues"));
         if (!c.getValue()) {c.setValue(today);}
         break;
       case "Pending Confirmation":
-        var c = sheet.getRange(row, getColNumByName(sheet, "Date First Rtrnd"));
+        var c = sheet.getRange(row, getColNumByName("Date First Rtrnd"));
         if (!c.getValue()) {c.setValue(today);} 
-        var c = sheet.getRange(row, getColNumByName(sheet, "Date Pend Conf"));
+        var c = sheet.getRange(row, getColNumByName("Date Pend Conf"));
         if (!c.getValue()) {c.setValue(today);}
         break;
       case "Completed":
-        var c = sheet.getRange(row, getColNumByName(sheet, "Date Cmpld"));
+        var c = sheet.getRange(row, getColNumByName("Date Cmpld"));
         if (!c.getValue()) {c.setValue(today);}
         break;
       case "On-hold":
-        var c = sheet.getRange(row, getColNumByName(sheet, "Date First Rtrnd"));
+        var c = sheet.getRange(row, getColNumByName("Date First Rtrnd"));
         if (!c.getValue()) {c.setValue(today);}
-        var c = sheet.getRange(row, getColNumByName(sheet, "Date On-hold"));
+        var c = sheet.getRange(row, getColNumByName("Date On-hold"));
         if (!c.getValue()) {c.setValue(today);}
         break;
     }
@@ -67,7 +67,7 @@ function onEditAdv(e) {
   var sheet = e.range.getSheet();
   var columnOfCellEdited = e.range.getColumn();
   
-  if (columnOfCellEdited == getColNumByName(sheet, "Status") && sheet.getName() == "Queue") {// Column 1 is Column A
+  if (columnOfCellEdited == getColNumByName("Status") && sheet.getName() == "Queue") {// Column 1 is Column A
     var row = e.range.getRow();
     var d = getRequest(row);
         
@@ -99,8 +99,8 @@ function sortRequestsStatusRec(){
   
   var rows=sh.getLastRow() + headerRows;
   var cols=sh.getLastColumn();//sort column
-  //Logger.log({headerRows: headerRows, columnToSortBy: getColNumByName(sh, sortCol1), rows: rows, cols: cols});
-  var rg=sh.getRange(headerRows + 1, getColNumByName(sh, sortCol1),rows, 1);
+  //Logger.log({headerRows: headerRows, columnToSortBy: getColNumByName(sortCol1), rows: rows, cols: cols});
+  var rg=sh.getRange(headerRows + 1, getColNumByName(sortCol1),rows, 1);
   var v1=rg.getValues();
   var col=[];
   for(var i=0;i<v1.length;i++){
@@ -108,7 +108,7 @@ function sortRequestsStatusRec(){
   }
   sh.getRange(headerRows + 1,cols + 1,rows,1).setValues(col);
   sh.getRange(headerRows + 1,1,rows,sh.getLastColumn())
-    .sort([{column:getColNumByName(sh, sortCol2),ascending: true}]) // regular sort
+    .sort([{column:getColNumByName(sortCol2),ascending: true}]) // regular sort
     .sort([{column:sh.getLastColumn(),ascending: true}]) // custom sort
   sh.deleteColumn(sh.getLastColumn());
 
@@ -137,8 +137,8 @@ function sortRequestsTime(){
   var rows=sh.getLastRow() + headerRows;
   //Logger.log("last column: " + sh.getLastColumn());
   sh.getRange(headerRows + 1,1,rows,sh.getLastColumn() - 1) // doesn't wort last column
-    .sort([{column:getColNumByName(sh, sortCol1),ascending: true}, {column:getColNumByName(sh, sortCol2),ascending: true},
-    {column:getColNumByName(sh, sortCol3),ascending: true}, {column:getColNumByName(sh, sortCol4),ascending: true}]) // regular sort
+    .sort([{column:getColNumByName(sortCol1),ascending: true}, {column:getColNumByName(sortCol2),ascending: true},
+    {column:getColNumByName(sortCol3),ascending: true}, {column:getColNumByName(sortCol4),ascending: true}]) // regular sort
     
   ss.toast('Sorted by: ' + sortCol1 + ", " + sortCol2 + ", " + sortCol3 + ", " + sortCol4,'Sort Complete');
 }

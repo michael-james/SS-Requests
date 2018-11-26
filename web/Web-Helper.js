@@ -18,7 +18,7 @@ function doGet(e) {
     row = e.parameter['row'];
     var sh = SpreadsheetApp.openById(ssID).getSheetByName("Queue");
     var data = sh.getRange(row, 1, 1, sh.getLastColumn()).getValues()[0];
-    rowTitle += " / " + data[getColNumByName(sh, "ID") -1 ] + ' / ' + data[getColNumByName(sh, "Client") - 1] + ' ' + data[getColNumByName(sh, "Protocol Number") - 1];
+    rowTitle += " / " + data[getColNumByName("ID") -1 ] + ' / ' + data[getColNumByName("Client") - 1] + ' ' + data[getColNumByName("Protocol Number") - 1];
   }
   
   var s = null;
@@ -66,6 +66,9 @@ function doGet(e) {
     html.d = d;
     html.ev = ev;
     title = "Email Test " + row;
+  } else if (dev == "preview") {
+    html = HtmlService.createTemplate("<div style='white-space: pre-wrap'>" + sendDailyUpdates() + "</div>");
+    title = "Testing";
   } else {
     var html = HtmlService.createTemplateFromFile('Default');
     title = getPageDisplayName(page, view, action) + rowTitle + " - SS Requests";
@@ -149,69 +152,69 @@ function chgStatus(row, newStatus, oldStatus, d) {
 
     // if no oldStatus is provided, get it from the database and update database with newStatus
     if (!oldStatus) {
-      var statusData = sh.getRange(row, getColNumByName(sh, "Status"));
+      var statusData = sh.getRange(row, getColNumByName("Status"));
       oldStatus = statusData.getValue();
       statusData.setValue(newStatus);
     }
         
     if (oldStatus == "On-hold") {
-      var c = sh.getRange(row, getColNumByName(sh, "Date ONH End"));
+      var c = sh.getRange(row, getColNumByName("Date ONH End"));
       if (!c.getValue()) {c.setValue(today);}
     }
   
     switch (newStatus) {
         case "Received":
-          var c = sh.getRange(row, getColNumByName(sh, "Date Files"));
+          var c = sh.getRange(row, getColNumByName("Date Files"));
           if (!c.getValue()) {c.setValue(today);}
         case "Waiting for Start":
-          var c = sh.getRange(row, getColNumByName(sh, "Date WFS"));
+          var c = sh.getRange(row, getColNumByName("Date WFS"));
           if (!c.getValue()) {c.setValue(today);}
           break;
         case "Needs Information":
-          var c = sh.getRange(row, getColNumByName(sh, "Date NIF"));
+          var c = sh.getRange(row, getColNumByName("Date NIF"));
           if (!c.getValue()) {c.setValue(today);}
           break;
         case "Reviewed":
-          var c = sh.getRange(row, getColNumByName(sh, "Date REV"));
+          var c = sh.getRange(row, getColNumByName("Date REV"));
           if (!c.getValue()) {c.setValue(today);}
           break;
         case "Assigned":
-          var c = sh.getRange(row, getColNumByName(sh, "Date ASG"));
+          var c = sh.getRange(row, getColNumByName("Date ASG"));
           if (!c.getValue()) {c.setValue(today);}
           // addTask(getRequest(e.range.getRow()));
           // addTask(d);
           break;
         case "In-progress":
-          var c = sh.getRange(row, getColNumByName(sh, "Date INP"));
+          var c = sh.getRange(row, getColNumByName("Date INP"));
           if (!c.getValue()) {c.setValue(today);}
           break;
         case "Unresolved Issues":
-//          var c = sh.getRange(row, getColNumByName(sh, "Date Ret"));
+//          var c = sh.getRange(row, getColNumByName("Date Ret"));
 //          if (!c.getValue()) {c.setValue(today);}
-          var c = sh.getRange(row, getColNumByName(sh, "Date UNR"));
+          var c = sh.getRange(row, getColNumByName("Date UNR"));
           if (!c.getValue()) {c.setValue(today);}
           // sendSummary(getRequest(row));
           break;
         case "Pending Confirmation":
-//          var c = sh.getRange(row, getColNumByName(sh, "Date Ret"));
+//          var c = sh.getRange(row, getColNumByName("Date Ret"));
 //          if (!c.getValue()) {c.setValue(today);} 
-          var c = sh.getRange(row, getColNumByName(sh, "Date PND"));
+          var c = sh.getRange(row, getColNumByName("Date PND"));
           if (!c.getValue()) {c.setValue(today);}
           // sendSummary(getRequest(row));
           break;
         case "On-hold":
-//          var c = sh.getRange(row, getColNumByName(sh, "Date Ret"));
+//          var c = sh.getRange(row, getColNumByName("Date Ret"));
 //          if (!c.getValue()) {c.setValue(today);}
-          var c = sh.getRange(row, getColNumByName(sh, "Date ONH"));
+          var c = sh.getRange(row, getColNumByName("Date ONH"));
           if (!c.getValue()) {c.setValue(today);}
           // sendSummary(getRequest(row));
           break;
         case "Completed":
-          var c = sh.getRange(row, getColNumByName(sh, "Date CPL"));
+          var c = sh.getRange(row, getColNumByName("Date CPL"));
           if (!c.getValue()) {c.setValue(today);}
           break;
         case "Cancelled":
-          var c = sh.getRange(row, getColNumByName(sh, "Date CAN"));
+          var c = sh.getRange(row, getColNumByName("Date CAN"));
           if (!c.getValue()) {c.setValue(today);}
           break;
       }

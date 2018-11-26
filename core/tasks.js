@@ -32,7 +32,7 @@ function addTask(d) {
   };
   task = Tasks.Tasks.insert(task, taskListID);
  // Logger.log('Task with ID "%s" was created.', task.id);
-  sh.getRange(d.row, getColNumByName(sh, "Task ID")).setValue(task.id);
+  sh.getRange(d.row, getColNumByName("Task ID")).setValue(task.id);
   var dur = new Date().getTime() - t0.getTime(); console.info({ type: 'perf', message: Utilities.formatString('perf: %s %s %sms', arguments.callee.name, (typeof page !== 'undefined') ? page : '', dur), func: "doGet", row: (typeof d.row !== 'undefined') ? d.row : '', page: (typeof page !== 'undefined') ? page : '', source: (typeof source !== 'undefined') ? source : '', dur: dur, user: user().email});
 }
 
