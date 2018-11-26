@@ -76,7 +76,7 @@
             var val = $('#exampleModal form').serializeArray();
             console.log("updating from review...");
             
-            google.script.run.withSuccessHandler(onReviewSuccess).withFailureHandler(onFailure).withUserObject($(this)).processForm(val, null, null, "reviewModal");
+            google.script.run.withSuccessHandler(onReviewSuccess).withFailureHandler(onFailure).withUserObject($(this)).processForm(val, 3);
           });
           
           $('#exampleModal').on('show.bs.modal', function (event) {

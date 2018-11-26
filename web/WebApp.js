@@ -213,13 +213,17 @@ function processForm(arr, source) {
 
     // status changed
     console.log("source is #%s %s", source, sources[source]);
-    if (typeof obj['Status'] !== 'undefined') {
+    var statusIdx = getColNumByNameData(headers, "Status") - 1;
+    var expRetDateIdx = getColNumByNameData(headers, "Exp First Rtrn Date") - 1;
+    console.log(Object.keys(chgdCols).indexOf(expRetDateIdx));
+    console.log(Object.keys(chgdCols).indexOf(expRetDateIdx) > -1);
+    if (data[statusIdx] !== updRow[statusIdx]) {
       console.log("...status is different...going to chgStatus")
       chgStatus(obj.row, obj['Status'], d);
     
     // assistant wanted to send an update
-    } else if (source == 1 || source == 3) {
-      console.log("...status is different...sending asst update")
+    } else if (source == 1 || (source == 3 && Object.keys(chgdCols).indexOf(expRetDateIdx) > -1)) {
+      console.log("...source is Review or Perform...sending asst update")
       sendEmail(d, 1);
     
     // request was edited with form

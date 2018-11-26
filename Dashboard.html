@@ -47,7 +47,7 @@
           
           var info = "<div class='row'><div class='col'>" +
                      "<strong>Files Exp:</strong> <span style='font-size: 90%' class='badge " + urgency(d.daysStart, 'badge', 'success') + "'>" + (d.startDate && d.startDate.format(sdf)) + "</span>\n" +
-                     "<strong>Preferred:</strong> <span style='font-size: 90%' class='badge " + urgency(d.daysPref, 'badge', 'warning') + "'>" + (d.prefDueDate && d.prefDueDate.format(sdf)) + "</span>\n" +
+                     "<strong>Preferred:</strong> <span style='font-size: 90%' class='badge " + urgency(d.daysPref, 'badge', 'warning') + "'>" + ((d.prefDueDate && d.prefDueDate.format(sdf)) || "") + "</span>\n" +
                      "<strong>Due:</strong> <span style='font-size: 90%' class='badge " + urgency(d.daysDueWhole, 'badge', 'danger') + "'>" + (d.hardDueDate && d.hardDueDate.format(sdtf).slice(0, -1)) + "</span>\n" +
                      "</div><div class='col' id='modal-table'><table><tr><th scope='col' colspan='2'>Related Requests</th></tr><tr><td colspan='2' class='text-muted'><em>Loading...</em></td></tr></table>" +
                      "</div></div>\n" + 
