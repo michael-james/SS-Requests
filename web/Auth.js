@@ -21,13 +21,14 @@ function user() {
 }
 
 function getUserDetails(email) {
+  var email = (email + "").trim();
   var firstRow = 2;
   var sh = SpreadsheetApp.openById(ssID).getSheetByName('users');
   var emails = sh.getRange(firstRow, 1, sh.getLastRow()).getValues();
   
   var row;
   for( var i = 0; i < emails.length; i++ ) {
-      if( emails[i][0] === email ) {
+      if( (emails[i][0] + "").trim() === email ) {
           row = i + firstRow;
           break;
       }

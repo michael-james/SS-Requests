@@ -68,7 +68,7 @@
    var u = user();
    var isRequestor = (u.email == d.email);
    var testing = false;
-   var disHiBye = ((!isRequestor) || testing || d.statusCode == 'CPL' || d.statusCode == 'CAN');
+   var disHiBye = ((!isRequestor) || (ev == 0) || testing || d.statusCode == 'CPL' || d.statusCode == 'CAN');
    var showEstRet = (d.expRetDate && d.daysExp >= 0 && (d.statusCode !== 'ONH') && (d.statusCode !== 'UNR') && (d.statusCode !== 'CPL') && (d.statusCode !== 'PND') && (d.statusCode !== 'CAN') && ev !== 2); ?>
 
 
