@@ -10,20 +10,19 @@ function sendEmail(d, ev, chg, old) {
 
   var eventID = eventID || null;
   var u = user();
-  var testing = false;
-  var isRequestor = ((u.email == d.email) && !testing);
+  var testing = true;
+  var isRequestor = ((u.email == d.email));
   // var queue = HtmlService.createTemplateFromFile('Queue');
   // queue.data = {view: null, email: null, send: true};
 
-  var htmlServ = HtmlService.createTemplateFromFile('email/email-inline');
-  htmlServ.d = d;
-  htmlServ.ev = (typeof ev == 'undefined' ? null : ev);
-  htmlServ.chg = (typeof chg == 'undefined' ? null : chg);
-  htmlServ.old = (typeof old == 'undefined' ? null : old);
-  htmlOut = htmlServ.evaluate();
 
-  // determine who to cc
+  /////////////////////////////////////////////////
+  // Determine to, cc, reply to, and title
+  /////////////////////////////////////////////////
+
+  // get asst email
   var asstEmail = "";
+  var allAssts = 'michael.james@ert.com, affoua.jasnault@ert.com, alexandre.cortez@ert.com'
     
   switch (d.asst) {
     case "Michael":
@@ -40,48 +39,66 @@ function sendEmail(d, ev, chg, old) {
       break;
   }
 
-  if (d.email == 'michael.james@ert.com') { // for testing purposes, if requestor is MJ, only send to MJ
-    asstEmail = 'michael.james@ert.com';
-  }
-
   // determine who to send to
-  var to;
-
+  var to = "";
+  var cc = "";
+  var replyTo = "";
+  var mainTitle = "SS Request";
+  
+  // if MJ is the requestor, just send to MJ (testing)
   if (d.email == 'michael.james@ert.com') {
     to = 'michael.james@ert.com';
-  } else if (isRequestor && (ev !== 0)) {
+    cc = "";
+  }
+
+  // if new request, email initiator and cc all Assts
+  else if (ev == 0) {
+
+      to = d.email;
+      cc = allAssts;
+      replyTo = allAssts;
+
+      title = 'New SS Request';
+  }
+
+  // if current user who initiated email is also the person who made this request
+  // and the request is not completed or cancelled
+  // and the request is not new
+  else if (isRequestor && (d.statusCode !== "CPL" || d.statusCode !== "CAN") && ev !== 0) {
+
     if (asstEmail) {
       to = asstEmail;
+      cc = d.email;
     } else {
-      to = 'michael.james@ert.com, affoua.jasnault@ert.com, alexandre.cortez@ert.com';
+      to = allAssts;
+      cc = d.email;
     }
-  } else {
+    
+    replyTo = d.email;
+
+    title = 'SS Request Changed';
+  } 
+
+  // otherwise send to requestor and cc initiator and/or assistant
+  else {
+
     to = d.email;
-  }
 
-  var cc;
-  if (d.email == 'michael.james@ert.com') {
-    cc = "";
-  } else if (asstEmail) {
-    cc = asstEmail;
-  } else if (!isRequestor) {
-    cc = u.email;
-  } else {
-    cc = 'michael.james@ert.com, affoua.jasnault@ert.com, alexandre.cortez@ert.com';
-  }
+    if (isRequestor && !asstEmail) {
+      cc = allAssts;
+      replyTo = allAssts;
+    } else if (u.email !== asstEmail) {
+      cc = u.email + ", " + asstEmail;
+      replyTo = u.email + ", " + asstEmail;
+    } else {
+      cc = asstEmail;
+      replyTo = asstEmail;
+    }
 
-  var replyTo = (isRequestor ? d.email : asstEmail);
-
-  // set email subject and PDF title
-  var title;
-  if (ev == 0) {
-    title = 'New SS Request';
-  } else if (isRequestor) {
-    title = 'SS Request Changed'
-  } else {
     title = 'SS Request Update';
   }
-  title += ' / ' + d.id + ' / ' + d.status;
+
+  var title = mainTitle + ' / ' + d.id + ' / ' + d.status;
   
   // store first date returned if applicable
   var today = new Date();
@@ -90,9 +107,23 @@ function sendEmail(d, ev, chg, old) {
     c.setValue(today);
   } 
 
+  
+
+  var htmlServ = HtmlService.createTemplateFromFile('email/email-inline');
+  htmlServ.u = u;
+  htmlServ.d = d;
+  htmlServ.ev = (typeof ev == 'undefined' ? null : ev);
+  htmlServ.chg = (typeof chg == 'undefined' ? null : chg);
+  htmlServ.old = (typeof old == 'undefined' ? null : old);
+  htmlServ.mainTitle = mainTitle;
+  htmlServ.testing = testing;
+  htmlServ.mail = {to: to, cc: cc, replyTo: replyTo};
+  htmlOut = htmlServ.evaluate();
+
   if (testing) {
     to = 'michael.james@ert.com';
     cc = 'michael.james@ert.com';
+    replyTo = 'michael.james@ert.com';
   }
 
   // send email
@@ -258,10 +289,13 @@ function sendMonthlyUpdatesUS() {
 }
 
 function sendTestEmail(func) {
+  var func = func || arguments.callee.name;
+
   MailApp.sendEmail({
     to: 'michael.james@ert.com',
     subject: "Sending you a test from " + func + "...",
     htmlBody: "It is " + moment().format(ldtf) + " right now!<br><br>Your friend,<br>" + func,
     name: "SS Requests",
+    replyTo: "thelivingpc@gmail.com, mj@michaeljames.design"
   });
 }

@@ -65,14 +65,20 @@
                             <td align="left" valign="top">
                             
 <? var info = position(d.row);
-   var u = user();
    var isRequestor = (u.email == d.email);
-   var testing = false;
    var disHiBye = ((!isRequestor) || (ev == 0) || testing || d.statusCode == 'CPL' || d.statusCode == 'CAN');
    var showEstRet = (d.expRetDate && d.daysExp >= 0 && (d.statusCode !== 'ONH') && (d.statusCode !== 'UNR') && (d.statusCode !== 'CPL') && (d.statusCode !== 'PND') && (d.statusCode !== 'CAN') && ev !== 2); ?>
 
+<? if (testing) { ?>
+  <p>
+    To: <?= mail.to ?><br>
+    CC: <?= mail.cc ?><br>
+    ReplyTo: <?= mail.replyTo ?>      
+  </p>
+<? } ?>
 
-<h3><strong>SS Request Update</strong> / <?= d.id ?></h3>
+
+<h3><strong><?= mainTitle ?> </strong> / <?= d.id ?></h3>
 <h4><?= d.client + ' ' + d.protocol + (d.batch && (' Batch ' + d.batch)) ?> &mdash; <?= d.reqCode ?></h4>
 
 <h3 class="mt-3"><?= d.status ?></h3>
