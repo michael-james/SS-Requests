@@ -10,8 +10,12 @@ var constURL = "https://script.google.com/a/macros/ert.com/s/AKfycbxhBM6eBwsmO66
  * @returns {String/html} Html to be served
  */
 function doGet(e) {
-  console.log( Utilities.jsonStringify(e) );
+  // console.log( Utilities.jsonStringify(e) );
   var t0 = new Date();
+  
+  console.log(url.slice(-3));
+  var devEnv = url.slice(-3) == "dev";
+
   var page = "Home";
   if (e.parameter.page) {
     page = e.parameter['page'];
@@ -62,7 +66,7 @@ function doGet(e) {
     ev = e.parameter['ev'];
   }
 
-  var title;
+  var title = dev ? "DEV ~ " : "";
   if (dev == "send") {
     if (!row) {throw "I need a row!"}
     var d = getRequest(row);
@@ -72,7 +76,7 @@ function doGet(e) {
     html.ev = ev;
     html.chg = null;
     html.old = null;
-    title = "Email Test " + row;
+    title += "Email Test " + row;
   }
   // else if (dev == "preview") {
   //   html = HtmlService.createTemplate(testSendDailyUpdates());
@@ -80,7 +84,7 @@ function doGet(e) {
   // }
   else {
     var html = HtmlService.createTemplateFromFile('Default');
-    title = getPageDisplayName(page, view, action) + rowTitle + " - SS Requests";
+    title += getPageDisplayName(page, view, action) + rowTitle + " - SS Requests";
   }
   
   var data = {page: page, row: row, status: statuses[s], view: view, role: role, action: action, email: u.email, u: u, admin: u.admin, asst: u.asst, lead: u.lead, dev: dev};
