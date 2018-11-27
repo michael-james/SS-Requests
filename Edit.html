@@ -405,7 +405,7 @@
 
           // Timeline
           $('#start').val(<?= d.startDateForm ?>);
-          if (<?= d.prefDueDateForm ?>) {
+          if (<?= d.prefDueDateForm || "" ?>) {
             $('#prefDue').val(<?= d.prefDueDateForm ?>);
           }
           $('#hardDue').val(<?= d.hardDueDateForm ?>);
