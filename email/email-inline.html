@@ -18,15 +18,16 @@
                             
 <? var info = position(d.row);
    var isRequestor = (u.email == d.email);
-   var disHiBye = ((!isRequestor) || (ev == 0) || testing || d.statusCode == 'CPL' || d.statusCode == 'CAN');
    var showEstRet = (d.expRetDate && d.daysExp >= 0 && (d.statusCode !== 'ONH') && (d.statusCode !== 'UNR') && (d.statusCode !== 'CPL') && (d.statusCode !== 'PND') && (d.statusCode !== 'CAN') && ev !== 2); ?>
 
 <? if (testing) { ?>
-  <p style="box-sizing: border-box; margin-bottom: 1rem; margin-top: 0;">
-    To: <?= mail.to ?><br style="box-sizing: border-box;">
+  <p class="text-muted" style="box-sizing: border-box; color: #6c757d !important; font-size: 90%; margin-bottom: 1rem; margin-top: 0;"><i style="box-sizing: border-box;">
+    FOR TESTING ONLY:<br style="box-sizing: border-box;">
+    TO: <?= mail.to ?><br style="box-sizing: border-box;">
     CC: <?= mail.cc ?><br style="box-sizing: border-box;">
-    ReplyTo: <?= mail.replyTo ?>      
+    REPLY TO: <?= mail.replyTo ?></i>    
   </p>
+  <hr style="border: 0; border-top: 1px solid rgba(0,0,0,.1); box-sizing: content-box; height: 0; margin-bottom: 1rem; margin-top: 1rem; overflow: visible;">
 <? } ?>
 
 
@@ -36,7 +37,7 @@
 <h3 class="mt-3" style="box-sizing: border-box; color: inherit; font-family: inherit; font-size: 1.75rem; font-weight: 500; line-height: 1.2; margin-bottom: .5rem; margin-top: 1rem !important;"><?= d.status ?></h3>
 <h5 class="mb-5 text-secondary" style="box-sizing: border-box; color: #6c757d !important; font-family: inherit; font-size: 1.25rem; font-weight: 500; line-height: 1.2; margin-bottom: 3rem !important; margin-top: 0;"><?= moment().format(ERTdf) ?></h5>
 
-<? if (disHiBye) { ?>
+<? if (hello) { ?>
   <p style="box-sizing: border-box; margin-bottom: 1rem; margin-top: 0;">
       Hello<?= d.requestorNames && (" " + d.requestorNames[0]) ?>,
   </p>
@@ -194,7 +195,7 @@
 
 <!-- END OF DYNAMIC MESSAGE -->
 
-<? if (disHiBye) { ?>
+<? if (hello) { ?>
 <p class="mt-3" style="box-sizing: border-box; margin-bottom: 1rem; margin-top: 1rem !important;">
     Thank you,<br style="box-sizing: border-box;">
     The Assistants&trade;
@@ -217,7 +218,11 @@
         chg[c].upd = moment(chg[c].upd).format(df);
       }
 
-      ?><?= chg[c].header ?> <i style="box-sizing: border-box;">(<?= chg[c].old ? 'from \"' + (chg[c].old.length > 30 ? chg[c].old.substring(0, 30) + '...' : chg[c].old) + '\" ' : '' ?>to <?= !chg[c].upd ? '\"\"' : '\"' + (chg[c].upd.length > 30 ? chg[c].upd.substring(0, 30) + "..." : chg[c].upd) + '\"' ?>)</i></li><?
+      ?><?= chg[c].header ?> <i style="box-sizing: border-box;"><span class="text-muted" style="box-sizing: border-box; color: #6c757d !important;"><? if (chg[c].old) { 
+        ?>from</span></i> <?= (chg[c].old.length > 30 ? chg[c].old.substring(0, 30) + '...' : chg[c].old) ?> <?
+      } ?><i style="box-sizing: border-box;"><span class="text-muted" style="box-sizing: border-box; color: #6c757d !important;">to</span></i> <? if (chg[c].upd) {
+        ?><?= (chg[c].upd.length > 30 ? chg[c].upd.substring(0, 30) + "..." : chg[c].upd)?><?
+      } else { ?>\"\"<? } ?></li><?
     } ?></ul>
 <? } ?>
 

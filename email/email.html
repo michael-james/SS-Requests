@@ -66,15 +66,16 @@
                             
 <? var info = position(d.row);
    var isRequestor = (u.email == d.email);
-   var disHiBye = ((!isRequestor) || (ev == 0) || testing || d.statusCode == 'CPL' || d.statusCode == 'CAN');
    var showEstRet = (d.expRetDate && d.daysExp >= 0 && (d.statusCode !== 'ONH') && (d.statusCode !== 'UNR') && (d.statusCode !== 'CPL') && (d.statusCode !== 'PND') && (d.statusCode !== 'CAN') && ev !== 2); ?>
 
 <? if (testing) { ?>
-  <p>
-    To: <?= mail.to ?><br>
+  <p class="text-muted" style="font-size: 90%;"><i>
+    FOR TESTING ONLY:<br>
+    TO: <?= mail.to ?><br>
     CC: <?= mail.cc ?><br>
-    ReplyTo: <?= mail.replyTo ?>      
+    REPLY TO: <?= mail.replyTo ?></i>    
   </p>
+  <hr>
 <? } ?>
 
 
@@ -84,7 +85,7 @@
 <h3 class="mt-3"><?= d.status ?></h3>
 <h5 class="mb-5 text-secondary"><?= moment().format(ERTdf) ?></h5>
 
-<? if (disHiBye) { ?>
+<? if (hello) { ?>
   <p>
       Hello<?= d.requestorNames && (" " + d.requestorNames[0]) ?>,
   </p>
@@ -242,7 +243,7 @@
 
 <!-- END OF DYNAMIC MESSAGE -->
 
-<? if (disHiBye) { ?>
+<? if (hello) { ?>
 <p class="mt-3">
     Thank you,<br>
     The Assistants&trade;
@@ -265,7 +266,11 @@
         chg[c].upd = moment(chg[c].upd).format(df);
       }
 
-      ?><?= chg[c].header ?> <i>(<?= chg[c].old ? 'from \"' + (chg[c].old.length > 30 ? chg[c].old.substring(0, 30) + '...' : chg[c].old) + '\" ' : '' ?>to <?= !chg[c].upd ? '\"\"' : '\"' + (chg[c].upd.length > 30 ? chg[c].upd.substring(0, 30) + "..." : chg[c].upd) + '\"' ?>)</i></li><?
+      ?><?= chg[c].header ?> <i><span class="text-muted"><? if (chg[c].old) { 
+        ?>from</span></i> <?= (chg[c].old.length > 30 ? chg[c].old.substring(0, 30) + '...' : chg[c].old) ?> <?
+      } ?><i><span class="text-muted">to</span></i> <? if (chg[c].upd) {
+        ?><?= (chg[c].upd.length > 30 ? chg[c].upd.substring(0, 30) + "..." : chg[c].upd)?><?
+      } else { ?>\"\"<? } ?></li><?
     } ?></ul>
 <? } ?>
 

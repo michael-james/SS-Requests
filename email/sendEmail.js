@@ -10,7 +10,8 @@ function sendEmail(d, ev, chg, old) {
 
   var eventID = eventID || null;
   var u = user();
-  var testing = true;
+  console.log("we " + (devEnv ? "ARE" : "are NOT") + " in a dev environment");
+  var testing = devEnv;
   var isRequestor = ((u.email == d.email));
   // var queue = HtmlService.createTemplateFromFile('Queue');
   // queue.data = {view: null, email: null, send: true};
@@ -46,13 +47,13 @@ function sendEmail(d, ev, chg, old) {
   var mainTitle = "SS Request";
   
   // if MJ is the requestor, just send to MJ (testing)
-  if (d.email == 'michael.james@ert.com') {
-    to = 'michael.james@ert.com';
-    cc = "";
-  }
+  // if (d.email == 'michael.james@ert.com') {
+  //   to = 'michael.james@ert.com';
+  //   cc = "";
+  // }
 
   // if new request, email initiator and cc all Assts
-  else if (ev == 0) {
+  if (ev == 0) {
 
       to = d.email;
       cc = allAssts;
@@ -118,6 +119,7 @@ function sendEmail(d, ev, chg, old) {
   htmlServ.mainTitle = mainTitle;
   htmlServ.testing = testing;
   htmlServ.mail = {to: to, cc: cc, replyTo: replyTo};
+  htmlServ.hello = to == d.email;
   htmlOut = htmlServ.evaluate();
 
   if (testing) {
