@@ -218,7 +218,7 @@
         chg[c].upd = moment(chg[c].upd).format(df);
       }
 
-      ?><?= chg[c].header ?> <i style="box-sizing: border-box;"><span class="text-muted" style="box-sizing: border-box; color: #6c757d !important;"><? if (chg[c].old) { 
+      ?><?= chg[c].header ?> &mdash; <i style="box-sizing: border-box;"><span class="text-muted" style="box-sizing: border-box; color: #6c757d !important;"><? if (chg[c].old) { 
         ?>from</span></i> <?= (chg[c].old.length > 30 ? chg[c].old.substring(0, 30) + '...' : chg[c].old) ?> <?
       } ?><i style="box-sizing: border-box;"><span class="text-muted" style="box-sizing: border-box; color: #6c757d !important;">to</span></i> <? if (chg[c].upd) {
         ?><?= (chg[c].upd.length > 30 ? chg[c].upd.substring(0, 30) + "..." : chg[c].upd)?><?
