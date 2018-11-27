@@ -65,7 +65,6 @@
                             <td align="left" valign="top">
                             
 <? var info = position(d.row);
-   var isRequestor = (u.email == d.email);
    var showEstRet = (d.expRetDate && d.daysExp >= 0 && (d.statusCode !== 'ONH') && (d.statusCode !== 'UNR') && (d.statusCode !== 'CPL') && (d.statusCode !== 'PND') && (d.statusCode !== 'CAN') && ev !== 2); ?>
 
 <? if (testing) { ?>
@@ -73,7 +72,10 @@
     FOR TESTING ONLY:<br>
     TO: <?= mail.to ?><br>
     CC: <?= mail.cc ?><br>
-    REPLY TO: <?= mail.replyTo ?></i>    
+    REPLY TO: <?= mail.replyTo ?></i><br>
+    <br>
+    isRequestor: <?= isRequestor ?><br>
+    hello: <?= hello ?>
   </p>
   <hr>
 <? } ?>
@@ -176,8 +178,10 @@
 <!-- ON-HOLD message -->
 
 <? if (d.statusCode == 'ONH') {
+    var whosReq = isRequestor ? "You placed this request" : "This request was placed";
+
     if (d.waitfor) { ?>
-        <p>Your request was placed <strong><span class="text-warning">on-hold</span></strong> because it cannot continue until the following is resolved:</p>
+        <p><?= whosReq ?> <strong><span class="text-warning">on-hold</span></strong> because we are waiting for:</p>
         <p class="ml-4" style="white-space: pre-wrap"><i><?= d.waitfor.trim() ?></i></p>
         <? if (d.jira) { ?>
             <p>There are associated JIRA defects:</p>
@@ -255,10 +259,16 @@
 
 <? if (chg && Object.keys(chg).length) { ?>
   <p class="mt-5"><?= u.fname || u.email || 'Someone' ?> edited this request.</p>
+
+  <? if (msg) { ?>
+    <p><?= msg ?></p>
+  <? } ?>
+
   <p>The following information was changed:</p>
   <ul><?
 
     for (var c in chg) { ?><li><?
+
       if (typeof chg[c].old == 'object') {
         chg[c].old = moment(chg[c].old).format(df);
       }
@@ -266,11 +276,27 @@
         chg[c].upd = moment(chg[c].upd).format(df);
       }
 
-      ?><?= chg[c].header ?> &mdash; <i><span class="text-muted"><? if (chg[c].old) { 
-        ?>from</span></i> <?= (chg[c].old.length > 30 ? chg[c].old.substring(0, 30) + '...' : chg[c].old) ?> <?
-      } ?><i><span class="text-muted">to</span></i> <? if (chg[c].upd) {
+      ?><?= chg[c].header ?> &mdash; <i><span class="text-muted"><?
+
+      if (chg[c].old) { 
+        ?>from</i></span> <?= (chg[c].old.length > 30 ? chg[c].old.substring(0, 30) + '...' : chg[c].old) ?> <?
+      }
+
+      else {
+        ?></i></span><?
+      }
+
+      ?><i><span class="text-muted">to</span></i> <?
+
+      if (chg[c].upd) {
         ?><?= (chg[c].upd.length > 30 ? chg[c].upd.substring(0, 30) + "..." : chg[c].upd)?><?
-      } else { ?>\"\"<? } ?></li><?
+      }
+
+      else {
+        ?>""<?
+      }
+
+      ?></li><?
     } ?></ul>
 <? } ?>
 

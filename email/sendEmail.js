@@ -5,14 +5,19 @@ var emailEvents = {
   3: 'waiting reminder'
 }
 
-function sendEmail(d, ev, chg, old) {
+function sendEmail(d, ev, chg, old, msg) {
   var t0 = new Date();
 
   var eventID = eventID || null;
   var u = user();
-  console.log("we " + (devEnv ? "ARE" : "are NOT") + " in a dev environment");
-  var testing = devEnv;
   var isRequestor = ((u.email == d.email));
+
+  var url = ScriptApp.getService().getUrl();
+  var devEnv = url.slice(-3) == "dev";
+  console.log(devEnv);
+  console.log("we " + (devEnv ? "ARE" : "are NOT") + " in a dev environment");
+  var testing = true; //devEnv;
+  
   // var queue = HtmlService.createTemplateFromFile('Queue');
   // queue.data = {view: null, email: null, send: true};
 
@@ -45,6 +50,7 @@ function sendEmail(d, ev, chg, old) {
   var cc = "";
   var replyTo = "";
   var mainTitle = "SS Request";
+  console.log(d.statusCode);
   
   // if MJ is the requestor, just send to MJ (testing)
   // if (d.email == 'michael.james@ert.com') {
@@ -59,13 +65,13 @@ function sendEmail(d, ev, chg, old) {
       cc = allAssts;
       replyTo = allAssts;
 
-      title = 'New SS Request';
+      mainTitle = 'New SS Request';
   }
 
   // if current user who initiated email is also the person who made this request
   // and the request is not completed or cancelled
   // and the request is not new
-  else if (isRequestor && (d.statusCode !== "CPL" || d.statusCode !== "CAN") && ev !== 0) {
+  else if (isRequestor && d.statusCode !== "ONH" && d.statusCode !== "CPL" && d.statusCode !== "CAN" && ev !== 0) {
 
     if (asstEmail) {
       to = asstEmail;
@@ -77,7 +83,7 @@ function sendEmail(d, ev, chg, old) {
     
     replyTo = d.email;
 
-    title = 'SS Request Changed';
+    mainTitle = 'SS Request Changed';
   } 
 
   // otherwise send to requestor and cc initiator and/or assistant
@@ -96,7 +102,7 @@ function sendEmail(d, ev, chg, old) {
       replyTo = asstEmail;
     }
 
-    title = 'SS Request Update';
+    mainTitle = 'SS Request Update';
   }
 
   var title = mainTitle + ' / ' + d.id + ' / ' + d.status;
@@ -120,6 +126,8 @@ function sendEmail(d, ev, chg, old) {
   htmlServ.testing = testing;
   htmlServ.mail = {to: to, cc: cc, replyTo: replyTo};
   htmlServ.hello = to == d.email;
+  htmlServ.isRequestor = isRequestor;
+  htmlServ.msg = msg;
   htmlOut = htmlServ.evaluate();
 
   if (testing) {

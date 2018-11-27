@@ -17,7 +17,6 @@
                             <td align="left" valign="top" style="box-sizing: border-box;">
                             
 <? var info = position(d.row);
-   var isRequestor = (u.email == d.email);
    var showEstRet = (d.expRetDate && d.daysExp >= 0 && (d.statusCode !== 'ONH') && (d.statusCode !== 'UNR') && (d.statusCode !== 'CPL') && (d.statusCode !== 'PND') && (d.statusCode !== 'CAN') && ev !== 2); ?>
 
 <? if (testing) { ?>
@@ -25,7 +24,10 @@
     FOR TESTING ONLY:<br style="box-sizing: border-box;">
     TO: <?= mail.to ?><br style="box-sizing: border-box;">
     CC: <?= mail.cc ?><br style="box-sizing: border-box;">
-    REPLY TO: <?= mail.replyTo ?></i>    
+    REPLY TO: <?= mail.replyTo ?></i><br style="box-sizing: border-box;">
+    <br style="box-sizing: border-box;">
+    isRequestor: <?= isRequestor ?><br style="box-sizing: border-box;">
+    hello: <?= hello ?>
   </p>
   <hr style="border: 0; border-top: 1px solid rgba(0,0,0,.1); box-sizing: content-box; height: 0; margin-bottom: 1rem; margin-top: 1rem; overflow: visible;">
 <? } ?>
@@ -128,8 +130,10 @@
 <!-- ON-HOLD message -->
 
 <? if (d.statusCode == 'ONH') {
+    var whosReq = isRequestor ? "You placed this request" : "This request was placed";
+
     if (d.waitfor) { ?>
-        <p style="box-sizing: border-box; margin-bottom: 1rem; margin-top: 0;">Your request was placed <strong style="box-sizing: border-box; font-weight: bolder;"><span class="text-warning" style="box-sizing: border-box; color: #ffc107 !important;">on-hold</span></strong> because it cannot continue until the following is resolved:</p>
+        <p style="box-sizing: border-box; margin-bottom: 1rem; margin-top: 0;"><?= whosReq ?> <strong style="box-sizing: border-box; font-weight: bolder;"><span class="text-warning" style="box-sizing: border-box; color: #ffc107 !important;">on-hold</span></strong> because we are waiting for:</p>
         <p class="ml-4" style="box-sizing: border-box; margin-bottom: 1rem; margin-left: 1.5rem !important; margin-top: 0; white-space: pre-wrap;"><i style="box-sizing: border-box;"><?= d.waitfor.trim() ?></i></p>
         <? if (d.jira) { ?>
             <p style="box-sizing: border-box; margin-bottom: 1rem; margin-top: 0;">There are associated JIRA defects:</p>
@@ -207,10 +211,16 @@
 
 <? if (chg && Object.keys(chg).length) { ?>
   <p class="mt-5" style="box-sizing: border-box; margin-bottom: 1rem; margin-top: 3rem !important;"><?= u.fname || u.email || 'Someone' ?> edited this request.</p>
+
+  <? if (msg) { ?>
+    <p style="box-sizing: border-box; margin-bottom: 1rem; margin-top: 0;"><?= msg ?></p>
+  <? } ?>
+
   <p style="box-sizing: border-box; margin-bottom: 1rem; margin-top: 0;">The following information was changed:</p>
   <ul style="box-sizing: border-box; margin-bottom: 1rem; margin-top: 0;"><?
 
     for (var c in chg) { ?><li style="box-sizing: border-box;"><?
+
       if (typeof chg[c].old == 'object') {
         chg[c].old = moment(chg[c].old).format(df);
       }
@@ -218,11 +228,27 @@
         chg[c].upd = moment(chg[c].upd).format(df);
       }
 
-      ?><?= chg[c].header ?> &mdash; <i style="box-sizing: border-box;"><span class="text-muted" style="box-sizing: border-box; color: #6c757d !important;"><? if (chg[c].old) { 
+      ?><?= chg[c].header ?> &mdash; <i style="box-sizing: border-box;"><span class="text-muted" style="box-sizing: border-box; color: #6c757d !important;"><?
+
+      if (chg[c].old) { 
         ?>from</span></i> <?= (chg[c].old.length > 30 ? chg[c].old.substring(0, 30) + '...' : chg[c].old) ?> <?
-      } ?><i style="box-sizing: border-box;"><span class="text-muted" style="box-sizing: border-box; color: #6c757d !important;">to</span></i> <? if (chg[c].upd) {
+      }
+
+      else {
+        ?><?
+      }
+
+      ?><i style="box-sizing: border-box;"><span class="text-muted" style="box-sizing: border-box; color: #6c757d !important;">to</span></i> <?
+
+      if (chg[c].upd) {
         ?><?= (chg[c].upd.length > 30 ? chg[c].upd.substring(0, 30) + "..." : chg[c].upd)?><?
-      } else { ?>\"\"<? } ?></li><?
+      }
+
+      else {
+        ?>""<?
+      }
+
+      ?></li><?
     } ?></ul>
 <? } ?>
 
