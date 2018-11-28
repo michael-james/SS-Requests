@@ -288,17 +288,11 @@
         chg[c].upd = moment(chg[c].upd).format(df);
       }
 
-      ?><?= chg[c].header ?> &mdash; <i><span class="text-muted"><?
+      ?><?= chg[c].header ?> &mdash; <?
 
       if (chg[c].old) { 
-        ?>from</i></span> <?= (chg[c].old.length > 30 ? chg[c].old.substring(0, 30) + '...' : chg[c].old) ?> <?
-      }
-
-      else {
-        ?></i></span><?
-      }
-
-      ?><i><span class="text-muted">to</span></i> <?
+        ?><i><span class="text-muted">from</i></span> <?= (chg[c].old.length > 30 ? chg[c].old.substring(0, 30) + '...' : chg[c].old) ?> <?
+      } ?><i><span class="text-muted">to</span></i> <?
 
       if (chg[c].upd) {
         ?><?= (chg[c].upd.length > 30 ? chg[c].upd.substring(0, 30) + "..." : chg[c].upd)?><?

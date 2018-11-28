@@ -160,9 +160,9 @@ function getRequestData(data, i) {
   d.expRetDateForm = d.expRetDate && d.expRetDate.format(dfform);
 
   if (d.hardDue == d.prefDue) {
-    d.prefDue = null;
-    d.prefDueDate = null;
-    d.prefDueDateForm = null;
+    d.prefDue = "";
+    d.prefDueDate = "";
+    d.prefDueDateForm = "";
   }
   
   //Logger.log('\nHard Due: ' + d.hardDue + '\nPref Due: ' + d.prefDue + '\n Start: ' + d.start);
