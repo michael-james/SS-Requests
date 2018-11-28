@@ -1,7 +1,7 @@
     <div class="container-fluid" style="padding-top:20px">
     
       <div class="row justify-content-center">
-        <div class="col-sm-12">
+        <div class="col-auto">
         
           <div class="d-flex justify-content-between">
             <div>
@@ -40,10 +40,10 @@
                   <th scope="col" style="border-left: 1">Requestor</th>
                   <th scope="col">Client</th>
                   <th scope="col">Protocol</th>
-                  <th scope="col">Batch</th>
-                  <th scope="col"># A</th>
-                  <th scope="col"># L</th>
-                  <th scope="col">Wkbks.</th>
+                  <th scope="col" class="text-right">Batch</th>
+                  <th scope="col" class="text-right"># A</th>
+                  <th scope="col" class="text-right"># L</th>
+                  <th scope="col" class="text-right">Wkbks.</th>
                   <th scope="col"></th>
                 </tr>
               </thead>
@@ -97,21 +97,33 @@
                   
                   <td><?= d.protocol ?></td>
                   
-                  <td><?= d.batch ?></td>
+                  <td class="text-right"><?= d.batch ?></td>
                   
-                  <td><a data-toggle="tooltip" data-html="true" data-placement="right" title="<?= (d.langsV001 && ("<strong>v0.01:</strong> " + d.langsV001 + (d.langsCR && "\n\n"))) + (d.langsCR && ("<strong>CR:</strong> " + d.langsCR)) ?>"><?= d.langCnt ?></a></td>
+                  <td class="text-right"><a data-toggle="tooltip" data-html="true" data-placement="right" title="<?= (d.langsV001 && ("<strong>v0.01:</strong> " + d.langsV001 + (d.langsCR && "\n\n"))) + (d.langsCR && ("<strong>CR:</strong> " + d.langsCR)) ?>"><?= d.langCnt ?></a></td>
 
-                  <td><a data-toggle="tooltip" data-html="true" data-placement="right" title="<?= (d.cpyast && ("<strong>CPY:</strong> " + d.cpyast + (d.nonast && "\n\n"))) + (d.nonast && ("<strong>NON:</strong> " + d.nonast)) ?>"><?= d.astCnt ?></a></td>
+                  <td class="text-right"><a data-toggle="tooltip" data-html="true" data-placement="right" title="<?= (d.cpyast && ("<strong>CPY:</strong> " + d.cpyast + (d.nonast && "\n\n"))) + (d.nonast && ("<strong>NON:</strong> " + d.nonast)) ?>"><?= d.astCnt ?></a></td>
                                     
-                  <td><span style="<?= d.actwkbks && "font-weight: bolder" ?>"><?= d.bestwkbks ?></strong></td>
+                  <td class="text-right"><span style="<?= d.actwkbks && "font-weight: bolder" ?>"><?= d.bestwkbks ?></strong></td>
                   
-                  <td>
+                  <td class="text-right pl-3">
                     <div class="btn-group btn-group-sm" role="group">
-                      <a class="btn btn-outline-secondary" href="<?=url?>?page=View<?= (data.asst || data.lead || data.admin) ? 'Admin' : '' ?>&row=<?= d.row ?>">View</a>
+                    <? if (d.email == data.email) { ?>
                       <a class="btn btn-secondary" href="<?=url?>?page=Edit&row=<?= d.row ?>">Edit</a>
-                      <!--<button class="btn btn-info" id="feedback">Feedback</button>-->
+                      <? } ?>
+                      <a class="btn btn-outline-secondary" href="<?=url?>?page=View<?= (data.asst || data.lead || data.admin) ? 
+                        'Admin' : '' ?>&row=<?= d.row ?>">View</a>
                     </div>
                   </td>
+                  <!-- <td> -->
+                    
+                    <!-- <div class="btn-group btn-group-sm" role="group"> -->
+                      
+                      <!-- PUT FEEDBACK HERE -->
+                    <!-- </div> -->
+                    
+                      <!--<button class="btn btn-info" id="feedback">Feedback</button>-->
+                    <!-- </div> -->
+                  <!-- </td> -->
 
                 </tr>
           <? } ?>

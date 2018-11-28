@@ -319,3 +319,15 @@ function getWorkComplDefaults() {
   }
   return defaults;
 }
+
+function doPerform(row) {
+  chgStatus(row, "In-progress");
+
+  var u = user();
+  var asstCol = getColNumByName('Asgd To');
+  var asst = SpreadsheetApp.openById(ssID).getSheetByName('Queue').getRange(row, asstCol);
+  if (!asst.getValue() && u.fname) {
+    asst.setValue(u.fname);
+  }
+
+}

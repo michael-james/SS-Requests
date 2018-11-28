@@ -23,7 +23,7 @@ function user() {
 function getUserDetails(email) {
 
   // for testing purposes
-  var email = "alicia.cagle@ert.com"
+  // var email = "alicia.cagle@ert.com"
 
   var email = (email + "").trim();
   var firstRow = 2;

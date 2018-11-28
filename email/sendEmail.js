@@ -12,11 +12,11 @@ function sendEmail(d, ev, chg, old, msg) {
   var u = user();
   var isRequestor = ((u.email == d.email));
 
-  var url = ScriptApp.getService().getUrl();
-  var devEnv = url.slice(-3) == "dev";
-  console.log(devEnv);
-  console.log("we " + (devEnv ? "ARE" : "are NOT") + " in a dev environment");
-  var testing = true; //devEnv;
+  // var url = ScriptApp.getService().getUrl();
+  // var devEnv = url.slice(-3) == "dev";
+  // console.log(devEnv);
+  // console.log("we " + (devEnv ? "ARE" : "are NOT") + " in a dev environment");
+  var testing = false; //devEnv;
   
   // var queue = HtmlService.createTemplateFromFile('Queue');
   // queue.data = {view: null, email: null, send: true};
@@ -28,7 +28,8 @@ function sendEmail(d, ev, chg, old, msg) {
 
   // get asst email
   var asstEmail = "";
-  var allAssts = 'michael.james@ert.com, affoua.jasnault@ert.com, alexandre.cortez@ert.com'
+  var allAssts = 'michael.james@ert.com, affoua.jasnault@ert.com, alexandre.cortez@ert.com';
+  var allAsstsArray = ['michael.james@ert.com', 'affoua.jasnault@ert.com', 'alexandre.cortez@ert.com'];
     
   switch (d.asst) {
     case "Michael":
@@ -51,6 +52,7 @@ function sendEmail(d, ev, chg, old, msg) {
   var replyTo = "";
   var mainTitle = "SS Request";
   console.log(d.statusCode);
+  var otherPerson = allAsstsArray.indexOf(u.email) == -1;
   
   // if MJ is the requestor, just send to MJ (testing)
   // if (d.email == 'michael.james@ert.com') {
@@ -71,7 +73,7 @@ function sendEmail(d, ev, chg, old, msg) {
   // if current user who initiated email is also the person who made this request
   // and the request is not completed or cancelled
   // and the request is not new
-  else if (isRequestor && d.statusCode !== "ONH" && d.statusCode !== "CPL" && d.statusCode !== "CAN" && ev !== 0) {
+  else if (isRequestor || d.statusCode == "ONH" || d.statusCode == "CPL" || d.statusCode == "CAN" || otherPerson) {
 
     if (asstEmail) {
       to = asstEmail;
@@ -80,8 +82,13 @@ function sendEmail(d, ev, chg, old, msg) {
       to = allAssts;
       cc = d.email;
     }
-    
+
     replyTo = d.email;
+
+    if (otherPerson) {
+      replyTo += ", " + u.email;
+      cc += ", " + u.email;
+    }
 
     mainTitle = 'SS Request Changed';
   } 
@@ -91,15 +98,12 @@ function sendEmail(d, ev, chg, old, msg) {
 
     to = d.email;
 
-    if (isRequestor && !asstEmail) {
-      cc = allAssts;
-      replyTo = allAssts;
-    } else if (u.email !== asstEmail) {
-      cc = u.email + ", " + asstEmail;
-      replyTo = u.email + ", " + asstEmail;
-    } else {
+    if (asstEmail) {
       cc = asstEmail;
       replyTo = asstEmail;
+    } else {
+      cc = allAssts;
+      replyTo = allAssts;
     }
 
     mainTitle = 'SS Request Update';
@@ -304,7 +308,19 @@ function sendTestEmail(func) {
   MailApp.sendEmail({
     to: 'michael.james@ert.com',
     subject: "Sending you a test from " + func + "...",
-    htmlBody: "It is " + moment().format(ldtf) + " right now!<br><br>Your friend,<br>" + func,
+    htmlBody: "It is " + moment().format(ldtf) + " right <a href='<?= url ?>'>now!</a><br><br>Your friend,<br>" + func,
+    name: "SS Requests",
+    replyTo: "thelivingpc@gmail.com, mj@michaeljames.design"
+  });
+}
+
+function sendTestEmailConstURL(func) {
+  var func = func || arguments.callee.name;
+
+  MailApp.sendEmail({
+    to: 'michael.james@ert.com',
+    subject: "Sending you a test from " + func + "...",
+    htmlBody: "It is " + moment().format(ldtf) + " right <a href='<?= url ?>'>now!</a><br><br>Your friend,<br>" + func,
     name: "SS Requests",
     replyTo: "thelivingpc@gmail.com, mj@michaeljames.design"
   });

@@ -98,7 +98,7 @@
                   <div class="btn-group btn-group-sm" role="group">
                     <a class="btn btn-outline-secondary" href="<?=url?>?page=ViewAdmin&row=<?= d.row ?>">View</a>
                     <a class="btn btn-secondary" href="<?=url?>?page=Edit&row=<?= d.row ?>">Edit</a>
-                    <a class="btn btn-primary" href="<?=url?>?page=Perform&row=<?= d.row ?>">Perf</a>
+                    <a class="btn btn-primary" id="perform" href="<?=url?>?page=Perform&row=<?= d.row ?>" data-row="<?= d.row ?>">Perf</a>
                   </div>
                 </td>
 
@@ -120,6 +120,10 @@
         // updateEvent(msg); // msg is row
         document.getElementById('home-link').click();
       }
+
+      function onDoPerformSuccess(msg) {
+        document.getElementById('perform').click();
+      }
       
       $(function () {
         $('[data-toggle="tooltip"]').tooltip()
@@ -130,4 +134,9 @@
         $('.req-row[data-fname!="' + user + '"]').toggle();
         $(this).toggleClass("btn-info").toggleClass("btn-outline-secondary");
       });
+
+      // $('#perform').click(function() {
+      //   $(this).prop('disabled', true);
+      //   google.script.run.withSuccessHandler(onDoPerformSuccess).withFailureHandler(onFailure).withUserObject($(this)).doPerform(parseInt($(this).data('row')));
+      // });
     </script>
