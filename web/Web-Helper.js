@@ -228,6 +228,9 @@ function chgStatus(row, newStatus, oldStatus, d) {
           if (!c.getValue()) {c.setValue(today);}
           break;
       }
+
+      var today = new Date();
+      sh.getRange(row, getColNumByName("lastEdit")).setValue(today);
       
       var dur = new Date().getTime() - t0.getTime(); console.info({ type: 'perf', message: Utilities.formatString('perf: %s %s %sms', arguments.callee.name, (typeof page !== 'undefined') ? page : '', dur), func: arguments.callee.name, row: (typeof row !== 'undefined') ? row : '', page: (typeof page !== 'undefined') ? page : '', source: (typeof source !== 'undefined') ? source : '', dur: dur, user: user().email});
       return { st: newStatus, cls: stCls(newStatus), row: row, code: getStatusCode(newStatus) }

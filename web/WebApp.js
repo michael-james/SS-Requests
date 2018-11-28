@@ -270,6 +270,9 @@ function processForm(arr, source) {
   }
 
   updateEvent(d);
+
+  var today = new Date();
+  d.sh.getRange(d.row, getColNumByName("lastEdit")).setValue(today);
   
   var dur = new Date().getTime() - t0.getTime(); console.info({ type: 'perf', message: Utilities.formatString('perf: %s %s %sms', arguments.callee.name, (typeof page !== 'undefined') ? page : '', dur), func: arguments.callee.name, row: (typeof row !== 'undefined') ? row : '', page: (typeof page !== 'undefined') ? page : '', source: (typeof source !== 'undefined') ? source : '', dur: dur, user: user().email});
   return row

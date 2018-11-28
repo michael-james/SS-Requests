@@ -7,6 +7,7 @@ var emailEvents = {
 
 function sendEmail(d, ev, chg, old, msg) {
   var t0 = new Date();
+  var today = new Date();
 
   var eventID = eventID || null;
   var u = user();
@@ -16,7 +17,7 @@ function sendEmail(d, ev, chg, old, msg) {
   // var devEnv = url.slice(-3) == "dev";
   // console.log(devEnv);
   // console.log("we " + (devEnv ? "ARE" : "are NOT") + " in a dev environment");
-  var testing = false; //devEnv;
+  var testing = true; //devEnv;
   
   // var queue = HtmlService.createTemplateFromFile('Queue');
   // queue.data = {view: null, email: null, send: true};
@@ -68,12 +69,16 @@ function sendEmail(d, ev, chg, old, msg) {
       replyTo = allAssts;
 
       mainTitle = 'New SS Request';
+
+      // if (!testing) {
+        d.sh.getRange(d.row, getColNumByName("lastSentTo")).setValue(today);
+      // }
   }
 
   // if current user who initiated email is also the person who made this request
   // and the request is not completed or cancelled
   // and the request is not new
-  else if (isRequestor || d.statusCode == "ONH" || d.statusCode == "CPL" || d.statusCode == "CAN" || otherPerson) {
+  else if (!(ev == 1 || d.statusCode == "ONH" || d.statusCode == "CPL" || d.statusCode == "CAN") && (otherPerson || isRequestor)) {
 
     if (asstEmail) {
       to = asstEmail;
@@ -107,18 +112,20 @@ function sendEmail(d, ev, chg, old, msg) {
     }
 
     mainTitle = 'SS Request Update';
+
+    // if (!testing) {
+      d.sh.getRange(d.row, getColNumByName("lastSentTo")).setValue(today);
+    // }
   }
 
   var title = mainTitle + ' / ' + d.id + ' / ' + d.status;
   
   // store first date returned if applicable
-  var today = new Date();
   var c = d.sh.getRange(d.row, getColNumByName("Date Ret"));
   if (!c.getValue() && (d.statusCode == 'UNR' || d.statusCode == 'PND' || d.statusCode == 'ONH' || d.statusCode == 'CPL')) {
     c.setValue(today);
-  } 
+  }
 
-  
 
   var htmlServ = HtmlService.createTemplateFromFile('email/email-inline');
   htmlServ.u = u;
@@ -213,7 +220,7 @@ var officeZones = {
 }
 
 function sendDailyUpdates(zone) {
-  // exclude statuses other than Waiting for Start, Needs Information, Unresolved Issues, 
+  // exclude statuses other than Waiting for Start, Needs Information, Unresolved Issues, Pending Confirmation, or On-hold
   var reqsWaiting = getSortedReqs(null, null, ['Received', 'Reviewed', 'Assigned', 'In-progress', 'Completed', 'Cancelled']);
   var emailsSent = 0;
   var emailsSentTo = "";
@@ -221,17 +228,26 @@ function sendDailyUpdates(zone) {
   
   log += "zone: " + zones[zone] + "\n\n<strong>All Emails We Are Waiting On:</strong>\n";
 
-  var rowIdx = getColNumByName("row") - 1;
-  var officeIdx = getColNumByName("office") - 1;
-  var startIdx = getColNumByName("Expected Date Files Will Be Available") - 1;
-  var statusIdx = getColNumByName("Status") - 1;
+  var headers = sh.getRange(headerRows, 1, 1, sh.getLastColumn()).getValues()[0];
+  var rowIdx = getColNumByNameData(headers, "row") - 1;
+  var officeIdx = getColNumByNameData(headers, "office") - 1;
+  var startIdx = getColNumByNameData(headers, "Expected Date Files Will Be Available") - 1;
+  var statusIdx = getColNumByNameData(headers, "Status") - 1;
+  var lastSentToIdx = getColNumByNameData(headers, "lastSentTo") - 1;
+  var emailIdx = getColNumByNameData(headers, "Email Address") - 1;
+  var idIdx = getColNumByNameData(headers, "ID") - 1;
+
   for (var r = 1; r < reqsWaiting.length; r++) {
     var thisLog = "";
 
-    var info = "<u>" + reqsWaiting[r][7] + "</u> (" + reqsWaiting[r][officeIdx] + ") &mdash; " + reqsWaiting[r][1] + ' / ' + reqsWaiting[r][2];
+    var timeSinceSentTo = moment().diff(moment(reqsWaiting[r][lastSentToIdx]), hours, true);
+    var hrsSinceSentTo = 21;
+    console.log("last email was sent to ")
+
+    var info = "<u>" + reqsWaiting[r][emailIdx] + "</u> (" + reqsWaiting[r][officeIdx] + ") &mdash; " + reqsWaiting[r][idIdx] + ' / ' + reqsWaiting[r][statusIdx] + ' / ' + (timeSinceSentTo ? timeSinceSentTo.toFixed(1) + ' hours ' : ''); 
     thisLog += info;
 
-    if (officeZones[reqsWaiting[r][officeIdx]] == zone) {
+    if (officeZones[reqsWaiting[r][officeIdx]] == zone && timeSinceSentTo >= 21) {
 
       if (reqsWaiting[r][statusIdx] == 'Waiting for Start') {
         var today = new Date();
@@ -318,14 +334,14 @@ function sendTestEmail(func) {
 function sendTestEmailConstURL(func) {
   var func = arguments.callee.name;
 
-  var url = ScriptApp.getService().getUrl();
+  // var url = ScriptApp.getService().getUrl();
 
-  var constURL = "https://script.google.com/a/macros/ert.com/s/AKfycbxhBM6eBwsmO66MT0On_K9MPtupzF_YzWxJGRL4CSqKFNsIEn4/exec";
+  // var constURL = "https://script.google.com/a/macros/ert.com/s/AKfycbxhBM6eBwsmO66MT0On_K9MPtupzF_YzWxJGRL4CSqKFNsIEn4/exec";
 
   MailApp.sendEmail({
     to: 'michael.james@ert.com',
     subject: "Sending you a test from " + func + "...",
-    htmlBody: "It is " + moment().format(ldtf) + " right <a href='<?= url ?>'>now!</a><br><br>url: <?= url ?><br>constURL: <?= constURL ?><br><br>Your friend,<br>" + func,
+    htmlBody: "It is " + moment().format(ldtf) + " right <a href='" + url + "'>now!</a><br><br>url: " + url + "<br>constURL: " + constURL + "<br><br>Your friend,<br>" + func,
     name: "SS Requests",
     replyTo: "thelivingpc@gmail.com, mj@michaeljames.design"
   });

@@ -151,10 +151,13 @@
 
 <? if (d.statusCode == 'UNR') { ?>
     <p>There are <strong><span class="text-danger">unresolved issues</span></strong> that are keeping us from delivering your request. Please review the information below, take appropriate action, then select one of the following options.</p>
-    <div class="btn-group btn-group-sm mb-3" role="group">
-      <a class="btn btn-inprogress" href="<?= constURL ?>?page=View&row=<?= d.row ?>&status=INP">Ready to Continue</a>
-      <a class="btn btn-warning" href="<?= constURL ?>?page=View&row=<?= d.row ?>&status=ONH">Place On-hold</a>
-      <a class="btn btn-completed" href="<?= constURL ?>?page=View&row=<?= d.row ?>&status=CPL">Completed</a>
+
+    <div>
+      <div class="btn-group btn-group-sm mb-3" role="group">
+        <a class="btn btn-inprogress" href="<?= constURL ?>?page=View&row=<?= d.row ?>&status=INP">Ready to Continue</a>
+        <a class="btn btn-warning" href="<?= constURL ?>?page=View&row=<?= d.row ?>&status=ONH">Place On-hold</a>
+        <a class="btn btn-completed" href="<?= constURL ?>?page=View&row=<?= d.row ?>&status=CPL">Completed</a>
+      </div>
     </div>
 <? } ?>
 
@@ -167,10 +170,13 @@
     <? } else { ?>
         <p>Your request is ready for delivery <strong><span class='text-success'>pending confirmation</span></strong>. Please review the notes below and the associated files then one of the following options.</p>
     <? } ?>
-    <div class="btn-group btn-group-sm mb-3" role="group">
-      <a class="btn btn-inprogress" href="<?= constURL ?>?page=View&row=<?= d.row ?>&status=INP">Needs Corrections</a>
-      <a class="btn btn-warning" href="<?= constURL ?>?page=View&row=<?= d.row ?>&status=ONH">Place On-hold</a>
-      <a class="btn btn-completed" href="<?= constURL ?>?page=View&row=<?= d.row ?>&status=CPL">Completed</a>
+
+    <div>
+      <div class="btn-group btn-group-sm mb-3" role="group">
+        <a class="btn btn-inprogress" href="<?= constURL ?>?page=View&row=<?= d.row ?>&status=INP">Needs Corrections</a>
+        <a class="btn btn-warning" href="<?= constURL ?>?page=View&row=<?= d.row ?>&status=ONH">Place On-hold</a>
+        <a class="btn btn-completed" href="<?= constURL ?>?page=View&row=<?= d.row ?>&status=CPL">Completed</a>
+      </div>
     </div>
 <? } ?>
 
@@ -196,10 +202,12 @@
                 <?= d.asst ?> will get in touch if your assistance is required.<? } else { ?>We will get in touch if your assistance is required.
             <? } ?></p>
     <? } ?>
-    <div class="btn-group btn-group-sm mb-3" role="group">
-      <a class="btn btn-warning" href="<?= constURL ?>?page=View&row=<?= d.row ?>&status=ONH">Add a Note/Defect</a>
-      <a class="btn btn-inprogress" href="<?= constURL ?>?page=View&row=<?= d.row ?>&status=INP">Ready to Continue</a>
-      <a class="btn btn-completed" href="<?= constURL ?>?page=View&row=<?= d.row ?>&status=CPL">Completed</a>
+    <div>
+      <div class="btn-group btn-group-sm mb-3" role="group">
+        <a class="btn btn-warning" href="<?= constURL ?>?page=View&row=<?= d.row ?>&status=ONH">Add a Note/Defect</a>
+        <a class="btn btn-inprogress" href="<?= constURL ?>?page=View&row=<?= d.row ?>&status=INP">Ready to Continue</a>
+        <a class="btn btn-completed" href="<?= constURL ?>?page=View&row=<?= d.row ?>&status=CPL">Completed</a>
+      </div>
     </div>
 <? } ?>
 
@@ -209,7 +217,11 @@
 <? if (d.statusCode == 'CPL') { ?>
   <p>This request is now <strong>complete</strong>. Thank you for working with us!</p>
   
-  <a class="btn btn-inprogress" href="<?= constURL ?>?page=View&row=<?= d.row ?>&status=INP">Re-open</a>
+  <div>
+    <div class="btn-group btn-group-sm mb-3" role="group">
+      <a class="btn btn-inprogress" href="<?= constURL ?>?page=View&row=<?= d.row ?>&status=INP">Re-open</a>
+    </div>
+  </div>
 <? } ?>
 
 
