@@ -17,7 +17,7 @@ function sendEmail(d, ev, chg, old, msg) {
   // var devEnv = url.slice(-3) == "dev";
   // console.log(devEnv);
   // console.log("we " + (devEnv ? "ARE" : "are NOT") + " in a dev environment");
-  var testing = true; //devEnv;
+  var testing = false; //devEnv;
   
   // var queue = HtmlService.createTemplateFromFile('Queue');
   // queue.data = {view: null, email: null, send: true};
@@ -70,9 +70,9 @@ function sendEmail(d, ev, chg, old, msg) {
 
       mainTitle = 'New SS Request';
 
-      // if (!testing) {
+      if (!testing) {
         d.sh.getRange(d.row, getColNumByName("lastSentTo")).setValue(today);
-      // }
+      }
   }
 
   // if current user who initiated email is also the person who made this request
@@ -113,9 +113,9 @@ function sendEmail(d, ev, chg, old, msg) {
 
     mainTitle = 'SS Request Update';
 
-    // if (!testing) {
+    if (!testing) {
       d.sh.getRange(d.row, getColNumByName("lastSentTo")).setValue(today);
-    // }
+    }
   }
 
   var title = mainTitle + ' / ' + d.id + ' / ' + d.status;
