@@ -213,7 +213,8 @@ var officeZones = {
 }
 
 function sendDailyUpdates(zone) {
-  var reqsWaiting = getSortedReqs(null, null, ['Received', 'Reviewed', 'In-progress', 'Completed', 'Cancelled']);
+  // exclude statuses other than Waiting for Start, Needs Information, Unresolved Issues, 
+  var reqsWaiting = getSortedReqs(null, null, ['Received', 'Reviewed', 'Assigned', 'In-progress', 'Completed', 'Cancelled']);
   var emailsSent = 0;
   var emailsSentTo = "";
   var log = "";
@@ -315,12 +316,16 @@ function sendTestEmail(func) {
 }
 
 function sendTestEmailConstURL(func) {
-  var func = func || arguments.callee.name;
+  var func = arguments.callee.name;
+
+  var url = ScriptApp.getService().getUrl();
+
+  var constURL = "https://script.google.com/a/macros/ert.com/s/AKfycbxhBM6eBwsmO66MT0On_K9MPtupzF_YzWxJGRL4CSqKFNsIEn4/exec";
 
   MailApp.sendEmail({
     to: 'michael.james@ert.com',
     subject: "Sending you a test from " + func + "...",
-    htmlBody: "It is " + moment().format(ldtf) + " right <a href='<?= url ?>'>now!</a><br><br>Your friend,<br>" + func,
+    htmlBody: "It is " + moment().format(ldtf) + " right <a href='<?= url ?>'>now!</a><br><br>url: <?= url ?><br>constURL: <?= constURL ?><br><br>Your friend,<br>" + func,
     name: "SS Requests",
     replyTo: "thelivingpc@gmail.com, mj@michaeljames.design"
   });
