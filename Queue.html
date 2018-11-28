@@ -1,7 +1,7 @@
     <div class="container-fluid" style="padding-top:20px">
     
       <div class="row justify-content-center">
-        <div class="col-sm-12">
+        <div class="col-auto">
         
           <div class="d-flex justify-content-between">
             <div>
@@ -27,9 +27,9 @@
                 </tr>
                 <tr>
                 <? if (data.view !== 'all') { ?>
-                  <th scope="col" class="text-muted">#</th>
+                  <th scope="col" class="text-muted text-right">#</th>
                 <? } ?>
-                  <th scope="col">Req</th>
+                  <th scope="col" class="text-right">Req</th>
                   <th scope="col">Status</th>
                   <th scope="col">Assignee</th>
                   <th scope="col">Est. Ret.</th>
@@ -40,10 +40,10 @@
                   <th scope="col" style="border-left: 1">Requestor</th>
                   <th scope="col">Client</th>
                   <th scope="col">Protocol</th>
-                  <th scope="col">Batch</th>
-                  <th scope="col"># A</th>
-                  <th scope="col"># L</th>
-                  <th scope="col">Wkbks.</th>
+                  <th scope="col" class="text-right">Batch</th>
+                  <th scope="col" class="text-right"># A</th>
+                  <th scope="col" class="text-right"># L</th>
+                  <th scope="col" class="text-right">Wkbks.</th>
                   <th scope="col"></th>
                 </tr>
               </thead>
@@ -63,10 +63,10 @@
                 <tr class="req-row <?= stCls(d.status).tbl ?> mix category-<?= (d.email == data.email) && 'myreqs' ?>" data-email="<?= d.email ?>" data-order="<?= r ?>">
                 
                 <? if (data.view !== 'all') { ?>
-                  <td class="text-muted"><?= r ?></td>
+                  <td class="text-muted text-right"><?= r ?></td>
                 <? } ?>
                   
-                  <td><a data-toggle="tooltip" data-placement="right" title="<?= d.id ?>"><?= d.row ?></a></td>
+                  <td class="text-right"><a data-toggle="tooltip" data-placement="right" title="<?= d.id ?>"><?= d.row ?></a></td>
                   
               <? //console.log("code: %s, req email: %s, my email: %s, data: %s", d.statusCode, d.email, data.email, data) ?>    
               <? if (d.statusCode == "WFS" && (d.email == data.email)) { ?>
@@ -83,7 +83,7 @@
                   
                   <td><span class='badge <?= urgency(d.daysExp, "badge", "dark", ((!(d.dFiles)) ? true : false)) ?>'><?= d.expRetDate && d.expRetDate.format(sdf) ?></span></td>
                   
-                  <td><span class='badge <?= urgency(d.daysDueWhole, "badge", "danger", ((!(d.dFiles)) ? true : false)) ?>'><?= d.hardDueDate && d.hardDueDate.format(sdtf).slice(0, -1) ?></span></td>
+                  <td><span class='badge <?= urgency(d.daysDueWhole, "badge", "danger", ((!(d.dFiles)) ? true : false)) ?>'><?= d.hardDueDate && d.hardDueDate.format("dd, " + sdtf).slice(0, -1) ?></span></td>
                   
                   <td><span class='badge <?= urgency(d.daysPref, "badge", "warning", ((!(d.dFiles)) ? true : false)) ?>'><?= d.prefDueDate && d.prefDueDate.format(sdf) ?></span></td>
                   
@@ -97,21 +97,33 @@
                   
                   <td><?= d.protocol ?></td>
                   
-                  <td><?= d.batch ?></td>
+                  <td class="text-right"><?= d.batch ?></td>
                   
-                  <td><a data-toggle="tooltip" data-html="true" data-placement="right" title="<?= (d.langsV001 && ("<strong>v0.01:</strong> " + d.langsV001 + (d.langsCR && "\n\n"))) + (d.langsCR && ("<strong>CR:</strong> " + d.langsCR)) ?>"><?= d.langCnt ?></a></td>
+                  <td class="text-right"><a data-toggle="tooltip" data-html="true" data-placement="right" title="<?= (d.langsV001 && ("<strong>v0.01:</strong> " + d.langsV001 + (d.langsCR && "\n\n"))) + (d.langsCR && ("<strong>CR:</strong> " + d.langsCR)) ?>"><?= d.langCnt ?></a></td>
 
-                  <td><a data-toggle="tooltip" data-html="true" data-placement="right" title="<?= (d.cpyast && ("<strong>CPY:</strong> " + d.cpyast + (d.nonast && "\n\n"))) + (d.nonast && ("<strong>NON:</strong> " + d.nonast)) ?>"><?= d.astCnt ?></a></td>
+                  <td class="text-right"><a data-toggle="tooltip" data-html="true" data-placement="right" title="<?= (d.cpyast && ("<strong>CPY:</strong> " + d.cpyast + (d.nonast && "\n\n"))) + (d.nonast && ("<strong>NON:</strong> " + d.nonast)) ?>"><?= d.astCnt ?></a></td>
                                     
-                  <td><span style="<?= d.actwkbks && "font-weight: bolder" ?>"><?= d.bestwkbks ?></strong></td>
+                  <td class="text-right"><span style="<?= d.actwkbks && "font-weight: bolder" ?>"><?= d.bestwkbks ?></strong></td>
                   
-                  <td>
+                  <td class="text-right pl-3">
                     <div class="btn-group btn-group-sm" role="group">
-                      <a class="btn btn-outline-secondary" href="<?=url?>?page=View<?= (data.asst || data.lead || data.admin) ? 'Admin' : '' ?>&row=<?= d.row ?>">View</a>
+                    <? if (d.email == data.email) { ?>
                       <a class="btn btn-secondary" href="<?=url?>?page=Edit&row=<?= d.row ?>">Edit</a>
-                      <!--<button class="btn btn-info" id="feedback">Feedback</button>-->
+                      <? } ?>
+                      <a class="btn btn-outline-secondary" href="<?=url?>?page=View<?= (data.asst || data.lead || data.admin) ? 
+                        'Admin' : '' ?>&row=<?= d.row ?>">View</a>
                     </div>
                   </td>
+                  <!-- <td> -->
+                    
+                    <!-- <div class="btn-group btn-group-sm" role="group"> -->
+                      
+                      <!-- PUT FEEDBACK HERE -->
+                    <!-- </div> -->
+                    
+                      <!--<button class="btn btn-info" id="feedback">Feedback</button>-->
+                    <!-- </div> -->
+                  <!-- </td> -->
 
                 </tr>
           <? } ?>

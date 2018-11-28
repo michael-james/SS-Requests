@@ -17,16 +17,19 @@
                             <td align="left" valign="top" style="box-sizing: border-box;">
                             
 <? var info = position(d.row);
-   var isRequestor = (u.email == d.email);
-   var disHiBye = ((!isRequestor) || (ev == 0) || testing || d.statusCode == 'CPL' || d.statusCode == 'CAN');
    var showEstRet = (d.expRetDate && d.daysExp >= 0 && (d.statusCode !== 'ONH') && (d.statusCode !== 'UNR') && (d.statusCode !== 'CPL') && (d.statusCode !== 'PND') && (d.statusCode !== 'CAN') && ev !== 2); ?>
 
 <? if (testing) { ?>
-  <p style="box-sizing: border-box; margin-bottom: 1rem; margin-top: 0;">
-    To: <?= mail.to ?><br style="box-sizing: border-box;">
+  <p class="text-muted" style="box-sizing: border-box; color: #6c757d !important; font-size: 90%; margin-bottom: 1rem; margin-top: 0;"><i style="box-sizing: border-box;">
+    FOR TESTING ONLY:<br style="box-sizing: border-box;">
+    TO: <?= mail.to ?><br style="box-sizing: border-box;">
     CC: <?= mail.cc ?><br style="box-sizing: border-box;">
-    ReplyTo: <?= mail.replyTo ?>      
+    REPLY TO: <?= mail.replyTo ?></i><br style="box-sizing: border-box;">
+    <br style="box-sizing: border-box;">
+    isRequestor: <?= isRequestor ?><br style="box-sizing: border-box;">
+    hello: <?= hello ?>
   </p>
+  <hr style="border: 0; border-top: 1px solid rgba(0,0,0,.1); box-sizing: content-box; height: 0; margin-bottom: 1rem; margin-top: 1rem; overflow: visible;">
 <? } ?>
 
 
@@ -36,7 +39,7 @@
 <h3 class="mt-3" style="box-sizing: border-box; color: inherit; font-family: inherit; font-size: 1.75rem; font-weight: 500; line-height: 1.2; margin-bottom: .5rem; margin-top: 1rem !important;"><?= d.status ?></h3>
 <h5 class="mb-5 text-secondary" style="box-sizing: border-box; color: #6c757d !important; font-family: inherit; font-size: 1.25rem; font-weight: 500; line-height: 1.2; margin-bottom: 3rem !important; margin-top: 0;"><?= moment().format(ERTdf) ?></h5>
 
-<? if (disHiBye) { ?>
+<? if (hello) { ?>
   <p style="box-sizing: border-box; margin-bottom: 1rem; margin-top: 0;">
       Hello<?= d.requestorNames && (" " + d.requestorNames[0]) ?>,
   </p>
@@ -100,10 +103,13 @@
 
 <? if (d.statusCode == 'UNR') { ?>
     <p style="box-sizing: border-box; margin-bottom: 1rem; margin-top: 0;">There are <strong style="box-sizing: border-box; font-weight: bolder;"><span class="text-danger" style="box-sizing: border-box; color: #dc3545 !important;">unresolved issues</span></strong> that are keeping us from delivering your request. Please review the information below, take appropriate action, then select one of the following options.</p>
-    <div class="btn-group btn-group-sm mb-3" role="group" style="box-sizing: border-box; display: inline-flex; margin-bottom: 1rem !important; position: relative; vertical-align: middle;">
-      <a class="btn btn-inprogress" href="<?= constURL ?>?page=View&row=<?= d.row ?>&status=INP" style="-moz-user-select: none; -ms-flex: 0 1 auto; -ms-user-select: none; -webkit-text-decoration-skip: objects; -webkit-user-select: none; background-color: rgb(252, 229, 205); border: 1px solid transparent; border-bottom-right-radius: 0 !important; border-radius: .2rem; border-top-right-radius: 0 !important; box-sizing: border-box; color: #212529; cursor: pointer; display: inline-block; flex: 0 1 auto; font-size: .875rem; font-weight: 400; line-height: 1.5; margin-left: 0; padding: .25rem .5rem; position: relative; text-align: center; text-decoration: none; transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out; user-select: none; vertical-align: middle; white-space: nowrap;">Ready to Continue</a>
-      <a class="btn btn-warning" href="<?= constURL ?>?page=View&row=<?= d.row ?>&status=ONH" style="-moz-user-select: none; -ms-flex: 0 1 auto; -ms-user-select: none; -webkit-text-decoration-skip: objects; -webkit-user-select: none; background-color: #ffc107; border: 1px solid transparent; border-bottom-left-radius: 0 !important; border-bottom-right-radius: 0 !important; border-color: #ffc107; border-radius: .2rem; border-top-left-radius: 0 !important; border-top-right-radius: 0 !important; box-sizing: border-box; color: #212529; cursor: pointer; display: inline-block; flex: 0 1 auto; font-size: .875rem; font-weight: 400; line-height: 1.5; margin-left: -1px; padding: .25rem .5rem; position: relative; text-align: center; text-decoration: none; transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out; user-select: none; vertical-align: middle; white-space: nowrap;">Place On-hold</a>
-      <a class="btn btn-completed" href="<?= constURL ?>?page=View&row=<?= d.row ?>&status=CPL" style="-moz-user-select: none; -ms-flex: 0 1 auto; -ms-user-select: none; -webkit-text-decoration-skip: objects; -webkit-user-select: none; background-color: #6aa84f; background-image: none; border: 1px solid transparent; border-bottom-left-radius: 0 !important; border-color: #6aa84f; border-radius: .2rem; border-top-left-radius: 0 !important; box-sizing: border-box; color: #fff; cursor: pointer; display: inline-block; flex: 0 1 auto; font-size: .875rem; font-weight: 400; line-height: 1.5; margin-left: -1px; padding: .25rem .5rem; position: relative; text-align: center; text-decoration: none; transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out; user-select: none; vertical-align: middle; white-space: nowrap;">Completed</a>
+
+    <div style="box-sizing: border-box;">
+      <div class="btn-group btn-group-sm mb-3" role="group" style="box-sizing: border-box; display: inline-flex; margin-bottom: 1rem !important; position: relative; vertical-align: middle;">
+        <a class="btn btn-inprogress" href="<?= constURL ?>?page=View&row=<?= d.row ?>&status=INP" style="-moz-user-select: none; -ms-flex: 0 1 auto; -ms-user-select: none; -webkit-text-decoration-skip: objects; -webkit-user-select: none; background-color: rgb(252, 229, 205); border: 1px solid transparent; border-bottom-right-radius: 0 !important; border-radius: .2rem; border-top-right-radius: 0 !important; box-sizing: border-box; color: #212529; cursor: pointer; display: inline-block; flex: 0 1 auto; font-size: .875rem; font-weight: 400; line-height: 1.5; margin-left: 0; padding: .25rem .5rem; position: relative; text-align: center; text-decoration: none; transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out; user-select: none; vertical-align: middle; white-space: nowrap;">Ready to Continue</a>
+        <a class="btn btn-warning" href="<?= constURL ?>?page=View&row=<?= d.row ?>&status=ONH" style="-moz-user-select: none; -ms-flex: 0 1 auto; -ms-user-select: none; -webkit-text-decoration-skip: objects; -webkit-user-select: none; background-color: #ffc107; border: 1px solid transparent; border-bottom-left-radius: 0 !important; border-bottom-right-radius: 0 !important; border-color: #ffc107; border-radius: .2rem; border-top-left-radius: 0 !important; border-top-right-radius: 0 !important; box-sizing: border-box; color: #212529; cursor: pointer; display: inline-block; flex: 0 1 auto; font-size: .875rem; font-weight: 400; line-height: 1.5; margin-left: -1px; padding: .25rem .5rem; position: relative; text-align: center; text-decoration: none; transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out; user-select: none; vertical-align: middle; white-space: nowrap;">Place On-hold</a>
+        <a class="btn btn-completed" href="<?= constURL ?>?page=View&row=<?= d.row ?>&status=CPL" style="-moz-user-select: none; -ms-flex: 0 1 auto; -ms-user-select: none; -webkit-text-decoration-skip: objects; -webkit-user-select: none; background-color: #6aa84f; background-image: none; border: 1px solid transparent; border-bottom-left-radius: 0 !important; border-color: #6aa84f; border-radius: .2rem; border-top-left-radius: 0 !important; box-sizing: border-box; color: #fff; cursor: pointer; display: inline-block; flex: 0 1 auto; font-size: .875rem; font-weight: 400; line-height: 1.5; margin-left: -1px; padding: .25rem .5rem; position: relative; text-align: center; text-decoration: none; transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out; user-select: none; vertical-align: middle; white-space: nowrap;">Completed</a>
+      </div>
     </div>
 <? } ?>
 
@@ -116,10 +122,13 @@
     <? } else { ?>
         <p style="box-sizing: border-box; margin-bottom: 1rem; margin-top: 0;">Your request is ready for delivery <strong style="box-sizing: border-box; font-weight: bolder;"><span class="text-success" style="box-sizing: border-box; color: #28a745 !important;">pending confirmation</span></strong>. Please review the notes below and the associated files then one of the following options.</p>
     <? } ?>
-    <div class="btn-group btn-group-sm mb-3" role="group" style="box-sizing: border-box; display: inline-flex; margin-bottom: 1rem !important; position: relative; vertical-align: middle;">
-      <a class="btn btn-inprogress" href="<?= constURL ?>?page=View&row=<?= d.row ?>&status=INP" style="-moz-user-select: none; -ms-flex: 0 1 auto; -ms-user-select: none; -webkit-text-decoration-skip: objects; -webkit-user-select: none; background-color: rgb(252, 229, 205); border: 1px solid transparent; border-bottom-right-radius: 0 !important; border-radius: .2rem; border-top-right-radius: 0 !important; box-sizing: border-box; color: #212529; cursor: pointer; display: inline-block; flex: 0 1 auto; font-size: .875rem; font-weight: 400; line-height: 1.5; margin-left: 0; padding: .25rem .5rem; position: relative; text-align: center; text-decoration: none; transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out; user-select: none; vertical-align: middle; white-space: nowrap;">Needs Corrections</a>
-      <a class="btn btn-warning" href="<?= constURL ?>?page=View&row=<?= d.row ?>&status=ONH" style="-moz-user-select: none; -ms-flex: 0 1 auto; -ms-user-select: none; -webkit-text-decoration-skip: objects; -webkit-user-select: none; background-color: #ffc107; border: 1px solid transparent; border-bottom-left-radius: 0 !important; border-bottom-right-radius: 0 !important; border-color: #ffc107; border-radius: .2rem; border-top-left-radius: 0 !important; border-top-right-radius: 0 !important; box-sizing: border-box; color: #212529; cursor: pointer; display: inline-block; flex: 0 1 auto; font-size: .875rem; font-weight: 400; line-height: 1.5; margin-left: -1px; padding: .25rem .5rem; position: relative; text-align: center; text-decoration: none; transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out; user-select: none; vertical-align: middle; white-space: nowrap;">Place On-hold</a>
-      <a class="btn btn-completed" href="<?= constURL ?>?page=View&row=<?= d.row ?>&status=CPL" style="-moz-user-select: none; -ms-flex: 0 1 auto; -ms-user-select: none; -webkit-text-decoration-skip: objects; -webkit-user-select: none; background-color: #6aa84f; background-image: none; border: 1px solid transparent; border-bottom-left-radius: 0 !important; border-color: #6aa84f; border-radius: .2rem; border-top-left-radius: 0 !important; box-sizing: border-box; color: #fff; cursor: pointer; display: inline-block; flex: 0 1 auto; font-size: .875rem; font-weight: 400; line-height: 1.5; margin-left: -1px; padding: .25rem .5rem; position: relative; text-align: center; text-decoration: none; transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out; user-select: none; vertical-align: middle; white-space: nowrap;">Completed</a>
+
+    <div style="box-sizing: border-box;">
+      <div class="btn-group btn-group-sm mb-3" role="group" style="box-sizing: border-box; display: inline-flex; margin-bottom: 1rem !important; position: relative; vertical-align: middle;">
+        <a class="btn btn-inprogress" href="<?= constURL ?>?page=View&row=<?= d.row ?>&status=INP" style="-moz-user-select: none; -ms-flex: 0 1 auto; -ms-user-select: none; -webkit-text-decoration-skip: objects; -webkit-user-select: none; background-color: rgb(252, 229, 205); border: 1px solid transparent; border-bottom-right-radius: 0 !important; border-radius: .2rem; border-top-right-radius: 0 !important; box-sizing: border-box; color: #212529; cursor: pointer; display: inline-block; flex: 0 1 auto; font-size: .875rem; font-weight: 400; line-height: 1.5; margin-left: 0; padding: .25rem .5rem; position: relative; text-align: center; text-decoration: none; transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out; user-select: none; vertical-align: middle; white-space: nowrap;">Needs Corrections</a>
+        <a class="btn btn-warning" href="<?= constURL ?>?page=View&row=<?= d.row ?>&status=ONH" style="-moz-user-select: none; -ms-flex: 0 1 auto; -ms-user-select: none; -webkit-text-decoration-skip: objects; -webkit-user-select: none; background-color: #ffc107; border: 1px solid transparent; border-bottom-left-radius: 0 !important; border-bottom-right-radius: 0 !important; border-color: #ffc107; border-radius: .2rem; border-top-left-radius: 0 !important; border-top-right-radius: 0 !important; box-sizing: border-box; color: #212529; cursor: pointer; display: inline-block; flex: 0 1 auto; font-size: .875rem; font-weight: 400; line-height: 1.5; margin-left: -1px; padding: .25rem .5rem; position: relative; text-align: center; text-decoration: none; transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out; user-select: none; vertical-align: middle; white-space: nowrap;">Place On-hold</a>
+        <a class="btn btn-completed" href="<?= constURL ?>?page=View&row=<?= d.row ?>&status=CPL" style="-moz-user-select: none; -ms-flex: 0 1 auto; -ms-user-select: none; -webkit-text-decoration-skip: objects; -webkit-user-select: none; background-color: #6aa84f; background-image: none; border: 1px solid transparent; border-bottom-left-radius: 0 !important; border-color: #6aa84f; border-radius: .2rem; border-top-left-radius: 0 !important; box-sizing: border-box; color: #fff; cursor: pointer; display: inline-block; flex: 0 1 auto; font-size: .875rem; font-weight: 400; line-height: 1.5; margin-left: -1px; padding: .25rem .5rem; position: relative; text-align: center; text-decoration: none; transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out; user-select: none; vertical-align: middle; white-space: nowrap;">Completed</a>
+      </div>
     </div>
 <? } ?>
 
@@ -127,8 +136,10 @@
 <!-- ON-HOLD message -->
 
 <? if (d.statusCode == 'ONH') {
+    var whosReq = isRequestor ? "You placed this request" : "This request was placed";
+
     if (d.waitfor) { ?>
-        <p style="box-sizing: border-box; margin-bottom: 1rem; margin-top: 0;">Your request was placed <strong style="box-sizing: border-box; font-weight: bolder;"><span class="text-warning" style="box-sizing: border-box; color: #ffc107 !important;">on-hold</span></strong> because it cannot continue until the following is resolved:</p>
+        <p style="box-sizing: border-box; margin-bottom: 1rem; margin-top: 0;"><?= whosReq ?> <strong style="box-sizing: border-box; font-weight: bolder;"><span class="text-warning" style="box-sizing: border-box; color: #ffc107 !important;">on-hold</span></strong> because we are waiting for:</p>
         <p class="ml-4" style="box-sizing: border-box; margin-bottom: 1rem; margin-left: 1.5rem !important; margin-top: 0; white-space: pre-wrap;"><i style="box-sizing: border-box;"><?= d.waitfor.trim() ?></i></p>
         <? if (d.jira) { ?>
             <p style="box-sizing: border-box; margin-bottom: 1rem; margin-top: 0;">There are associated JIRA defects:</p>
@@ -143,10 +154,12 @@
                 <?= d.asst ?> will get in touch if your assistance is required.<? } else { ?>We will get in touch if your assistance is required.
             <? } ?></p>
     <? } ?>
-    <div class="btn-group btn-group-sm mb-3" role="group" style="box-sizing: border-box; display: inline-flex; margin-bottom: 1rem !important; position: relative; vertical-align: middle;">
-      <a class="btn btn-warning" href="<?= constURL ?>?page=View&row=<?= d.row ?>&status=ONH" style="-moz-user-select: none; -ms-flex: 0 1 auto; -ms-user-select: none; -webkit-text-decoration-skip: objects; -webkit-user-select: none; background-color: #ffc107; border: 1px solid transparent; border-bottom-right-radius: 0 !important; border-color: #ffc107; border-radius: .2rem; border-top-right-radius: 0 !important; box-sizing: border-box; color: #212529; cursor: pointer; display: inline-block; flex: 0 1 auto; font-size: .875rem; font-weight: 400; line-height: 1.5; margin-left: 0; padding: .25rem .5rem; position: relative; text-align: center; text-decoration: none; transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out; user-select: none; vertical-align: middle; white-space: nowrap;">Add a Note/Defect</a>
-      <a class="btn btn-inprogress" href="<?= constURL ?>?page=View&row=<?= d.row ?>&status=INP" style="-moz-user-select: none; -ms-flex: 0 1 auto; -ms-user-select: none; -webkit-text-decoration-skip: objects; -webkit-user-select: none; background-color: rgb(252, 229, 205); border: 1px solid transparent; border-bottom-left-radius: 0 !important; border-bottom-right-radius: 0 !important; border-radius: .2rem; border-top-left-radius: 0 !important; border-top-right-radius: 0 !important; box-sizing: border-box; color: #212529; cursor: pointer; display: inline-block; flex: 0 1 auto; font-size: .875rem; font-weight: 400; line-height: 1.5; margin-left: -1px; padding: .25rem .5rem; position: relative; text-align: center; text-decoration: none; transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out; user-select: none; vertical-align: middle; white-space: nowrap;">Ready to Continue</a>
-      <a class="btn btn-completed" href="<?= constURL ?>?page=View&row=<?= d.row ?>&status=CPL" style="-moz-user-select: none; -ms-flex: 0 1 auto; -ms-user-select: none; -webkit-text-decoration-skip: objects; -webkit-user-select: none; background-color: #6aa84f; background-image: none; border: 1px solid transparent; border-bottom-left-radius: 0 !important; border-color: #6aa84f; border-radius: .2rem; border-top-left-radius: 0 !important; box-sizing: border-box; color: #fff; cursor: pointer; display: inline-block; flex: 0 1 auto; font-size: .875rem; font-weight: 400; line-height: 1.5; margin-left: -1px; padding: .25rem .5rem; position: relative; text-align: center; text-decoration: none; transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out; user-select: none; vertical-align: middle; white-space: nowrap;">Completed</a>
+    <div style="box-sizing: border-box;">
+      <div class="btn-group btn-group-sm mb-3" role="group" style="box-sizing: border-box; display: inline-flex; margin-bottom: 1rem !important; position: relative; vertical-align: middle;">
+        <a class="btn btn-warning" href="<?= constURL ?>?page=View&row=<?= d.row ?>&status=ONH" style="-moz-user-select: none; -ms-flex: 0 1 auto; -ms-user-select: none; -webkit-text-decoration-skip: objects; -webkit-user-select: none; background-color: #ffc107; border: 1px solid transparent; border-bottom-right-radius: 0 !important; border-color: #ffc107; border-radius: .2rem; border-top-right-radius: 0 !important; box-sizing: border-box; color: #212529; cursor: pointer; display: inline-block; flex: 0 1 auto; font-size: .875rem; font-weight: 400; line-height: 1.5; margin-left: 0; padding: .25rem .5rem; position: relative; text-align: center; text-decoration: none; transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out; user-select: none; vertical-align: middle; white-space: nowrap;">Add a Note/Defect</a>
+        <a class="btn btn-inprogress" href="<?= constURL ?>?page=View&row=<?= d.row ?>&status=INP" style="-moz-user-select: none; -ms-flex: 0 1 auto; -ms-user-select: none; -webkit-text-decoration-skip: objects; -webkit-user-select: none; background-color: rgb(252, 229, 205); border: 1px solid transparent; border-bottom-left-radius: 0 !important; border-bottom-right-radius: 0 !important; border-radius: .2rem; border-top-left-radius: 0 !important; border-top-right-radius: 0 !important; box-sizing: border-box; color: #212529; cursor: pointer; display: inline-block; flex: 0 1 auto; font-size: .875rem; font-weight: 400; line-height: 1.5; margin-left: -1px; padding: .25rem .5rem; position: relative; text-align: center; text-decoration: none; transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out; user-select: none; vertical-align: middle; white-space: nowrap;">Ready to Continue</a>
+        <a class="btn btn-completed" href="<?= constURL ?>?page=View&row=<?= d.row ?>&status=CPL" style="-moz-user-select: none; -ms-flex: 0 1 auto; -ms-user-select: none; -webkit-text-decoration-skip: objects; -webkit-user-select: none; background-color: #6aa84f; background-image: none; border: 1px solid transparent; border-bottom-left-radius: 0 !important; border-color: #6aa84f; border-radius: .2rem; border-top-left-radius: 0 !important; box-sizing: border-box; color: #fff; cursor: pointer; display: inline-block; flex: 0 1 auto; font-size: .875rem; font-weight: 400; line-height: 1.5; margin-left: -1px; padding: .25rem .5rem; position: relative; text-align: center; text-decoration: none; transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out; user-select: none; vertical-align: middle; white-space: nowrap;">Completed</a>
+      </div>
     </div>
 <? } ?>
 
@@ -156,7 +169,11 @@
 <? if (d.statusCode == 'CPL') { ?>
   <p style="box-sizing: border-box; margin-bottom: 1rem; margin-top: 0;">This request is now <strong style="box-sizing: border-box; font-weight: bolder;">complete</strong>. Thank you for working with us!</p>
   
-  <a class="btn btn-inprogress" href="<?= constURL ?>?page=View&row=<?= d.row ?>&status=INP" style="-moz-user-select: none; -ms-user-select: none; -webkit-text-decoration-skip: objects; -webkit-user-select: none; background-color: rgb(252, 229, 205); border: 1px solid transparent; border-radius: .25rem; box-sizing: border-box; color: #212529; cursor: pointer; display: inline-block; font-size: 1rem; font-weight: 400; line-height: 1.5; padding: .375rem .75rem; text-align: center; text-decoration: none; transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out; user-select: none; vertical-align: middle; white-space: nowrap;">Re-open</a>
+  <div style="box-sizing: border-box;">
+    <div class="btn-group btn-group-sm mb-3" role="group" style="box-sizing: border-box; display: inline-flex; margin-bottom: 1rem !important; position: relative; vertical-align: middle;">
+      <a class="btn btn-inprogress" href="<?= constURL ?>?page=View&row=<?= d.row ?>&status=INP" style="-moz-user-select: none; -ms-flex: 0 1 auto; -ms-user-select: none; -webkit-text-decoration-skip: objects; -webkit-user-select: none; background-color: rgb(252, 229, 205); border: 1px solid transparent; border-radius: .2rem; box-sizing: border-box; color: #212529; cursor: pointer; display: inline-block; flex: 0 1 auto; font-size: .875rem; font-weight: 400; line-height: 1.5; margin-left: 0; padding: .25rem .5rem; position: relative; text-align: center; text-decoration: none; transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out; user-select: none; vertical-align: middle; white-space: nowrap;">Re-open</a>
+    </div>
+  </div>
 <? } ?>
 
 
@@ -194,7 +211,7 @@
 
 <!-- END OF DYNAMIC MESSAGE -->
 
-<? if (disHiBye) { ?>
+<? if (hello) { ?>
 <p class="mt-3" style="box-sizing: border-box; margin-bottom: 1rem; margin-top: 1rem !important;">
     Thank you,<br style="box-sizing: border-box;">
     The Assistants&trade;
@@ -206,10 +223,16 @@
 
 <? if (chg && Object.keys(chg).length) { ?>
   <p class="mt-5" style="box-sizing: border-box; margin-bottom: 1rem; margin-top: 3rem !important;"><?= u.fname || u.email || 'Someone' ?> edited this request.</p>
+
+  <? if (msg) { ?>
+    <p style="box-sizing: border-box; margin-bottom: 1rem; margin-top: 0;"><?= msg ?></p>
+  <? } ?>
+
   <p style="box-sizing: border-box; margin-bottom: 1rem; margin-top: 0;">The following information was changed:</p>
   <ul style="box-sizing: border-box; margin-bottom: 1rem; margin-top: 0;"><?
 
     for (var c in chg) { ?><li style="box-sizing: border-box;"><?
+
       if (typeof chg[c].old == 'object') {
         chg[c].old = moment(chg[c].old).format(df);
       }
@@ -217,7 +240,21 @@
         chg[c].upd = moment(chg[c].upd).format(df);
       }
 
-      ?><?= chg[c].header ?> <i style="box-sizing: border-box;">(<?= chg[c].old ? 'from \"' + (chg[c].old.length > 30 ? chg[c].old.substring(0, 30) + '...' : chg[c].old) + '\" ' : '' ?>to <?= !chg[c].upd ? '\"\"' : '\"' + (chg[c].upd.length > 30 ? chg[c].upd.substring(0, 30) + "..." : chg[c].upd) + '\"' ?>)</i></li><?
+      ?><?= chg[c].header ?> &mdash; <?
+
+      if (chg[c].old) { 
+        ?><i style="box-sizing: border-box;"><span class="text-muted" style="box-sizing: border-box; color: #6c757d !important;">from</span></i> <?= (chg[c].old.length > 30 ? chg[c].old.substring(0, 30) + '...' : chg[c].old) ?> <?
+      } ?><i style="box-sizing: border-box;"><span class="text-muted" style="box-sizing: border-box; color: #6c757d !important;">to</span></i> <?
+
+      if (chg[c].upd) {
+        ?><?= (chg[c].upd.length > 30 ? chg[c].upd.substring(0, 30) + "..." : chg[c].upd)?><?
+      }
+
+      else {
+        ?>""<?
+      }
+
+      ?></li><?
     } ?></ul>
 <? } ?>
 

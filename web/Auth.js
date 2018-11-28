@@ -21,6 +21,10 @@ function user() {
 }
 
 function getUserDetails(email) {
+
+  // for testing purposes
+  // var email = "alicia.cagle@ert.com"
+
   var email = (email + "").trim();
   var firstRow = 2;
   var sh = SpreadsheetApp.openById(ssID).getSheetByName('users');
@@ -36,9 +40,10 @@ function getUserDetails(email) {
   
   if (row) {
     var dt = sh.getRange(row, 2, 1, sh.getLastColumn() - 1).getValues();
-    //var userObj = {email: 'alicia.cagle@ert.com', fname: 'Alicia', lname: 'Cagle', office: 'Pittsburgh', asst: null, lead: null, admin: null};
+    
     var userObj = {email: email, fname: dt[0][0], lname: dt[0][1], office: dt[0][2], asst: dt[0][3], lead: dt[0][4], admin: dt[0][5]};
-    console.log(userObj);
+    // var userObj = {email: 'alicia.cagle@ert.com', fname: 'Alicia', lname: 'Cagle', office: 'Pittsburgh', asst: null, lead: null, admin: null};
+    // console.log(userObj);
     return userObj
   } else {
     var userObj = {email: email, fname: "", lname: "", office: "", asst: "", lead: "", admin: ""};

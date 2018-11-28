@@ -22,8 +22,8 @@
                 <th scope="col">Actions</th>
               </tr>
               <tr class="table-primary">
-                <th scope="col" class="text-muted bl">#</th>
-                <th scope="col">Req</th>
+                <th scope="col" class="text-muted bl text-right">#</th>
+                <th scope="col" class="text-right">Req</th>
                 <th scope="col">Status</th>
                 <th scope="col">Assignee</th>
                 <th scope="col">Est Ret</th>
@@ -32,9 +32,9 @@
                 <th scope="col">Files</th>
                 <th scope="col">Rec</th>
                 <th scope="col" class=tb-bl>Type</th>
-                <th scope="col"># A</th>
-                <th scope="col"># L</th>
-                <th scope="col">Wkbks</th>
+                <th scope="col" class="text-right"># A</th>
+                <th scope="col" class="text-right"># L</th>
+                <th scope="col" class="text-right pr-3">Wkbks</th>
                 <th scope="col" class=tb-bl>Requestor</th>
                 <th scope="col">Client</th>
                 <th scope="col">Protocol</th>
@@ -58,9 +58,9 @@
                      "<strong>Languages CR:</strong> " + (d.langsCR || "") ?>
 
               <tr  class="req-row <?= stCls(d.status).tbl ?>" data-fname="<?= d.asst ?>">
-                <td class="text-muted bl"><?= r ?></td>
+                <td class="text-muted bl text-right"><?= r ?></td>
                 
-                <td><a data-toggle="tooltip" data-placement="right" title="<?= d.id ?>"><?= d.row ?></a></td>
+                <td class="text-right"><a data-toggle="tooltip" data-placement="right" title="<?= d.id ?>"><?= d.row ?></a></td>
                 
                 <td><a class="btn btn-sm status <?= stCls(d.status).btn ?>" data-toggle="modal" data-target="#exampleModal" data-name="<?= d.client + " " + d.protocol ?>" data-type="<span class='badge <?= typClass(d.reqCode) ?>'><?= d.reqCode ?></span>" data-status="<?= d.status ?>" data-asgd="<?= d.asst ?>" data-expdate="<?= d.expRetDate && d.expRetDate.format("YYYY-MM-DD") ?>" data-row="<?= d.row ?>" data-actwkbks="<?= d.actwkbks ?>" data-info="<?= info ?>" data-notes="<?= d.getByName("General Notes") ?>" data-protocol="<?= d.protocol?>"><?= d.statusCode ?></a></td>
                 
@@ -68,7 +68,7 @@
                 
                 <td><span class='badge <?= urgency(d.daysExp, "badge", "dark", ((!(d.dFiles)) ? true : false)) ?>'><?= d.expRetDate && d.expRetDate.format(sdf) ?></span></td>
                 
-                <td class=tb-bl><span class='badge <?= urgency(d.daysDueWhole, "badge", "danger", ((!(d.dFiles)) ? true : false)) ?>'><?= d.hardDueDate && d.hardDueDate.format(sdtf).slice(0, -1) ?></span></td>
+                <td class=tb-bl><span class='badge <?= urgency(d.daysDueWhole, "badge", "danger", ((!(d.dFiles)) ? true : false)) ?>'><?= d.hardDueDate && d.hardDueDate.format("dd, " + sdtf).slice(0, -1) ?></span></td>
                 
                 <td><span class='badge <?= urgency(d.daysPref, "badge", "warning", ((!(d.dFiles)) ? true : false)) ?>'><?= d.prefDueDate && d.prefDueDate.format(sdf) ?></span></td>
                 <? //console.log("req %s - dFiles %s - startDate %s - filesDate %s - daysFiles %s - class %s", d.row, d.dFiles && d.dFiles.format(sdf), d.startDate && d.startDate.format(sdf), d.filesDate && d.filesDate.format(sdf), d.daysFiles, urgency(d.daysFiles, "badge", "success", ((!(d.dFiles)) ? true : false))) ?>
@@ -79,11 +79,11 @@
                 
                 <td class=tb-bl><span class='badge <?= typClass(d.reqCode) ?>'><?= d.reqCode ?></span></td>
                 
-                <td><a data-toggle="tooltip" data-html="true" data-placement="right" title="<?= (d.langsV001 && ("<strong>v0.01:</strong> " + d.langsV001 + (d.langsCR && "\n\n"))) + (d.langsCR && ("<strong>CR:</strong> " + d.langsCR)) ?>"><?= d.langCnt ?></a></td>
+                <td class="text-right"><a data-toggle="tooltip" data-html="true" data-placement="right" title="<?= (d.langsV001 && ("<strong>v0.01:</strong> " + d.langsV001 + (d.langsCR && "\n\n"))) + (d.langsCR && ("<strong>CR:</strong> " + d.langsCR)) ?>"><?= d.langCnt ?></a></td>
 
-                <td><a data-toggle="tooltip" data-html="true" data-placement="right" title="<?= (d.cpyast && ("<strong>CPY:</strong> " + d.cpyast + (d.nonast && "\n\n"))) + (d.nonast && ("<strong>NON:</strong> " + d.nonast)) ?>"><?= d.astCnt ?></a></td>
+                <td class="text-right"><a data-toggle="tooltip" data-html="true" data-placement="right" title="<?= (d.cpyast && ("<strong>CPY:</strong> " + d.cpyast + (d.nonast && "\n\n"))) + (d.nonast && ("<strong>NON:</strong> " + d.nonast)) ?>"><?= d.astCnt ?></a></td>
                                 
-                <td><span style="<?= d.actwkbks && "font-weight: bolder" ?>"><?= d.bestwkbks ?></strong></td>
+                <td class="text-right pr-3"><span style="<?= d.actwkbks && "font-weight: bolder" ?>"><?= d.bestwkbks ?></strong></td>
                 
                 <td class=tb-bl><?= d.requestorNames[0] + " " + d.requestorNames[1][0] + "." ?></td>
                 <!--<td><a data-toggle="tooltip" data-html="true" data-placement="right" title="<?= Utilities.formatString("<b>Request # %s</b>\nRec'd %s\n%s\n%s%s", d.row, d.timestamp && d.timestamp.format(sdf), d.client, d.protocol, d.batch && "\nBatch " + d.batch) ?>"><?= d.id ?></a></td>-->
@@ -98,7 +98,7 @@
                   <div class="btn-group btn-group-sm" role="group">
                     <a class="btn btn-outline-secondary" href="<?=url?>?page=ViewAdmin&row=<?= d.row ?>">View</a>
                     <a class="btn btn-secondary" href="<?=url?>?page=Edit&row=<?= d.row ?>">Edit</a>
-                    <a class="btn btn-primary" href="<?=url?>?page=Perform&row=<?= d.row ?>">Perf</a>
+                    <a class="btn btn-primary" id="perform" href="<?=url?>?page=Perform&row=<?= d.row ?>" data-row="<?= d.row ?>">Perf</a>
                   </div>
                 </td>
 
@@ -120,6 +120,10 @@
         // updateEvent(msg); // msg is row
         document.getElementById('home-link').click();
       }
+
+      function onDoPerformSuccess(msg) {
+        document.getElementById('perform').click();
+      }
       
       $(function () {
         $('[data-toggle="tooltip"]').tooltip()
@@ -130,4 +134,9 @@
         $('.req-row[data-fname!="' + user + '"]').toggle();
         $(this).toggleClass("btn-info").toggleClass("btn-outline-secondary");
       });
+
+      // $('#perform').click(function() {
+      //   $(this).prop('disabled', true);
+      //   google.script.run.withSuccessHandler(onDoPerformSuccess).withFailureHandler(onFailure).withUserObject($(this)).doPerform(parseInt($(this).data('row')));
+      // });
     </script>

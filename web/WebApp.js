@@ -131,7 +131,7 @@ function processForm(arr, source) {
     } else {
 
       if (obj[header] && ((obj.row && typeof data[index] == 'object' && typeof obj[header] == 'string') || (header == "Expected Date Files Will Be Available" || header == "Preferred Deadline" || header == "Exp First Rtrn Date"))) {
-        console.log("%s: %s", header, obj[header], typeof obj[header], obj[header].length)
+        // console.log("%s: %s", header, obj[header], typeof obj[header], obj[header].length)
         // console.log("header: %s, orig: %s (type %s), upd: %s (type %s)", header, data[index], typeof data[index], obj[header], typeof obj[header]);
         // (header == "Expected Date Files Will Be Available" || header == "Preferred Deadline" || header == "Exp First Rtrn Date"))
         // console.log("%s was changed but SHOULD be a DATE", header);
@@ -190,13 +190,15 @@ function processForm(arr, source) {
           chgdCols[index] = {old: data[index], upd: val, header: header};  
         }
       } else if (data[index] !== val) {
-        console.log("%s: %s (type %s), %s (type %s)", header, data[index], typeof data[index], val, typeof val);
+        // console.log("%s: %s (type %s), %s (type %s)", header, data[index], typeof data[index], val, typeof val);
         chgdCols[index] = {old: data[index], upd: val, header: header};  
       }
     }
 
     return val
   });
+
+  console.log(chgdCols);
 
   // console.log(data);
   // console.log(newRow);
@@ -208,15 +210,15 @@ function processForm(arr, source) {
   var d = getRequestData([headers, updRow]);
 
   if (obj.row) {
-    console.log('...updating existing row %s', obj.row);
+    // console.log('...updating existing row %s', obj.row);
     sh.getRange(obj.row, 1, 1, newRow.length).setValues([updRow])
 
     // status changed
-    console.log("source is #%s %s", source, sources[source]);
+    // console.log("source is #%s %s", source, sources[source]);
     var statusIdx = getColNumByNameData(headers, "Status") - 1;
     
     if (data[statusIdx] !== updRow[statusIdx]) {
-      console.log("...status is different...going to chgStatus")
+      // console.log("...status is different...going to chgStatus")
       chgStatus(obj.row, obj['Status'], data[statusIdx], d);
     }
 
@@ -228,16 +230,16 @@ function processForm(arr, source) {
     // assistant wanted to send an update
     var expRetDateIdx = getColNumByNameData(headers, "Exp First Rtrn Date") - 1;
     if (source == 1 || (source == 3 && (Object.keys(chgdCols).indexOf(expRetDateIdx + "") > -1))) {
-      console.log("...source is Review or Perform...sending asst update")
+      // console.log("...source is Review or Perform...sending asst update")
       sendEmail(d, 1, chgdCols);
     
     // request was edited by TC with form
     } else if ((source == 0 || source == 2 || source == 4) && !user().asst) {
-      console.log("...source is edit...checking if something changed")
+      // console.log("...source is edit...checking if something changed")
 
       // something was changed during the edit
       if (Object.keys(chgdCols).length || source == 4) {
-        console.log("...something changed...sending email")
+        // console.log("...something changed...sending email")
         // var chgdCols = {};
         // for (var h = 0; h < headers.length; h++) {
         //   console.log("header idx %s, header %s, old %s, new %s, same? %s", h, headers[h], data[h], updRow[h], data[h] == updRow[h])
@@ -247,13 +249,13 @@ function processForm(arr, source) {
         //   //   chgdCols[parseInt(h)] = {old: data[h], new: updRow[h], same: data[h] == updRow[h]};
         //   }
         // }
-        console.log(chgdCols);
+        // console.log(chgdCols);
         // var old = getRequestData([headers, data]);
         sendEmail(d, 2, chgdCols);
       }
     }
   } else {
-    console.log('...appending new row %s', updRow[0]);
+    // console.log('...appending new row %s', updRow[0]);
     sh.appendRow(updRow);
   
     sendEmail(d, 0);
@@ -268,6 +270,9 @@ function processForm(arr, source) {
   }
 
   updateEvent(d);
+
+  var today = new Date();
+  d.sh.getRange(d.row, getColNumByName("lastEdit")).setValue(today);
   
   var dur = new Date().getTime() - t0.getTime(); console.info({ type: 'perf', message: Utilities.formatString('perf: %s %s %sms', arguments.callee.name, (typeof page !== 'undefined') ? page : '', dur), func: arguments.callee.name, row: (typeof row !== 'undefined') ? row : '', page: (typeof page !== 'undefined') ? page : '', source: (typeof source !== 'undefined') ? source : '', dur: dur, user: user().email});
   return row
@@ -316,4 +321,16 @@ function getWorkComplDefaults() {
     defaults[data[d][0]] = {workcompl: data[d][1], deliv: data[d][3]};
   }
   return defaults;
+}
+
+function doPerform(row) {
+  chgStatus(row, "In-progress");
+
+  var u = user();
+  var asstCol = getColNumByName('Asgd To');
+  var asst = SpreadsheetApp.openById(ssID).getSheetByName('Queue').getRange(row, asstCol);
+  if (!asst.getValue() && u.fname) {
+    asst.setValue(u.fname);
+  }
+
 }

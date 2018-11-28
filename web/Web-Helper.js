@@ -2,6 +2,8 @@ var url = ScriptApp.getService().getUrl();
 
 var constURL = "https://script.google.com/a/macros/ert.com/s/AKfycbxhBM6eBwsmO66MT0On_K9MPtupzF_YzWxJGRL4CSqKFNsIEn4/exec";
 
+var devEnv = url.slice(-3) == "dev";
+
 /**
  * Get "home page", or a requested page.
  * Expects a 'page' parameter in querystring.
@@ -13,9 +15,6 @@ function doGet(e) {
   // console.log( Utilities.jsonStringify(e) );
   var t0 = new Date();
   
-  console.log(url.slice(-3));
-  var devEnv = url.slice(-3) == "dev";
-
   var page = "Home";
   if (e.parameter.page) {
     page = e.parameter['page'];
@@ -66,7 +65,7 @@ function doGet(e) {
     ev = e.parameter['ev'];
   }
 
-  var title = dev ? "DEV ~ " : "";
+  var title = devEnv ? "DEV ~ " : "";
   if (dev == "send") {
     if (!row) {throw "I need a row!"}
     var d = getRequest(row);
@@ -229,6 +228,9 @@ function chgStatus(row, newStatus, oldStatus, d) {
           if (!c.getValue()) {c.setValue(today);}
           break;
       }
+
+      var today = new Date();
+      sh.getRange(row, getColNumByName("lastEdit")).setValue(today);
       
       var dur = new Date().getTime() - t0.getTime(); console.info({ type: 'perf', message: Utilities.formatString('perf: %s %s %sms', arguments.callee.name, (typeof page !== 'undefined') ? page : '', dur), func: arguments.callee.name, row: (typeof row !== 'undefined') ? row : '', page: (typeof page !== 'undefined') ? page : '', source: (typeof source !== 'undefined') ? source : '', dur: dur, user: user().email});
       return { st: newStatus, cls: stCls(newStatus), row: row, code: getStatusCode(newStatus) }
