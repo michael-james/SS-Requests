@@ -226,8 +226,9 @@ function sendDailyUpdates(zone) {
   var emailsSentTo = "";
   var log = "";
   
-  log += "zone: " + zones[zone] + "\n\n<strong>All Emails We Are Waiting On:</strong>\n";
+  log += "Zone: " + zones[zone] + "\n\n<strong>All Emails We Are Waiting On:</strong>\n";
 
+  var sh = SpreadsheetApp.openById(ssID).getSheetByName("Queue");
   var headers = sh.getRange(headerRows, 1, 1, sh.getLastColumn()).getValues()[0];
   var rowIdx = getColNumByNameData(headers, "row") - 1;
   var officeIdx = getColNumByNameData(headers, "office") - 1;
@@ -240,11 +241,11 @@ function sendDailyUpdates(zone) {
   for (var r = 1; r < reqsWaiting.length; r++) {
     var thisLog = "";
 
-    var timeSinceSentTo = moment().diff(moment(reqsWaiting[r][lastSentToIdx]), hours, true);
+    var timeSinceSentTo = moment().diff(moment(reqsWaiting[r][lastSentToIdx]), 'hours', true);
     var hrsSinceSentTo = 21;
     console.log("last email was sent to ")
 
-    var info = "<u>" + reqsWaiting[r][emailIdx] + "</u> (" + reqsWaiting[r][officeIdx] + ") &mdash; " + reqsWaiting[r][idIdx] + ' / ' + reqsWaiting[r][statusIdx] + ' / ' + (timeSinceSentTo ? timeSinceSentTo.toFixed(1) + ' hours ' : ''); 
+    var info = "<u>" + reqsWaiting[r][emailIdx] + "</u> (" + reqsWaiting[r][officeIdx] + ") &mdash; " + reqsWaiting[r][idIdx] + ' / ' + reqsWaiting[r][statusIdx] + ' ' + (timeSinceSentTo ? '/ ' + timeSinceSentTo.toFixed(1) + ' hours ' : ''); 
     thisLog += info;
 
     if (officeZones[reqsWaiting[r][officeIdx]] == zone && timeSinceSentTo >= 21) {
