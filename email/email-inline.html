@@ -194,7 +194,7 @@
 
 <!-- files not received -->
 <? if ((d.statusCode == 'WFS' || !d.dFiles) && d.startDate && d.statusCode !== 'CAN' && ev !== 2) { ?>
-	<p style="box-sizing: border-box; margin-bottom: 1rem; margin-top: 0;">We <?= d.daysStart < 0 ? 'were' : 'are' ?> expecting your <strong style="box-sizing: border-box; font-weight: bolder;">files</strong> <span class="text-info" style="box-sizing: border-box; color: #17a2b8 !important;"><?= bdText(d.startDate && d.startDate.format(dfo), d.daysStart, 0) ?></span>. When they arrive, please place them on <strong style="box-sizing: border-box; font-weight: bolder;"><?= d.server.slice(4) ?></strong> at the file path* <u style="box-sizing: border-box;"><?= d.server[0] ?>:/<?= d.client ?>/<?= d.protocol ?>/z - To Assistant/<strong style="box-sizing: border-box; font-weight: bolder;"><?= d.timestamp && d.timestamp.format("YYYY.MM.DD") ?> -- <?= d.id ?></strong></u> and <a href="<?= constURL ?>?page=View&row=<?= d.row ?>" class="text-success" target="_blank" style="-webkit-text-decoration-skip: objects; background-color: transparent; box-sizing: border-box; color: #28a745 !important; text-decoration: underline;">mark them as ready</a>.</p>
+	<p style="box-sizing: border-box; margin-bottom: 1rem; margin-top: 0;">We <?= d.daysStart < 0 ? 'were' : 'are' ?> expecting your <strong style="box-sizing: border-box; font-weight: bolder;">files</strong> <span class="text-info" style="box-sizing: border-box; color: #17a2b8 !important;"><?= bdText(d.startDate && d.startDate.format(dfo), d.daysStart, 0) ?></span>. When they arrive, please place them on <strong style="box-sizing: border-box; font-weight: bolder;"><?= d.server.slice(4) ?></strong> at the file path* <u style="box-sizing: border-box;"><?= d.server[0] ?>:/<?= d.client ?>/<?= d.protocol ?>/z - To Assistant/<strong style="box-sizing: border-box; font-weight: bolder;"><?= moment().format("YYYY.MM.DD") ?> -- <?= d.id ?></strong></u> and <a href="<?= constURL ?>?page=View&row=<?= d.row ?>" class="text-success" target="_blank" style="-webkit-text-decoration-skip: objects; background-color: transparent; box-sizing: border-box; color: #28a745 !important; text-decoration: underline;">mark them as ready</a>.</p>
 
 <!-- files not reviewed -->
 <? } else if (!(d.dREV || d.dINP || d.dRet || d.dONH) && (d.statusCode !== 'CAN') && (d.statusCode !== 'CPL') && ev !== 2) { ?>
@@ -301,7 +301,7 @@
 
 <? if (!(d.dREV || d.dINP || d.dRet || d.dONH)) { ?>
 <p lass="text-muted" style="box-sizing: border-box; font-size: 75%; margin-bottom: 1rem; margin-top: 0;">
-	<i style="box-sizing: border-box;">*It's ok if your file path is</i> slightly <i style="box-sizing: border-box;">different because of the way client/study folders are named.</i>
+	<i style="box-sizing: border-box;">*It's ok if your file path is</i> slightly <i style="box-sizing: border-box;">different because of the way client/study folders are named. Please use the date that your files arrived. Adding the ID really helps us find the files quickly!</i>
 </p>
 <? } ?>
 
