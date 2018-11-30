@@ -242,7 +242,7 @@
 
 <!-- files not received -->
 <? if ((d.statusCode == 'WFS' || !d.dFiles) && d.startDate && d.statusCode !== 'CAN' && ev !== 2) { ?>
-	<p>We <?= d.daysStart < 0 ? 'were' : 'are' ?> expecting your <strong>files</strong> <span class="text-info"><?= bdText(d.startDate && d.startDate.format(dfo), d.daysStart, 0) ?></span>. When they arrive, please place them on <strong><?= d.server.slice(4) ?></strong> at the file path* <u><?= d.server[0] ?>:/<?= d.client ?>/<?= d.protocol ?>/z - To Assistant/<strong><?= d.timestamp && d.timestamp.format("YYYY.MM.DD") ?> -- <?= d.id ?></strong></u> and <a href="<?= constURL ?>?page=View&row=<?= d.row ?>" class='text-success' target="_blank" style="text-decoration: underline;">mark them as ready</a>.</p>
+	<p>We <?= d.daysStart < 0 ? 'were' : 'are' ?> expecting your <strong>files</strong> <span class="text-info"><?= bdText(d.startDate && d.startDate.format(dfo), d.daysStart, 0) ?></span>. When they arrive, please place them on <strong><?= d.server.slice(4) ?></strong> at the file path* <u><?= d.server[0] ?>:/<?= d.client ?>/<?= d.protocol ?>/z - To Assistant/<strong><?= moment().format("YYYY.MM.DD") ?> -- <?= d.id ?></strong></u> and <a href="<?= constURL ?>?page=View&row=<?= d.row ?>" class='text-success' target="_blank" style="text-decoration: underline;">mark them as ready</a>.</p>
 
 <!-- files not reviewed -->
 <? } else if (!(d.dREV || d.dINP || d.dRet || d.dONH) && (d.statusCode !== 'CAN') && (d.statusCode !== 'CPL') && ev !== 2) { ?>
@@ -349,7 +349,7 @@
 
 <? if (!(d.dREV || d.dINP || d.dRet || d.dONH)) { ?>
 <p lass="text-muted" style="font-size: 75%">
-	<i>*It's ok if your file path is</i> slightly <i>different because of the way client/study folders are named.</i>
+	<i>*It's ok if your file path is</i> slightly <i>different because of the way client/study folders are named. Please use the date that your files arrived. Adding the ID really helps us find the files quickly!</i>
 </p>
 <? } ?>
 
