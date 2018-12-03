@@ -118,7 +118,7 @@ function sendEmail(d, ev, chg, old, msg) {
     }
   }
 
-  var title = mainTitle + ' / ' + d.id + ' / ' + d.status;
+  var title = (ev == 3 ? 'REMINDER: ' : '') + mainTitle + ' / ' + d.id + ' / ' + d.status;
   
   // store first date returned if applicable
   var c = d.sh.getRange(d.row, getColNumByName("Date Ret"));
@@ -220,6 +220,8 @@ var officeZones = {
 }
 
 function sendDailyUpdates(zone) {
+  if (moment().day() == 0 || moment().day() == 6) {return} // do not send updates on Saturday or Sunday
+
   // exclude statuses other than Waiting for Start, Needs Information, Unresolved Issues, Pending Confirmation, or On-hold
   var reqsWaiting = getSortedReqs(null, null, ['Received', 'Reviewed', 'Assigned', 'In-progress', 'Completed', 'Cancelled']);
   var emailsSent = 0;
