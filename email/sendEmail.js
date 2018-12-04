@@ -127,7 +127,7 @@ function sendEmail(d, ev, chg, old, msg) {
   }
 
 
-  var htmlServ = HtmlService.createTemplateFromFile('email/email-inline');
+  var htmlServ = HtmlService.createTemplateFromFile('email\\email-inline');
   htmlServ.u = u;
   htmlServ.d = d;
   htmlServ.ev = (typeof ev == 'undefined' ? null : ev);
