@@ -22,8 +22,8 @@
                 <th scope="col">Actions</th>
               </tr>
               <tr class="table-primary">
-                <th scope="col" class="text-muted bl text-right">#</th>
-                <th scope="col" class="text-right">Req</th>
+                <th scope="col" class="text-right">Q</th>
+                <th scope="col" class="text-right">#</th>
                 <th scope="col">Status</th>
                 <th scope="col">Assignee</th>
                 <th scope="col">Est Ret</th>
@@ -32,9 +32,9 @@
                 <th scope="col">Files</th>
                 <th scope="col">Rec</th>
                 <th scope="col" class=tb-bl>Type</th>
-                <th scope="col" class="text-right"># A</th>
                 <th scope="col" class="text-right"># L</th>
-                <th scope="col" class="text-right pr-3">Wkbks</th>
+                <th scope="col" class="text-right"># A</th>
+                <th scope="col" class="text-right pr-3"># W</th>
                 <th scope="col" class=tb-bl>Requestor</th>
                 <th scope="col">Client</th>
                 <th scope="col">Protocol</th>
@@ -58,7 +58,7 @@
                      "<strong>Languages CR:</strong> " + (d.langsCR || "") ?>
 
               <tr  class="req-row <?= stCls(d.status).tbl ?>" data-fname="<?= d.asst ?>">
-                <td class="text-muted bl text-right"><?= r ?></td>
+                <td class="text-right"><?= r ?></td>
                 
                 <td class="text-right"><a data-toggle="tooltip" data-placement="right" title="<?= d.id ?>"><?= d.row ?></a></td>
                 
@@ -71,7 +71,6 @@
                 <td class=tb-bl><span class='badge <?= urgency(d.daysDueWhole, "badge", "danger", ((!(d.dFiles)) ? true : false)) ?>'><?= d.hardDueDate && d.hardDueDate.format("dd, " + sdtf).slice(0, -1) ?></span></td>
                 
                 <td><span class='badge <?= urgency(d.daysPref, "badge", "warning", ((!(d.dFiles)) ? true : false)) ?>'><?= d.prefDueDate && d.prefDueDate.format(sdf) ?></span></td>
-                <? //console.log("req %s - dFiles %s - startDate %s - filesDate %s - daysFiles %s - class %s", d.row, d.dFiles && d.dFiles.format(sdf), d.startDate && d.startDate.format(sdf), d.filesDate && d.filesDate.format(sdf), d.daysFiles, urgency(d.daysFiles, "badge", "success", ((!(d.dFiles)) ? true : false))) ?>
                 
                 <td><span class='badge <?= urgency(d.daysFiles, "badge", "success", ((!(d.dFiles)) ? true : false)) ?>'><?= d.filesDate && d.filesDate.format(sdf) ?></span></td>
                 

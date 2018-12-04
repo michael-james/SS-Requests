@@ -1,7 +1,7 @@
     <div class="container-fluid" style="padding-top:20px">
     
       <div class="row justify-content-center">
-        <div class="col-auto">
+        <div class="col-sm-auto">
         
           <div class="d-flex justify-content-between">
             <div>
@@ -19,31 +19,31 @@
             <table class="table table-sm table-hover">
               <thead>
                 <tr>
-                  <th scope="col" colspan="<?= (data.view == 'all') ? 3 : 4 ?>">Current</th>
-                  <th scope="col" colspan="5">Dates</th>
-                  <th scope="col" colspan="4">About</th>
+                  <th scope="col" colspan="<?= (data.view == 'all') ? 5 : 6 ?>">Basics</th>
+                  <th scope="col" colspan="4">Status</th>
+                  <th scope="col" colspan="3">Dates</th>
                   <th scope="col" colspan="3">Workload</th>
                   <th scope="col">Actions</th>
                 </tr>
                 <tr>
-                <? if (data.view !== 'all') { ?>
-                  <th scope="col" class="text-muted text-right">#</th>
-                <? } ?>
-                  <th scope="col" class="text-right">Req</th>
+                  <th scope="col" class="text-right">#</th>
+                  <th scope="col" style="border-left: 1">Requestor</th>
+                  <th scope="col">Client</th>
+                  <th scope="col">Protocol</th>
+                  <th scope="col" class="text-right">Batch</th>
+                  <th scope="col">Type</th>
+                  <? if (data.view !== 'all') { ?>
+                    <th scope="col" class="text-right">Q</th>
+                  <? } ?>
                   <th scope="col">Status</th>
                   <th scope="col">Assignee</th>
                   <th scope="col">Est. Ret.</th>
                   <th scope="col">Due</th>
                   <th scope="col">Pref</th>
-                  <th scope="col">Files</th>
-                  <th scope="col">Type</th>
-                  <th scope="col" style="border-left: 1">Requestor</th>
-                  <th scope="col">Client</th>
-                  <th scope="col">Protocol</th>
-                  <th scope="col" class="text-right">Batch</th>
-                  <th scope="col" class="text-right"># A</th>
+                  <th scope="col">Files</th>                  
                   <th scope="col" class="text-right"># L</th>
-                  <th scope="col" class="text-right">Wkbks.</th>
+                  <th scope="col" class="text-right"># A</th>
+                  <th scope="col" class="text-right"># W</th>
                   <th scope="col"></th>
                 </tr>
               </thead>
@@ -61,14 +61,23 @@
           
           ?>  
                 <tr class="req-row <?= stCls(d.status).tbl ?> mix category-<?= (d.email == data.email) && 'myreqs' ?>" data-email="<?= d.email ?>" data-order="<?= r ?>">
-                
-                <? if (data.view !== 'all') { ?>
-                  <td class="text-muted text-right"><?= r ?></td>
-                <? } ?>
                   
                   <td class="text-right"><a data-toggle="tooltip" data-placement="right" title="<?= d.id ?>"><?= d.row ?></a></td>
+
+                  <td style="border-left: 1" class="<?= d.email == data.email && 'du' ?>"><?= d.requestorNames[0] + " " + d.requestorNames[1][0] + "." ?></td>
                   
-              <? //console.log("code: %s, req email: %s, my email: %s, data: %s", d.statusCode, d.email, data.email, data) ?>    
+                  <td><?= d.client ?></td>
+                  
+                  <td><?= d.protocol ?></td>
+                  
+                  <td class="text-right"><?= d.batch ?></td>
+
+                  <td><span class='badge <?= typClass(d.reqCode) ?>'><?= d.reqCode ?></span></td>
+
+                  <? if (data.view !== 'all') { ?>
+                    <td class="text-right"><?= r ?></td>
+                  <? } ?>
+                  
               <? if (d.statusCode == "WFS" && (d.email == data.email)) { ?>
                   <? d.typClass = typClass(d.reqCode) ?>
                   <td><a class="btn btn-sm <?= stCls(d.status).btn ?>" style="margin-left: -10px; font-size: 1rem" id="ready" data-row="<?= d.row ?>" data-toggle="modal" data-target="#readyModal"><?= d.status ?></a></td>
@@ -88,16 +97,6 @@
                   <td><span class='badge <?= urgency(d.daysPref, "badge", "warning", ((!(d.dFiles)) ? true : false)) ?>'><?= d.prefDueDate && d.prefDueDate.format(sdf) ?></span></td>
                   
                   <td><span class='badge <?= urgency(d.daysFiles, "badge", "success", ((!(d.dFiles)) ? true : false)) ?>'><?= d.filesDate && d.filesDate.format(sdf) ?></span></td>
-                  
-                  <td><span class='badge <?= typClass(d.reqCode) ?>'><?= d.reqCode ?></span></td>
-                  
-                  <td style="border-left: 1" class="<?= d.email == data.email && 'du' ?>"><?= d.requestorNames[0] + " " + d.requestorNames[1][0] + "." ?></td>
-                  
-                  <td><?= d.client ?></td>
-                  
-                  <td><?= d.protocol ?></td>
-                  
-                  <td class="text-right"><?= d.batch ?></td>
                   
                   <td class="text-right"><a data-toggle="tooltip" data-html="true" data-placement="right" title="<?= (d.langsV001 && ("<strong>v0.01:</strong> " + d.langsV001 + (d.langsCR && "\n\n"))) + (d.langsCR && ("<strong>CR:</strong> " + d.langsCR)) ?>"><?= d.langCnt ?></a></td>
 
@@ -133,7 +132,7 @@
           
           <? var s = getRequestsSummary(); ?>
       
-          <div class="row">
+          <!-- <div class="row">
             <div class="col-sm-auto">
             
               <h2>Summary</h2>
@@ -184,14 +183,10 @@
                           <th scope="row">Grand Total</th>
                           <th scope="row" class="text-right"><?= s.grandtotal ?></th>
                       </tr>
-                      <!--<tr style='background-color: rgb(147, 196, 125);'>
-                          <td>Completed</td>
-                          <td class="text-right"><?= s.completed || "" ?></td>
-                      </tr>-->
                   </tbody>
               </table>
             </div>
-          </div>
+          </div> -->
         
         </div>
       </div>
