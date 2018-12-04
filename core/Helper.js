@@ -352,8 +352,12 @@ function updateReq(row, id, oldStatus, client, protocol, batch, reqCode, startDa
 
 function setReqID(row, client, protocol, b, reqCode) {
   //console.log({client: d.client, protocol: d.protocol, batch: d.batch, reqCode: d.reqCode, timestamp: d.timestamp.format(), row: d.row});
-  var clientRegEx = /([A-Za-z]){3}/g;
-  var clientShort = (typeof client == 'string') ? client.match(clientRegEx)[0].toUpperCase() : '';
+  var clientRegEx = /([A-Za-z])/g;
+
+  if (typeof client == 'string') {
+    var clientShort = client.match(clientRegEx)[0].slice(0,3).toUpperCase() : '';
+  }
+  
   var protocolRegEx = /-?([A-Za-z])/g; // characeters and hyphens if before characters
   var protocolShort = (typeof protocol == 'string') ? protocol.match(protocolRegEx) : '';
   protocolShort = protocolShort && protocolShort.join('').toUpperCase();
