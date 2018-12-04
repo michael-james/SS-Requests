@@ -198,8 +198,6 @@ function processForm(arr, source) {
     return val
   });
 
-  console.log(chgdCols);
-
   // console.log(data);
   // console.log(newRow);
   // console.log(updRow);

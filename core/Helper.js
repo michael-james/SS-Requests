@@ -248,7 +248,7 @@ function getCounts(d, r) {
     var inds = {langsV001: getColNumByNameData(d[0], "Languages for v0.01") - 1, langsCR: getColNumByNameData(d[0], "Languages for corrections") - 1, cpyast: getColNumByNameData(d[0], "Copyrighted assessments for this request") - 1, nonast: getColNumByNameData(d[0], "Non-copyrighted assessments for this request") - 1, actwkbks: getColNumByNameData(d[0], "Act. Wkbk. Cnt.") - 1};
     d = {langsV001: d[r][inds.langsV001], langsCR: d[r][inds.langsCR], cpyast: d[r][inds.cpyast], nonast: d[r][inds.nonast], actwkbks: d[r][inds.actwkbks]};
   }
-  Logger.log(d.langsV001 + '\n' + d.cpyast);
+  // Logger.log(d.langsV001 + '\n' + d.cpyast);
 
   o = {};
   o.langCnt = ((typeof d.langsV001 == 'string' && d.langsV001) ? d.langsV001.split(",").length : 0) + ((typeof d.langsCR == 'string' && d.langsCR) ? d.langsCR.split(",").length : 0) + ((d.reqCode == 'enV1' || d.reqCode == 'enCR') ? 1 : 0);
@@ -261,7 +261,7 @@ function getCounts(d, r) {
   o.predwkbks = o.estwkbks;
   o.bestwkbks = d.actwkbks || o.predwkbks;
 
-  Logger.log(o);
+  // Logger.log(o);
   return o
 }
 

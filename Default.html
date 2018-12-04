@@ -129,12 +129,12 @@ var sh = ss.getSheetByName("Queue");
       }
       
       function updateEvent(row) {
-        console.log("updating event...");
+        // console.log("updating event...");
         google.script.run.withFailureHandler(onFailure).updateEventRow(row);
       }
       
       function onUpdateEventSuccess(msg) {
-        console.log("event updated!");
+        // console.log("event updated!");
       }
       
       $(document).ready(function() {

@@ -52,7 +52,7 @@ function sendEmail(d, ev, chg, old, msg) {
   var cc = "";
   var replyTo = "";
   var mainTitle = "SS Request";
-  console.log(d.statusCode);
+  // console.log(d.statusCode);
   var otherPerson = allAsstsArray.indexOf(u.email) == -1;
   
   // if MJ is the requestor, just send to MJ (testing)
@@ -245,7 +245,7 @@ function sendDailyUpdates(zone) {
 
     var timeSinceSentTo = moment().diff(moment(reqsWaiting[r][lastSentToIdx]), 'hours', true);
     var hrsSinceSentTo = 21;
-    console.log("last email was sent to ")
+    // console.log("last email was sent to ")
 
     var info = "<u>" + reqsWaiting[r][emailIdx] + "</u> (" + reqsWaiting[r][officeIdx] + ") &mdash; " + reqsWaiting[r][idIdx] + ' / ' + reqsWaiting[r][statusIdx] + ' ' + (timeSinceSentTo ? '/ ' + timeSinceSentTo.toFixed(1) + ' hours ' : ''); 
     thisLog += info;
