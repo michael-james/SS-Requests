@@ -749,8 +749,12 @@
             $("input[required], textarea[required], select[required]").siblings("label").addClass("required");
             $("input:not([required]), textarea:not([required]), select:not([required])").siblings("label").removeClass("required");
 
-            if (reqCode == 'enV1' && $('#tempYes').val() == false && $('#tempNo').val() == false) {
-              $('#tempYes')[0].setCustomValidity("This question is required for enV1 requests.");
+            if (reqCode == 'enV1') {
+              if ($('#tempYes').prop('checked') == false && $('#tempNo').prop('checked') == false) {
+                $('#tempYes')[0].setCustomValidity("This question is required for enV1 requests.");
+              } else {
+                $('#tempYes')[0].setCustomValidity("");
+              }
               $('#temp-label').addClass('required');
             } else {
               $('#tempYes')[0].setCustomValidity("");
