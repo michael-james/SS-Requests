@@ -1,7 +1,7 @@
 function showMyLoggedTime() {
   var t0 = new Date();
   var sh = SpreadsheetApp.openById(ssID).getSheetByName("Queue");
-  var data = getSortedReqs('dsc', null, false);
+  var data = getSortedReqs('dsc', ['Date PND'], false);
   var headers = data.shift();
   if (!user().fname) {
     throw "Not a known user.";

@@ -20,19 +20,7 @@
               </tr>
        <? var reqs = showMyLoggedTime();
           for (var r = 1; r < reqs.length; r++) { 
-          var d = getRequestData(reqs, r);
-          
-          var info = "<div class='row'><div class='col'>" +
-                     "<strong>Files Exp:</strong> <span style='font-size: 90%' class='badge " + urgency(d.daysStart, 'badge', 'success') + "'>" + (d.startDate && d.startDate.format(sdf)) + "</span>\n" +
-                     "<strong>Preferred:</strong> <span style='font-size: 90%' class='badge " + urgency(d.daysPref, 'badge', 'warning') + "'>" + (d.prefDueDate && d.prefDueDate.format(sdf)) + "</span>\n" +
-                     "<strong>Due:</strong> <span style='font-size: 90%' class='badge " + urgency(d.daysDueWhole, 'badge', 'danger') + "'>" + (d.hardDueDate && d.hardDueDate.format(sdtf).slice(0, -1)) + "</span>\n" +
-                     "</div><div class='col' id='modal-table'><table><tr><th scope='col' colspan='2'>Related Requests</th></tr><tr><td colspan='2' class='text-muted'><em>Loading...</em></td></tr></table>" +
-                     "</div></div>\n" + 
-                     "<strong>ID:</strong> <span class='text-info'>" + d.id + "</span>\n" +
-                     "<strong>Batch:</strong> " + (d.batch || "") + "\n" +
-                     "<strong>Assessments:</strong> " + (d.cpyast || "") + " " + (d.nonast || "") + "\n" + 
-                     "<strong>Languages v0.01:</strong> " + (d.langsV001 || "") + "\n" +
-                     "<strong>Languages CR:</strong> " + (d.langsCR || "") ?>
+          var d = getRequestData(reqs, r); ?>
 
               <tr>
                 <td class="text-muted bl"><?= r ?></td>
@@ -41,8 +29,8 @@
                 <td class=tb-bl><?= d.requestorNames && (d.requestorNames[0] + " " + d.requestorNames[1][0] + ".") ?></td>
                 <td><?= d.client ?></td>
                 <td><?= d.protocol ?></td>
-                <td><?= d.getByName("Bill Hrs") ?></td>
-                <td style="white-space: pre-wrap"><?= d.getByName("Time Log") ?></td>
+                <td><?= d.billhrs ?></td>
+                <td style="white-space: pre-wrap"><?= d.timelog ?></td>
                 <td class="tb-bl tb-br">
                   <div class="btn-group btn-group-sm" role="group">
                     <a class="btn btn-outline-secondary" href="<?=url?>?page=ViewAdmin&row=<?= d.row ?>">View</a>
