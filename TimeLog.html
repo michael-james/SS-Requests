@@ -1,0 +1,29 @@
+<div class='container' style="margin-top: 25px">
+	<table class="table">
+		<thead>
+			<tr>
+				<th>Request</th>
+				<th>Start</th>
+				<th>End</th>
+				<th>Duration</th>
+				<th>Performer</th>
+			</tr>
+		</thead>
+	<? var logs = getReqTimeLogs(179)
+	for (var l in logs.entries) { ?>
+		<tr>
+			<td><?= logs.entries[l][0] ?></td>
+			<td><?= logs.entries[l][1] ?></td>
+			<td><?= logs.entries[l][2] ?></td>
+			<td><?= ((logs.entries[l][2] - logs.entries[l][1]) / (60*60*1000)).toFixed(2) ?></td>
+			<td><?= logs.entries[l][4] ?></td>
+		</tr>
+	<? } ?>
+
+		<tr>
+			<td colspan="3" style="text-align: right;">Total</td>
+			<td><?= nearQuart(logs.total) ?></td>
+			<td></td>
+		</tr>
+	</table>
+</div>

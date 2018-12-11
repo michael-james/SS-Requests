@@ -759,51 +759,55 @@ function testWFS() {
   //sh.getRange(row, d.getColNumByName("Status")).setValue(d.status);
 }
 
-  function ord(i) {
-    var j = i % 10,
-        k = i % 100;
-    if (j == 1 && k != 11) {
-        return i + "st";
-    }
-    if (j == 2 && k != 12) {
-        return i + "nd";
-    }
-    if (j == 3 && k != 13) {
-        return i + "rd";
-    }
-    return i + "th";
+function ord(i) {
+  var j = i % 10,
+      k = i % 100;
+  if (j == 1 && k != 11) {
+      return i + "st";
   }
+  if (j == 2 && k != 12) {
+      return i + "nd";
+  }
+  if (j == 3 && k != 13) {
+      return i + "rd";
+  }
+  return i + "th";
+}
 
-  function bdText(date, days, pre) {
-    if (days == 0) {
-      if (pre) {
-        return "is today, " + date
-      } else {
-        return "today, " + date
-      }
-    } else if (days == -1) {
-      if (pre) {
-        return "was yesterday, " + date
-      } else {
-        return "yesterday, " + date
-      }
-    } else if (days == 1) {
-      if (pre) {
-        return "is tomorrow, " + date
-      } else {
-        return "tomorrow, " + date
-      }
-    } else if (days < 0) {
-      if (pre) {
-        return "of " + date + " was " + (days * -1) + " business day ago"
-      } else {
-        return "on " + date + ", which was " + (days * -1) + " business day ago"
-      }
+function bdText(date, days, pre) {
+  if (days == 0) {
+    if (pre) {
+      return "is today, " + date
     } else {
-      if (pre) {
-        return "of " + date + " is " + days + " business days away"
-      } else {
-        return "on " + date + ", which is " + days + " business days away"
-      }
+      return "today, " + date
+    }
+  } else if (days == -1) {
+    if (pre) {
+      return "was yesterday, " + date
+    } else {
+      return "yesterday, " + date
+    }
+  } else if (days == 1) {
+    if (pre) {
+      return "is tomorrow, " + date
+    } else {
+      return "tomorrow, " + date
+    }
+  } else if (days < 0) {
+    if (pre) {
+      return "of " + date + " was " + (days * -1) + " business day ago"
+    } else {
+      return "on " + date + ", which was " + (days * -1) + " business day ago"
+    }
+  } else {
+    if (pre) {
+      return "of " + date + " is " + days + " business days away"
+    } else {
+      return "on " + date + ", which is " + days + " business days away"
     }
   }
+}
+
+function nearQuart(num) {
+  return (Math.round(num * 4) / 4).toFixed(2)
+}
